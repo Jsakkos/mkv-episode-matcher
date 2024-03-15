@@ -5,7 +5,11 @@ import imagehash
 from typing import Optional, Set
 from loguru import logger
 import imageio.v3 as iio
+import re
 
+def check_filename(filename, series_title, season_number, episode_number):
+    pattern = re.compile(f'{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv')
+    return bool(pattern.match(filename))
 def rename_episode_files(season_number,matching_episodes):
     for original_file_path in matching_episodes:
         series_title = os.path.basename(os.path.dirname(os.path.dirname(original_file_path)))
@@ -14,6 +18,12 @@ def rename_episode_files(season_number,matching_episodes):
         extension = os.path.splitext(original_file_path)[-1]
         new_file_name = f'{series_title} - S{season_number:02d}E{episode_number:02d}{extension}'
         new_file_path = os.path.join(os.path.dirname(original_file_path),new_file_name)
+        if os.path.exists(new_file_path):
+            logger.warning(f'Filename already exists: {new_file_name}.')
+            new_file_name = f'{series_title} - S{season_number:02d}E{episode_number:02d}_2{extension}'
+            new_file_path = os.path.join(os.path.dirname(original_file_path),new_file_name)
+            logger.info(f'Renaming {original_file_name} -> {new_file_name}')
+            os.rename(original_file_path,new_file_path)
         logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path,new_file_path)
 
