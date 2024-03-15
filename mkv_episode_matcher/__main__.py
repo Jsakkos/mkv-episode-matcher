@@ -4,7 +4,7 @@ import os
 from config import set_config, get_config
 from loguru import logger
 
-CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".your_application_config.ini")
+CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher-config.ini")
 
 def main():
     logger.info("Starting the application")
