@@ -28,7 +28,7 @@ def main():
     if not api_key:
         api_key = input("Enter your TMDb API key: ")
         # Cache the API key
-        set_config(api_key, args.show_dir, CONFIG_FILE)
+    
 
     logger.debug(f"API Key: {api_key}")
 
