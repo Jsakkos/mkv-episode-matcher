@@ -46,7 +46,7 @@ def fetch_season_details(show_id, season_number):
         response = requests.get(url)
         response.raise_for_status()
         season_data = response.json()
-        total_episodes = len(season_data.get('episodes', []))
+        total_episodes = len(season_data.get('episodes', []))   
         return total_episodes
     except requests.exceptions.RequestException as e:
         logger.error(f"Failed to fetch season details for Season {season_number}: {e}")
@@ -117,3 +117,4 @@ def download_season_images(show_id, season_number, season_path):
     with ThreadPoolExecutor() as executor:
         for episode_number in range(1, total_episodes + 1):
             executor.submit(download_episode_images, show_id, season_number, episode_number, season_path)
+    return total_episodes
