@@ -3,8 +3,15 @@ import argparse
 import os
 from config import set_config, get_config
 from loguru import logger
+import sys
 
-CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher-config.ini")
+logger.remove()  # Remove the default stdout handler
+logger.add("file_stdout_{time}.log", format="{time} {level} {message}", level="INFO", rotation="10 MB")  # Add a new handler for stdout logs
+logger.add("file_stderr_{time}.log", format="{time} {level} {message}", level="ERROR", rotation="10 MB")  # Add a new handler for stderr logs
+
+if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
+    os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
+CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher","config.ini")
 
 def main():
     logger.info("Starting the application")
@@ -13,6 +20,7 @@ def main():
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")
     parser.add_argument("--api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
+    parser.add_argument("--season", type=int, default=None, nargs='?', help="Specify the season number to be processed (default: None)")
     args = parser.parse_args()
 
     # Check if API key is provided via command-line argument
@@ -42,7 +50,7 @@ def main():
     logger.info("Configuration set")
 
     from episode_matcher import process_show
-    process_show()
+    process_show(args.season)
     logger.info("Show processing completed")
 
 if __name__ == "__main__":
