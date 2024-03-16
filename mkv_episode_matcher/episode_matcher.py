@@ -3,10 +3,10 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from config import get_config
 from tmdb_client import fetch_show_id,download_season_images
-from utils import load_season_hashes, find_matching_episode, rename_episode_files, check_filename
+from utils import load_season_hashes, find_matching_episode, rename_episode_file, check_filename
 from loguru import logger
 from __main__ import CONFIG_FILE
-def process_show(force=False):
+def process_show(season=None,force=False):
     """
     Process the show by downloading episode images and finding matching episodes.
 
@@ -26,13 +26,19 @@ def process_show(force=False):
 
     season_paths = [os.path.join(show_dir, d) for d in os.listdir(show_dir) if os.path.isdir(os.path.join(show_dir, d))]
     logger.info(f"Found {len(season_paths)} seasons for show '{os.path.basename(show_dir)}'")
-    # for season_path in season_paths:
-    #     season_number = int(os.path.basename(season_path).split()[-1])
-    #     process_season(show_id, season_number, season_path,force)
+
     with ThreadPoolExecutor() as executor:
-        for season_path in season_paths:
-            season_number = int(os.path.basename(season_path).split()[-1])
-            executor.submit(process_season, show_id, season_number, season_path)
+        if isinstance(season, int):
+            # If a season number is provided then just process that one season
+            for season_path in season_paths:
+                season_number = int(os.path.basename(season_path).split()[-1])
+                if season_number == season:
+                    executor.submit(process_season, show_id, season_number, season_path)
+        else:
+            # Otherwise process all seasons available
+            for season_path in season_paths:
+                season_number = int(os.path.basename(season_path).split()[-1])
+                executor.submit(process_season, show_id, season_number, season_path)
     logger.info(f"Show '{os.path.basename(show_dir)}' processing completed")
 @logger.catch
 def process_season(show_id, season_number, season_path,force=False):
@@ -55,7 +61,7 @@ def process_season(show_id, season_number, season_path,force=False):
     mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
     for file in mkv_files:
         for i in range(n_episodes):
-            already_renamed = check_filename(file,show_name,season_number,i)
+            already_renamed = check_filename(os.path.basename(file),show_name,season_number,i)
             if already_renamed:
                 break
         if already_renamed:
@@ -63,5 +69,4 @@ def process_season(show_id, season_number, season_path,force=False):
         filepath = os.path.join(season_path, file)
         episode = find_matching_episode(filepath, season_path, season_number, season_hashes, hash_to_episode_map)
         matching_episodes[file] = episode
-
-    rename_episode_files(season_number, matching_episodes)
+        rename_episode_file(filepath,season_number,episode)

@@ -26,7 +26,20 @@ def rename_episode_files(season_number,matching_episodes):
             os.rename(original_file_path,new_file_path)
         logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path,new_file_path)
-
+def rename_episode_file(original_file_path,season_number,episode_number):
+        series_title = os.path.basename(os.path.dirname(os.path.dirname(original_file_path)))
+        original_file_name = os.path.basename(original_file_path)
+        extension = os.path.splitext(original_file_path)[-1]
+        new_file_name = f'{series_title} - S{season_number:02d}E{episode_number:02d}{extension}'
+        new_file_path = os.path.join(os.path.dirname(original_file_path),new_file_name)
+        if os.path.exists(new_file_path):
+            logger.warning(f'Filename already exists: {new_file_name}.')
+            new_file_name = f'{series_title} - S{season_number:02d}E{episode_number:02d}_2{extension}'
+            new_file_path = os.path.join(os.path.dirname(original_file_path),new_file_name)
+            logger.info(f'Renaming {original_file_name} -> {new_file_name}')
+            os.rename(original_file_path,new_file_path)
+        logger.info(f'Renaming {original_file_name} -> {new_file_name}')
+        os.rename(original_file_path,new_file_path)
 def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes: Set[imagehash.ImageHash],hash_to_episode_map) -> Optional[int]:
     """
     Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
