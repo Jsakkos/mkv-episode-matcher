@@ -28,22 +28,34 @@ def process_show(season=None,force=False):
     season_paths = [os.path.join(show_dir, d) for d in os.listdir(show_dir) if os.path.isdir(os.path.join(show_dir, d))]
     logger.info(f"Found {len(season_paths)} seasons for show '{os.path.basename(show_dir)}'")
     seasons_to_process = [int(os.path.basename(season_path).split()[-1]) for season_path in season_paths]
-    
+    show_hashes = preprocess_hashes(show_name,show_id,seasons_to_process)
 
     with ThreadPoolExecutor() as executor:
         if isinstance(season, int):
             # If a season number is provided then just process that one season
             for season_path in season_paths:
                 season_number = int(os.path.basename(season_path).split()[-1])
-                show_hashes = preprocess_hashes(show_name,show_id,[season_number])
                 if season_number == season:
+                    try:
+                        # Attempt to get hash from show_hashes and process the season
+                        executor.submit(process_season, show_id, season_number, season_path,show_hashes[str(season_number)])
+                    except KeyError:
+                        # If a KeyError is raised then skip this season
+                        logger.warning(f"Season {season} not found in show_hashes")
+                else:
                     executor.submit(process_season, show_id, season_number, season_path,show_hashes[str(season_number)])
         else:
             # Otherwise process all seasons available
-            show_hashes = preprocess_hashes(show_name,show_id,seasons_to_process)
+            
             for season_path in season_paths:
                 season_number = int(os.path.basename(season_path).split()[-1])
-                executor.submit(process_season, show_id, season_number, season_path,show_hashes[str(season_number)])
+                try:
+                    # Attempt to get hash from show_hashes and process the season
+                    executor.submit(process_season, show_id, season_number, season_path,show_hashes[str(season_number)])
+                except KeyError:
+                    # If a KeyError is raised then skip this season
+                    logger.warning(f"Season {season} not found in show_hashes")
+
     logger.info(f"Show '{os.path.basename(show_dir)}' processing completed")
 
 @logger.catch

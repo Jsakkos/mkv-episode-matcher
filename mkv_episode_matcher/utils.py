@@ -170,22 +170,17 @@ def preprocess_hashes(show_name, show_id, seasons_to_process):
     Returns:
         dict: A dictionary containing the hashes for each season.
     """
-    show_hashes = load_show_hashes(show_name)
-    if not show_hashes:
-        show_hashes = {}
-
     for season_number in seasons_to_process:
-        if str(season_number) not in show_hashes:
-            season_hashes = fetch_and_hash_season_images(show_id, season_number)
-            show_hashes[str(season_number)] = season_hashes
+        existing_hashes = load_show_hashes(show_name)
 
-    # Convert hash values from strings back to appropriate type (e.g., integers)
-    for season, episodes in show_hashes.items():
-        for episode_number, episode_hashes in episodes.items():
-            show_hashes[season][episode_number] = [imagehash.hex_to_hash(hash_str) for hash_str in episode_hashes]
-    # Store the updated hashes
-    store_show_hashes(show_name, show_hashes)
-    return show_hashes
+        if str(season_number) in existing_hashes:
+            logger.info(f"Skipping fetching and hashing images for Season {season_number}. Hashes already exist.")
+            continue
+        season_hashes = fetch_and_hash_season_images(show_id, season_number)
+        existing_hashes[season_number] = season_hashes
+        store_show_hashes(show_name, existing_hashes)
+
+    return existing_hashes
 
     
     
