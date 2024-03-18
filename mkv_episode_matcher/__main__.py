@@ -12,7 +12,9 @@ logger.add("file_stderr_{time}.log", format="{time} {level} {message}", level="E
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
     os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
 CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher","config.ini")
-
+CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher","cache")
+if not os.path.exists(CACHE_DIR):
+    os.makedirs(CACHE_DIR)
 def main():
     logger.info("Starting the application")
 
