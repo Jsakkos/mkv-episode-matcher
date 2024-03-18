@@ -69,13 +69,14 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         if frame_count % 10 == 0:  # Process every 10th frame
             frame = iio.imread(filepath, index=frame_count,plugin="pyav")
             frame_hash = calculate_image_hash(frame, is_path=False)
-            for episode,hash in season_hashes.items():
-                similar = hashes_are_similar(frame_hash,hash,threshold=5)
-                if similar:
-                    match_episode.append(int(episode))
-                    match_locations.add(frame_count)
-                    logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
-                    frame_count+=100
+            for episode,hashes in season_hashes.items():
+                for hash in hashes:
+                    similar = hashes_are_similar(frame_hash,hash,threshold=5)
+                    if similar:
+                        match_episode.append(int(episode))
+                        match_locations.add(frame_count)
+                        logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
+                        frame_count+=100
             for value in set(match_episode):
                 if match_episode.count(value) >= 5:
                     logger.info(f"The episode {value} appears at least 5 times in the list.")
@@ -179,7 +180,10 @@ def preprocess_hashes(show_name, show_id, seasons_to_process):
         season_hashes = fetch_and_hash_season_images(show_id, season_number)
         existing_hashes[season_number] = season_hashes
         store_show_hashes(show_name, existing_hashes)
-
+    # Convert hash values from strings back to appropriate type (e.g., integers)
+    for season, episodes in existing_hashes.items():
+        for episode_number, episode_hashes in episodes.items():
+            existing_hashes[season][episode_number] = [imagehash.hex_to_hash(hash_str) for hash_str in episode_hashes]
     return existing_hashes
 
     
