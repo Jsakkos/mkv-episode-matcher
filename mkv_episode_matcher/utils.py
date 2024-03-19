@@ -81,6 +81,13 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path, new_file_path)
 
+import os
+from typing import Optional
+import imageio as iio
+import logging
+
+logger = logging.getLogger(__name__)
+
 def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes) -> Optional[int]:
     """
     Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
@@ -94,34 +101,41 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
     Returns:
         Optional[int]: The episode number if a match is found, or None if no match is found.
     """
-    metadata = iio.immeta(filepath)
-    total_frames = int(metadata['fps']*metadata['duration'])
-    frame_count = 0
-    match_episode = []
-    match_locations = set()
-    matched = False
-    filename = os.path.basename(filepath)
-    while not matched and frame_count < total_frames:
-        frame_count += 1
-        if frame_count % 10 == 0:  # Process every 10th frame
-            frame = iio.imread(filepath, index=frame_count,plugin="pyav")
-            frame_hash = calculate_image_hash(frame, is_path=False)
-            for episode,hashes in season_hashes.items():
-                for hash in hashes:
-                    similar = hashes_are_similar(frame_hash,hash,threshold=5)
-                    if similar:
-                        match_episode.append(int(episode))
-                        match_locations.add(frame_count)
-                        logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
-                        frame_count+=100
-            for value in set(match_episode):
-                if match_episode.count(value) >= 5:
-                    logger.info(f"The episode {value} appears at least 5 times in the list.")
-                    matched=True
-                    return value
+    try:
+        metadata = iio.immeta(filepath)
+        total_frames = int(metadata['fps'] * metadata['duration'])
+        frame_count = 0
+        match_episode = []
+        match_locations = set()
+        matched = False
+        filename = os.path.basename(filepath)
 
-    logger.warning(f"No matching episode found for video file {filepath}")
-    return None
+        while not matched and frame_count < total_frames:
+            frame_count += 1
+            if frame_count % 10 == 0:  # Process every 10th frame
+                frame = iio.imread(filepath, index=frame_count, plugin="pyav")
+                frame_hash = calculate_image_hash(frame, is_path=False)
+                for episode, hashes in season_hashes.items():
+                    for hash_val in hashes:
+                        similar = hashes_are_similar(frame_hash, hash_val, threshold=5)
+                        if similar:
+                            match_episode.append(int(episode))
+                            match_locations.add(frame_count)
+                            logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
+                            frame_count += 100
+                for value in set(match_episode):
+                    if match_episode.count(value) >= 5:
+                        logger.info(f"The episode {value} appears at least 5 times in the list.")
+                        matched = True
+                        return value
+
+        logger.warning(f"No matching episode found for video file {filepath}")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error processing file {filepath}: {e}")
+        return None
+
 # def load_season_hashes(main_dir: str, season_number: int) -> Set[imagehash.ImageHash]:
 #     """
 #     Load perceptual hashes for all episode images in a given season.
