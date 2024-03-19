@@ -59,7 +59,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
     """
     metadata = iio.immeta(filepath)
     total_frames = int(metadata['fps']*metadata['duration'])
-    frame_count = 2000
+    frame_count = 0
     match_episode = []
     match_locations = set()
     matched = False
