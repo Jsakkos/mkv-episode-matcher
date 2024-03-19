@@ -12,10 +12,12 @@ logger.info(f"Total available threads: {total_threads} -> Setting max to {MAX_TH
 def set_config(api_key, show_dir, file):
     config = configparser.ConfigParser()
     config["Config"] = {"api_key": str(api_key), "show_dir": show_dir,'max_threads':int(MAX_THREADS)}
+    logger.info(f'Setting config with API:{api_key}, show_dir: {show_dir}, and max_threads: {MAX_THREADS}')
     with open(file, "w") as configfile:
         config.write(configfile)
 
 def get_config(file):
+    logger.info(f'Loading config from {file}')
     config = configparser.ConfigParser()
     if os.path.exists(file):
         config.read(file)

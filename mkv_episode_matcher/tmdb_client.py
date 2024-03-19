@@ -7,7 +7,6 @@ from config import get_config
 from __main__ import CONFIG_FILE,CACHE_DIR
 from threading import Lock
 import time
-import requests
 from io import BytesIO
 from PIL import Image
 import imagehash
