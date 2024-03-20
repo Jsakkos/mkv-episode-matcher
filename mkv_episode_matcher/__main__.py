@@ -23,6 +23,8 @@ def main():
     parser.add_argument("--api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
     parser.add_argument("--season", type=int, default=None, nargs='?', help="Specify the season number to be processed (default: None)")
+    parser.add_argument("--force", type=int, default=None, nargs='?', help="Force rename files (default: None)")
+    parser.add_argument("--dry-run", type=int, default=None, nargs='?', help="Don't rename any files (default: None)")
     args = parser.parse_args()
 
     # Check if API key is provided via command-line argument
@@ -52,7 +54,7 @@ def main():
     logger.info("Configuration set")
 
     from episode_matcher import process_show
-    process_show(args.season)
+    process_show(args.season,force=args.force,dry_run=args.dry_run)
     logger.info("Show processing completed")
 
 if __name__ == "__main__":

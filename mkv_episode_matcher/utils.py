@@ -116,7 +116,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                             match_episode.append(int(episode))
                             match_locations.add(frame_count)
                             logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
-                            frame_count += 100
+                            frame_count += 500
                 for value in set(match_episode):
                     if match_episode.count(value) >= 5:
                         logger.info(f"The episode {value} appears at least 5 times in the list.")
@@ -130,33 +130,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         logger.error(f"Error processing file {filepath}: {e}")
         return None
 
-# def load_season_hashes(main_dir: str, season_number: int) -> Set[imagehash.ImageHash]:
-#     """
-#     Load perceptual hashes for all episode images in a given season.
 
-#     Args:
-#         main_dir (str): The main directory where the downloaded episode images are stored.
-#         season_number (int): The season number to load hashes for.
-
-#     Returns:
-#         Set[imagehash.ImageHash]: A set of perceptual hashes for all episode images in the season.
-#     """
-#     hash_to_episode_map = {}
-#     season_hashes = set()
-#     season_dir = os.path.join(main_dir, f"downloaded_images")
-#     logger.info(f'Season directory is: {season_dir}')
-#     if os.path.exists(season_dir):
-#         for episode_dir in os.listdir(season_dir):
-            
-#             episode_path = os.path.join(season_dir, episode_dir)
-#             episode_number = int(episode_dir.split('_')[-1])
-#             logger.info(f'Processing episode: {episode_number}')
-#             for image_file in os.listdir(episode_path):
-#                 image_path = os.path.join(episode_path, image_file)
-#                 hash = calculate_image_hash(image_path, is_path=True)
-#                 season_hashes.add(hash)
-#                 hash_to_episode_map[hash] = episode_number
-#     return season_hashes,hash_to_episode_map
 def hashes_are_similar(hash1, hash2, threshold=20):
     """
     Determine if two perceptual hashes are similar within a given threshold.

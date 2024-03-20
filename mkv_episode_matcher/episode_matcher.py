@@ -7,7 +7,7 @@ from utils import load_show_hashes, find_matching_episode, rename_episode_file, 
 from loguru import logger
 from __main__ import CONFIG_FILE
 @logger.catch
-def process_show(season=None,force=False):
+def process_show(season=None,force=False,dry_run=False):
     """
     Process the show by downloading episode images and finding matching episodes.
 
@@ -59,7 +59,7 @@ def process_show(season=None,force=False):
     logger.info(f"Show '{os.path.basename(show_dir)}' processing completed")
 
 @logger.catch
-def process_season(show_id, season_number, season_path,season_hashes,force=False):
+def process_season(show_id, season_number, season_path,season_hashes,force=False,dry_run=False):
     """
     Process a single season by downloading episode images and finding matching episodes.
 
@@ -77,13 +77,18 @@ def process_season(show_id, season_number, season_path,season_hashes,force=False
 
     mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
     for file in mkv_files:
+        logger.info(f'Processing {os.path.basename(file)}')
         for i in range(n_episodes):
             already_renamed = check_filename(os.path.basename(file),show_name,season_number,i)
             if already_renamed:
+                logger.info(f'{os.path.basename(file)} already processed. Skipping...')
                 break
         if already_renamed:
             continue
         filepath = os.path.join(season_path, file)
         episode = find_matching_episode(filepath, season_path, season_number, season_hashes)
         matching_episodes[file] = episode
-        rename_episode_file(filepath,season_number,episode)
+        if dry_run:
+            logger.info('Skipping renaming of {os.path.basename(file)} with episode {episode}')
+        else:
+            rename_episode_file(filepath,season_number,episode)
