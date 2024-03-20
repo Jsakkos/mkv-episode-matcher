@@ -81,12 +81,6 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path, new_file_path)
 
-import os
-from typing import Optional
-import imageio as iio
-import logging
-
-logger = logging.getLogger(__name__)
 
 def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes) -> Optional[int]:
     """
