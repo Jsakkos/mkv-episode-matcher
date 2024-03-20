@@ -3,8 +3,8 @@ import requests
 from loguru import logger
 import os 
 from concurrent.futures import ThreadPoolExecutor
-from config import get_config
-from __main__ import CONFIG_FILE,CACHE_DIR
+from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
 from threading import Lock
 import time
 from io import BytesIO

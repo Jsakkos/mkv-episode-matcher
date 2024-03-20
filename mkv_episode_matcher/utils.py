@@ -7,8 +7,8 @@ from loguru import logger
 import imageio.v3 as iio
 import re
 
-from tmdb_client import fetch_and_hash_season_images
-from __main__ import CONFIG_FILE,CACHE_DIR
+from mkv_episode_matcher.tmdb_client import fetch_and_hash_season_images
+from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
 from concurrent.futures import ThreadPoolExecutor
 import json
 def check_filename(filename, series_title, season_number, episode_number):
@@ -111,7 +111,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                 frame_hash = calculate_image_hash(frame, is_path=False)
                 for episode, hashes in season_hashes.items():
                     for hash_val in hashes:
-                        similar = hashes_are_similar(frame_hash, hash_val, threshold=5)
+                        similar = hashes_are_similar(frame_hash, hash_val, threshold=10)
                         if similar:
                             match_episode.append(int(episode))
                             match_locations.add(frame_count)

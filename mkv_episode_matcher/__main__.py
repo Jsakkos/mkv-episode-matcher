@@ -1,7 +1,8 @@
 # __main__.py
 import argparse
 import os
-from config import set_config, get_config
+from .config import set_config, get_config
+
 from loguru import logger
 import sys
 
@@ -53,7 +54,7 @@ def main():
     set_config(api_key, show_dir, CONFIG_FILE)
     logger.info("Configuration set")
 
-    from episode_matcher import process_show
+    from .episode_matcher import process_show
     process_show(args.season,force=args.force,dry_run=args.dry_run)
     logger.info("Show processing completed")
 

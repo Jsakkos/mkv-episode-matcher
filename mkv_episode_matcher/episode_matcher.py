@@ -1,11 +1,11 @@
 # episode_matcher.py
 import os
 from concurrent.futures import ThreadPoolExecutor
-from config import get_config
-from tmdb_client import fetch_show_id
-from utils import load_show_hashes, find_matching_episode, rename_episode_file, check_filename,preprocess_hashes
+from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.tmdb_client import fetch_show_id
+from mkv_episode_matcher.utils import load_show_hashes, find_matching_episode, rename_episode_file, check_filename,preprocess_hashes
 from loguru import logger
-from __main__ import CONFIG_FILE
+from mkv_episode_matcher.__main__ import CONFIG_FILE
 @logger.catch
 def process_show(season=None,force=False,dry_run=False):
     """
@@ -87,8 +87,11 @@ def process_season(show_id, season_number, season_path,season_hashes,force=False
             continue
         filepath = os.path.join(season_path, file)
         episode = find_matching_episode(filepath, season_path, season_number, season_hashes)
-        matching_episodes[file] = episode
-        if dry_run:
-            logger.info('Skipping renaming of {os.path.basename(file)} with episode {episode}')
+        if episode is not None:
+            matching_episodes[file] = episode
+            if dry_run:
+                logger.info('Skipping renaming of {os.path.basename(file)} with episode {episode}')
+            else:
+                rename_episode_file(filepath,season_number,episode)
         else:
-            rename_episode_file(filepath,season_number,episode)
+            logger.warning(f'Unable to determine episode number for {os.path.basename(file)}')
