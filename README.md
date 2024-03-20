@@ -18,3 +18,7 @@ python __main__.py --api-key `your-api-key` --show-dir /path/to/show
 ## How it works
 
 MKV Episode Matcher compares reference images from TMDb with frames from the mkv content using image hashing. 
+
+## Caveats (WIP)
+
+Currently, MKV Episode Matcher is slow (several minutes per episode), CPU intensive, and error-prone.
