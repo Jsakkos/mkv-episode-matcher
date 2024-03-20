@@ -34,7 +34,16 @@ def check_filename(filename, series_title, season_number, episode_number):
     """
     pattern = re.compile(f'{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv')
     return bool(pattern.match(filename))
-
+def scramble_filename(original_file_path,file_number):
+    logger.info(f'Scrambling {original_file_path}')
+    series_title = os.path.basename(os.path.dirname(os.path.dirname(original_file_path)))
+    original_file_name = os.path.basename(original_file_path)
+    extension = os.path.splitext(original_file_path)[-1]
+    new_file_name = f'{series_title} - {file_number:03d}{extension}'
+    new_file_path = os.path.join(os.path.dirname(original_file_path), new_file_name)
+    if not os.path.exists(new_file_path):
+        logger.info(f'Renaming {original_file_name} -> {new_file_name}')
+        os.rename(original_file_path, new_file_path)
 def rename_episode_file(original_file_path, season_number, episode_number):
     """
     Rename an episode file with a standardized naming convention.
