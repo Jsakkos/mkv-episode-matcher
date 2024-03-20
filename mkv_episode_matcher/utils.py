@@ -82,7 +82,7 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         os.rename(original_file_path, new_file_path)
 
 
-def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes) -> Optional[int]:
+def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes,matching_threshold=None) -> Optional[int]:
     """
     Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
 
@@ -103,7 +103,8 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         match_locations = set()
         matched = False
         filename = os.path.basename(filepath)
-
+        if matching_threshold is not None:
+            threshold = matching_threshold
         while not matched and frame_count < total_frames:
             frame_count += 1
             if frame_count % 10 == 0:  # Process every 10th frame
@@ -111,7 +112,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                 frame_hash = calculate_image_hash(frame, is_path=False)
                 for episode, hashes in season_hashes.items():
                     for hash_val in hashes:
-                        similar = hashes_are_similar(frame_hash, hash_val, threshold=10)
+                        similar = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
                         if similar:
                             match_episode.append(int(episode))
                             match_locations.add(frame_count)
@@ -162,7 +163,7 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> ima
         # image = Image.open(BytesIO(data_or_path))
         image = Image.fromarray(data_or_path)
 
-    hash = imagehash.average_hash(image)
+    hash = imagehash.phash(image)
     return hash
 
 def load_show_hashes(show_name):

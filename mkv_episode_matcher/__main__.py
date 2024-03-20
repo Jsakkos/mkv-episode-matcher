@@ -7,8 +7,8 @@ from loguru import logger
 import sys
 
 logger.remove()  # Remove the default stdout handler
-logger.add("file_stdout_{time}.log", format="{time} {level} {message}", level="INFO", rotation="10 MB")  # Add a new handler for stdout logs
-logger.add("file_stderr_{time}.log", format="{time} {level} {message}", level="ERROR", rotation="10 MB")  # Add a new handler for stderr logs
+logger.add("file_stdout_{time}.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")  # Add a new handler for stdout logs
+# logger.add("file_stderr_{time}.log", format="{time} {level} {message}", level="ERROR", rotation="10 MB")  # Add a new handler for stderr logs
 
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
     os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
@@ -24,8 +24,9 @@ def main():
     parser.add_argument("--api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
     parser.add_argument("--season", type=int, default=None, nargs='?', help="Specify the season number to be processed (default: None)")
-    parser.add_argument("--force", type=int, default=None, nargs='?', help="Force rename files (default: None)")
-    parser.add_argument("--dry-run", type=int, default=None, nargs='?', help="Don't rename any files (default: None)")
+    parser.add_argument("--force", type=bool, default=None, nargs='?', help="Force rename files (default: None)")
+    parser.add_argument("--dry-run", type=bool, default=None, nargs='?', help="Don't rename any files (default: None)")
+    parser.add_argument("--threshold",type=int, default=None, nargs='?', help="Set matching threshold")
     args = parser.parse_args()
 
     # Check if API key is provided via command-line argument
@@ -55,7 +56,7 @@ def main():
     logger.info("Configuration set")
 
     from .episode_matcher import process_show
-    process_show(args.season,force=args.force,dry_run=args.dry_run)
+    process_show(args.season,force=args.force,dry_run=args.dry_run,threshold=args.threshold)
     logger.info("Show processing completed")
 
 if __name__ == "__main__":
