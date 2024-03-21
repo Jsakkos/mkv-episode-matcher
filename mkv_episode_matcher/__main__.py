@@ -7,9 +7,10 @@ from loguru import logger
 import sys
 
 logger.remove()  # Remove the default stdout handler
-logger.add("file_stdout_{time}.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")  # Add a new handler for stdout logs
-# logger.add("file_stderr_{time}.log", format="{time} {level} {message}", level="ERROR", rotation="10 MB")  # Add a new handler for stderr logs
-
+if not os.path.exists('./logs'):
+    os.mkdir('./logs')
+logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")  # Add a new handler for stdout logs
+logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")  # Add a new handler for error logs
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
     os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
 CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher","config.ini")
