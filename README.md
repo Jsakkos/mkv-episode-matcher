@@ -23,6 +23,14 @@ MKV Episode Matcher compares reference images from TMDb with frames from the mkv
 
 Currently, MKV Episode Matcher is slow (several minutes per episode), CPU intensive, and error-prone.
 
+# Known issues
+
+When reading BluRay files, the following warning pops up in the terminal:
+```
+Could not find codec parameters for stream 3 (Subtitle: hdmv_pgs_subtitle (pgssub)): unspecified size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+```
+
 # Contributing
 
 Contributions are welcome! If you would like to contribute to the MKV Episode Matcher project, please follow these steps:

@@ -36,7 +36,17 @@ def check_filename(filename, series_title, season_number, episode_number):
     """
     pattern = re.compile(f'{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv')
     return bool(pattern.match(filename))
-def scramble_filename(original_file_path,file_number):
+def scramble_filename(original_file_path, file_number):
+    """
+    Scrambles the filename of the given file path by adding the series title and file number.
+
+    Args:
+        original_file_path (str): The original file path.
+        file_number (int): The file number to be added to the filename.
+
+    Returns:
+        None
+    """
     logger.info(f'Scrambling {original_file_path}')
     series_title = os.path.basename(os.path.dirname(os.path.dirname(original_file_path)))
     original_file_name = os.path.basename(original_file_path)
@@ -93,7 +103,7 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         os.rename(original_file_path, new_file_path)
 
 
-def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes,matching_threshold=None) -> Optional[int]:
+def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes, matching_threshold=None) -> Optional[int]:
     """
     Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
 
@@ -102,6 +112,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         main_dir (str): The main directory where the downloaded episode images are stored.
         season_number (int): The season number of the video file.
         season_hashes (Set[imagehash.ImageHash]): A set of perceptual hashes for all episode images in the season.
+        matching_threshold (Optional[int]): The threshold for determining similarity between image hashes. If not provided, a default threshold will be used.
 
     Returns:
         Optional[int]: The episode number if a match is found, or None if no match is found.
@@ -114,7 +125,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         hamming_distances = defaultdict(list)
         matched = False
         max_retries = 2
-        retries =0
+        retries = 0
         filename = os.path.basename(filepath)
         if matching_threshold is not None:
             threshold = matching_threshold
@@ -125,8 +136,8 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                 frame = iio.imread(filepath, index=frame_count, plugin="pyav")
                 frame_hash = calculate_image_hash(frame, is_path=False)
                 for episode, hashes in season_hashes.items():
-                    for i,hash_val in enumerate(hashes):
-                        similar,hamming_distance = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
+                    for i, hash_val in enumerate(hashes):
+                        similar, hamming_distance = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
                         if similar:
                             logger.info(f"Matched video file {filepath} at frame {frame_count} with episode {episode} - hash {i} - distance: {hamming_distance}")
                             matching_episodes[episode].add(i)
@@ -141,8 +152,8 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                             frame_count += 500
                 if frame_count >= total_frames:
                     frame_count = 0
-                    threshold+=1
-                    retries+=1
+                    threshold += 1
+                    retries += 1
                     logger.warning(f"No matching episode found for video file {filepath}. Restarting search with threshold of {threshold}")
                     if retries >= max_retries:
                         logger.warning(f'Unable to match {filepath}')
@@ -159,14 +170,17 @@ def hashes_are_similar(hash1, hash2, threshold=20):
     Determine if two perceptual hashes are similar within a given threshold.
     
     Args:
-    - hash1, hash2: The perceptual hashes to compare.
+    - hash1: The first perceptual hash to compare.
+    - hash2: The second perceptual hash to compare.
     - threshold: The maximum allowed difference between the hashes for them to be considered similar.
     
     Returns:
-    - True if hashes are similar within the threshold; False otherwise.
+    - A tuple containing two values:
+        - A boolean value indicating whether the hashes are similar within the threshold.
+        - The hamming distance between the hashes.
     """
     hamming_distance = abs(hash1 - hash2)
-    return  hamming_distance<= threshold,hamming_distance
+    return hamming_distance <= threshold, hamming_distance
 def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> imagehash.ImageHash:
     """
     Calculate perceptual hash for given image data or file path.
@@ -190,7 +204,16 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> ima
     return hash
 
 def load_show_hashes(show_name):
-    json_file_path = os.path.join(CACHE_DIR,f"{show_name}_hashes.json")
+    """
+    Load the hashes for a given show from a JSON file.
+
+    Args:
+        show_name (str): The name of the show.
+
+    Returns:
+        dict: A dictionary containing the loaded hashes, or an empty dictionary if the JSON file doesn't exist.
+    """
+    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes.json")
     if os.path.exists(json_file_path):
         with open(json_file_path, 'r') as json_file:
             return json.load(json_file)
@@ -198,7 +221,17 @@ def load_show_hashes(show_name):
         return {}
 
 def store_show_hashes(show_name, show_hashes):
-    json_file_path = os.path.join(CACHE_DIR,f"{show_name}_hashes.json")
+    """
+    Stores the hashes of a show in a JSON file.
+
+    Args:
+        show_name (str): The name of the show.
+        show_hashes (dict): A dictionary containing the hashes of the show.
+
+    Returns:
+        None
+    """
+    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes.json")
     with open(json_file_path, 'w') as json_file:
         json.dump(show_hashes, json_file, default=lambda x: x.result() if isinstance(x, ThreadPoolExecutor) else x)
     logger.info(f"Show hashes saved to {json_file_path}")
