@@ -84,8 +84,8 @@ def process_season(show_id, season_number, season_path, season_hashes, force=Fal
     matching_episodes = {}
 
     mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
-    _ = [scramble_filename(original_file_path, i) for i, original_file_path in enumerate(mkv_files)]
-    mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
+    # _ = [scramble_filename(original_file_path, i) for i, original_file_path in enumerate(mkv_files)]
+    # mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
     for file in mkv_files:
         logger.info(f'Processing {file}')
         for i in range(n_episodes):
