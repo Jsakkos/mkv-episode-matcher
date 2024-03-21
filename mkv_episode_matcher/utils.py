@@ -6,11 +6,13 @@ from typing import Optional, Set
 from loguru import logger
 import imageio.v3 as iio
 import re
-
+from collections import defaultdict
 from mkv_episode_matcher.tmdb_client import fetch_and_hash_season_images
 from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
 from concurrent.futures import ThreadPoolExecutor
 import json
+import warnings
+import sys
 def check_filename(filename, series_title, season_number, episode_number):
     """
     Check if a filename matches the expected naming convention for a series episode.
@@ -108,32 +110,43 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         metadata = iio.immeta(filepath)
         total_frames = int(metadata['fps'] * metadata['duration'])
         frame_count = 0
-        match_episode = []
-        match_locations = set()
+        matching_episodes = defaultdict(set) 
+        hamming_distances = defaultdict(list)
         matched = False
+        max_retries = 2
+        retries =0
         filename = os.path.basename(filepath)
         if matching_threshold is not None:
             threshold = matching_threshold
+        required_matches = min(5, len(season_hashes)) 
         while not matched and frame_count < total_frames:
             frame_count += 1
             if frame_count % 10 == 0:  # Process every 10th frame
                 frame = iio.imread(filepath, index=frame_count, plugin="pyav")
                 frame_hash = calculate_image_hash(frame, is_path=False)
                 for episode, hashes in season_hashes.items():
-                    for hash_val in hashes:
-                        similar = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
+                    for i,hash_val in enumerate(hashes):
+                        similar,hamming_distance = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
                         if similar:
-                            match_episode.append(int(episode))
-                            match_locations.add(frame_count)
-                            logger.info(f"Matched video file {filename} with episode {episode} at frame {frame_count}")
+                            logger.info(f"Matched video file {filepath} at frame {frame_count} with episode {episode} - hash {i} - distance: {hamming_distance}")
+                            matching_episodes[episode].add(i)
+                            hamming_distances[episode].append(hamming_distance) 
+                            if len(matching_episodes[episode]) >= required_matches:
+                                # Calculate mean hamming distance for each episode and return the episode with the lowest mean distance
+                                mean_distances = {episode: sum(distances) / len(distances) for episode, distances in hamming_distances.items()}
+                                best_episode = min(mean_distances, key=mean_distances.get)
+                                logger.info(f"Best match for video file {filepath} is episode {best_episode} with mean Hamming distance {mean_distances[best_episode]}")
+                                matched = True
+                                return int(best_episode)
                             frame_count += 500
-                for value in set(match_episode):
-                    if match_episode.count(value) >= 5:
-                        logger.info(f"The episode {value} appears at least 5 times in the list.")
-                        matched = True
-                        return value
-
-        logger.warning(f"No matching episode found for video file {filepath}")
+                if frame_count >= total_frames:
+                    frame_count = 0
+                    threshold+=1
+                    retries+=1
+                    logger.warning(f"No matching episode found for video file {filepath}. Restarting search with threshold of {threshold}")
+                    if retries >= max_retries:
+                        logger.warning(f'Unable to match {filepath}')
+                        break
         return None
 
     except Exception as e:
@@ -152,7 +165,8 @@ def hashes_are_similar(hash1, hash2, threshold=20):
     Returns:
     - True if hashes are similar within the threshold; False otherwise.
     """
-    return abs(hash1 - hash2) <= threshold
+    hamming_distance = abs(hash1 - hash2)
+    return  hamming_distance<= threshold,hamming_distance
 def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> imagehash.ImageHash:
     """
     Calculate perceptual hash for given image data or file path.
@@ -172,7 +186,7 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> ima
         # image = Image.open(BytesIO(data_or_path))
         image = Image.fromarray(data_or_path)
 
-    hash = imagehash.phash(image)
+    hash = imagehash.average_hash(image)
     return hash
 
 def load_show_hashes(show_name):
