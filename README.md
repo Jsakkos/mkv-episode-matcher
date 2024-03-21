@@ -9,7 +9,14 @@ To use the MKV Episode Matcher, follow these steps:
 1. Clone this repository `git clone https://github.com/Jsakkos/mkv-episode-matcher`
 1. Obtain an API key from TMDb (https://developers.themoviedb.org/authentication/getting-a-apikey).
 1. Provide a filepath to your show directory. This is the main directory that contains all of the episodes for a specific show.
-1. Call `python __main__.py` with the TMDB_API_KEY and SHOW_DIR as arguments or in environment variables from your command line:
+The directory and subfolders must be arranged in the following structure:
+
+- Show name
+  - Season 1
+  - Season 2
+  - ...
+  - Season n
+2. Call `python __main__.py` with the TMDB_API_KEY and SHOW_DIR as arguments or in environment variables from your command line:
 
 ```
 python __main__.py --api-key `your-api-key` --show-dir /path/to/show
@@ -36,6 +43,7 @@ Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (500
 Contributions are welcome! If you would like to contribute to the MKV Episode Matcher project, please follow these steps:
 
 1. Fork the repository.
+1. Clone the repository.
 2. Create a new branch for your contribution.
 3. Make your changes and commit them to your branch.
 4. Push your branch to your forked repository.
