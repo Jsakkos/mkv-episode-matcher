@@ -59,6 +59,7 @@ def main():
     parser.add_argument("--force", type=bool, default=None, nargs='?', help="Force rename files (default: None)")
     parser.add_argument("--dry-run", type=bool, default=None, nargs='?', help="Don't rename any files (default: None)")
     parser.add_argument("--threshold",type=int, default=None, nargs='?', help="Set matching threshold")
+    parser.add_argument("--hash-type",type=str, default='average', nargs='?', help="Set hash type")
     args = parser.parse_args()
 
     # Check if API key is provided via command-line argument
@@ -90,7 +91,7 @@ def main():
 
     # Process the show
     from .episode_matcher import process_show
-    process_show(args.season,force=args.force,dry_run=args.dry_run,threshold=args.threshold)
+    process_show(args.season,force=args.force,dry_run=args.dry_run,threshold=args.threshold,hash_type=args.hash_type)
     logger.info("Show processing completed")
 
 # Run the main function if the script is run directly

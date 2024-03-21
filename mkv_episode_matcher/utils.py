@@ -103,7 +103,7 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         os.rename(original_file_path, new_file_path)
 
 
-def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes, matching_threshold=None) -> Optional[int]:
+def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes, hash_type,matching_threshold=None,) -> Optional[int]:
     """
     Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
 
@@ -134,7 +134,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
             frame_count += 1
             if frame_count % 10 == 0:  # Process every 10th frame
                 frame = iio.imread(filepath, index=frame_count, plugin="pyav")
-                frame_hash = calculate_image_hash(frame, is_path=False)
+                frame_hash = calculate_image_hash(frame, False,hash_type)
                 for episode, hashes in season_hashes.items():
                     for i, hash_val in enumerate(hashes):
                         similar, hamming_distance = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
@@ -181,7 +181,7 @@ def hashes_are_similar(hash1, hash2, threshold=20):
     """
     hamming_distance = abs(hash1 - hash2)
     return hamming_distance <= threshold, hamming_distance
-def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> imagehash.ImageHash:
+def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_type='average') -> imagehash.ImageHash:
     """
     Calculate perceptual hash for given image data or file path.
 
@@ -199,11 +199,13 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True) -> ima
     else:
         # image = Image.open(BytesIO(data_or_path))
         image = Image.fromarray(data_or_path)
-
-    hash = imagehash.average_hash(image)
+    if hash_type == 'average':
+        hash = imagehash.average_hash(image)
+    elif hash_type == 'phash':
+        hash = imagehash.phash(image)
     return hash
 
-def load_show_hashes(show_name):
+def load_show_hashes(show_name,hash_type):
     """
     Load the hashes for a given show from a JSON file.
 
@@ -213,14 +215,14 @@ def load_show_hashes(show_name):
     Returns:
         dict: A dictionary containing the loaded hashes, or an empty dictionary if the JSON file doesn't exist.
     """
-    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes.json")
+    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes_{hash_type}.json")
     if os.path.exists(json_file_path):
         with open(json_file_path, 'r') as json_file:
             return json.load(json_file)
     else:
         return {}
 
-def store_show_hashes(show_name, show_hashes):
+def store_show_hashes(show_name, show_hashes,hash_type):
     """
     Stores the hashes of a show in a JSON file.
 
@@ -231,11 +233,11 @@ def store_show_hashes(show_name, show_hashes):
     Returns:
         None
     """
-    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes.json")
+    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes_{hash_type}.json")
     with open(json_file_path, 'w') as json_file:
         json.dump(show_hashes, json_file, default=lambda x: x.result() if isinstance(x, ThreadPoolExecutor) else x)
     logger.info(f"Show hashes saved to {json_file_path}")
-def preprocess_hashes(show_name, show_id, seasons_to_process):
+def preprocess_hashes(show_name, show_id, seasons_to_process,hash_type):
     """
     Preprocess hashes by loading them from the file or fetching and hashing them if necessary.
 
@@ -248,14 +250,14 @@ def preprocess_hashes(show_name, show_id, seasons_to_process):
         dict: A dictionary containing the hashes for each season.
     """
     for season_number in seasons_to_process:
-        existing_hashes = load_show_hashes(show_name)
+        existing_hashes = load_show_hashes(show_name,hash_type)
 
         if str(season_number) in existing_hashes:
             logger.info(f"Skipping fetching and hashing images for Season {season_number}. Hashes already exist.")
             continue
-        season_hashes = fetch_and_hash_season_images(show_id, season_number)
+        season_hashes = fetch_and_hash_season_images(show_id, season_number,hash_type)
         existing_hashes[season_number] = season_hashes
-        store_show_hashes(show_name, existing_hashes)
+        store_show_hashes(show_name, existing_hashes,hash_type)
     # Convert hash values from strings back to appropriate type (e.g., integers)
     for season, episodes in existing_hashes.items():
         for episode_number, episode_hashes in episodes.items():

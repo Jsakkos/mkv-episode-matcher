@@ -56,7 +56,7 @@ class RateLimitedRequest:
 
 # Initialize rate-limited request
 rate_limited_request = RateLimitedRequest(rate_limit=30, period=1)
-def calculate_image_hash_from_url(image_url):
+def calculate_image_hash_from_url(image_url,hash_type):
     """
     Calculate the image hash from the given image URL.
 
@@ -71,7 +71,10 @@ def calculate_image_hash_from_url(image_url):
         response = rate_limited_request.get(image_url)
         if response.status_code == 200:
             img = Image.open(BytesIO(response.content))
-            return str(imagehash.average_hash(img))
+            if hash_type == 'phash':
+                return str(imagehash.phash(img))
+            elif hash_type == 'average':
+                return str(imagehash.average_hash(img))
         else:
             logger.error(f"Failed to download {image_url}")
             return None
@@ -126,7 +129,7 @@ def fetch_season_details(show_id, season_number):
         logger.error(f"Missing 'episodes' key in response JSON data for Season {season_number}")
         return 0
     
-def fetch_and_hash_episode_images(show_id, season_number, episode_number):
+def fetch_and_hash_episode_images(show_id, season_number, episode_number,hash_type):
     """
     Fetches and hashes the images for a specific episode of a TV show.
 
@@ -159,7 +162,7 @@ def fetch_and_hash_episode_images(show_id, season_number, episode_number):
         hashes = []
         for i, image in enumerate(images, start=1):
             image_url = BASE_IMAGE_URL + image['file_path']
-            hash_value = calculate_image_hash_from_url(image_url)
+            hash_value = calculate_image_hash_from_url(image_url,hash_type)
             hashes.append(hash_value)
 
         return hashes
@@ -168,7 +171,7 @@ def fetch_and_hash_episode_images(show_id, season_number, episode_number):
         logger.error(f"Failed to fetch images for Season {season_number} Episode {episode_number}: {e}")
         return None
 
-def fetch_and_hash_season_images(show_id: int, season_number: int) -> None:
+def fetch_and_hash_season_images(show_id: int, season_number: int,hash_type) -> None:
     """
     Fetches and hashes the images for a given season of a TV show.
 
@@ -189,7 +192,7 @@ def fetch_and_hash_season_images(show_id: int, season_number: int) -> None:
     with ThreadPoolExecutor(max_workers=int(MAX_THREADS)) as executor:
         futures = []
         for episode_number in range(1, total_episodes + 1):
-            future = executor.submit(fetch_and_hash_episode_images, show_id, season_number, episode_number)
+            future = executor.submit(fetch_and_hash_episode_images, show_id, season_number, episode_number,hash_type)
             futures.append((episode_number, future))
 
         # Collect results and update the episode hashes dictionary
