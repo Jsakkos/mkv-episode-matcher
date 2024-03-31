@@ -10,9 +10,12 @@ from collections import defaultdict
 from mkv_episode_matcher.tmdb_client import fetch_and_hash_season_images
 from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
 from concurrent.futures import ThreadPoolExecutor
+import statistics
 import json
 import warnings
 import sys
+import traceback
+import numpy as np
 def check_filename(filename, series_title, season_number, episode_number):
     """
     Check if a filename matches the expected naming convention for a series episode.
@@ -124,7 +127,7 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         matching_episodes = defaultdict(set) 
         hamming_distances = defaultdict(list)
         matched = False
-        max_retries = 2
+        max_retries = 3
         retries = 0
         filename = os.path.basename(filepath)
         if matching_threshold is not None:
@@ -144,11 +147,12 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
                             hamming_distances[episode].append(hamming_distance) 
                             if len(matching_episodes[episode]) >= required_matches:
                                 # Calculate mean hamming distance for each episode and return the episode with the lowest mean distance
-                                mean_distances = {episode: sum(distances) / len(distances) for episode, distances in hamming_distances.items()}
-                                best_episode = min(mean_distances, key=mean_distances.get)
-                                logger.info(f"Best match for video file {filepath} is episode {best_episode} with mean Hamming distance {mean_distances[best_episode]}")
+                                # mean_distances = {episode: sum(distances) / len(distances) for episode, distances in hamming_distances.items()}
+                                median_distances = {episode: statistics.median(distances) for episode, distances in hamming_distances.items()}
+                                best_episode = min(median_distances, key=median_distances.get)
+                                logger.info(f"Best match for video file {filepath} is episode {best_episode} with median Hamming distance {median_distances[best_episode]}")
                                 matched = True
-                                return int(best_episode)
+                                return int(best_episode),median_distances
                             frame_count += 500
                 if frame_count >= total_frames:
                     frame_count = 0
@@ -164,7 +168,21 @@ def find_matching_episode(filepath: str, main_dir: str, season_number: int, seas
         logger.error(f"Error processing file {filepath}: {e}")
         return None
 
+def get_list_of_frames(mkv_file):
+    """
+    Get a list of all frames in an MKV file.
 
+    Parameters:
+    mkv_file (str): The path to the MKV file.
+
+    Returns:
+    list: A list of all frames in the MKV file.
+    """
+    metadata = iio.immeta(mkv_file)
+    total_frames = int(metadata['fps'] * metadata['duration'])
+    # Create a list of all frames
+    all_frames = list(range(total_frames-1))
+    return all_frames
 def hashes_are_similar(hash1, hash2, threshold=20):
     """
     Determine if two perceptual hashes are similar within a given threshold.
@@ -204,6 +222,29 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_ty
     elif hash_type == 'phash':
         hash = imagehash.phash(image)
     return hash
+@logger.catch
+def calculate_hashes(mkv_file, frame_count):
+    """
+    Calculate the image hash for a given frame in an MKV file.
+
+    Args:
+        mkv_file (str): The path to the MKV file.
+        frame_count (int): The index of the frame to calculate the hash for.
+
+    Returns:
+        tuple: A tuple containing the frame count and the calculated image hash.
+
+    Raises:
+        Exception: If an error occurs during the calculation.
+
+    """
+    try:
+        frame = iio.imread(mkv_file, index=frame_count, plugin="pyav")
+    except Exception as e:
+        logger.error(f"Error reading frame {frame_count} from {mkv_file}: {e}")
+        frame = np.zeros((8,8))
+    average_hash = calculate_image_hash(frame, False, 'average')
+    return frame_count, average_hash
 
 def load_show_hashes(show_name,hash_type):
     """
