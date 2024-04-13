@@ -16,6 +16,24 @@ import warnings
 import sys
 import traceback
 import numpy as np
+from imagehash import ImageHash
+import cv2
+def average_hash(image, hash_size=8, mean=np.mean):
+    if hash_size < 2:
+        raise ValueError('Hash size must be greater than or equal to 2')
+
+    # Convert the image to grayscale and resize it
+    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+    resized_image = cv2.resize(gray_image, (hash_size, hash_size))
+
+    # Find the average pixel value
+    avg = mean(resized_image)
+
+    # Create string of bits
+    diff = resized_image > avg
+
+    # Make a hash
+    return ImageHash(diff)
 def check_filename(filename, series_title, season_number, episode_number):
     """
     Check if a filename matches the expected naming convention for a series episode.
@@ -199,7 +217,7 @@ def hashes_are_similar(hash1, hash2, threshold=20):
     """
     hamming_distance = abs(hash1 - hash2)
     return hamming_distance <= threshold, hamming_distance
-def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_type='average') -> imagehash.ImageHash:
+def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_type='fast') -> imagehash.ImageHash:
     """
     Calculate perceptual hash for given image data or file path.
 
@@ -221,6 +239,8 @@ def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_ty
         hash = imagehash.average_hash(image)
     elif hash_type == 'phash':
         hash = imagehash.phash(image)
+    elif hash_type == 'fast':
+        hash = average_hash(image)
     return hash
 @logger.catch
 def calculate_hashes(mkv_file, frame_count):

@@ -94,6 +94,9 @@ def process_season(show_id, season_number, season_path, season_hashes, force=Fal
     mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
     _ = [scramble_filename(original_file_path, i) for i, original_file_path in enumerate(mkv_files)]
     mkv_files = [os.path.join(season_path, f) for f in os.listdir(season_path) if f.endswith(".mkv")]
+    if len(mkv_files) == 0:
+        logger.info(f"No new files to process for season {season_number}")
+        return
     frames_dict = {mkv_file: get_list_of_frames(mkv_file) for mkv_file in mkv_files}
     df = pd.DataFrame()
     # Initialize the dictionaries
@@ -101,7 +104,7 @@ def process_season(show_id, season_number, season_path, season_hashes, force=Fal
     # Add existing_average_hashes data structure here
     for i in range(30):
         logger.info(f"Processing iteration {i+1}")
-        frames_to_process = {mkv_file: npr.choice(frames_dict[mkv_file], 100, replace=False) for mkv_file in mkv_files}
+        frames_to_process = {mkv_file: npr.choice(frames_dict[mkv_file], 500, replace=False) for mkv_file in mkv_files}
         # Initialize results before the try block
         results = {}
         with ThreadPoolExecutor() as executor:
@@ -150,6 +153,7 @@ def process_season(show_id, season_number, season_path, season_hashes, force=Fal
         logger.info(f"Matching duplicates: {len(mkv_files)}")
         if len(mkv_files) == 0:
             break
+    df = df.sort_values(by=['episode_number', 'lowest_hash_comparison'], ascending=[True, True])
     for mkv_file in df.filename.unique():
         episode = df.loc[df['filename'] == mkv_file, 'episode_number'].values[0]
         if dry_run:

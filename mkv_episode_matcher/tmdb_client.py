@@ -10,8 +10,26 @@ import time
 from io import BytesIO
 from PIL import Image
 import imagehash
+from imagehash import ImageHash
+import numpy as np
+import cv2
 BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
+def average_hash(image, hash_size=8, mean=np.mean):
+    if hash_size < 2:
+        raise ValueError('Hash size must be greater than or equal to 2')
 
+    # Convert the image to grayscale and resize it
+    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+    resized_image = cv2.resize(gray_image, (hash_size, hash_size))
+
+    # Find the average pixel value
+    avg = mean(resized_image)
+
+    # Create string of bits
+    diff = resized_image > avg
+
+    # Make a hash
+    return ImageHash(diff)
 class RateLimitedRequest:
     """
     A class that represents a rate-limited request object.
@@ -75,6 +93,8 @@ def calculate_image_hash_from_url(image_url,hash_type):
                 return str(imagehash.phash(img))
             elif hash_type == 'average':
                 return str(imagehash.average_hash(img))
+            elif hash_type =='fast':
+                return str(average_hash(img))
         else:
             logger.error(f"Failed to download {image_url}")
             return None

@@ -59,7 +59,7 @@ def main():
     parser.add_argument("--force", type=bool, default=None, nargs='?', help="Force rename files (default: None)")
     parser.add_argument("--dry-run", type=bool, default=None, nargs='?', help="Don't rename any files (default: None)")
     parser.add_argument("--threshold",type=int, default=None, nargs='?', help="Set matching threshold")
-    parser.add_argument("--hash-type",type=str, default='average', nargs='?', help="Set hash type")
+    parser.add_argument("--hash-type",type=str, default='fast', nargs='?', help="Set hash type")
     args = parser.parse_args()
 
     # Check if API key is provided via command-line argument
