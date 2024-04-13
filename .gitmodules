@@ -1,0 +1,3 @@
+[submodule "libraries/pgs2srt"]
+	path = libraries/pgs2srt
+	url = https://github.com/Jsakkos/pgs2srt
