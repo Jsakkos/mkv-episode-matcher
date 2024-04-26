@@ -1,23 +1,22 @@
 # __main__.py
 import argparse
 import os
+from loguru import logger
 from .config import set_config, get_config
 
-from loguru import logger
+
 import sys
 
-# Remove the default stdout handler
-logger.remove()  
 
-# Check if logs directory exists, if not create it
-if not os.path.exists('./logs'):
-    os.mkdir('./logs')
+# # Check if logs directory exists, if not create it
+# if not os.path.exists('./logs'):
+#     os.mkdir('./logs')
 
 # Add a new handler for stdout logs
-logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")  
+# logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")  
 
 # Add a new handler for error logs
-logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")  
+# logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")  
 
 # Check if the configuration directory exists, if not create it
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
@@ -30,7 +29,7 @@ CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher","cache"
 # Check if the cache directory exists, if not create it
 if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
-
+@logger.catch
 def main():
     """
     Entry point of the application.
@@ -39,12 +38,12 @@ def main():
     setting the configuration, and processing the show.
 
     Command-line arguments:
-    --api-key: The API key for the TMDb API. If not provided, the function will try to get it from the cache or prompt the user to input it.
+    --tmdb-api-key: The API key for the TMDb API. If not provided, the function will try to get it from the cache or prompt the user to input it.
     --show-dir: The main directory of the show. If not provided, the function will prompt the user to input it.
     --season: The season number to be processed. If not provided, all seasons will be processed.
-    --force: A boolean flag indicating whether to force rename files. If not provided, the function will not force rename files.
     --dry-run: A boolean flag indicating whether to perform a dry run (i.e., not rename any files). If not provided, the function will rename files.
-    --threshold: The matching threshold for episode matching. If not provided, the function will use a default threshold.
+    --get-subs: A boolean flag indicating whether to download subtitles for the show. If not provided, the function will not download subtitles.
+
 
     The function logs its progress to two separate log files: one for standard output and one for errors.
     """
@@ -53,45 +52,87 @@ def main():
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")
-    parser.add_argument("--api-key", help="TMDb API key")
+    parser.add_argument("--tmdb-api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
     parser.add_argument("--season", type=int, default=None, nargs='?', help="Specify the season number to be processed (default: None)")
-    parser.add_argument("--force", type=bool, default=None, nargs='?', help="Force rename files (default: None)")
     parser.add_argument("--dry-run", type=bool, default=None, nargs='?', help="Don't rename any files (default: None)")
-    parser.add_argument("--threshold",type=int, default=None, nargs='?', help="Set matching threshold")
-    parser.add_argument("--hash-type",type=str, default='fast', nargs='?', help="Set hash type")
+    parser.add_argument("--get-subs", type=bool, default=None, nargs='?', help="Download subtitles for the show (default: None)")
+    parser.add_argument("--tesserect-path", type=str, default=None, nargs='?', help="Path to the tesseract executable (default: None)")
     args = parser.parse_args()
-
+    logger.debug(f"Command-line arguments: {args}")
+    open_subtitles_api_key = ''
+    open_subtitles_user_agent = ''
+    open_subtitles_username = ''
+    open_subtitles_password = ''
     # Check if API key is provided via command-line argument
-    api_key = args.api_key
+    tmdb_api_key = args.tmdb_api_key
 
     # If API key is not provided, try to get it from the cache
-    if not api_key:
+    if not tmdb_api_key:
         cached_config = get_config(CONFIG_FILE)
         if cached_config:
-            api_key = cached_config.get("api_key")
+            tmdb_api_key = cached_config.get("tmdb_api_key")
 
     # If API key is still not available, prompt the user to input it
-    if not api_key:
-        api_key = input("Enter your TMDb API key: ")
+    if not tmdb_api_key:
+        tmdb_api_key = input("Enter your TMDb API key: ")
         # Cache the API key
     
 
-    logger.debug(f"API Key: {api_key}")
+    logger.debug(f"TMDb API Key: {tmdb_api_key}")
+    if args.get_subs:
+        logger.debug("Getting OpenSubtitles API key")
+        cached_config = get_config(CONFIG_FILE)
+        try:
+            open_subtitles_api_key = cached_config.get("open_subtitles_api_key")
+            open_subtitles_user_agent = cached_config.get("open_subtitles_user_agent")
+            open_subtitles_username = cached_config.get("open_subtitles_username")
+            open_subtitles_password = cached_config.get("open_subtitles_password")
+        except:
+            pass
+
+        if not open_subtitles_api_key:
+            open_subtitles_api_key = input("Enter your OpenSubtitles API key: ")
+
+        if not open_subtitles_user_agent:
+            open_subtitles_user_agent = input("Enter your OpenSubtitles User Agent: ")
+        
+        if not open_subtitles_username:
+            open_subtitles_username = input("Enter your OpenSubtitles Username: ")
+        
+        if not open_subtitles_password:
+            open_subtitles_password = input("Enter your OpenSubtitles Password: ") 
 
     # If show directory is provided via command-line argument, use it
     show_dir = args.show_dir
     if not show_dir:
-        show_dir = input("Enter the main directory of the show: ")
+        show_dir = cached_config.get("show_dir")
+        if not show_dir:
+        # If show directory is not provided, prompt the user to input it
+            show_dir = input("Enter the main directory of the show:")
+        logger.info(f"Show Directory: {show_dir}")
+        # if the user does not provide a show directory, make the default show directory the current working directory
+        if not show_dir:
+            show_dir = os.getcwd()
+    if not args.tesserect_path:
+        tesserect_path = cached_config.get('tesserect_path')
+        
+        if not tesserect_path:
+            tesserect_path = input(r"Enter the path to the tesseract executable: ['C:\Program Files\Tesseract-OCR\tesseract.exe']")
+            # tesserect_path = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        
+    else:
+        tesserect_path = args.tesserect_path
+    logger.debug(f"Teesserect Path: {tesserect_path}")
     logger.debug(f"Show Directory: {show_dir}")
 
     # Set the configuration
-    set_config(api_key, show_dir, CONFIG_FILE)
+    set_config(tmdb_api_key, open_subtitles_api_key, open_subtitles_user_agent,open_subtitles_username,open_subtitles_password,show_dir, CONFIG_FILE,tesserect_path=tesserect_path)
     logger.info("Configuration set")
 
     # Process the show
     from .episode_matcher import process_show
-    process_show(args.season,force=args.force,dry_run=args.dry_run,threshold=args.threshold,hash_type=args.hash_type)
+    process_show(args.season,dry_run=args.dry_run, get_subs=args.get_subs)
     logger.info("Show processing completed")
 
 # Run the main function if the script is run directly

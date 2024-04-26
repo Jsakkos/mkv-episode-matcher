@@ -1,14 +1,14 @@
 # utils.py
 import os
 from PIL import Image
-import imagehash
 from typing import Optional, Set
 from loguru import logger
 import imageio.v3 as iio
 import re
 from collections import defaultdict
-from mkv_episode_matcher.tmdb_client import fetch_and_hash_season_images
 from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
+from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.tmdb_client import fetch_show_id,fetch_season_details
 from concurrent.futures import ThreadPoolExecutor
 import statistics
 import json
@@ -16,24 +16,10 @@ import warnings
 import sys
 import traceback
 import numpy as np
-from imagehash import ImageHash
-import cv2
-def average_hash(image, hash_size=8, mean=np.mean):
-    if hash_size < 2:
-        raise ValueError('Hash size must be greater than or equal to 2')
+import requests
+from opensubtitlescom import OpenSubtitles
+import shutil
 
-    # Convert the image to grayscale and resize it
-    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
-    resized_image = cv2.resize(gray_image, (hash_size, hash_size))
-
-    # Find the average pixel value
-    avg = mean(resized_image)
-
-    # Create string of bits
-    diff = resized_image > avg
-
-    # Make a hash
-    return ImageHash(diff)
 def check_filename(filename, series_title, season_number, episode_number):
     """
     Check if a filename matches the expected naming convention for a series episode.
@@ -124,206 +110,81 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         os.rename(original_file_path, new_file_path)
 
 
-def find_matching_episode(filepath: str, main_dir: str, season_number: int, season_hashes, hash_type,matching_threshold=None,) -> Optional[int]:
-    """
-    Find the matching episode for a given video file by comparing frames with pre-loaded season hashes.
-
-    Args:
-        filepath (str): The path to the video file.
-        main_dir (str): The main directory where the downloaded episode images are stored.
-        season_number (int): The season number of the video file.
-        season_hashes (Set[imagehash.ImageHash]): A set of perceptual hashes for all episode images in the season.
-        matching_threshold (Optional[int]): The threshold for determining similarity between image hashes. If not provided, a default threshold will be used.
-
-    Returns:
-        Optional[int]: The episode number if a match is found, or None if no match is found.
-    """
+def get_subtitles(show_id,seasons: Set[int]):
+    logger.info(f"Getting subtitles for show ID {show_id}")
+    config = get_config(CONFIG_FILE)
+    show_dir = config.get("show_dir")
+    series_name = os.path.basename(show_dir)
+    tmdb_api_key = config.get("tmdb_api_key")
+    open_subtitles_api_key = config.get("open_subtitles_api_key")
+    open_subtitles_user_agent = config.get("open_subtitles_user_agent")
+    open_subtitles_username = config.get("open_subtitles_username")
+    open_subtitles_password = config.get("open_subtitles_password")
+    if not all([show_dir, tmdb_api_key, open_subtitles_api_key, open_subtitles_user_agent, open_subtitles_username, open_subtitles_password]):
+        logger.error("Missing configuration settings. Please run the setup script.")
     try:
-        metadata = iio.immeta(filepath)
-        total_frames = int(metadata['fps'] * metadata['duration'])
-        frame_count = 0
-        matching_episodes = defaultdict(set) 
-        hamming_distances = defaultdict(list)
-        matched = False
-        max_retries = 3
-        retries = 0
-        filename = os.path.basename(filepath)
-        if matching_threshold is not None:
-            threshold = matching_threshold
-        required_matches = min(5, len(season_hashes)) 
-        while not matched and frame_count < total_frames:
-            frame_count += 1
-            if frame_count % 10 == 0:  # Process every 10th frame
-                frame = iio.imread(filepath, index=frame_count, plugin="pyav")
-                frame_hash = calculate_image_hash(frame, False,hash_type)
-                for episode, hashes in season_hashes.items():
-                    for i, hash_val in enumerate(hashes):
-                        similar, hamming_distance = hashes_are_similar(frame_hash, hash_val, threshold=threshold)
-                        if similar:
-                            logger.info(f"Matched video file {filepath} at frame {frame_count} with episode {episode} - hash {i} - distance: {hamming_distance}")
-                            matching_episodes[episode].add(i)
-                            hamming_distances[episode].append(hamming_distance) 
-                            if len(matching_episodes[episode]) >= required_matches:
-                                # Calculate mean hamming distance for each episode and return the episode with the lowest mean distance
-                                # mean_distances = {episode: sum(distances) / len(distances) for episode, distances in hamming_distances.items()}
-                                median_distances = {episode: statistics.median(distances) for episode, distances in hamming_distances.items()}
-                                best_episode = min(median_distances, key=median_distances.get)
-                                logger.info(f"Best match for video file {filepath} is episode {best_episode} with median Hamming distance {median_distances[best_episode]}")
-                                matched = True
-                                return int(best_episode),median_distances
-                            frame_count += 500
-                if frame_count >= total_frames:
-                    frame_count = 0
-                    threshold += 1
-                    retries += 1
-                    logger.warning(f"No matching episode found for video file {filepath}. Restarting search with threshold of {threshold}")
-                    if retries >= max_retries:
-                        logger.warning(f'Unable to match {filepath}')
+        # Initialize the OpenSubtitles client
+        subtitles = OpenSubtitles(open_subtitles_user_agent, open_subtitles_api_key)
+
+        # Log in (retrieve auth token)
+        subtitles.login(open_subtitles_username, open_subtitles_password)
+    except Exception as e:
+        logger.error(f"Failed to log in to OpenSubtitles: {e}")
+        return
+    for season in seasons:
+        episodes = fetch_season_details(show_id, season)
+        logger.info(f"Found {episodes} episodes in Season {season}")
+
+        for episode in range(1,episodes+1):
+            logger.info(f"Processing Season {season}, Episode {episode}...")
+            srt_filepath = os.path.join(CACHE_DIR,'data',series_name,f'{series_name} - S{season:02d}E{episode:02d}.srt')
+            if not os.path.exists(srt_filepath):
+                # get the episode info from TMDB
+                url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}"
+                response = requests.get(url)
+                response.raise_for_status()
+                episode_data = response.json()
+                episode_name = episode_data['name']
+                episode_id = episode_data['id']
+                # search for the subtitle
+                response = subtitles.search(tmdb_id=episode_id,languages="en")
+                if len(response.data) == 0:
+                    logger.warning(f"No subtitles found for {series_name} - S{season:02d}E{episode:02d}")
+                # Convert the response to a Python dictionary
+                response_dict = response.to_dict()
+                for subtitle in response.data:
+
+                    subtitle_dict = subtitle.to_dict()
+                    # Remove special characters and convert to uppercase
+                    filename_clean = re.sub(r'\W+', ' ', subtitle_dict['file_name']).upper()
+                    if f"E{episode:02d}" in filename_clean:
+                        logger.info(f'Original filename: {subtitle_dict['file_name']}')
+                        srt_file = subtitles.download_and_save(subtitle)
+                        series_name = series_name.replace(":", " -")
+                        shutil.move(srt_file, srt_filepath)
+                        logger.info(f"Subtitle saved to {srt_filepath}")
                         break
-        return None
-
-    except Exception as e:
-        logger.error(f"Error processing file {filepath}: {e}")
-        return None
-
-def get_list_of_frames(mkv_file):
+                    else:
+                        continue
+            else:
+                print(f"Subtitle already exists for {series_name} - S{season:02d}E{episode:02d}")
+                continue
+def cleanup_ocr_files(show_dir):
     """
-    Get a list of all frames in an MKV file.
-
-    Parameters:
-    mkv_file (str): The path to the MKV file.
-
-    Returns:
-    list: A list of all frames in the MKV file.
-    """
-    metadata = iio.immeta(mkv_file)
-    total_frames = int(metadata['fps'] * metadata['duration'])
-    # Create a list of all frames
-    all_frames = list(range(total_frames-1))
-    return all_frames
-def hashes_are_similar(hash1, hash2, threshold=20):
-    """
-    Determine if two perceptual hashes are similar within a given threshold.
-    
-    Args:
-    - hash1: The first perceptual hash to compare.
-    - hash2: The second perceptual hash to compare.
-    - threshold: The maximum allowed difference between the hashes for them to be considered similar.
-    
-    Returns:
-    - A tuple containing two values:
-        - A boolean value indicating whether the hashes are similar within the threshold.
-        - The hamming distance between the hashes.
-    """
-    hamming_distance = abs(hash1 - hash2)
-    return hamming_distance <= threshold, hamming_distance
-def calculate_image_hash(data_or_path: bytes | str, is_path: bool = True,hash_type='fast') -> imagehash.ImageHash:
-    """
-    Calculate perceptual hash for given image data or file path.
+    Clean up OCR files generated during the episode matching process.
 
     Args:
-        data_or_path (bytes | str): If is_path is True, it's treated as a file path to an image;
-            otherwise, it's binary data of an image.
-        is_path (bool, optional): Flag indicating whether data_or_path is a file path (True) or binary data (False).
-            Defaults to True.
-
-    Returns:
-        imagehash.ImageHash: The perceptual hash of the image.
-    """
-    if is_path:
-        image = Image.open(data_or_path)
-    else:
-        # image = Image.open(BytesIO(data_or_path))
-        image = Image.fromarray(data_or_path)
-    if hash_type == 'average':
-        hash = imagehash.average_hash(image)
-    elif hash_type == 'phash':
-        hash = imagehash.phash(image)
-    elif hash_type == 'fast':
-        hash = average_hash(image)
-    return hash
-@logger.catch
-def calculate_hashes(mkv_file, frame_count):
-    """
-    Calculate the image hash for a given frame in an MKV file.
-
-    Args:
-        mkv_file (str): The path to the MKV file.
-        frame_count (int): The index of the frame to calculate the hash for.
-
-    Returns:
-        tuple: A tuple containing the frame count and the calculated image hash.
-
-    Raises:
-        Exception: If an error occurs during the calculation.
-
-    """
-    try:
-        frame = iio.imread(mkv_file, index=frame_count, plugin="pyav")
-    except Exception as e:
-        logger.error(f"Error reading frame {frame_count} from {mkv_file}: {e}")
-        frame = np.zeros((8,8))
-    average_hash = calculate_image_hash(frame, False, 'average')
-    return frame_count, average_hash
-
-def load_show_hashes(show_name,hash_type):
-    """
-    Load the hashes for a given show from a JSON file.
-
-    Args:
-        show_name (str): The name of the show.
-
-    Returns:
-        dict: A dictionary containing the loaded hashes, or an empty dictionary if the JSON file doesn't exist.
-    """
-    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes_{hash_type}.json")
-    if os.path.exists(json_file_path):
-        with open(json_file_path, 'r') as json_file:
-            return json.load(json_file)
-    else:
-        return {}
-
-def store_show_hashes(show_name, show_hashes,hash_type):
-    """
-    Stores the hashes of a show in a JSON file.
-
-    Args:
-        show_name (str): The name of the show.
-        show_hashes (dict): A dictionary containing the hashes of the show.
+        show_dir (str): The directory containing the show files.
 
     Returns:
         None
+
+    This function cleans up the OCR files generated during the episode matching process.
+    It deletes the 'ocr' directory and all its contents in each season directory of the show.
     """
-    json_file_path = os.path.join(CACHE_DIR, f"{show_name}_hashes_{hash_type}.json")
-    with open(json_file_path, 'w') as json_file:
-        json.dump(show_hashes, json_file, default=lambda x: x.result() if isinstance(x, ThreadPoolExecutor) else x)
-    logger.info(f"Show hashes saved to {json_file_path}")
-def preprocess_hashes(show_name, show_id, seasons_to_process,hash_type):
-    """
-    Preprocess hashes by loading them from the file or fetching and hashing them if necessary.
-
-    Args:
-        show_name (str): The name of the show.
-        show_id (str): The TMDb ID of the show.
-        seasons_to_process (list): A list of season numbers to process.
-
-    Returns:
-        dict: A dictionary containing the hashes for each season.
-    """
-    for season_number in seasons_to_process:
-        existing_hashes = load_show_hashes(show_name,hash_type)
-
-        if str(season_number) in existing_hashes:
-            logger.info(f"Skipping fetching and hashing images for Season {season_number}. Hashes already exist.")
-            continue
-        season_hashes = fetch_and_hash_season_images(show_id, season_number,hash_type)
-        existing_hashes[season_number] = season_hashes
-        store_show_hashes(show_name, existing_hashes,hash_type)
-    # Convert hash values from strings back to appropriate type (e.g., integers)
-    for season, episodes in existing_hashes.items():
-        for episode_number, episode_hashes in episodes.items():
-            existing_hashes[season][episode_number] = [imagehash.hex_to_hash(hash_str) for hash_str in episode_hashes]
-    return existing_hashes
-
-    
-    
+    for season_dir in os.listdir(show_dir):
+        season_dir_path = os.path.join(show_dir, season_dir)
+        ocr_dir_path = os.path.join(season_dir_path, 'ocr')
+        if os.path.exists(ocr_dir_path):
+            logger.info(f"Cleaning up OCR files in {ocr_dir_path}")
+            shutil.rmtree(ocr_dir_path)
