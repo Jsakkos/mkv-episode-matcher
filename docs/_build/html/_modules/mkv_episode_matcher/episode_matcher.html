@@ -1,0 +1,434 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>mkv_episode_matcher.episode_matcher &mdash; MKV Episode Matcher 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MKV Episode Matcher
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MKV Episode Matcher</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mkv_episode_matcher.episode_matcher</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mkv_episode_matcher.episode_matcher</h1><div class="highlight"><pre>
+<span></span><span class="c1"># episode_matcher.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.config</span> <span class="kn">import</span> <span class="n">get_config</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.tmdb_client</span> <span class="kn">import</span> <span class="n">fetch_show_id</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.utils</span> <span class="kn">import</span> <span class="n">get_subtitles</span><span class="p">,</span> <span class="n">cleanup_ocr_files</span><span class="p">,</span><span class="n">check_filename</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.__main__</span> <span class="kn">import</span> <span class="n">CONFIG_FILE</span><span class="p">,</span> <span class="n">CACHE_DIR</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.mkv_to_srt</span> <span class="kn">import</span> <span class="n">convert_mkv_to_srt</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="c1"># hash_data = {}</span>
+<div class="viewcode-block" id="process_show"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.process_show">[docs]</a><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
+<span class="k">def</span> <span class="nf">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">get_subs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process the show by downloading episode images and finding matching episodes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        season (int, optional): The season number to process. If provided, only that season will be processed. Defaults to None.</span>
+<span class="sd">        force (bool, optional): Whether to force re-processing of episodes even if they already exist. Defaults to False.</span>
+<span class="sd">        dry_run (bool, optional): Whether to perform a dry run without actually processing the episodes. Defaults to False.</span>
+<span class="sd">        threshold (float, optional): The threshold value for matching episodes. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
+    <span class="n">show_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;show_dir&quot;</span><span class="p">)</span>
+    <span class="n">show_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing show &#39;</span><span class="si">{</span><span class="n">show_name</span><span class="si">}</span><span class="s2">&#39;...&quot;</span><span class="p">)</span>
+    <span class="n">show_id</span> <span class="o">=</span> <span class="n">fetch_show_id</span><span class="p">(</span><span class="n">show_name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find show &#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; on TMDb.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">season_paths</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">show_dir</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">show_dir</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">season_paths</span><span class="p">)</span><span class="si">}</span><span class="s2"> seasons for show &#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">seasons_to_process</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">season_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">season_path</span> <span class="ow">in</span> <span class="n">season_paths</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">get_subs</span><span class="p">:</span>
+        <span class="n">get_subtitles</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">seasons</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">seasons_to_process</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">season</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mkv_files</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">show_dir</span><span class="p">,</span> <span class="n">season</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.mkv&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">season_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">show_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Season </span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">season_path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+            <span class="n">season_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">show_dir</span><span class="p">,</span> <span class="n">season_path</span><span class="p">)</span>
+            <span class="n">mkv_files</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">season_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.mkv&quot;</span><span class="p">)</span>
+            <span class="p">]</span>
+    <span class="c1"># Filter out files that have already been processed</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">mkv_files</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">check_filename</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">, already processed&quot;</span><span class="p">)</span>
+            <span class="n">mkv_files</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mkv_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No new files to process&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">)</span>
+    <span class="n">reference_text_dict</span> <span class="o">=</span> <span class="n">process_reference_srt_files</span><span class="p">(</span><span class="n">show_name</span><span class="p">)</span>
+    <span class="n">srt_text_dict</span> <span class="o">=</span> <span class="n">process_srt_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
+    <span class="n">compare_and_rename_files</span><span class="p">(</span><span class="n">srt_text_dict</span><span class="p">,</span> <span class="n">reference_text_dict</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">)</span>
+    <span class="n">cleanup_ocr_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="check_filename"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.check_filename">[docs]</a><span class="k">def</span> <span class="nf">check_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the filename is in the correct format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The filename to check.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the filename is in the correct format, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the filename matches the expected format</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*S\d+E\d+&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">match</span><span class="p">)</span></div>
+<div class="viewcode-block" id="extract_srt_text"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.extract_srt_text">[docs]</a><span class="k">def</span> <span class="nf">extract_srt_text</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the text from an SRT file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (str): The path to the SRT file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of lists, where each inner list represents a block of text from the SRT file.</span>
+<span class="sd">              Each inner list contains the lines of text for that block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># extract the text from the file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">filepath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)))</span>
+    <span class="p">]</span>
+    <span class="c1"># remove empty lines</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="n">line</span><span class="p">]</span> <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">text_lines</span><span class="p">]</span>
+    <span class="c1"># remove &lt;i&gt; or &lt;/i&gt; tags</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;i&gt;|&lt;/i&gt;|&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span> <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">text_lines</span>
+    <span class="p">]</span>
+    <span class="c1"># remove empty lists</span>
+    <span class="n">text_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">lines</span> <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">text_lines</span> <span class="k">if</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">text_lines</span></div>
+
+
+<div class="viewcode-block" id="compare_text"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.compare_text">[docs]</a><span class="k">def</span> <span class="nf">compare_text</span><span class="p">(</span><span class="n">text1</span><span class="p">,</span> <span class="n">text2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare two lists of text lines and return the number of matching lines.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text1 (list): List of text lines from the first source.</span>
+<span class="sd">        text2 (list): List of text lines from the second source.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Number of matching lines between the two sources.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Flatten the list of text lines</span>
+    <span class="n">flat_text1</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">text1</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">flat_text2</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">text2</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+    <span class="c1"># Compare the two lists of text lines</span>
+    <span class="n">matching_lines</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">flat_text1</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">flat_text2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_season_episode"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.extract_season_episode">[docs]</a><span class="k">def</span> <span class="nf">extract_season_episode</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the season and episode number from the filename.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The filename to extract the season and episode from.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing the season and episode number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the season and episode number from the filename</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;S(\d+)E(\d+)&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">season</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">episode</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">season</span><span class="p">,</span> <span class="n">episode</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="process_reference_srt_files"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.process_reference_srt_files">[docs]</a><span class="k">def</span> <span class="nf">process_reference_srt_files</span><span class="p">(</span><span class="n">series_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process reference SRT files for a given series.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        series_name (str): The name of the series.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A dictionary containing the reference files where the keys are the MKV filenames</span>
+<span class="sd">              and the values are the corresponding SRT texts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reference_files</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">reference_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">series_name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">reference_dir</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.srt&quot;</span><span class="p">):</span>
+                <span class="n">srt_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">srt_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">srt_text</span> <span class="o">=</span> <span class="n">extract_srt_text</span><span class="p">(</span><span class="n">srt_file</span><span class="p">)</span>
+                <span class="n">season</span><span class="p">,</span> <span class="n">episode</span> <span class="o">=</span> <span class="n">extract_season_episode</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="n">mkv_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">series_name</span><span class="si">}</span><span class="s2"> - S</span><span class="si">{</span><span class="n">season</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">E</span><span class="si">{</span><span class="n">episode</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">.mkv&quot;</span>
+                <span class="n">reference_files</span><span class="p">[</span><span class="n">mkv_filename</span><span class="p">]</span> <span class="o">=</span> <span class="n">srt_text</span>
+    <span class="k">return</span> <span class="n">reference_files</span></div>
+
+
+<div class="viewcode-block" id="process_srt_files"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.process_srt_files">[docs]</a><span class="k">def</span> <span class="nf">process_srt_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process all SRT files in the given directory and its subdirectories.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        show_dir (str): The directory path where the SRT files are located.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A dictionary containing the SRT file paths as keys and their corresponding text content as values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">srt_files</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.srt&quot;</span><span class="p">):</span>
+                <span class="n">srt_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">srt_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">srt_text</span> <span class="o">=</span> <span class="n">extract_srt_text</span><span class="p">(</span><span class="n">srt_file</span><span class="p">)</span>
+                <span class="n">srt_files</span><span class="p">[</span><span class="n">srt_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">srt_text</span>
+    <span class="k">return</span> <span class="n">srt_files</span></div>
+
+
+<div class="viewcode-block" id="compare_and_rename_files"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.episode_matcher.compare_and_rename_files">[docs]</a><span class="k">def</span> <span class="nf">compare_and_rename_files</span><span class="p">(</span><span class="n">srt_files</span><span class="p">,</span> <span class="n">reference_files</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare the srt files with the reference files and rename the matching mkv files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        srt_files (dict): A dictionary containing the srt files as keys and their contents as values.</span>
+<span class="sd">        reference_files (dict): A dictionary containing the reference files as keys and their contents as values.</span>
+<span class="sd">        dry_run (bool, optional): If True, the function will only log the renaming actions without actually renaming the files. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Comparing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">srt_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> srt files with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">reference_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> reference files&quot;</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">srt_text</span> <span class="ow">in</span> <span class="n">srt_files</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">parent_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">srt_text</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">reference</span> <span class="ow">in</span> <span class="n">reference_files</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">season</span><span class="p">,</span> <span class="n">episode</span> <span class="o">=</span> <span class="n">extract_season_episode</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+            <span class="n">mkv_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">parent_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">srt_text</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.srt&quot;</span><span class="p">,</span> <span class="s2">&quot;.mkv&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">matching_lines</span> <span class="o">=</span> <span class="n">compare_text</span><span class="p">(</span>
+                <span class="n">reference_files</span><span class="p">[</span><span class="n">reference</span><span class="p">],</span> <span class="n">srt_files</span><span class="p">[</span><span class="n">srt_text</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">matching_lines</span> <span class="o">&gt;=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">reference_files</span><span class="p">[</span><span class="n">reference</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matching lines: </span><span class="si">{</span><span class="n">matching_lines</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found matching file: </span><span class="si">{</span><span class="n">mkv_file</span><span class="si">}</span><span class="s2"> -&gt;</span><span class="si">{</span><span class="n">reference</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">new_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">,</span> <span class="n">reference</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">new_filename</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Renaming </span><span class="si">{</span><span class="n">mkv_file</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">new_filename</span><span class="si">}</span><span class="s2"> already exists, skipping&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2024, J Sakkos.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

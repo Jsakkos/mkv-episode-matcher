@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>mkv_episode_matcher.mkv_to_srt &mdash; MKV Episode Matcher 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MKV Episode Matcher
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MKV Episode Matcher</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mkv_episode_matcher.mkv_to_srt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mkv_episode_matcher.mkv_to_srt</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1"># Get the absolute path of the parent directory of the current script.</span>
+<span class="n">parent_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+<span class="c1"># Add the parent directory to the Python path.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">)</span>
+<span class="c1"># Add the &#39;libraries&#39; directory to the Python path.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">,</span> <span class="s2">&quot;libraries&quot;</span><span class="p">))</span>
+<span class="c1"># Add the &#39;libraries&#39; directory to the Python path.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;libraries&quot;</span><span class="p">,</span> <span class="s2">&quot;pgs2srt&quot;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">pytesseract</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageOps</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.__main__</span> <span class="kn">import</span> <span class="n">CONFIG_FILE</span>
+<span class="kn">from</span> <span class="nn">mkv_episode_matcher.config</span> <span class="kn">import</span> <span class="n">get_config</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span> <span class="nn">pgsreader</span> <span class="kn">import</span> <span class="n">PGSReader</span>
+<span class="kn">from</span> <span class="nn">imagemaker</span> <span class="kn">import</span> <span class="n">make_image</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="convert_mkv_to_sup"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_sup">[docs]</a><span class="k">def</span> <span class="nf">convert_mkv_to_sup</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an .mkv file to a .sup file using FFmpeg and pgs2srt.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mkv_file (str): Path to the .mkv file.</span>
+<span class="sd">        output_dir (str): Path to the directory where the .sup file will be saved.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Path to the converted .sup file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the base name of the .mkv file without the extension</span>
+    <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Construct the output .sup file path</span>
+    <span class="n">sup_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_name</span><span class="si">}</span><span class="s2">.sup&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sup_file</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">mkv_file</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">sup_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># FFmpeg command to convert .mkv to .sup</span>
+        <span class="n">ffmpeg_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ffmpeg&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="n">mkv_file</span><span class="p">,</span> <span class="s2">&quot;-map&quot;</span><span class="p">,</span> <span class="s2">&quot;0:s:0&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;copy&quot;</span><span class="p">,</span> <span class="n">sup_file</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ffmpeg_cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted </span><span class="si">{</span><span class="n">mkv_file</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">sup_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error converting </span><span class="si">{</span><span class="n">mkv_file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">sup_file</span><span class="si">}</span><span class="s2"> already exists, skipping&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sup_file</span></div>
+
+
+<div class="viewcode-block" id="perform_ocr"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.mkv_to_srt.perform_ocr">[docs]</a><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
+<span class="k">def</span> <span class="nf">perform_ocr</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform OCR on a .sup file and save the extracted text to a .srt file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sup_file_path (str): Path to the .sup file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get the base name of the .sup file without the extension</span>
+    <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performing OCR on </span><span class="si">{</span><span class="n">sup_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Construct the output .srt file path</span>
+    <span class="n">srt_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_name</span><span class="si">}</span><span class="s2">.srt&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load a PGS/SUP file.</span>
+    <span class="n">pgs</span> <span class="o">=</span> <span class="n">PGSReader</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">)</span>
+
+    <span class="c1"># Set index</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Complete subtitle track index</span>
+    <span class="n">si</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">tesseract_lang</span> <span class="o">=</span> <span class="s2">&quot;eng&quot;</span>
+    <span class="n">tesseract_config</span> <span class="o">=</span> <span class="s2">&quot;-c tessedit_char_blacklist=[] --psm 6 --oem </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
+    <span class="n">tesseract_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tesseract_path&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting Teesseract Path to </span><span class="si">{</span><span class="n">tesseract_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pytesseract</span><span class="o">.</span><span class="n">pytesseract</span><span class="o">.</span><span class="n">tesseract_cmd</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tesseract_path</span><span class="p">)</span>
+
+    <span class="c1"># SubRip output</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">srt_file</span><span class="p">):</span>
+        <span class="c1"># Iterate the pgs generator</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">pgs</span><span class="o">.</span><span class="n">iter_displaysets</span><span class="p">():</span>
+            <span class="c1"># If set has image, parse the image</span>
+            <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">has_image</span><span class="p">:</span>
+                <span class="c1"># Get Palette Display Segment</span>
+                <span class="n">pds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">pds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># Get Object Display Segment</span>
+                <span class="n">ods</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">ods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">pds</span> <span class="ow">and</span> <span class="n">ods</span><span class="p">:</span>
+                    <span class="c1"># Create and show the bitmap image and convert it to RGBA</span>
+                    <span class="n">src</span> <span class="o">=</span> <span class="n">make_image</span><span class="p">(</span><span class="n">ods</span><span class="p">,</span> <span class="n">pds</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGBA&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Create grayscale image with black background</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="s2">&quot;BLACK&quot;</span><span class="p">)</span>
+                    <span class="c1"># Paste the subtitle bitmap</span>
+                    <span class="n">img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">src</span><span class="p">)</span>
+                    <span class="c1"># Invert images so the text is readable by Tesseract</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">ImageOps</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+                    <span class="c1"># Parse the image with tesesract</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span>
+                        <span class="n">img</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="n">tesseract_lang</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">tesseract_config</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                    <span class="c1"># Replace &quot;|&quot; with &quot;I&quot;</span>
+                    <span class="c1"># Works better than blacklisting &quot;|&quot; in Tesseract,</span>
+                    <span class="c1"># which results in I becoming &quot;!&quot; &quot;i&quot; and &quot;1&quot;</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[|/</span><span class="se">\\</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[_]&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ods</span><span class="o">.</span><span class="n">presentation_timestamp</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Get Presentation Composition Segment</span>
+                <span class="n">pcs</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">pcs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">pcs</span><span class="p">:</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">pcs</span><span class="o">.</span><span class="n">presentation_timestamp</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                    <span class="p">):</span>
+                        <span class="n">si</span> <span class="o">=</span> <span class="n">si</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">sub_output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">si</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="n">sub_output</span> <span class="o">+=</span> <span class="p">(</span>
+                            <span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S,</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="s2">&quot; --&gt; &quot;</span>
+                            <span class="o">+</span> <span class="n">end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S,</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                        <span class="n">sub_output</span> <span class="o">+=</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+
+                        <span class="n">output</span> <span class="o">+=</span> <span class="n">sub_output</span>
+                        <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">=</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">srt_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved to: </span><span class="si">{</span><span class="n">srt_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convert_mkv_to_srt"><a class="viewcode-back" href="../../mkv_episode_matcher.html#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_srt">[docs]</a><span class="k">def</span> <span class="nf">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts MKV files to SRT format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        season_path (str): The path to the season directory.</span>
+<span class="sd">        mkv_files (list): List of MKV files to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mkv_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> files to SRT&quot;</span><span class="p">)</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="s2">&quot;ocr&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sup_files</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">mkv_file</span> <span class="ow">in</span> <span class="n">mkv_files</span><span class="p">:</span>
+        <span class="n">sup_file</span> <span class="o">=</span> <span class="n">convert_mkv_to_sup</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">sup_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sup_file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sup_file</span> <span class="ow">in</span> <span class="n">sup_files</span><span class="p">:</span>
+            <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">perform_ocr</span><span class="p">,</span> <span class="n">sup_file</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2024, J Sakkos.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

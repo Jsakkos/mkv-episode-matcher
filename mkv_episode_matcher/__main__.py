@@ -5,29 +5,7 @@ from loguru import logger
 from .config import set_config, get_config
 
 
-# # Check if logs directory exists, if not create it
-# if not os.path.exists('./logs'):
-#     os.mkdir('./logs')
 
-# Add a new handler for stdout logs
-# logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
-
-# Add a new handler for error logs
-# logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")
-
-# Check if the configuration directory exists, if not create it
-if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
-    os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
-
-# Define the paths for the configuration file and cache directory
-CONFIG_FILE = os.path.join(
-    os.path.expanduser("~"), ".mkv-episode-matcher", "config.ini"
-)
-CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "cache")
-
-# Check if the cache directory exists, if not create it
-if not os.path.exists(CACHE_DIR):
-    os.makedirs(CACHE_DIR)
 
 
 @logger.catch
@@ -51,7 +29,29 @@ def main():
 
     # Log the start of the application
     logger.info("Starting the application")
+# Check if logs directory exists, if not create it
+if not os.path.exists('./logs'):
+    os.mkdir('./logs')
 
+# Add a new handler for stdout logs
+logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
+
+# Add a new handler for error logs
+logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")
+
+# Check if the configuration directory exists, if not create it
+if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
+    os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
+
+# Define the paths for the configuration file and cache directory
+CONFIG_FILE = os.path.join(
+    os.path.expanduser("~"), ".mkv-episode-matcher", "config.ini"
+)
+CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "cache")
+
+# Check if the cache directory exists, if not create it
+if not os.path.exists(CACHE_DIR):
+    os.makedirs(CACHE_DIR)
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")
     parser.add_argument("--tmdb-api-key", help="TMDb API key")

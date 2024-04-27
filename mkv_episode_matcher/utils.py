@@ -190,7 +190,7 @@ def get_subtitles(show_id, seasons: Set[int]):
                         r"\W+", " ", subtitle_dict["file_name"]
                     ).upper()
                     if f"E{episode:02d}" in filename_clean:
-                        logger.info(f'Original filename: {subtitle_dict['file_name']}')
+                        logger.info(f"Original filename: {subtitle_dict['file_name']}")
                         srt_file = subtitles.download_and_save(subtitle)
                         series_name = series_name.replace(":", " -")
                         shutil.move(srt_file, srt_filepath)

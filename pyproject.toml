@@ -17,6 +17,9 @@ opensubtitlescom = "^0.1.4"
 ruff = "^0.4.2"
 Sphinx = "^7.3.7"
 
+[tool.poetry.scripts]
+mkv = "mkv_episode_matcher:main"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
