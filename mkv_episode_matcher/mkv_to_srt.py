@@ -1,6 +1,5 @@
 import os
 import subprocess
-
 import sys
 
 # Get the absolute path of the parent directory of the current script.
@@ -12,16 +11,18 @@ sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "libraries"))
 # Add the 'libraries' directory to the Python path.
 sys.path.append(os.path.join(parent_dir, "..", "libraries", "pgs2srt"))
-import pytesseract
 import re
-from PIL import Image, ImageOps
-from mkv_episode_matcher.__main__ import CONFIG_FILE
-from mkv_episode_matcher.config import get_config
-from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
-from pgsreader import PGSReader
+from datetime import datetime, timedelta
+
+import pytesseract
 from imagemaker import make_image
 from loguru import logger
+from pgsreader import PGSReader
+from PIL import Image, ImageOps
+
+from mkv_episode_matcher.__main__ import CONFIG_FILE
+from mkv_episode_matcher.config import get_config
 
 
 def convert_mkv_to_sup(mkv_file, output_dir):
@@ -80,7 +81,7 @@ def perform_ocr(sup_file_path):
     si = 0
 
     tesseract_lang = "eng"
-    tesseract_config = "-c tessedit_char_blacklist=[] --psm 6 --oem {}".format(1)
+    tesseract_config = f"-c tessedit_char_blacklist=[] --psm 6 --oem {1}"
 
     config = get_config(CONFIG_FILE)
     tesseract_path = config.get("tesseract_path")

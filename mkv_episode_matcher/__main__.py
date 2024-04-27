@@ -1,34 +1,11 @@
 # __main__.py
 import argparse
 import os
+
 from loguru import logger
-from .config import set_config, get_config
 
+from .config import get_config, set_config
 
-
-
-
-@logger.catch
-def main():
-    """
-    Entry point of the application.
-
-    This function is responsible for starting the application, parsing command-line arguments,
-    setting the configuration, and processing the show.
-
-    Command-line arguments:
-    --tmdb-api-key: The API key for the TMDb API. If not provided, the function will try to get it from the cache or prompt the user to input it.
-    --show-dir: The main directory of the show. If not provided, the function will prompt the user to input it.
-    --season: The season number to be processed. If not provided, all seasons will be processed.
-    --dry-run: A boolean flag indicating whether to perform a dry run (i.e., not rename any files). If not provided, the function will rename files.
-    --get-subs: A boolean flag indicating whether to download subtitles for the show. If not provided, the function will not download subtitles.
-    --tesseract-path: The path to the tesseract executable. If not provided, the function will try to get it from the cache or prompt the user to input it.
-
-    The function logs its progress to two separate log files: one for standard output and one for errors.
-    """
-
-    # Log the start of the application
-    logger.info("Starting the application")
 # Check if logs directory exists, if not create it
 if not os.path.exists('./logs'):
     os.mkdir('./logs')
@@ -52,6 +29,30 @@ CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "cache
 # Check if the cache directory exists, if not create it
 if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
+
+
+@logger.catch
+def main():
+    """
+    Entry point of the application.
+
+    This function is responsible for starting the application, parsing command-line arguments,
+    setting the configuration, and processing the show.
+
+    Command-line arguments:
+    --tmdb-api-key: The API key for the TMDb API. If not provided, the function will try to get it from the cache or prompt the user to input it.
+    --show-dir: The main directory of the show. If not provided, the function will prompt the user to input it.
+    --season: The season number to be processed. If not provided, all seasons will be processed.
+    --dry-run: A boolean flag indicating whether to perform a dry run (i.e., not rename any files). If not provided, the function will rename files.
+    --get-subs: A boolean flag indicating whether to download subtitles for the show. If not provided, the function will not download subtitles.
+    --tesseract-path: The path to the tesseract executable. If not provided, the function will try to get it from the cache or prompt the user to input it.
+
+    The function logs its progress to two separate log files: one for standard output and one for errors.
+    """
+
+    # Log the start of the application
+    logger.info("Starting the application")
+
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")
     parser.add_argument("--tmdb-api-key", help="TMDb API key")

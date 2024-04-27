@@ -1,14 +1,16 @@
 # utils.py
 import os
-from typing import Set
-from loguru import logger
 import re
-from mkv_episode_matcher.__main__ import CONFIG_FILE, CACHE_DIR
+import shutil
+from typing import Set
+
+import requests
+from loguru import logger
+from opensubtitlescom import OpenSubtitles
+
+from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.tmdb_client import fetch_season_details
-import requests
-from opensubtitlescom import OpenSubtitles
-import shutil
 
 
 def check_filename(filename, series_title, season_number, episode_number):
@@ -199,7 +201,7 @@ def get_subtitles(show_id, seasons: Set[int]):
                     else:
                         continue
             else:
-                print(
+                logger.info(
                     f"Subtitle already exists for {series_name} - S{season:02d}E{episode:02d}"
                 )
                 continue

@@ -1,25 +1,54 @@
-[tool.poetry]
+[project]
 name = "mkv-episode-matcher"
-version = "0.1.0"
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
-authors = ["Jsakkos <jonathansakkos@protonmail.com>"]
+authors = [
+  { name="Jonathan Sakkos", email="jonathansakkos@protonmail.com" },
+]
 readme = "README.md"
+dynamic = ["version"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-loguru = "^0.7.2"
-pytesseract = "^0.3.10"
-pillow = "^10.3.0"
-requests = "^2.31.0"
-opensubtitlescom = "^0.1.4"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.4.2"
-Sphinx = "^7.3.7"
-
-[tool.poetry.scripts]
-mkv = "mkv_episode_matcher:main"
-
+requires-python = ">=3.8"
+license = "MIT"
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling",
+  "requests",
+    "loguru",
+    "pillow",
+    "imagehash",
+    "configparser",
+    "tmdb_client",
+    "pytesseract",
+    "opensubtitlescom",
+]
+build-backend = "hatchling.build"
+dependencies = [
+  "requests",
+    "loguru",
+    "pillow",
+    "imagehash",
+    "configparser",
+    "tmdb_client",
+    "pytesseract",
+    "opensubtitlescom",
+]
+[tool]
+
+[project.scripts]
+mkv-match = "mkv_episode_matcher:__main__"
+
+[tool.ruff.format]
+preview = true
+quote-style = "single"
+
+[tool.ruff.lint]
+preview = true
+extend-select = ["C901"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"docs/.hooks/*" = ["INP001", "T201"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["foo", "bar"]
+
+[tool.hatch.version]
+path = "mkv_episode_matcher/__init__.py"

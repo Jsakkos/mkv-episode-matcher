@@ -25,19 +25,8 @@ python __main__.py --api-key `your-api-key` --show-dir /path/to/show
 
 ## How it works
 
-MKV Episode Matcher compares reference images from TMDb with frames from the mkv content using image hashing. 
+MKV Episode Matcher extracts the subtitle text from each MKV file, then crossreferences the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com
 
-## Caveats (WIP)
-
-Currently, MKV Episode Matcher is slow (several minutes per episode), CPU intensive, and error-prone.
-
-# Known issues
-
-When reading BluRay files, the following warning pops up in the terminal:
-```
-Could not find codec parameters for stream 3 (Subtitle: hdmv_pgs_subtitle (pgssub)): unspecified size
-Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
-```
 
 # Contributing
 
@@ -56,7 +45,27 @@ Thank you for your contribution!
 
 # License
 
-This project is licensed under the [Creative Commons Attribution-NonCommercial (CC BY-NC) license](https://creativecommons.org/licenses/by-nc/4.0/).
+MIT License
+
+Copyright (c) 2024 Jonathan Sakkos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 # Acknowledgments
 This product uses the TMDB API but is not endorsed or certified by TMDB.

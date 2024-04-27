@@ -1,12 +1,14 @@
 # episode_matcher.py
 import os
-from mkv_episode_matcher.config import get_config
-from mkv_episode_matcher.tmdb_client import fetch_show_id
-from mkv_episode_matcher.utils import get_subtitles, cleanup_ocr_files,check_filename
-from loguru import logger
-from mkv_episode_matcher.__main__ import CONFIG_FILE, CACHE_DIR
-from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
 import re
+
+from loguru import logger
+
+from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
+from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
+from mkv_episode_matcher.tmdb_client import fetch_show_id
+from mkv_episode_matcher.utils import check_filename, cleanup_ocr_files, get_subtitles
 
 
 # hash_data = {}
@@ -98,7 +100,7 @@ def extract_srt_text(filepath):
               Each inner list contains the lines of text for that block.
     """
     # extract the text from the file
-    with open(filepath, "r") as f:
+    with open(filepath) as f:
         filepath = f.read()
     text_lines = [
         filepath.split("\n\n")[i].split("\n")[2:]
@@ -172,7 +174,7 @@ def process_reference_srt_files(series_name):
         for filename in filenames:
             if filename.lower().endswith(".srt"):
                 srt_file = os.path.join(dirpath, filename)
-                print(f"Processing {srt_file}")
+                logger.info(f"Processing {srt_file}")
                 srt_text = extract_srt_text(srt_file)
                 season, episode = extract_season_episode(filename)
                 mkv_filename = f"{series_name} - S{season:02}E{episode:02}.mkv"
@@ -195,7 +197,7 @@ def process_srt_files(show_dir):
         for filename in filenames:
             if filename.lower().endswith(".srt"):
                 srt_file = os.path.join(dirpath, filename)
-                print(f"Processing {srt_file}")
+                logger.info(f"Processing {srt_file}")
                 srt_text = extract_srt_text(srt_file)
                 srt_files[srt_file] = srt_text
     return srt_files

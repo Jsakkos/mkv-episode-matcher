@@ -1,10 +1,12 @@
 # tmdb_client.py
+import time
+from threading import Lock
+
 import requests
 from loguru import logger
-from mkv_episode_matcher.config import get_config
+
 from mkv_episode_matcher.__main__ import CONFIG_FILE
-from threading import Lock
-import time
+from mkv_episode_matcher.config import get_config
 
 BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
 
