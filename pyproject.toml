@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "mkv-episode-matcher"
+version = "0.1.0"
+description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
+authors = ["Jsakkos <jonathansakkos@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+loguru = "^0.7.2"
+pytesseract = "^0.3.10"
+pillow = "^10.3.0"
+requests = "^2.31.0"
+opensubtitlescom = "^0.1.4"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.2"
+Sphinx = "^7.3.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

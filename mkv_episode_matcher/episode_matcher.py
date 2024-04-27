@@ -64,6 +64,9 @@ def process_show(season=None, dry_run=False, get_subs=False):
         if check_filename(f):
             logger.info(f"Skipping {f}, already processed")
             mkv_files.remove(f)
+    if len(mkv_files) == 0:
+        logger.info("No new files to process")
+        return
     convert_mkv_to_srt(season_path, mkv_files)
     reference_text_dict = process_reference_srt_files(show_name)
     srt_text_dict = process_srt_files(show_dir)
@@ -84,6 +87,16 @@ def check_filename(filename):
     match = re.match(r".*S\d+E\d+", filename)
     return bool(match)
 def extract_srt_text(filepath):
+    """
+    Extracts the text from an SRT file.
+
+    Args:
+        filepath (str): The path to the SRT file.
+
+    Returns:
+        list: A list of lists, where each inner list represents a block of text from the SRT file.
+              Each inner list contains the lines of text for that block.
+    """
     # extract the text from the file
     with open(filepath, "r") as f:
         filepath = f.read()
@@ -143,6 +156,16 @@ def extract_season_episode(filename):
 
 
 def process_reference_srt_files(series_name):
+    """
+    Process reference SRT files for a given series.
+
+    Args:
+        series_name (str): The name of the series.
+
+    Returns:
+        dict: A dictionary containing the reference files where the keys are the MKV filenames
+              and the values are the corresponding SRT texts.
+    """
     reference_files = {}
     reference_dir = os.path.join(CACHE_DIR, "data", series_name)
     for dirpath, _, filenames in os.walk(reference_dir):
@@ -158,6 +181,15 @@ def process_reference_srt_files(series_name):
 
 
 def process_srt_files(show_dir):
+    """
+    Process all SRT files in the given directory and its subdirectories.
+
+    Args:
+        show_dir (str): The directory path where the SRT files are located.
+
+    Returns:
+        dict: A dictionary containing the SRT file paths as keys and their corresponding text content as values.
+    """
     srt_files = {}
     for dirpath, _, filenames in os.walk(show_dir):
         for filename in filenames:
@@ -170,6 +202,14 @@ def process_srt_files(show_dir):
 
 
 def compare_and_rename_files(srt_files, reference_files, dry_run=False):
+    """
+    Compare the srt files with the reference files and rename the matching mkv files.
+
+    Args:
+        srt_files (dict): A dictionary containing the srt files as keys and their contents as values.
+        reference_files (dict): A dictionary containing the reference files as keys and their contents as values.
+        dry_run (bool, optional): If True, the function will only log the renaming actions without actually renaming the files. Defaults to False.
+    """
     logger.info(
         f"Comparing {len(srt_files)} srt files with {len(reference_files)} reference files"
     )
