@@ -4,4 +4,5 @@ pillow
 imagehash
 configparser
 tmdb_client
-imageio
+pytesseract
+opensubtitlescom

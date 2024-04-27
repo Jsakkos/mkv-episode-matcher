@@ -8,7 +8,8 @@ To use the MKV Episode Matcher, follow these steps:
 
 1. Clone this repository `git clone https://github.com/Jsakkos/mkv-episode-matcher`
 1. Obtain an API key from TMDb (https://developers.themoviedb.org/authentication/getting-a-apikey).
-1. Provide a filepath to your show directory. This is the main directory that contains all of the episodes for a specific show.
+2. (Optional) - Obtain an API key from Opensubtitles.com by creating an API consumer (https://www.opensubtitles.com/en/consumers)
+3. Provide a filepath to your show directory. This is the main directory that contains all of the episodes for a specific show.
 The directory and subfolders must be arranged in the following structure:
 
 - Show name

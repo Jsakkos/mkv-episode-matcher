@@ -1,19 +1,13 @@
 # tmdb_client.py
 import requests
 from loguru import logger
-import os 
-from concurrent.futures import ThreadPoolExecutor
 from mkv_episode_matcher.config import get_config
-from mkv_episode_matcher.__main__ import CONFIG_FILE,CACHE_DIR
+from mkv_episode_matcher.__main__ import CONFIG_FILE
 from threading import Lock
 import time
-from io import BytesIO
-from PIL import Image
-import imagehash
-from imagehash import ImageHash
-import numpy as np
-import cv2
+
 BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
+
 
 class RateLimitedRequest:
     """
@@ -57,8 +51,10 @@ class RateLimitedRequest:
         response = requests.get(url)
         return response
 
+
 # Initialize rate-limited request
 rate_limited_request = RateLimitedRequest(rate_limit=30, period=1)
+
 
 def fetch_show_id(show_name):
     """
@@ -80,6 +76,7 @@ def fetch_show_id(show_name):
             return str(results[0]["id"])
     return None
 
+
 def fetch_season_details(show_id, season_number):
     """
     Fetch the total number of episodes for a given show and season from the TMDb API.
@@ -99,21 +96,37 @@ def fetch_season_details(show_id, season_number):
         response = requests.get(url)
         response.raise_for_status()
         season_data = response.json()
-        total_episodes = len(season_data.get('episodes', []))
+        total_episodes = len(season_data.get("episodes", []))
         return total_episodes
     except requests.exceptions.RequestException as e:
         logger.error(f"Failed to fetch season details for Season {season_number}: {e}")
         return 0
     except KeyError:
-        logger.error(f"Missing 'episodes' key in response JSON data for Season {season_number}")
+        logger.error(
+            f"Missing 'episodes' key in response JSON data for Season {season_number}"
+        )
         return 0
+
+
 def get_number_of_seasons(show_id):
+    """
+    Retrieves the number of seasons for a given TV show from the TMDB API.
+
+    Parameters:
+    - show_id (int): The ID of the TV show.
+
+    Returns:
+    - num_seasons (int): The number of seasons for the TV show.
+
+    Raises:
+    - requests.HTTPError: If there is an error while making the API request.
+    """
     config = get_config(CONFIG_FILE)
     tmdb_api_key = config.get("tmdb_api_key")
     url = f"https://api.themoviedb.org/3/tv/{show_id}?api_key={tmdb_api_key}"
     response = requests.get(url)
     response.raise_for_status()
     show_data = response.json()
-    num_seasons = show_data.get('number_of_seasons', 0)
+    num_seasons = show_data.get("number_of_seasons", 0)
     logger.info(f"Found {num_seasons} seasons")
     return num_seasons
