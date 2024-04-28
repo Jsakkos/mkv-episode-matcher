@@ -1,36 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "mkv-episode-matcher"
-description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
-authors = [
-  { name="Jonathan Sakkos", email="jonathansakkos@protonmail.com" },
-]
-readme = "README.md"
 dynamic = ["version"]
-
+description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
+readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
-[build-system]
-requires = ["hatchling",
-  "requests",
-    "loguru",
-    "pillow",
-    "imagehash",
-    "configparser",
-    "tmdb_client",
-    "pytesseract",
-    "opensubtitlescom",
+keywords = []
+authors = [
+  { name = "Jsakkos", email = "jonathansakkos@protonmail.com" },
 ]
-build-backend = "hatchling.build"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+
 dependencies = [
   "requests",
-    "loguru",
-    "pillow",
-    "imagehash",
-    "configparser",
-    "tmdb_client",
-    "pytesseract",
-    "opensubtitlescom",
+  "loguru",
+  "pillow",
+  "configparser",
+  "tmdb_client",
+  "pytesseract",
+  "opensubtitlescom",
 ]
+
+[project.urls]
+Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
+Issues = "https://github.com/Jsakkos/mkv-episode-matcher/issues"
+Source = "https://github.com/Jsakkos/mkv-episode-matcher"
 [tool]
 
 [project.scripts]
@@ -52,3 +61,49 @@ known-first-party = ["foo", "bar"]
 
 [tool.hatch.version]
 path = "mkv_episode_matcher/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:mkv-episode-matcher/mkv_episode_matcher tests}"
+
+[tool.coverage.run]
+source_pkgs = ["mkv_episode_matcher", "tests"]
+branch = true
+parallel = true
+omit = [
+  "mkv-episode-matcher/mkv_episode_matcher/__init__.py",
+]
+
+[tool.coverage.paths]
+calcy = ["mkv-episode-matcher/mkv_episode_matcher", "*/mkv-episode-matcher/mkv_episode_matcher"]
+tests = ["tests", "*/mkv_episode_matcher/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
