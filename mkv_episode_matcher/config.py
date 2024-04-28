@@ -14,6 +14,8 @@ def get_total_threads():
 
 total_threads = get_total_threads()
 
+if MAX_THREADS > total_threads:
+    MAX_THREADS = total_threads
 logger.info(f"Total available threads: {total_threads} -> Setting max to {MAX_THREADS}")
 
 

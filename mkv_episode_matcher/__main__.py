@@ -6,6 +6,9 @@ from loguru import logger
 
 from .config import get_config, set_config
 
+# Log the start of the application
+logger.info("Starting the application")
+
 # Check if logs directory exists, if not create it
 if not os.path.exists('./logs'):
     os.mkdir('./logs')
@@ -50,8 +53,6 @@ def main():
     The function logs its progress to two separate log files: one for standard output and one for errors.
     """
 
-    # Log the start of the application
-    logger.info("Starting the application")
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")

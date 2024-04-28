@@ -43,7 +43,7 @@ Source = "https://github.com/Jsakkos/mkv-episode-matcher"
 [tool]
 
 [project.scripts]
-mkv-match = "mkv_episode_matcher:__main__"
+mkv-match = "mkv_episode_matcher.__main__:main"
 
 [tool.ruff.format]
 preview = true
