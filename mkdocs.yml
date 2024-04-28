@@ -1,0 +1,6 @@
+site_name: MKV Episode Matcher Docs
+site_url: https://jsakkos.github.io/mkv-episode-matcher
+theme:
+  name: material
+repo_url: https://github.com/jsakkos/mkv-episode-matcher
+repo_name: jsakkos/mkv-episode-matcher
