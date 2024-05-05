@@ -4,13 +4,8 @@ import sys
 
 # Get the absolute path of the parent directory of the current script.
 parent_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Add the parent directory to the Python path.
-sys.path.append(parent_dir)
-# Add the 'libraries' directory to the Python path.
-sys.path.append(os.path.join(parent_dir, "libraries"))
-# Add the 'libraries' directory to the Python path.
-sys.path.append(os.path.join(parent_dir, "..", "libraries", "pgs2srt"))
+# Add the 'pgs2srt' directory to the Python path.
+sys.path.append(os.path.join(parent_dir, "libraries", "pgs2srt"))
 import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta

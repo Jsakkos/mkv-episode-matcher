@@ -9,15 +9,7 @@ from .config import get_config, set_config
 # Log the start of the application
 logger.info("Starting the application")
 
-# Check if logs directory exists, if not create it
-if not os.path.exists('./logs'):
-    os.mkdir('./logs')
 
-# Add a new handler for stdout logs
-logger.add("./logs/file_stdout.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
-
-# Add a new handler for error logs
-logger.add("./logs/file_errors.log", level="ERROR", rotation="10 MB")
 
 # Check if the configuration directory exists, if not create it
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
@@ -33,6 +25,16 @@ CACHE_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "cache
 if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
 
+# Check if logs directory exists, if not create it
+log_dir = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "logs")
+if not os.path.exists(log_dir):
+    os.mkdir(log_dir)
+
+# Add a new handler for stdout logs
+logger.add(os.path.join(log_dir,"stdout.log"), format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
+
+# Add a new handler for error logs
+logger.add(os.path.join(log_dir,"stderr.log"), level="ERROR", rotation="10 MB")
 
 @logger.catch
 def main():

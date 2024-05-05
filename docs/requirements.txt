@@ -1,0 +1,10 @@
+requests
+loguru
+pillow
+configparser
+tmdb_client
+pytesseract
+opensubtitlescom
+sphinx_rtd_theme
+sphinx
+sphinx_autodoc_typehints

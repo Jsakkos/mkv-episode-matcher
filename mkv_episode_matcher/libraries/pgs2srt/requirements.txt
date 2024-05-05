@@ -1,0 +1,4 @@
+pytesseract==0.3.7
+numpy==1.19.4
+Pillow==8.2.0
+tld~=0.12.3
