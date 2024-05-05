@@ -1,16 +1,18 @@
 Welcome to MKV Episode Matcher's documentation!
 ===============================================
 
+
+.. toctree::
+   :maxdepth: 2
+   
+   readme
+
 .. automodule:: mkv_episode_matcher.__main__
     :members:
 
 .. automodule:: mkv_episode_matcher.config
     :members:
     
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
 
 
 Indices and tables

@@ -1,6 +1,6 @@
-==================
+===================
 MKV Episode Matcher
-==================
+===================
 
 |docs|  |pypi|
 
@@ -16,6 +16,7 @@ To use the MKV Episode Matcher, follow these steps:
 3. (Optional) - Obtain an API key from Opensubtitles.com by creating an API consumer (https://www.opensubtitles.com/en/consumers)
 4. Alternatively, add the .srt files to the cache directory. On Windows: ``C:\Users\YOUR_USER_NAME\.mkv-episode-matcher\cache\data\SHOW_NAME``. The files need to be named with the season and episode, e.g. ``Show Name - S01E01.srt``.
 5. Provide a filepath to your show directory. This is the main directory that contains all of the episodes for a specific show.
+
 The directory and subfolders must be arranged in the following structure:
 
 - Show name
@@ -23,6 +24,7 @@ The directory and subfolders must be arranged in the following structure:
   - Season 2
   - ...
   - Season n
+  
 6. Call ``mkv-match`` with the TMDB_API_KEY and SHOW_DIR as arguments or in environment variables from your command line:
 
 .. code-block:: bash
@@ -85,6 +87,5 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 .. |docs| image:: https://readthedocs.org/projects/mkv-episode-matcher/badge/?version=latest
         :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
 .. |pypi| image:: https://badge.fury.io/py/mkv-episode-matcher.svg
         :target: https://badge.fury.io/py/mkv-episode-matcher
