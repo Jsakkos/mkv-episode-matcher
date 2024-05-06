@@ -19,7 +19,7 @@ release = '0.1.5'
 extensions = ['sphinx.ext.napoleon',    'sphinx.ext.doctest',
     'sphinx.ext.autodoc',   'sphinx.ext.autosummary','sphinx.ext.coverage']
 
-napoleon_google_docstring = False
+napoleon_google_docstring = True
 napoleon_use_param = False
 napoleon_use_ivar = True
 

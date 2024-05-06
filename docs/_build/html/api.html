@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MKV Episode Matcher API Documentation &mdash; MKV Episode Matcher 0.1.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=59fadc99"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="MKV Episode Matcher" href="readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MKV Episode Matcher
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">MKV Episode Matcher</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MKV Episode Matcher API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.__main__">CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.__main__.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.utils">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.utils.check_filename"><code class="docutils literal notranslate"><span class="pre">check_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.utils.cleanup_ocr_files"><code class="docutils literal notranslate"><span class="pre">cleanup_ocr_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.utils.get_subtitles"><code class="docutils literal notranslate"><span class="pre">get_subtitles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.utils.rename_episode_file"><code class="docutils literal notranslate"><span class="pre">rename_episode_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.utils.scramble_filename"><code class="docutils literal notranslate"><span class="pre">scramble_filename()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.tmdb_client">TMDB Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.RateLimitedRequest"><code class="docutils literal notranslate"><span class="pre">RateLimitedRequest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.RateLimitedRequest.get"><code class="docutils literal notranslate"><span class="pre">RateLimitedRequest.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.fetch_season_details"><code class="docutils literal notranslate"><span class="pre">fetch_season_details()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.fetch_show_id"><code class="docutils literal notranslate"><span class="pre">fetch_show_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.get_number_of_seasons"><code class="docutils literal notranslate"><span class="pre">get_number_of_seasons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.tmdb_client.get_episode_info"><code class="docutils literal notranslate"><span class="pre">get_episode_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.mkv_to_srt">MKV Conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_srt"><code class="docutils literal notranslate"><span class="pre">convert_mkv_to_srt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_sup"><code class="docutils literal notranslate"><span class="pre">convert_mkv_to_sup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.mkv_to_srt.perform_ocr"><code class="docutils literal notranslate"><span class="pre">perform_ocr()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.episode_matcher">Episode Matching</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.check_filename"><code class="docutils literal notranslate"><span class="pre">check_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.compare_and_rename_files"><code class="docutils literal notranslate"><span class="pre">compare_and_rename_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.compare_text"><code class="docutils literal notranslate"><span class="pre">compare_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.extract_season_episode"><code class="docutils literal notranslate"><span class="pre">extract_season_episode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.extract_srt_text"><code class="docutils literal notranslate"><span class="pre">extract_srt_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.process_reference_srt_files"><code class="docutils literal notranslate"><span class="pre">process_reference_srt_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.process_show"><code class="docutils literal notranslate"><span class="pre">process_show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.episode_matcher.process_srt_files"><code class="docutils literal notranslate"><span class="pre">process_srt_files()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mkv_episode_matcher.config">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.config.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.config.get_total_threads"><code class="docutils literal notranslate"><span class="pre">get_total_threads()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mkv_episode_matcher.config.set_config"><code class="docutils literal notranslate"><span class="pre">set_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MKV Episode Matcher</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MKV Episode Matcher API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mkv-episode-matcher-api-documentation">
+<h1>MKV Episode Matcher API Documentation<a class="headerlink" href="#mkv-episode-matcher-api-documentation" title="Link to this heading"></a></h1>
+<section id="module-mkv_episode_matcher.__main__">
+<span id="cli"></span><h2>CLI<a class="headerlink" href="#module-mkv_episode_matcher.__main__" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.__main__.main">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.__main__.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.__main__.main" title="Link to this definition"></a></dt>
+<dd><p>Entry point of the application.</p>
+<p>This function is responsible for starting the application, parsing command-line arguments,
+setting the configuration, and processing the show.</p>
+<p>Command-line arguments:
+–tmdb-api-key: The API key for the TMDb API. If not provided, the function will try to get it from the cache or prompt the user to input it.
+–show-dir: The main directory of the show. If not provided, the function will prompt the user to input it.
+–season: The season number to be processed. If not provided, all seasons will be processed.
+–dry-run: A boolean flag indicating whether to perform a dry run (i.e., not rename any files). If not provided, the function will rename files.
+–get-subs: A boolean flag indicating whether to download subtitles for the show. If not provided, the function will not download subtitles.
+–tesseract-path: The path to the tesseract executable. If not provided, the function will try to get it from the cache or prompt the user to input it.</p>
+<p>The function logs its progress to two separate log files: one for standard output and one for errors.</p>
+</dd></dl>
+
+</section>
+<section id="module-mkv_episode_matcher.utils">
+<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-mkv_episode_matcher.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.utils.check_filename">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.utils.</span></span><span class="sig-name descname"><span class="pre">check_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode_number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.utils.check_filename" title="Link to this definition"></a></dt>
+<dd><p>Check if a filename matches the expected naming convention for a series episode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The filename to be checked.</p></li>
+<li><p><strong>series_title</strong> (<em>str</em>) – The title of the series.</p></li>
+<li><p><strong>season_number</strong> (<em>int</em>) – The season number of the episode.</p></li>
+<li><p><strong>episode_number</strong> (<em>int</em>) – The episode number of the episode.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the filename matches the expected naming convention, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>This function checks if the given filename matches the expected naming convention for a series episode.
+The expected naming convention is ‘{series_title} - S{season_number:02d}E{episode_number:02d}.mkv’.
+If the filename matches the expected pattern, it returns True; otherwise, it returns False.</p>
+<p class="rubric">Example</p>
+<p>If filename = ‘Example - S01E03.mkv’, series_title = ‘Example’, season_number = 1, and episode_number = 3,
+the function will return True because the filename matches the expected pattern.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.utils.cleanup_ocr_files">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.utils.</span></span><span class="sig-name descname"><span class="pre">cleanup_ocr_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.utils.cleanup_ocr_files" title="Link to this definition"></a></dt>
+<dd><p>Clean up OCR files generated during the episode matching process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>show_dir</strong> (<em>str</em>) – The directory containing the show files.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>This function cleans up the OCR files generated during the episode matching process.
+It deletes the ‘ocr’ directory and all its contents in each season directory of the show.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.utils.get_subtitles">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.utils.</span></span><span class="sig-name descname"><span class="pre">get_subtitles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.utils.get_subtitles" title="Link to this definition"></a></dt>
+<dd><p>Retrieves and saves subtitles for a given TV show and seasons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_id</strong> (<em>int</em>) – The ID of the TV show.</p></li>
+<li><p><strong>seasons</strong> (<em>Set[int]</em>) – A set of season numbers for which subtitles should be retrieved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.utils.rename_episode_file">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.utils.</span></span><span class="sig-name descname"><span class="pre">rename_episode_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode_number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.utils.rename_episode_file" title="Link to this definition"></a></dt>
+<dd><p>Rename an episode file with a standardized naming convention.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_file_path</strong> (<em>str</em>) – The original file path of the episode.</p></li>
+<li><p><strong>season_number</strong> (<em>int</em>) – The season number of the episode.</p></li>
+<li><p><strong>episode_number</strong> (<em>int</em>) – The episode number of the episode.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>This function renames an episode file with a standardized naming convention based on the series title, season number,
+and episode number. If a file with the intended new name already exists, it appends a numerical suffix to the filename
+until it finds a unique name.</p>
+<p class="rubric">Example</p>
+<p>If original_file_path = ‘/path/to/episode.mkv’, season_number = 1, and episode_number = 3, and the series title is ‘Example’,
+the function will rename the file to ‘Example - S01E03.mkv’ if no file with that name already exists. If a file with that
+name already exists, it will be renamed to ‘Example - S01E03_2.mkv’, and so on.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.utils.scramble_filename">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.utils.</span></span><span class="sig-name descname"><span class="pre">scramble_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.utils.scramble_filename" title="Link to this definition"></a></dt>
+<dd><p>Scrambles the filename of the given file path by adding the series title and file number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_file_path</strong> (<em>str</em>) – The original file path.</p></li>
+<li><p><strong>file_number</strong> (<em>int</em>) – The file number to be added to the filename.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mkv_episode_matcher.tmdb_client">
+<span id="tmdb-interface"></span><h2>TMDB Interface<a class="headerlink" href="#module-mkv_episode_matcher.tmdb_client" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.RateLimitedRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.tmdb_client.</span></span><span class="sig-name descname"><span class="pre">RateLimitedRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.RateLimitedRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that represents a rate-limited request object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rate_limit</strong> (<em>int</em>) – Maximum number of requests allowed per period.</p></li>
+<li><p><strong>period</strong> (<em>int</em>) – Period in seconds.</p></li>
+<li><p><strong>requests_made</strong> (<em>int</em>) – Counter for requests made.</p></li>
+<li><p><strong>start_time</strong> (<em>float</em>) – Start time of the current period.</p></li>
+<li><p><strong>lock</strong> (<em>Lock</em>) – Lock for synchronization.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.RateLimitedRequest.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.RateLimitedRequest.get" title="Link to this definition"></a></dt>
+<dd><p>Sends a rate-limited GET request to the specified URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – The URL to send the request to.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The response object returned by the request.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.fetch_season_details">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.tmdb_client.</span></span><span class="sig-name descname"><span class="pre">fetch_season_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season_number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.fetch_season_details" title="Link to this definition"></a></dt>
+<dd><p>Fetch the total number of episodes for a given show and season from the TMDb API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_id</strong> (<em>str</em>) – The ID of the show on TMDb.</p></li>
+<li><p><strong>season_number</strong> (<em>int</em>) – The season number to fetch details for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of episodes in the season, or 0 if the API request failed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.fetch_show_id">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.tmdb_client.</span></span><span class="sig-name descname"><span class="pre">fetch_show_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.fetch_show_id" title="Link to this definition"></a></dt>
+<dd><p>Fetch the TMDb ID for a given show name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>show_name</strong> (<em>str</em>) – The name of the show.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The TMDb ID of the show, or None if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.get_number_of_seasons">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.tmdb_client.</span></span><span class="sig-name descname"><span class="pre">get_number_of_seasons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.get_number_of_seasons" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the number of seasons for a given TV show from the TMDB API.</p>
+<p>Parameters:
+- show_id (int): The ID of the TV show.</p>
+<p>Returns:
+- num_seasons (int): The number of seasons for the TV show.</p>
+<p>Raises:
+- requests.HTTPError: If there is an error while making the API request.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.tmdb_client.get_episode_info">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.tmdb_client.</span></span><span class="sig-name descname"><span class="pre">get_episode_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.tmdb_client.get_episode_info" title="Link to this definition"></a></dt>
+<dd><p>Get episode information for a given show, season, and episode number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_name</strong> (<em>str</em>) – The name of the show.</p></li>
+<li><p><strong>season</strong> (<em>int</em>) – The season number.</p></li>
+<li><p><strong>episode</strong> (<em>int</em>) – The episode number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the episode information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mkv_episode_matcher.mkv_to_srt">
+<span id="mkv-conversion"></span><h2>MKV Conversion<a class="headerlink" href="#module-mkv_episode_matcher.mkv_to_srt" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.mkv_to_srt.convert_mkv_to_srt">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.mkv_to_srt.</span></span><span class="sig-name descname"><span class="pre">convert_mkv_to_srt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">season_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mkv_files</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_srt" title="Link to this definition"></a></dt>
+<dd><p>Converts MKV files to SRT format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>season_path</strong> (<em>str</em>) – The path to the season directory.</p></li>
+<li><p><strong>mkv_files</strong> (<em>list</em>) – List of MKV files to convert.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.mkv_to_srt.convert_mkv_to_sup">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.mkv_to_srt.</span></span><span class="sig-name descname"><span class="pre">convert_mkv_to_sup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkv_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.mkv_to_srt.convert_mkv_to_sup" title="Link to this definition"></a></dt>
+<dd><p>Convert an .mkv file to a .sup file using FFmpeg and pgs2srt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mkv_file</strong> (<em>str</em>) – Path to the .mkv file.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Path to the directory where the .sup file will be saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the converted .sup file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.mkv_to_srt.perform_ocr">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.mkv_to_srt.</span></span><span class="sig-name descname"><span class="pre">perform_ocr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sup_file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.mkv_to_srt.perform_ocr" title="Link to this definition"></a></dt>
+<dd><p>Perform OCR on a .sup file and save the extracted text to a .srt file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sup_file_path</strong> (<em>str</em>) – Path to the .sup file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mkv_episode_matcher.episode_matcher">
+<span id="episode-matching"></span><h2>Episode Matching<a class="headerlink" href="#module-mkv_episode_matcher.episode_matcher" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.check_filename">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">check_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.check_filename" title="Link to this definition"></a></dt>
+<dd><p>Check if the filename is in the correct format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The filename to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the filename is in the correct format, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.compare_and_rename_files">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">compare_and_rename_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srt_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.compare_and_rename_files" title="Link to this definition"></a></dt>
+<dd><p>Compare the srt files with the reference files and rename the matching mkv files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>srt_files</strong> (<em>dict</em>) – A dictionary containing the srt files as keys and their contents as values.</p></li>
+<li><p><strong>reference_files</strong> (<em>dict</em>) – A dictionary containing the reference files as keys and their contents as values.</p></li>
+<li><p><strong>dry_run</strong> (<em>bool, optional</em>) – If True, the function will only log the renaming actions without actually renaming the files. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.compare_text">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">compare_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.compare_text" title="Link to this definition"></a></dt>
+<dd><p>Compare two lists of text lines and return the number of matching lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text1</strong> (<em>list</em>) – List of text lines from the first source.</p></li>
+<li><p><strong>text2</strong> (<em>list</em>) – List of text lines from the second source.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of matching lines between the two sources.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.extract_season_episode">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">extract_season_episode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.extract_season_episode" title="Link to this definition"></a></dt>
+<dd><p>Extract the season and episode number from the filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The filename to extract the season and episode from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the season and episode number.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.extract_srt_text">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">extract_srt_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.extract_srt_text" title="Link to this definition"></a></dt>
+<dd><p>Extracts the text from an SRT file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to the SRT file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of lists, where each inner list represents a block of text from the SRT file.</dt><dd><p>Each inner list contains the lines of text for that block.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.process_reference_srt_files">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">process_reference_srt_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.process_reference_srt_files" title="Link to this definition"></a></dt>
+<dd><p>Process reference SRT files for a given series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>series_name</strong> (<em>str</em>) – The name of the series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the reference files where the keys are the MKV filenames</dt><dd><p>and the values are the corresponding SRT texts.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.process_show">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">process_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_subs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.process_show" title="Link to this definition"></a></dt>
+<dd><p>Process the show by downloading episode images and finding matching episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>season</strong> (<em>int, optional</em>) – The season number to process. If provided, only that season will be processed. Defaults to None.</p></li>
+<li><p><strong>force</strong> (<em>bool, optional</em>) – Whether to force re-processing of episodes even if they already exist. Defaults to False.</p></li>
+<li><p><strong>dry_run</strong> (<em>bool, optional</em>) – Whether to perform a dry run without actually processing the episodes. Defaults to False.</p></li>
+<li><p><strong>threshold</strong> (<em>float, optional</em>) – The threshold value for matching episodes. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.episode_matcher.process_srt_files">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.episode_matcher.</span></span><span class="sig-name descname"><span class="pre">process_srt_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.episode_matcher.process_srt_files" title="Link to this definition"></a></dt>
+<dd><p>Process all SRT files in the given directory and its subdirectories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>show_dir</strong> (<em>str</em>) – The directory path where the SRT files are located.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the SRT file paths as keys and their corresponding text content as values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mkv_episode_matcher.config">
+<span id="configuration"></span><h2>Configuration<a class="headerlink" href="#module-mkv_episode_matcher.config" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.config.get_config">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.config.</span></span><span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.config.get_config" title="Link to this definition"></a></dt>
+<dd><p>Read and return the configuration from the specified file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The path to the configuration file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The configuration settings as a dictionary.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.config.get_total_threads">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.config.</span></span><span class="sig-name descname"><span class="pre">get_total_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.config.get_total_threads" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mkv_episode_matcher.config.set_config">
+<span class="sig-prename descclassname"><span class="pre">mkv_episode_matcher.config.</span></span><span class="sig-name descname"><span class="pre">set_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmdb_api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_subtitles_api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_subtitles_user_agent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_subtitles_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_subtitles_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tesseract_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mkv_episode_matcher.config.set_config" title="Link to this definition"></a></dt>
+<dd><p>Sets the configuration values and writes them to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tmdb_api_key</strong> (<em>str</em>) – The API key for TMDB (The Movie Database).</p></li>
+<li><p><strong>open_subtitles_api_key</strong> (<em>str</em>) – The API key for OpenSubtitles.</p></li>
+<li><p><strong>open_subtitles_user_agent</strong> (<em>str</em>) – The user agent for OpenSubtitles.</p></li>
+<li><p><strong>open_subtitles_username</strong> (<em>str</em>) – The username for OpenSubtitles.</p></li>
+<li><p><strong>open_subtitles_password</strong> (<em>str</em>) – The password for OpenSubtitles.</p></li>
+<li><p><strong>show_dir</strong> (<em>str</em>) – The directory where the TV show episodes are located.</p></li>
+<li><p><strong>file</strong> (<em>str</em>) – The path to the configuration file.</p></li>
+<li><p><strong>tesseract_path</strong> (<em>str, optional</em>) – The path to the Tesseract OCR executable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="readme.html" class="btn btn-neutral float-left" title="MKV Episode Matcher" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Jonathan Sakkos.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

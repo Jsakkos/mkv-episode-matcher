@@ -4,14 +4,10 @@ Welcome to MKV Episode Matcher's documentation!
 
 .. toctree::
    :maxdepth: 2
-   
+
    readme
+   api
 
-.. automodule:: mkv_episode_matcher.__main__
-    :members:
-
-.. automodule:: mkv_episode_matcher.config
-    :members:
     
 
 
