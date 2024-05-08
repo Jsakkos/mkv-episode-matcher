@@ -29,28 +29,13 @@ The directory and subfolders must be arranged in the following structure:
 
 .. code-block:: bash
 
-   python __main__.py --tmdb-api-key `your-api-key` --show-dir /path/to/show
+   python mkv-match --tmdb-api-key your-api-key --show-dir /path/to/show
 
 How it works
 ============
 
 MKV Episode Matcher extracts the subtitle text from each MKV file, then crossreferences the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com
 
-Contributing
-============
-
-Contributions are welcome! If you would like to contribute to the MKV Episode Matcher project, please follow these steps:
-
-1. Fork the repository.
-2. Clone the repository.
-3. Create a new branch for your contribution.
-4. Make your changes and commit them to your branch.
-5. Push your branch to your forked repository.
-6. Open a pull request to the main repository.
-
-Please ensure that your code follows the project's coding conventions and standards. Additionally, provide a clear and detailed description of your changes in the pull request.
-
-Thank you for your contribution!
 
 License
 =======
@@ -81,8 +66,14 @@ Acknowledgments
 ===============
 
 This product uses the TMDB API but is not endorsed or certified by TMDB.
-.. image:: https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg
-   :alt: The Movie DB Logo
+
+`![The Movie DB Logo](https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg)`
+
+.. |docs| image:: https://readthedocs.org/projects/mkv-episode-matcher/badge/?version=latest
+        :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
+.. |pypi| image:: https://badge.fury.io/py/mkv-episode-matcher.svg
+        :target: https://badge.fury.io/py/mkv-episode-matcher
 
 .. |docs| image:: https://readthedocs.org/projects/mkv-episode-matcher/badge/?version=latest
         :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
