@@ -67,7 +67,8 @@ Acknowledgments
 
 This product uses the TMDB API but is not endorsed or certified by TMDB.
 .. image:: https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg
-   :alt: The Movie DB Logo
+   :alt: The Movie Database
+   :target: https://www.themoviedb.org/
 
 .. |docs| image:: https://readthedocs.org/projects/mkv-episode-matcher/badge/?version=latest
         :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
