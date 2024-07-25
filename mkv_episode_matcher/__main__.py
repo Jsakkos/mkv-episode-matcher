@@ -4,7 +4,7 @@ import os
 
 from loguru import logger
 
-from config import get_config, set_config
+from mkv_episode_matcher.config import get_config, set_config
 
 # Log the start of the application
 logger.info("Starting the application")
@@ -170,7 +170,7 @@ def main():
     logger.info("Configuration set")
 
     # Process the show
-    from episode_matcher import process_show
+    from mkv_episode_matcher.episode_matcher import process_show
 
     process_show(args.season, dry_run=args.dry_run, get_subs=args.get_subs)
     logger.info("Show processing completed")
