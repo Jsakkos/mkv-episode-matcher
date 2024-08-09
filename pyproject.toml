@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "mkv-episode-matcher"
 dynamic = ["version"]
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
-readme = "README.md"
+readme = "README.rst"
 requires-python = ">=3.8"
 license = "MIT"
 keywords = []
