@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mkv-episode-matcher"
-version = "0.1.0"  # Replace dynamic version with a static one
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
+version = "0.1.6" 
 readme = "README.rst"
 requires-python = ">=3.8"
 license = "MIT"
