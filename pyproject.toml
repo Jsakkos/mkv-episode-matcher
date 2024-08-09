@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "mkv-episode-matcher"
-dynamic = ["version"]
+version = "0.1.0"  # Replace dynamic version with a static one
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
 readme = "README.rst"
 requires-python = ">=3.8"
@@ -25,7 +25,6 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-
 dependencies = [
   "requests",
   "loguru",
@@ -40,7 +39,6 @@ dependencies = [
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
 Issues = "https://github.com/Jsakkos/mkv-episode-matcher/issues"
 Source = "https://github.com/Jsakkos/mkv-episode-matcher"
-[tool]
 
 [project.scripts]
 mkv-match = "mkv_episode_matcher.__main__:main"
@@ -58,36 +56,6 @@ extend-select = ["C901"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["foo", "bar"]
-
-[tool.hatch.version]
-path = "mkv_episode_matcher/__init__.py"
-
-[tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-]
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
-
-[[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
-
-[tool.hatch.envs.types]
-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:mkv-episode-matcher/mkv_episode_matcher tests}"
 
 [tool.coverage.run]
 source_pkgs = ["mkv_episode_matcher", "tests"]
