@@ -3,3 +3,6 @@
 *.cpython*
 *.pyc
 /mkv_episode_matcher/__pycache__
+build/
+dist/
+mkv_episode_matcher.egg-info
