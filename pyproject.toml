@@ -1,14 +1,17 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+# See configuration details in https://github.com/pypa/setuptools_scm
 
 [project]
 name = "mkv-episode-matcher"
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
-version = "0.1.6" 
+dynamic = ["version"]
 readme = "README.rst"
 requires-python = ">=3.8"
-license = "MIT"
+license = { text = "MIT" }
 keywords = []
 authors = [
   { name = "Jsakkos", email = "jonathansakkos@protonmail.com" },
