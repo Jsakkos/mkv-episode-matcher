@@ -164,10 +164,13 @@ def get_subtitles(show_id, seasons: Set[int]):
 
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
-            srt_filepath = os.path.join(
+            series_cache_dir =os.path.join(
                 CACHE_DIR,
                 "data",
-                series_name,
+                series_name)
+            os.makedirs(series_cache_dir,exist_ok=True)
+            srt_filepath = os.path.join(
+                series_cache_dir,
                 f"{series_name} - S{season:02d}E{episode:02d}.srt",
             )
             if not os.path.exists(srt_filepath):
