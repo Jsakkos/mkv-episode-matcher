@@ -31,10 +31,20 @@ The directory and subfolders must be arranged in the following structure:
 
    python mkv-match --tmdb-api-key your-api-key --show-dir /path/to/show
 
+Once TMDB_API_KEY is set, there's no need to enter it again, as it gets stored in the config.ini file.
+
+To get subtitles from opensubtitles.com, ensure that the appropriate credentials have been set, either via the CLI or in config.ini (On Windows: ``C:\Users\YOUR_USER_NAME\.mkv-episode-matcher\config.ini``).
+Then add the ``--get-subs True`` flag to the CLI call
+
+.. code-block:: bash
+
+   python mkv-match --show-dir /path/to/show --get-subs True
+
+
 How it works
 ============
 
-MKV Episode Matcher extracts the subtitle text from each MKV file, then crossreferences the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com
+MKV Episode Matcher extracts the subtitle text from each MKV file, then cross-references the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com
 
 
 License
