@@ -40,12 +40,10 @@ Then add the ``--get-subs True`` flag to the CLI call
 
    python mkv-match --show-dir /path/to/show --get-subs True
 
-
 How it works
 ============
 
-MKV Episode Matcher extracts the subtitle text from each MKV file, then cross-references the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com
-
+MKV Episode Matcher extracts the subtitle text from each MKV file, then cross-references the text against .srt subtitle files that are either user-provided or downloaded from Opensubtitles.com.
 
 License
 =======
@@ -76,12 +74,13 @@ Acknowledgments
 ===============
 
 This product uses the TMDB API but is not endorsed or certified by TMDB.
+
 .. image:: https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg
    :alt: The Movie Database
    :target: https://www.themoviedb.org/
 
 .. |docs| image:: https://readthedocs.org/projects/mkv-episode-matcher/badge/?version=latest
-        :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+   :target: https://mkv-episode-matcher.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 .. |pypi| image:: https://badge.fury.io/py/mkv-episode-matcher.svg
-        :target: https://badge.fury.io/py/mkv-episode-matcher
+   :target: https://badge.fury.io/py/mkv-episode-matcher
