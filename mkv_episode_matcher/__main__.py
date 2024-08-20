@@ -109,17 +109,16 @@ def main():
         # Cache the API key
 
     logger.debug(f"TMDb API Key: {tmdb_api_key}")
+    logger.debug("Getting OpenSubtitles API key")
+    cached_config = get_config(CONFIG_FILE)
+    try:
+        open_subtitles_api_key = cached_config.get("open_subtitles_api_key")
+        open_subtitles_user_agent = cached_config.get("open_subtitles_user_agent")
+        open_subtitles_username = cached_config.get("open_subtitles_username")
+        open_subtitles_password = cached_config.get("open_subtitles_password")
+    except:
+        pass
     if args.get_subs:
-        logger.debug("Getting OpenSubtitles API key")
-        cached_config = get_config(CONFIG_FILE)
-        try:
-            open_subtitles_api_key = cached_config.get("open_subtitles_api_key")
-            open_subtitles_user_agent = cached_config.get("open_subtitles_user_agent")
-            open_subtitles_username = cached_config.get("open_subtitles_username")
-            open_subtitles_password = cached_config.get("open_subtitles_password")
-        except:
-            pass
-
         if not open_subtitles_api_key:
             open_subtitles_api_key = input("Enter your OpenSubtitles API key: ")
 
