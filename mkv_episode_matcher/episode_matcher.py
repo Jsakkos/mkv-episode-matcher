@@ -16,46 +16,70 @@ from mkv_episode_matcher.utils import check_filename, cleanup_ocr_files, get_sub
 def process_show(season=None, dry_run=False, get_subs=False):
     """
     Process the show by downloading episode images and finding matching episodes.
-
     Args:
         season (int, optional): The season number to process. If provided, only that season will be processed. Defaults to None.
-        force (bool, optional): Whether to force re-processing of episodes even if they already exist. Defaults to False.
         dry_run (bool, optional): Whether to perform a dry run without actually processing the episodes. Defaults to False.
-        threshold (float, optional): The threshold value for matching episodes. Defaults to None.
+        get_subs (bool, optional): Whether to download subtitles for the episodes. Defaults to False.
     """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
     show_name = os.path.basename(show_dir)
     logger.info(f"Processing show '{show_name}'...")
+    
     show_id = fetch_show_id(show_name)
-
     if show_id is None:
         logger.error(f"Could not find show '{os.path.basename(show_dir)}' on TMDb.")
         return
+
+    # Get all season directories
     season_paths = [
         os.path.join(show_dir, d)
         for d in os.listdir(show_dir)
         if os.path.isdir(os.path.join(show_dir, d))
     ]
-    logger.info(
-        f"Found {len(season_paths)} seasons for show '{os.path.basename(show_dir)}'"
-    )
-    seasons_to_process = [
-        int(os.path.basename(season_path).split()[-1]) for season_path in season_paths
-    ]
-    if get_subs:
-        get_subtitles(show_id, seasons=set(seasons_to_process))
-    if season is not None:
+
+    # Filter seasons to only include those with .mkv files
+    valid_season_paths = []
+    for season_path in season_paths:
         mkv_files = [
-            os.path.join(show_dir, season)
-            for f in os.listdir(show_dir)
+            f for f in os.listdir(season_path)
             if f.endswith(".mkv")
         ]
+        if mkv_files:
+            valid_season_paths.append(season_path)
 
+    if not valid_season_paths:
+        logger.warning(f"No seasons with .mkv files found in show '{show_name}'")
+        return
+
+    logger.info(
+        f"Found {len(valid_season_paths)} seasons with .mkv files for show '{show_name}'"
+    )
+
+    # Extract season numbers from valid paths
+    seasons_to_process = [
+        int(os.path.basename(season_path).split()[-1]) 
+        for season_path in valid_season_paths
+    ]
+
+    if get_subs:
+        get_subtitles(show_id, seasons=set(seasons_to_process))
+
+    if season is not None:
+        # If specific season requested, check if it has .mkv files
         season_path = os.path.join(show_dir, f"Season {season}")
+        if season_path not in valid_season_paths:
+            logger.warning(f"Season {season} has no .mkv files to process")
+            return
+        
+        mkv_files = [
+            os.path.join(season_path, f)
+            for f in os.listdir(season_path)
+            if f.endswith(".mkv")
+        ]
     else:
-        for season_path in os.listdir(show_dir):
-            season_path = os.path.join(show_dir, season_path)
+        # Process all valid seasons
+        for season_path in valid_season_paths:
             mkv_files = [
                 os.path.join(season_path, f)
                 for f in os.listdir(season_path)
