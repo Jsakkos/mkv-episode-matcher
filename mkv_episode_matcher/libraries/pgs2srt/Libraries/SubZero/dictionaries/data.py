@@ -16696,5 +16696,5 @@ data = {
 
 for lang, grps in data.items():
     for grp in grps.keys():
-        if data[lang][grp]["pattern"]:
-            data[lang][grp]["pattern"] = re.compile(data[lang][grp]["pattern"])
+        if data[lang][grp]['pattern']:
+            data[lang][grp]['pattern'] = re.compile(data[lang][grp]['pattern'])

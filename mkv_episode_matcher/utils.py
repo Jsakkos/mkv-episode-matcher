@@ -34,7 +34,7 @@ def check_filename(filename, series_title, season_number, episode_number):
         the function will return True because the filename matches the expected pattern.
     """
     pattern = re.compile(
-        f"{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv"
+        f'{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv'
     )
     return bool(pattern.match(filename))
 
@@ -50,16 +50,16 @@ def scramble_filename(original_file_path, file_number):
     Returns:
         None
     """
-    logger.info(f"Scrambling {original_file_path}")
+    logger.info(f'Scrambling {original_file_path}')
     series_title = os.path.basename(
         os.path.dirname(os.path.dirname(original_file_path))
     )
     original_file_name = os.path.basename(original_file_path)
     extension = os.path.splitext(original_file_path)[-1]
-    new_file_name = f"{series_title} - {file_number:03d}{extension}"
+    new_file_name = f'{series_title} - {file_number:03d}{extension}'
     new_file_path = os.path.join(os.path.dirname(original_file_path), new_file_name)
     if not os.path.exists(new_file_path):
-        logger.info(f"Renaming {original_file_name} -> {new_file_name}")
+        logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path, new_file_path)
 
 
@@ -90,18 +90,18 @@ def rename_episode_file(original_file_path, season_number, episode_number):
     original_file_name = os.path.basename(original_file_path)
     extension = os.path.splitext(original_file_path)[-1]
     new_file_name = (
-        f"{series_title} - S{season_number:02d}E{episode_number:02d}{extension}"
+        f'{series_title} - S{season_number:02d}E{episode_number:02d}{extension}'
     )
     new_file_path = os.path.join(os.path.dirname(original_file_path), new_file_name)
 
     # Check if the new file path already exists
     if os.path.exists(new_file_path):
-        logger.warning(f"Filename already exists: {new_file_name}.")
+        logger.warning(f'Filename already exists: {new_file_name}.')
 
         # If the file already exists, find a unique name by appending a numerical suffix
         suffix = 2
         while True:
-            new_file_name = f"{series_title} - S{season_number:02d}E{episode_number:02d}_{suffix}{extension}"
+            new_file_name = f'{series_title} - S{season_number:02d}E{episode_number:02d}_{suffix}{extension}'
             new_file_path = os.path.join(
                 os.path.dirname(original_file_path), new_file_name
             )
@@ -109,10 +109,10 @@ def rename_episode_file(original_file_path, season_number, episode_number):
                 break
             suffix += 1
 
-        logger.info(f"Renaming {original_file_name} -> {new_file_name}")
+        logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path, new_file_path)
     else:
-        logger.info(f"Renaming {original_file_name} -> {new_file_name}")
+        logger.info(f'Renaming {original_file_name} -> {new_file_name}')
         os.rename(original_file_path, new_file_path)
 
 
@@ -128,9 +128,9 @@ def get_subtitles(show_id, seasons: set[int]):
         None
     """
 
-    logger.info(f"Getting subtitles for show ID {show_id}")
+    logger.info(f'Getting subtitles for show ID {show_id}')
     config = get_config(CONFIG_FILE)
-    show_dir = config.get("show_dir")
+    show_dir = config.get('show_dir')
     series_name = os.path.basename(show_dir)
     tmdb_api_key = config.get("tmdb_api_key")
     open_subtitles_api_key = config.get("open_subtitles_api_key")
@@ -153,11 +153,11 @@ def get_subtitles(show_id, seasons: set[int]):
         # Log in (retrieve auth token)
         subtitles.login(open_subtitles_username, open_subtitles_password)
     except Exception as e:
-        logger.error(f"Failed to log in to OpenSubtitles: {e}")
+        logger.error(f'Failed to log in to OpenSubtitles: {e}')
         return
     for season in seasons:
         episodes = fetch_season_details(show_id, season)
-        logger.info(f"Found {episodes} episodes in Season {season}")
+        logger.info(f'Found {episodes} episodes in Season {season}')
 
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
@@ -165,41 +165,41 @@ def get_subtitles(show_id, seasons: set[int]):
             os.makedirs(series_cache_dir, exist_ok=True)
             srt_filepath = os.path.join(
                 series_cache_dir,
-                f"{series_name} - S{season:02d}E{episode:02d}.srt",
+                f'{series_name} - S{season:02d}E{episode:02d}.srt',
             )
             if not os.path.exists(srt_filepath):
                 # get the episode info from TMDB
-                url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}"
+                url = f'https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}'
                 response = requests.get(url)
                 response.raise_for_status()
                 episode_data = response.json()
-                episode_data["name"]
-                episode_id = episode_data["id"]
+                episode_name = episode_data['name']
+                episode_id = episode_data['id']
                 # search for the subtitle
-                response = subtitles.search(tmdb_id=episode_id, languages="en")
+                response = subtitles.search(tmdb_id=episode_id, languages='en')
                 if len(response.data) == 0:
                     logger.warning(
-                        f"No subtitles found for {series_name} - S{season:02d}E{episode:02d}"
+                        f'No subtitles found for {series_name} - S{season:02d}E{episode:02d}'
                     )
 
                 for subtitle in response.data:
                     subtitle_dict = subtitle.to_dict()
                     # Remove special characters and convert to uppercase
                     filename_clean = re.sub(
-                        r"\W+", " ", subtitle_dict["file_name"]
+                        r'\W+', ' ', subtitle_dict['file_name']
                     ).upper()
-                    if f"E{episode:02d}" in filename_clean:
-                        logger.info(f"Original filename: {subtitle_dict['file_name']}")
+                    if f'E{episode:02d}' in filename_clean:
+                        logger.info(f'Original filename: {subtitle_dict["file_name"]}')
                         srt_file = subtitles.download_and_save(subtitle)
-                        series_name = series_name.replace(":", " -")
+                        series_name = series_name.replace(':', ' -')
                         shutil.move(srt_file, srt_filepath)
-                        logger.info(f"Subtitle saved to {srt_filepath}")
+                        logger.info(f'Subtitle saved to {srt_filepath}')
                         break
                     else:
                         continue
             else:
                 logger.info(
-                    f"Subtitle already exists for {series_name} - S{season:02d}E{episode:02d}"
+                    f'Subtitle already exists for {series_name} - S{season:02d}E{episode:02d}'
                 )
                 continue
 
@@ -219,9 +219,9 @@ def cleanup_ocr_files(show_dir):
     """
     for season_dir in os.listdir(show_dir):
         season_dir_path = os.path.join(show_dir, season_dir)
-        ocr_dir_path = os.path.join(season_dir_path, "ocr")
+        ocr_dir_path = os.path.join(season_dir_path, 'ocr')
         if os.path.exists(ocr_dir_path):
-            logger.info(f"Cleaning up OCR files in {ocr_dir_path}")
+            logger.info(f'Cleaning up OCR files in {ocr_dir_path}')
             shutil.rmtree(ocr_dir_path)
 
 

@@ -214,6 +214,7 @@ class DisplaySet:
         self.has_image = "ODS" in self.segment_types
 
 
+
 def segment_by_type_getter(type_):
     def f(self):
         return [s for s in self.segments if s.type == type_]

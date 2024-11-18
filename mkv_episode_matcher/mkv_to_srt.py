@@ -5,7 +5,7 @@ import sys
 # Get the absolute path of the parent directory of the current script.
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 # Add the 'pgs2srt' directory to the Python path.
-sys.path.append(os.path.join(parent_dir, "libraries", "pgs2srt"))
+sys.path.append(os.path.join(parent_dir, 'libraries', 'pgs2srt'))
 import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
@@ -35,18 +35,18 @@ def convert_mkv_to_sup(mkv_file, output_dir):
     base_name = os.path.splitext(os.path.basename(mkv_file))[0]
 
     # Construct the output .sup file path
-    sup_file = os.path.join(output_dir, f"{base_name}.sup")
+    sup_file = os.path.join(output_dir, f'{base_name}.sup')
     if not os.path.exists(sup_file):
-        logger.info(f"Processing {mkv_file} to {sup_file}")
+        logger.info(f'Processing {mkv_file} to {sup_file}')
         # FFmpeg command to convert .mkv to .sup
-        ffmpeg_cmd = ["ffmpeg", "-i", mkv_file, "-map", "0:s:0", "-c", "copy", sup_file]
+        ffmpeg_cmd = ['ffmpeg', '-i', mkv_file, '-map', '0:s:0', '-c', 'copy', sup_file]
         try:
             subprocess.run(ffmpeg_cmd, check=True)
-            logger.info(f"Converted {mkv_file} to {sup_file}")
+            logger.info(f'Converted {mkv_file} to {sup_file}')
         except subprocess.CalledProcessError as e:
-            logger.error(f"Error converting {mkv_file}: {e}")
+            logger.error(f'Error converting {mkv_file}: {e}')
     else:
-        logger.info(f"File {sup_file} already exists, skipping")
+        logger.info(f'File {sup_file} already exists, skipping')
     return sup_file
 
 
@@ -62,9 +62,9 @@ def perform_ocr(sup_file_path):
     # Get the base name of the .sup file without the extension
     base_name = os.path.splitext(os.path.basename(sup_file_path))[0]
     output_dir = os.path.dirname(sup_file_path)
-    logger.info(f"Performing OCR on {sup_file_path}")
+    logger.info(f'Performing OCR on {sup_file_path}')
     # Construct the output .srt file path
-    srt_file = os.path.join(output_dir, f"{base_name}.srt")
+    srt_file = os.path.join(output_dir, f'{base_name}.srt')
 
     # Load a PGS/SUP file.
     pgs = PGSReader(sup_file_path)
@@ -75,16 +75,16 @@ def perform_ocr(sup_file_path):
     # Complete subtitle track index
     si = 0
 
-    tesseract_lang = "eng"
-    tesseract_config = f"-c tessedit_char_blacklist=[] --psm 6 --oem {1}"
+    tesseract_lang = 'eng'
+    tesseract_config = f'-c tessedit_char_blacklist=[] --psm 6 --oem {1}'
 
     config = get_config(CONFIG_FILE)
-    tesseract_path = config.get("tesseract_path")
-    logger.debug(f"Setting Teesseract Path to {tesseract_path}")
+    tesseract_path = config.get('tesseract_path')
+    logger.debug(f'Setting Teesseract Path to {tesseract_path}')
     pytesseract.pytesseract.tesseract_cmd = str(tesseract_path)
 
     # SubRip output
-    output = ""
+    output = ''
 
     if not os.path.exists(srt_file):
         # Iterate the pgs generator
@@ -98,10 +98,10 @@ def perform_ocr(sup_file_path):
 
                 if pds and ods:
                     # Create and show the bitmap image and convert it to RGBA
-                    src = make_image(ods, pds).convert("RGBA")
+                    src = make_image(ods, pds).convert('RGBA')
 
                     # Create grayscale image with black background
-                    img = Image.new("L", src.size, "BLACK")
+                    img = Image.new('L', src.size, 'BLACK')
                     # Paste the subtitle bitmap
                     img.paste(src, (0, 0), src)
                     # Invert images so the text is readable by Tesseract
@@ -115,8 +115,8 @@ def perform_ocr(sup_file_path):
                     # Replace "|" with "I"
                     # Works better than blacklisting "|" in Tesseract,
                     # which results in I becoming "!" "i" and "1"
-                    text = re.sub(r"[|/\\]", "I", text)
-                    text = re.sub(r"[_]", "L", text)
+                    text = re.sub(r'[|/\\]', 'I', text)
+                    text = re.sub(r'[_]', 'L', text)
                     start = datetime.fromtimestamp(ods.presentation_timestamp / 1000)
                     start = start + timedelta(hours=-1)
 
@@ -134,21 +134,21 @@ def perform_ocr(sup_file_path):
                         and len(text)
                     ):
                         si = si + 1
-                        sub_output = str(si) + "\n"
+                        sub_output = str(si) + '\n'
                         sub_output += (
-                            start.strftime("%H:%M:%S,%f")[0:12]
-                            + " --> "
-                            + end.strftime("%H:%M:%S,%f")[0:12]
-                            + "\n"
+                            start.strftime('%H:%M:%S,%f')[0:12]
+                            + ' --> '
+                            + end.strftime('%H:%M:%S,%f')[0:12]
+                            + '\n'
                         )
-                        sub_output += text + "\n\n"
+                        sub_output += text + '\n\n'
 
                         output += sub_output
                         start = end = text = None
             i = i + 1
-        with open(srt_file, "w") as f:
+        with open(srt_file, 'w') as f:
             f.write(output)
-        logger.info(f"Saved to: {srt_file}")
+        logger.info(f'Saved to: {srt_file}')
 
 
 def convert_mkv_to_srt(season_path, mkv_files):
@@ -162,8 +162,8 @@ def convert_mkv_to_srt(season_path, mkv_files):
     Returns:
         None
     """
-    logger.info(f"Converting {len(mkv_files)} files to SRT")
-    output_dir = os.path.join(season_path, "ocr")
+    logger.info(f'Converting {len(mkv_files)} files to SRT')
+    output_dir = os.path.join(season_path, 'ocr')
     os.makedirs(output_dir, exist_ok=True)
     sup_files = []
     for mkv_file in mkv_files:

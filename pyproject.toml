@@ -14,7 +14,7 @@ license = { text = "MIT" }
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -26,11 +26,15 @@ dependencies = [
     "configparser>=7.1.0",
     "ffmpeg>=1.4",
     "loguru>=0.7.2",
-    "numpy>=2.1.3",
+    "numpy>=2.0.2",
+    "openai-whisper>=20240930",
     "opensubtitlescom>=0.1.5",
     "pytesseract>=0.3.13",
     "requests>=2.32.3",
     "tmdb-client>=0.0.1",
+    "torch==2.5.1+cu124",
+    "torchaudio==2.5.1+cu124",
+    "torchvision==0.20.1+cu124",
 ]
 [project.urls]
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
@@ -45,6 +49,7 @@ dev = [
     "pytest-cov>=6.0.0",
     "pytest>=8.3.3",
     "ruff>=0.8.0",
+    "ipykernel>=6.29.5"
 ]
 [tool.ruff.format]
 preview = true
@@ -89,21 +94,7 @@ tests = ["tests", "*/mkv_episode_matcher/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-    "pragma: no cover",
-    "def __repr__",
-    "if __name__ == .__main__.:",
-    "raise NotImplementedError",
-    "if TYPE_CHECKING:",
-    "pass",
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
 ]
-show_missing = true
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py", "*_test.py"]
-pythonpath = ["."]
-addopts = "-ra -q --cov=mkv_episode_matcher --cov-report=term-missing"
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-
-
-

@@ -62,12 +62,12 @@ from tld import get_tld
 
 
 class CommonFixes(SubtitleTextModification):
-    identifier = "common"
-    description = "Basic common fixes"
+    identifier = 'common'
+    description = 'Basic common fixes'
     exclusive = True
     order = 40
 
-    long_description = "Fix common and whitespace/punctuation issues in subtitles"
+    long_description = 'Fix common and whitespace/punctuation issues in subtitles'
 
     processors = [
         # normalize hyphens
@@ -203,13 +203,13 @@ class CommonFixes(SubtitleTextModification):
 
 
 class FixOCR(SubtitleTextModification):
-    identifier = "OCR_fixes"
-    description = "Fix common OCR issues"
+    identifier = 'OCR_fixes'
+    description = 'Fix common OCR issues'
     exclusive = True
     order = 10
     data_dict = None
 
-    long_description = "Fix issues that happen when a subtitle gets converted from bitmap to text through OCR"
+    long_description = 'Fix issues that happen when a subtitle gets converted from bitmap to text through OCR'
 
     def __init__(self, language):
         super(FixOCR, self).__init__()

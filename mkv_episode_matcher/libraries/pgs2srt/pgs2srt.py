@@ -42,9 +42,9 @@ args = parser.parse_args()
 assert args.input is not None
 
 # Unescape escaped spaces
-file = args.input.replace("\\ ", " ")
+file = args.input.replace('\\ ', ' ')
 
-print(f"Parsing: {file}")
+print(f'Parsing: {file}')
 
 # Load a PGS/SUP file.
 pgs = PGSReader(file)
@@ -56,7 +56,7 @@ i = 0
 si = 0
 
 tesseract_lang = args.language
-tesseract_config = f"-c tessedit_char_blacklist=[] --psm 6 --oem {args.oem}"
+tesseract_config = f'-c tessedit_char_blacklist=[] --psm 6 --oem {args.oem}'
 
 # If an output file for the subrip output is provided, use that.
 # Otherwise remove the ".sup" extension from the input and append
@@ -68,7 +68,7 @@ output_file = (
 )
 
 # SubRip output
-output = ""
+output = ''
 
 fix_common = CommonFixes() if args.fix_common else None
 fix_ocr = FixOCR(args.language) if args.fix_ocr else None
@@ -88,7 +88,7 @@ for ds in pgs.iter_displaysets():
                 src = make_image(ods, pds).convert("RGBA")
 
                 # Create grayscale image with black background
-                img = Image.new("L", src.size, "BLACK")
+                img = Image.new('L', src.size, 'BLACK')
                 # Paste the subtitle bitmap
                 img.paste(src, (0, 0), src)
                 # Invert images so the text is readable by Tesseract
@@ -144,7 +144,7 @@ for ds in pgs.iter_displaysets():
         print(e)
         exit(1)
 
-f = open(output_file, "w")
+f = open(output_file, 'w')
 f.write(output)
 f.close()
-print(f"Saved to: {output_file}")
+print(f'Saved to: {output_file}')

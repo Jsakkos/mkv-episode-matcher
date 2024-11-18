@@ -71,7 +71,7 @@ def px_rgb_a(ods, pds, swap):
     try:
         rgb = ycbcr2rgb(ycbcr)
     except AttributeError:
-        print("Error: The image is not in YCbCr format.")
+        print('Error: The image is not in YCbCr format.')
         exit(1)
     # Separate the Alpha channel from the YCbCr palette data
     a = [entry.Alpha for entry in pds.palette]

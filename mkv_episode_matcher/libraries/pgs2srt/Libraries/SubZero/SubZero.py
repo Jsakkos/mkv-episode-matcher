@@ -126,7 +126,7 @@ class MultipleWordReProcessor(ReProcessor):
         self.snr_dict = snr_dict
 
     def process(self, content, debug=False, **kwargs):
-        if not self.snr_dict["data"]:
+        if not self.snr_dict['data']:
             return content
 
         return self.snr_dict["pattern"].sub(
@@ -212,7 +212,7 @@ class SubtitleModification:
             return
 
         new_content = content
-        for method in procs or ("pre_process", "process", "post_process"):
+        for method in procs or ('pre_process', 'process', 'post_process'):
             if not new_content:
                 return
             new_content = self._process(
@@ -273,10 +273,10 @@ class MultipleLineProcessor(Processor):
         self.snr_dict = snr_dict
 
     def process(self, content, debug=False, **kwargs):
-        if not self.snr_dict["data"]:
+        if not self.snr_dict['data']:
             return content
 
-        for key, value in self.snr_dict["data"].items():
+        for key, value in self.snr_dict['data'].items():
             # if debug and key in content:
             #     logger.debug(u"Replacing '%s' with '%s' in '%s'", key, value, content)
 
@@ -287,11 +287,11 @@ class MultipleLineProcessor(Processor):
 
 class WholeLineProcessor(MultipleLineProcessor):
     def process(self, content, debug=False, **kwargs):
-        if not self.snr_dict["data"]:
+        if not self.snr_dict['data']:
             return content
         content = content.strip()
 
-        for key, value in self.snr_dict["data"].items():
+        for key, value in self.snr_dict['data'].items():
             if content == key:
                 # if debug:
                 #     logger.debug(u"Replacing '%s' with '%s'", key, value)
@@ -313,9 +313,9 @@ class MultipleWordProcessor(MultipleLineProcessor):
     """
 
     def process(self, content, debug=False, **kwargs):
-        words = content.split(" ")
+        words = content.split(' ')
         new_words = []
         for word in words:
             new_words.append(self.snr_dict.get(word, word))
 
-        return " ".join(new_words)
+        return ' '.join(new_words)
