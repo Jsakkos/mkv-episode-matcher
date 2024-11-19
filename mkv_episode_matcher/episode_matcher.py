@@ -149,31 +149,78 @@ def check_filename(filename):
 
 def extract_srt_text(filepath):
     """
-    Extracts the text from an SRT file.
-
+    Extracts the text content from an SRT subtitle file with robust error handling.
+    
     Args:
         filepath (str): The path to the SRT file.
-
+    
     Returns:
-        list: A list of lists, where each inner list represents a block of text from the SRT file.
-              Each inner list contains the lines of text for that block.
+        list: A list of lists, where each inner list represents a subtitle block's text.
+              Empty lines and formatting tags are removed.
+    
+    Raises:
+        IOError: If the file cannot be read
+        ValueError: If the file content is not in valid SRT format
     """
-    # extract the text from the file
-    with open(filepath) as f:
-        filepath = f.read()
-    text_lines = [
-        filepath.split('\n\n')[i].split('\n')[2:]
-        for i in range(len(filepath.split('\n\n')))
-    ]
-    # remove empty lines
-    text_lines = [[line for line in lines if line] for lines in text_lines]
-    # remove <i> or </i> tags
-    text_lines = [
-        [re.sub(r'<i>|</i>|', '', line) for line in lines] for lines in text_lines
-    ]
-    # remove empty lists
-    text_lines = [lines for lines in text_lines if lines]
-    return text_lines
+    try:
+        # Read the file content and normalize line endings
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read().replace('\r\n', '\n').replace('\r', '\n')
+        
+        # Split into subtitle blocks and filter out empty blocks
+        subtitle_blocks = [block.strip() for block in content.split('\n\n') if block.strip()]
+        
+        text_blocks = []
+        for block in subtitle_blocks:
+            try:
+                # Split block into lines
+                lines = block.split('\n')
+                
+                # Verify block structure
+                if len(lines) < 3:
+                    continue
+                
+                # Try to parse subtitle number (first line should be a number)
+                try:
+                    int(lines[0])
+                except ValueError:
+                    continue
+                
+                # Verify timestamp line (second line should contain -->)
+                if '-->' not in lines[1]:
+                    continue
+                
+                # Get text lines (everything after timestamp)
+                text_lines = lines[2:]
+                
+                # Clean up the text lines
+                cleaned_lines = []
+                for line in text_lines:
+                    # Remove HTML-style tags
+                    line = re.sub(r'<[^>]+>', '', line)
+                    # Remove music note symbols and other special characters
+                    line = re.sub(r'[♪♫]', '', line)
+                    # Remove any additional whitespace
+                    line = ' '.join(line.split())
+                    
+                    if line:  # Only keep non-empty lines
+                        cleaned_lines.append(line)
+                
+                if cleaned_lines:  # Only keep blocks with actual text
+                    text_blocks.append(cleaned_lines)
+                    
+            except Exception as e:
+                logger.warning(f"Error processing subtitle block: {e}")
+                continue
+        
+        return text_blocks
+        
+    except IOError as e:
+        logger.error(f"Error reading file {filepath}: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error processing SRT file: {e}")
+        raise ValueError("Invalid SRT file format")
 
 
 def compare_text(text1, text2):
