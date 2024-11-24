@@ -39,7 +39,7 @@ def extract_audio(mkv_file, output_dir):
             '-i',
             mkv_file,
             '-t',
-            '600',  # First 5 minutes
+            '600',  # First 10 minutes
             '-map',
             '0:a:0',  # First audio track
             '-acodec',
