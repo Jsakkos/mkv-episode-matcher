@@ -11,8 +11,10 @@
       
       
       
-        <link rel="prev" href="../cli/">
+        <link rel="prev" href="../quickstart/">
       
+      
+        <link rel="next" href="../api/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +22,7 @@
     
     
       
-        <title>Tips and Tricks - MKV Episode Matcher</title>
+        <title>Configuration - MKV Episode Matcher</title>
       
     
     
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tips-and-tricks" class="md-skip">
+        <a href="#configuration-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tips and Tricks
+              Configuration
             
           </span>
         </div>
@@ -232,10 +234,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../installation/" class="md-tabs__link">
           
   
@@ -267,12 +271,10 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../cli/" class="md-tabs__link">
           
   
@@ -353,23 +355,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -380,7 +387,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -433,10 +440,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../configuration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -445,6 +472,122 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration File
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Priority
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detailed Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tmdb-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      TMDb Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opensubtitles-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenSubtitles Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocr-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      OCR Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -481,28 +624,23 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -513,7 +651,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Advanced Usage
@@ -545,30 +683,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Tips and Tricks
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../tips/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -577,191 +695,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Best Practices
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Best Practices">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#directory-organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Directory Organization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#performance-optimization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Optimization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Handling
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced Usage
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Advanced Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-matching" class="md-nav__link">
-    <span class="md-ellipsis">
-      Custom Matching
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subtitle-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Subtitle Processing
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Issues
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#maintenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Maintenance
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Maintenance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Clean Up
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backup-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Backup Strategy
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#integration-tips" class="md-nav__link">
-    <span class="md-ellipsis">
-      Integration Tips
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Integration Tips">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#automation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Automation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      API Usage
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -801,160 +734,91 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#best-practices" class="md-nav__link">
+  <a href="#configuration-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Best Practices
+      Configuration File
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Best Practices">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#directory-organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Directory Organization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#performance-optimization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Optimization
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Handling
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-usage" class="md-nav__link">
+  <a href="#configuration-options" class="md-nav__link">
     <span class="md-ellipsis">
-      Advanced Usage
+      Configuration Options
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Advanced Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#custom-matching" class="md-nav__link">
-    <span class="md-ellipsis">
-      Custom Matching
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subtitle-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Subtitle Processing
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
+  <a href="#command-line-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Troubleshooting
+      Command Line Configuration
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Issues
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#maintenance" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Maintenance
+      Environment Variables
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Maintenance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Clean Up
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backup-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Backup Strategy
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#integration-tips" class="md-nav__link">
+  <a href="#configuration-priority" class="md-nav__link">
     <span class="md-ellipsis">
-      Integration Tips
+      Configuration Priority
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Integration Tips">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detailed Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Options">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#automation" class="md-nav__link">
+  <a href="#tmdb-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Automation
+      TMDb Configuration
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-usage" class="md-nav__link">
+  <a href="#opensubtitles-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      API Usage
+      OpenSubtitles Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocr-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      OCR Configuration
     </span>
   </a>
   
@@ -983,159 +847,81 @@
   
 
 
-<h1 id="tips-and-tricks">Tips and Tricks</h1>
-<h2 id="best-practices">Best Practices</h2>
-<h3 id="directory-organization">Directory Organization</h3>
-<p>Organize your files consistently:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>TV Shows/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── Show Name/
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── Season 1/
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   │   ├── episode1.mkv
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   │   └── episode2.mkv
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   └── Season 2/
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│       ├── episode1.mkv
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│       └── episode2.mkv
-</code></pre></div></p>
-<h3 id="performance-optimization">Performance Optimization</h3>
-<ol>
-<li>
-<p><strong>Thread Configuration</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span><span class="w">  </span><span class="c1"># Adjust based on CPU cores</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Batch Processing</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Process multiple seasons</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..5<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--season<span class="w"> </span><span class="nv">$i</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">done</span>
-</code></pre></div></p>
-</li>
-</ol>
-<h3 id="error-handling">Error Handling</h3>
-<ol>
-<li>
-<p>Always use dry-run first:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="nb">true</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Check logs regularly:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>tail<span class="w"> </span>-f<span class="w"> </span>~/.mkv-episode-matcher/logs/stderr.log
-</code></pre></div></p>
-</li>
-</ol>
-<h2 id="advanced-usage">Advanced Usage</h2>
-<h3 id="custom-matching">Custom Matching</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher</span> <span class="kn">import</span> <span class="n">process_show</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Custom matching with specific settings</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">process_show</span><span class="p">(</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">get_subs</span><span class="o">=</span><span class="kc">True</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">)</span>
+<h1 id="configuration-guide">Configuration Guide</h1>
+<h2 id="configuration-file">Configuration File</h2>
+<p>MKV Episode Matcher uses a configuration file located at:</p>
+<ul>
+<li>Windows: <code>%USERPROFILE%\.mkv-episode-matcher\config.ini</code></li>
+<li>Linux/Mac: <code>~/.mkv-episode-matcher/config.ini</code></li>
+</ul>
+<h2 id="configuration-options">Configuration Options</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Required Settings</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_tmdb_api_key</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="na">show_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/shows</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Optional Settings</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_opensubs_key</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_user_agent</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_username</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_password</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="na">tesseract_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/tesseract</span>
 </code></pre></div>
-<h3 id="subtitle-processing">Subtitle Processing</h3>
+<h2 id="command-line-configuration">Command Line Configuration</h2>
+<p>All configuration options can be set via command line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--tmdb-api-key<span class="w"> </span><span class="s2">&quot;your_key&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/shows&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--season<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--dry-run<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>--get-subs<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>--tesseract-path<span class="w"> </span><span class="s2">&quot;/path/to/tesseract&quot;</span>
+</code></pre></div>
+<h2 id="environment-variables">Environment Variables</h2>
+<p>You can also use environment variables:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TMDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHOW_DIR</span><span class="o">=</span><span class="s2">&quot;/path/to/shows&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPEN_SUBTITLES_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
+</code></pre></div>
+<h2 id="configuration-priority">Configuration Priority</h2>
+<p>Settings are loaded in the following order (later overrides earlier):</p>
 <ol>
-<li>
-<p>Extract subtitles only:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.mkv_to_srt</span> <span class="kn">import</span> <span class="n">convert_mkv_to_srt</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">)</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Download specific subtitles:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.utils</span> <span class="kn">import</span> <span class="n">get_subtitles</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">get_subtitles</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>  <span class="c1"># Seasons 1, 2, 3</span>
-</code></pre></div></p>
-</li>
+<li>Default values</li>
+<li>Configuration file</li>
+<li>Environment variables</li>
+<li>Command line arguments</li>
 </ol>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="common-issues">Common Issues</h3>
-<ol>
-<li>
-<p><strong>File Permission Errors</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Check file permissions</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">644</span><span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>API Rate Limits</strong></p>
-</li>
-<li>Use rate limiting in configuration</li>
-<li>
-<p>Implement exponential backoff</p>
-</li>
-<li>
-<p><strong>Memory Usage</strong></p>
-</li>
-<li>Reduce max_threads</li>
-<li>Process seasons separately</li>
-</ol>
-<h2 id="maintenance">Maintenance</h2>
-<h3 id="clean-up">Clean Up</h3>
-<ol>
-<li>
-<p>Remove temporary files:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.utils</span> <span class="kn">import</span> <span class="n">cleanup_ocr_files</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">cleanup_ocr_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Clear cache:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.mkv-episode-matcher/cache/*
-</code></pre></div></p>
-</li>
-</ol>
-<h3 id="backup-strategy">Backup Strategy</h3>
-<ol>
-<li>
-<p>Create backups before processing:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cp<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span><span class="s2">&quot;/path/to/backup&quot;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Use dry-run to verify changes:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="nb">true</span>
-</code></pre></div></p>
-</li>
-</ol>
-<h2 id="integration-tips">Integration Tips</h2>
-<h3 id="automation">Automation</h3>
-<ol>
-<li>
-<p><strong>Cron Jobs</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Check for new episodes daily</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--get-subs<span class="w"> </span><span class="nb">true</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Watch Folders</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Monitor for new files</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">watchdog.observers</span> <span class="kn">import</span> <span class="n">Observer</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span> <span class="nn">watchdog.events</span> <span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
-</code></pre></div></p>
-</li>
-</ol>
-<h3 id="api-usage">API Usage</h3>
-<ol>
-<li>
-<p>Rate limiting:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.tmdb_client</span> <span class="kn">import</span> <span class="n">RateLimitedRequest</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">request</span> <span class="o">=</span> <span class="n">RateLimitedRequest</span><span class="p">(</span><span class="n">rate_limit</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>Cache management:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Cache API responses</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">import</span> <span class="nn">shelve</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">with</span> <span class="n">shelve</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="c1"># Cache operations</span>
-</code></pre></div></p>
-</li>
-</ol>
+<h2 id="detailed-options">Detailed Options</h2>
+<h3 id="tmdb-configuration">TMDb Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_api_key</span>
+</code></pre></div>
+<p>The TMDb API key is required for:
+- Show identification
+- Episode information
+- Season details</p>
+<h3 id="opensubtitles-configuration">OpenSubtitles Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_key</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_agent</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">username</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">password</span>
+</code></pre></div>
+<p>Required only if using subtitle download functionality.</p>
+<h3 id="performance-settings">Performance Settings</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+</code></pre></div>
+<p>Adjust based on your system's capabilities:
+- Default: 4 threads
+- Minimum: 1 thread
+- Maximum: Number of CPU cores</p>
+<h3 id="ocr-configuration">OCR Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">tesseract_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/tesseract</span>
+</code></pre></div>
+<p>Required only if processing image-based subtitles.</p>
 
 
 
