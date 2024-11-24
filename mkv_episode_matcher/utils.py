@@ -2,7 +2,6 @@
 import os
 import re
 import shutil
-from typing import Set
 
 import requests
 from loguru import logger
@@ -117,7 +116,7 @@ def rename_episode_file(original_file_path, season_number, episode_number):
         os.rename(original_file_path, new_file_path)
 
 
-def get_subtitles(show_id, seasons: Set[int]):
+def get_subtitles(show_id, seasons: set[int]):
     """
     Retrieves and saves subtitles for a given TV show and seasons.
 
@@ -138,16 +137,14 @@ def get_subtitles(show_id, seasons: Set[int]):
     open_subtitles_user_agent = config.get("open_subtitles_user_agent")
     open_subtitles_username = config.get("open_subtitles_username")
     open_subtitles_password = config.get("open_subtitles_password")
-    if not all(
-        [
-            show_dir,
-            tmdb_api_key,
-            open_subtitles_api_key,
-            open_subtitles_user_agent,
-            open_subtitles_username,
-            open_subtitles_password,
-        ]
-    ):
+    if not all([
+        show_dir,
+        tmdb_api_key,
+        open_subtitles_api_key,
+        open_subtitles_user_agent,
+        open_subtitles_username,
+        open_subtitles_password,
+    ]):
         logger.error("Missing configuration settings. Please run the setup script.")
     try:
         # Initialize the OpenSubtitles client
@@ -164,11 +161,8 @@ def get_subtitles(show_id, seasons: Set[int]):
 
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
-            series_cache_dir =os.path.join(
-                CACHE_DIR,
-                "data",
-                series_name)
-            os.makedirs(series_cache_dir,exist_ok=True)
+            series_cache_dir = os.path.join(CACHE_DIR, "data", series_name)
+            os.makedirs(series_cache_dir, exist_ok=True)
             srt_filepath = os.path.join(
                 series_cache_dir,
                 f"{series_name} - S{season:02d}E{episode:02d}.srt",
@@ -229,8 +223,10 @@ def cleanup_ocr_files(show_dir):
         if os.path.exists(ocr_dir_path):
             logger.info(f"Cleaning up OCR files in {ocr_dir_path}")
             shutil.rmtree(ocr_dir_path)
+
+
 def clean_text(text):
     # Remove brackets, parentheses, and their content
-    cleaned_text = re.sub(r'\[.*?\]|\(.*?\)|\{.*?\}', '', text)
+    cleaned_text = re.sub(r"\[.*?\]|\(.*?\)|\{.*?\}", "", text)
     # Strip leading/trailing whitespace
     return cleaned_text.strip()

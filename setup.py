@@ -1,6 +1,7 @@
 """
-    Setup file for mkv_episode_matcher.
+Setup file for mkv_episode_matcher.
 """
+
 from setuptools import setup
 
 if __name__ == "__main__":

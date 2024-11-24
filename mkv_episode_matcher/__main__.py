@@ -10,7 +10,6 @@ from mkv_episode_matcher.config import get_config, set_config
 logger.info("Starting the application")
 
 
-
 # Check if the configuration directory exists, if not create it
 if not os.path.exists(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")):
     os.makedirs(os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher"))
@@ -31,10 +30,16 @@ if not os.path.exists(log_dir):
     os.mkdir(log_dir)
 
 # Add a new handler for stdout logs
-logger.add(os.path.join(log_dir,"stdout.log"), format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
+logger.add(
+    os.path.join(log_dir, "stdout.log"),
+    format="{time} {level} {message}",
+    level="DEBUG",
+    rotation="10 MB",
+)
 
 # Add a new handler for error logs
-logger.add(os.path.join(log_dir,"stderr.log"), level="ERROR", rotation="10 MB")
+logger.add(os.path.join(log_dir, "stderr.log"), level="ERROR", rotation="10 MB")
+
 
 @logger.catch
 def main():
@@ -54,7 +59,6 @@ def main():
 
     The function logs its progress to two separate log files: one for standard output and one for errors.
     """
-
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")

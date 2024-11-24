@@ -51,6 +51,7 @@ class Processor:
     """
     Processor base class
     """
+
     name = None
     parent = None
     supported = None
@@ -82,10 +83,13 @@ class ReProcessor(Processor):
     """
     Regex processor
     """
+
     pattern = None
     replace_with = None
 
-    def __init__(self, pattern, replace_with, name=None, supported=None, entry=False, **kwargs):
+    def __init__(
+        self, pattern, replace_with, name=None, supported=None, entry=False, **kwargs
+    ):
         super(ReProcessor, self).__init__(name=name, supported=supported)
         self.pattern = pattern
         self.replace_with = replace_with
@@ -116,6 +120,7 @@ class MultipleWordReProcessor(ReProcessor):
     }
     replaces found key in pattern with the corresponding value in data
     """
+
     def __init__(self, snr_dict, name=None, parent=None, supported=None, **kwargs):
         super(ReProcessor, self).__init__(name=name, supported=supported)
         self.snr_dict = snr_dict
@@ -124,7 +129,9 @@ class MultipleWordReProcessor(ReProcessor):
         if not self.snr_dict["data"]:
             return content
 
-        return self.snr_dict["pattern"].sub(lambda x: self.snr_dict["data"][x.group(0)], content)
+        return self.snr_dict["pattern"].sub(
+            lambda x: self.snr_dict["data"][x.group(0)], content
+        )
 
 
 class EmptyEntryError(Exception):
@@ -151,7 +158,9 @@ class SubtitleModification:
     def __init__(self):
         return
 
-    def _process(self, content, processors, debug=False, parent=None, index=None, **kwargs):
+    def _process(
+        self, content, processors, debug=False, parent=None, index=None, **kwargs
+    ):
         if not content:
             return
 
@@ -184,13 +193,19 @@ class SubtitleModification:
         return new_content
 
     def pre_process(self, content, debug=False, parent=None, **kwargs):
-        return self._process(content, self.pre_processors, debug=debug, parent=parent, **kwargs)
+        return self._process(
+            content, self.pre_processors, debug=debug, parent=parent, **kwargs
+        )
 
     def process(self, content, debug=False, parent=None, **kwargs):
-        return self._process(content, self.processors, debug=debug, parent=parent, **kwargs)
+        return self._process(
+            content, self.processors, debug=debug, parent=parent, **kwargs
+        )
 
     def post_process(self, content, debug=False, parent=None, **kwargs):
-        return self._process(content, self.post_processors, debug=debug, parent=parent, **kwargs)
+        return self._process(
+            content, self.post_processors, debug=debug, parent=parent, **kwargs
+        )
 
     def modify(self, content, debug=False, parent=None, procs=None, **kwargs):
         if not content:
@@ -200,14 +215,21 @@ class SubtitleModification:
         for method in procs or ("pre_process", "process", "post_process"):
             if not new_content:
                 return
-            new_content = self._process(new_content, getattr(self, "%sors" % method),
-                                        debug=debug, parent=parent, **kwargs)
+            new_content = self._process(
+                new_content,
+                getattr(self, "%sors" % method),
+                debug=debug,
+                parent=parent,
+                **kwargs,
+            )
 
         return new_content
 
     @classmethod
     def get_signature(cls, **kwargs):
-        string_args = ",".join(["%s=%s" % (key, value) for key, value in kwargs.items()])
+        string_args = ",".join([
+            "%s=%s" % (key, value) for key, value in kwargs.items()
+        ])
         return "%s(%s)" % (cls.identifier, string_args)
 
     @classmethod
@@ -224,7 +246,9 @@ class StringProcessor(Processor):
     String replacement processor base
     """
 
-    def __init__(self, search, replace, name=None, parent=None, supported=None, **kwargs):
+    def __init__(
+        self, search, replace, name=None, parent=None, supported=None, **kwargs
+    ):
         super(StringProcessor, self).__init__(name=name, supported=supported)
         self.search = search
         self.replace = replace
@@ -243,6 +267,7 @@ class MultipleLineProcessor(Processor):
         "data": {"old_value": "new_value"}
     }
     """
+
     def __init__(self, snr_dict, name=None, parent=None, supported=None, **kwargs):
         super(MultipleLineProcessor, self).__init__(name=name, supported=supported)
         self.snr_dict = snr_dict
@@ -286,6 +311,7 @@ class MultipleWordProcessor(MultipleLineProcessor):
         "data": {"old_value": "new_value"}
     }
     """
+
     def process(self, content, debug=False, **kwargs):
         words = content.split(" ")
         new_words = []

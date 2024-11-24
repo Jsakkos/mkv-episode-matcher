@@ -3,7 +3,6 @@ from PIL import Image
 
 
 def read_rle_bytes(ods_bytes):
-
     pixels = []
     line_builder = []
 
@@ -41,12 +40,13 @@ def read_rle_bytes(ods_bytes):
         i += incr
 
     if line_builder:
-        print(f'Probably an error; hanging pixels: {line_builder}')
+        print(f"Probably an error; hanging pixels: {line_builder}")
 
     return pixels
 
+
 def ycbcr2rgb(ar):
-    xform = np.array([[1, 0, 1.402], [1, -0.34414, -.71414], [1, 1.772, 0]])
+    xform = np.array([[1, 0, 1.402], [1, -0.34414, -0.71414], [1, 1.772, 0]])
     rgb = ar.astype(float)
     # Subtracting by 128 the R and G channels
     rgb[:, [1, 2]] -= 128
@@ -57,6 +57,7 @@ def ycbcr2rgb(ar):
     # Sets any pixel value less than 0 to 0 (Min for RGB colorspace)
     np.putmask(rgb, rgb < 0, 0)
     return np.uint8(rgb)
+
 
 def px_rgb_a(ods, pds, swap):
     px = read_rle_bytes(ods.img_data)
@@ -78,10 +79,11 @@ def px_rgb_a(ods, pds, swap):
 
     return px, rgb, a
 
+
 def make_image(ods, pds, swap=False):
     px, rgb, a = px_rgb_a(ods, pds, swap)
-    alpha = Image.fromarray(a, mode='L')
-    img = Image.fromarray(px, mode='P')
+    alpha = Image.fromarray(a, mode="L")
+    img = Image.fromarray(px, mode="P")
     img.putalpha(alpha)
     img.putpalette(rgb)
     return img

@@ -9,11 +9,7 @@ build-backend = "setuptools.build_meta"
 name = "mkv-episode-matcher"
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
 dynamic = ["version"]
-readme = "README.rst"
-authors = [
-  { name = "Jsakkos", email = "jonathansakkos@protonmail.com" },
-]
-requires-python = ">=3.10"
+readme = "README.md"
 license = { text = "MIT" }
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -22,6 +18,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
+authors = [
+  { name = "Jsakkos", email = "jonathansakkos@gmail.com" },
+]
+requires-python = ">=3.10"
 dependencies = [
     "configparser>=7.1.0",
     "ffmpeg>=1.4",
@@ -32,7 +32,6 @@ dependencies = [
     "requests>=2.32.3",
     "tmdb-client>=0.0.1",
 ]
-
 [project.urls]
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
 Issues = "https://github.com/Jsakkos/mkv-episode-matcher/issues"
@@ -47,14 +46,29 @@ dev = [
     "pytest>=8.3.3",
     "ruff>=0.8.0",
 ]
-
 [tool.ruff.format]
 preview = true
-quote-style = "single"
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
 
 [tool.ruff.lint]
 preview = true
 extend-select = ["C901"]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP",  # pyupgrade
+    "N",  # pep8-naming
+    "YTT",  # flake8-2020
+    "S",  # flake8-bandit
+]
+ignore = ["E501"]  # Line length is handled by formatter
 
 [tool.ruff.lint.extend-per-file-ignores]
 "docs/.hooks/*" = ["INP001", "T201"]
@@ -75,12 +89,21 @@ tests = ["tests", "*/mkv_episode_matcher/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "pass",
 ]
+show_missing = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
-addopts = "-v -ra --strict-markers"
 pythonpath = ["."]
+addopts = "-ra -q --cov=mkv_episode_matcher --cov-report=term-missing"
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+
+

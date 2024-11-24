@@ -6,21 +6,36 @@ from datetime import datetime, timedelta
 
 import pytesseract
 from imagemaker import make_image
+from Libraries.SubZero.post_processing import CommonFixes, FixOCR
 from pgsreader import PGSReader
 from PIL import Image, ImageOps
 
-from Libraries.SubZero.post_processing import CommonFixes, FixOCR
+parser = argparse.ArgumentParser(description="Convert PGS subtitles to SubRip format.")
 
-parser = argparse.ArgumentParser(description='Convert PGS subtitles to SubRip format.')
-
-parser.add_argument('input', type=str, help="The input file (a .sup file).")
-parser.add_argument('--output', type=str, help="The output file (a .srt file).")
-parser.add_argument('--oem', type=int, help="The OCR Engine Mode to use (Default: 1).", default=1, choices=range(4))
-parser.add_argument('--language', type=str, help="The language to use (Default: eng).", default='eng')
-parser.add_argument('--fix_common', help='Fixes common whitespace/punctuation issues.',
-                    dest='fix_common', action='store_true')
-parser.add_argument('--fix_common_ocr', help='Fixes common OCR issues for supported languages.',
-                    dest='fix_ocr', action='store_true')
+parser.add_argument("input", type=str, help="The input file (a .sup file).")
+parser.add_argument("--output", type=str, help="The output file (a .srt file).")
+parser.add_argument(
+    "--oem",
+    type=int,
+    help="The OCR Engine Mode to use (Default: 1).",
+    default=1,
+    choices=range(4),
+)
+parser.add_argument(
+    "--language", type=str, help="The language to use (Default: eng).", default="eng"
+)
+parser.add_argument(
+    "--fix_common",
+    help="Fixes common whitespace/punctuation issues.",
+    dest="fix_common",
+    action="store_true",
+)
+parser.add_argument(
+    "--fix_common_ocr",
+    help="Fixes common OCR issues for supported languages.",
+    dest="fix_ocr",
+    action="store_true",
+)
 
 args = parser.parse_args()
 
@@ -46,7 +61,11 @@ tesseract_config = f"-c tessedit_char_blacklist=[] --psm 6 --oem {args.oem}"
 # If an output file for the subrip output is provided, use that.
 # Otherwise remove the ".sup" extension from the input and append
 # ".srt".
-output_file = args.output if args.output is not None else (args.input.replace('.sup', '') + '.srt')
+output_file = (
+    args.output
+    if args.output is not None
+    else (args.input.replace(".sup", "") + ".srt")
+)
 
 # SubRip output
 output = ""
@@ -66,7 +85,7 @@ for ds in pgs.iter_displaysets():
 
             if pds and ods:
                 # Create and show the bitmap image and convert it to RGBA
-                src = make_image(ods, pds).convert('RGBA')
+                src = make_image(ods, pds).convert("RGBA")
 
                 # Create grayscale image with black background
                 img = Image.new("L", src.size, "BLACK")
@@ -76,13 +95,15 @@ for ds in pgs.iter_displaysets():
                 img = ImageOps.invert(img)
 
                 # Parse the image with tesesract
-                text = pytesseract.image_to_string(img, lang=tesseract_lang, config=tesseract_config).strip()
+                text = pytesseract.image_to_string(
+                    img, lang=tesseract_lang, config=tesseract_config
+                ).strip()
 
                 # Replace "|" with "I"
                 # Works better than blacklisting "|" in Tesseract,
                 # which results in I becoming "!" "i" and "1"
-                text = re.sub(r'[|/\\]', 'I', text)
-                text = re.sub(r'[_]', 'L', text)
+                text = re.sub(r"[|/\\]", "I", text)
+                text = re.sub(r"[_]", "L", text)
 
                 if args.fix_common:
                     text = fix_common.process(text)
@@ -100,11 +121,19 @@ for ds in pgs.iter_displaysets():
                 end = datetime.fromtimestamp(pcs.presentation_timestamp / 1000)
                 end = end + timedelta(hours=-1)
 
-                if isinstance(start, datetime) and isinstance(end, datetime) and len(text):
+                if (
+                    isinstance(start, datetime)
+                    and isinstance(end, datetime)
+                    and len(text)
+                ):
                     si = si + 1
                     sub_output = str(si) + "\n"
-                    sub_output += start.strftime("%H:%M:%S,%f")[0:12] + \
-                        " --> " + end.strftime("%H:%M:%S,%f")[0:12] + "\n"
+                    sub_output += (
+                        start.strftime("%H:%M:%S,%f")[0:12]
+                        + " --> "
+                        + end.strftime("%H:%M:%S,%f")[0:12]
+                        + "\n"
+                    )
                     sub_output += text + "\n\n"
 
                     output += sub_output

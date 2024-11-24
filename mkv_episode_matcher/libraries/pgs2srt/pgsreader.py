@@ -4,26 +4,25 @@ from collections import namedtuple
 from os.path import split as pathsplit
 
 # Constants for Segments
-PDS = int('0x14', 16)
-ODS = int('0x15', 16)
-PCS = int('0x16', 16)
-WDS = int('0x17', 16)
-END = int('0x80', 16)
+PDS = int("0x14", 16)
+ODS = int("0x15", 16)
+PCS = int("0x16", 16)
+WDS = int("0x17", 16)
+END = int("0x80", 16)
 
 # Named tuple access for static PDS palettes
-Palette = namedtuple('Palette', "Y Cr Cb Alpha")
+Palette = namedtuple("Palette", "Y Cr Cb Alpha")
+
 
 class InvalidSegmentError(Exception):
-    '''Raised when a segment does not match PGS specification'''
+    """Raised when a segment does not match PGS specification"""
 
 
 class PGSReader:
-
     def __init__(self, filepath):
         self.filedir, self.file = pathsplit(filepath)
-        with open(filepath, 'rb') as f:
+        with open(filepath, "rb") as f:
             self.bytes = f.read()
-
 
     def make_segment(self, bytes_):
         cls = SEGMENT_TYPE[bytes_[10]]
@@ -40,35 +39,29 @@ class PGSReader:
         ds = []
         for s in self.iter_segments():
             ds.append(s)
-            if s.type == 'END':
+            if s.type == "END":
                 yield DisplaySet(ds)
                 ds = []
 
     @property
     def segments(self):
-        if not hasattr(self, '_segments'):
+        if not hasattr(self, "_segments"):
             self._segments = list(self.iter_segments())
         return self._segments
 
     @property
     def displaysets(self):
-        if not hasattr(self, '_displaysets'):
+        if not hasattr(self, "_displaysets"):
             self._displaysets = list(self.iter_displaysets())
         return self._displaysets
 
-class BaseSegment:
 
-    SEGMENT = {
-        PDS: 'PDS',
-        ODS: 'ODS',
-        PCS: 'PCS',
-        WDS: 'WDS',
-        END: 'END'
-    }
+class BaseSegment:
+    SEGMENT = {PDS: "PDS", ODS: "ODS", PCS: "PCS", WDS: "WDS", END: "END"}
 
     def __init__(self, bytes_):
         self.bytes = bytes_
-        if bytes_[:2] != b'PG':
+        if bytes_[:2] != b"PG":
             raise InvalidSegmentError
         self.pts = int(bytes_[2:6].hex(), base=16) / 90
         self.dts = int(bytes_[6:10].hex(), base=16) / 90
@@ -80,18 +73,20 @@ class BaseSegment:
         return self.size
 
     @property
-    def presentation_timestamp(self): return self.pts
+    def presentation_timestamp(self):
+        return self.pts
 
     @property
-    def decoding_timestamp(self): return self.dts
+    def decoding_timestamp(self):
+        return self.dts
 
     @property
-    def segment_type(self): return self.type
+    def segment_type(self):
+        return self.type
+
 
 class PresentationCompositionSegment(BaseSegment):
-
     class CompositionObject:
-
         def __init__(self, bytes_):
             self.bytes = bytes_
             self.object_id = int(bytes_[0:2].hex(), base=16)
@@ -106,9 +101,9 @@ class PresentationCompositionSegment(BaseSegment):
                 self.crop_height = int(bytes_[14:16].hex(), base=16)
 
     STATE = {
-        int('0x00', base=16): 'Normal',
-        int('0x40', base=16): 'Acquisition Point',
-        int('0x80', base=16): 'Epoch Start'
+        int("0x00", base=16): "Normal",
+        int("0x40", base=16): "Acquisition Point",
+        int("0x80", base=16): "Epoch Start",
     }
 
     def __init__(self, bytes_):
@@ -123,18 +118,22 @@ class PresentationCompositionSegment(BaseSegment):
         self._num_comps = self.data[10]
 
     @property
-    def composition_number(self): return self._num
+    def composition_number(self):
+        return self._num
 
     @property
-    def composition_state(self): return self._state
+    def composition_state(self):
+        return self._state
 
     @property
     def composition_objects(self):
-        if not hasattr(self, '_composition_objects'):
+        if not hasattr(self, "_composition_objects"):
             self._composition_objects = self.get_composition_objects()
             if len(self._composition_objects) != self._num_comps:
-                print('Warning: Number of composition objects asserted '
-                      'does not match the amount found.')
+                print(
+                    "Warning: Number of composition objects asserted "
+                    "does not match the amount found."
+                )
         return self._composition_objects
 
     def get_composition_objects(self):
@@ -146,8 +145,8 @@ class PresentationCompositionSegment(BaseSegment):
             bytes_ = bytes_[length:]
         return comps
 
-class WindowDefinitionSegment(BaseSegment):
 
+class WindowDefinitionSegment(BaseSegment):
     def __init__(self, bytes_):
         BaseSegment.__init__(self, bytes_)
         self.num_windows = self.data[0]
@@ -157,8 +156,8 @@ class WindowDefinitionSegment(BaseSegment):
         self.width = int(self.data[6:8].hex(), base=16)
         self.height = int(self.data[8:10].hex(), base=16)
 
-class PaletteDefinitionSegment(BaseSegment):
 
+class PaletteDefinitionSegment(BaseSegment):
     def __init__(self, bytes_):
         BaseSegment.__init__(self, bytes_)
         self.palette_id = self.data[0]
@@ -168,14 +167,14 @@ class PaletteDefinitionSegment(BaseSegment):
         # Iterate entries. Explode the 5 bytes into namedtuple Palette. Must be exploded
         for entry in range(len(self.data[2:]) // 5):
             i = 2 + entry * 5
-            self.palette[self.data[i]] = Palette(*self.data[i + 1:i + 5])
+            self.palette[self.data[i]] = Palette(*self.data[i + 1 : i + 5])
+
 
 class ObjectDefinitionSegment(BaseSegment):
-
     SEQUENCE = {
-        int('0x40', base=16): 'Last',
-        int('0x80', base=16): 'First',
-        int('0xc0', base=16): 'First and last'
+        int("0x40", base=16): "Last",
+        int("0x80", base=16): "First",
+        int("0xc0", base=16): "First and last",
     }
 
     def __init__(self, bytes_):
@@ -188,13 +187,15 @@ class ObjectDefinitionSegment(BaseSegment):
         self.height = int(self.data[9:11].hex(), base=16)
         self.img_data = self.data[11:]
         if len(self.img_data) != self.data_len - 4:
-            print('Warning: Image data length asserted does not match the '
-                  'length found.')
+            print(
+                "Warning: Image data length asserted does not match the length found."
+            )
+
 
 class EndSegment(BaseSegment):
-
     @property
-    def is_end(self): return True
+    def is_end(self):
+        return True
 
 
 SEGMENT_TYPE = {
@@ -202,20 +203,23 @@ SEGMENT_TYPE = {
     ODS: ObjectDefinitionSegment,
     PCS: PresentationCompositionSegment,
     WDS: WindowDefinitionSegment,
-    END: EndSegment
+    END: EndSegment,
 }
 
-class DisplaySet:
 
+class DisplaySet:
     def __init__(self, segments):
         self.segments = segments
         self.segment_types = [s.type for s in segments]
-        self.has_image = 'ODS' in self.segment_types
+        self.has_image = "ODS" in self.segment_types
+
 
 def segment_by_type_getter(type_):
     def f(self):
         return [s for s in self.segments if s.type == type_]
+
     return f
+
 
 for type_ in BaseSegment.SEGMENT.values():
     setattr(DisplaySet, type_.lower(), property(segment_by_type_getter(type_)))

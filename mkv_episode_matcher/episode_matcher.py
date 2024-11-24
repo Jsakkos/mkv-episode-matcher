@@ -8,7 +8,12 @@ from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
 from mkv_episode_matcher.tmdb_client import fetch_show_id
-from mkv_episode_matcher.utils import check_filename, cleanup_ocr_files, get_subtitles,clean_text
+from mkv_episode_matcher.utils import (
+    check_filename,
+    clean_text,
+    cleanup_ocr_files,
+    get_subtitles,
+)
 
 
 # hash_data = {}
@@ -25,7 +30,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
     show_dir = config.get("show_dir")
     show_name = clean_text(os.path.basename(show_dir))
     logger.info(f"Processing show '{show_name}'...")
-    
+
     show_id = fetch_show_id(show_name)
     if show_id is None:
         logger.error(f"Could not find show '{os.path.basename(show_dir)}' on TMDb.")
@@ -41,10 +46,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
     # Filter seasons to only include those with .mkv files
     valid_season_paths = []
     for season_path in season_paths:
-        mkv_files = [
-            f for f in os.listdir(season_path)
-            if f.endswith(".mkv")
-        ]
+        mkv_files = [f for f in os.listdir(season_path) if f.endswith(".mkv")]
         if mkv_files:
             valid_season_paths.append(season_path)
 
@@ -58,7 +60,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
 
     # Extract season numbers from valid paths
     seasons_to_process = [
-        int(os.path.basename(season_path).split()[-1]) 
+        int(os.path.basename(season_path).split()[-1])
         for season_path in valid_season_paths
     ]
 
@@ -71,7 +73,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
         if season_path not in valid_season_paths:
             logger.warning(f"Season {season} has no .mkv files to process")
             return
-        
+
         mkv_files = [
             os.path.join(season_path, f)
             for f in os.listdir(season_path)
@@ -99,6 +101,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
     compare_and_rename_files(srt_text_dict, reference_text_dict, dry_run=dry_run)
     cleanup_ocr_files(show_dir)
 
+
 def check_filename(filename):
     """
     Check if the filename is in the correct format.
@@ -112,6 +115,8 @@ def check_filename(filename):
     # Check if the filename matches the expected format
     match = re.match(r".*S\d+E\d+", filename)
     return bool(match)
+
+
 def extract_srt_text(filepath):
     """
     Extracts the text from an SRT file.
