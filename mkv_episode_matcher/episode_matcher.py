@@ -8,7 +8,7 @@ from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
 from mkv_episode_matcher.tmdb_client import fetch_show_id
-from mkv_episode_matcher.utils import check_filename, cleanup_ocr_files, get_subtitles
+from mkv_episode_matcher.utils import check_filename, cleanup_ocr_files, get_subtitles,clean_text
 
 
 # hash_data = {}
@@ -23,7 +23,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
     """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    show_name = os.path.basename(show_dir)
+    show_name = clean_text(os.path.basename(show_dir))
     logger.info(f"Processing show '{show_name}'...")
     
     show_id = fetch_show_id(show_name)

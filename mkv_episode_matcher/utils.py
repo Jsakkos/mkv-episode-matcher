@@ -229,3 +229,8 @@ def cleanup_ocr_files(show_dir):
         if os.path.exists(ocr_dir_path):
             logger.info(f"Cleaning up OCR files in {ocr_dir_path}")
             shutil.rmtree(ocr_dir_path)
+def clean_text(text):
+    # Remove brackets, parentheses, and their content
+    cleaned_text = re.sub(r'\[.*?\]|\(.*?\)|\{.*?\}', '', text)
+    # Strip leading/trailing whitespace
+    return cleaned_text.strip()
