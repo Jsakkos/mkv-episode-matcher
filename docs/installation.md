@@ -28,9 +28,10 @@ For contributing or development:
 git clone https://github.com/Jsakkos/mkv-episode-matcher.git
 cd mkv-episode-matcher
 
-# Create a virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Install UV
+pip install uv
+# Load the virtual environment
+uv sync
 
 # Install in development mode
 pip install -e .
