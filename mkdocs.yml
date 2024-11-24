@@ -53,7 +53,7 @@ plugins:
             heading_level: 2
 
 nav:
-  - Home: ../README.md
+  - Home: README.md
   - Getting Started:
       - Installation: installation.md
       - Quick Start: quickstart.md
