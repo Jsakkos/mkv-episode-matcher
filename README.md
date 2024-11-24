@@ -30,10 +30,8 @@ mkv-match --show-dir "path/to/your/show" --season 1
 
 ## Requirements
 
-- Python 3.12 or higher
-- FFmpeg installed on your system
+- Python 3.8 or higher
 - TMDb API key
-- Tesseract OCR (optional, for image-based subtitles)
 - OpenSubtitles account (optional, for subtitle downloads)
 
 ## Documentation
