@@ -31,10 +31,8 @@ dependencies = [
     "opensubtitlescom>=0.1.5",
     "pytesseract>=0.3.13",
     "requests>=2.32.3",
+    "tiktoken>=0.8.0",
     "tmdb-client>=0.0.1",
-    "torch==2.5.1+cu124",
-    "torchaudio==2.5.1+cu124",
-    "torchvision==0.20.1+cu124",
 ]
 [project.urls]
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
