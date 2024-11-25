@@ -74,28 +74,36 @@ def process_show(season=None, dry_run=False, get_subs=False):
             logger.warning(f"Season {season} has no .mkv files to process")
             return
 
+        season_paths_to_process = [season_path]
+    else:
+        # Process all valid seasons
+        season_paths_to_process = valid_season_paths
+
+    # Process each season
+    for season_path in season_paths_to_process:
+        logger.info(f"Processing season path: {season_path}")
         mkv_files = [
             os.path.join(season_path, f)
             for f in os.listdir(season_path)
             if f.endswith(".mkv")
         ]
-    else:
-        # Process all valid seasons
-        for season_path in valid_season_paths:
-            mkv_files = [
-                os.path.join(season_path, f)
-                for f in os.listdir(season_path)
-                if f.endswith(".mkv")
-            ]
-    # Filter out files that have already been processed
-    for f in mkv_files:
-        if check_filename(f):
-            logger.info(f"Skipping {f}, already processed")
-            mkv_files.remove(f)
-    if len(mkv_files) == 0:
-        logger.info("No new files to process")
-        return
-    convert_mkv_to_srt(season_path, mkv_files)
+        
+        # Filter out files that have already been processed
+        unprocessed_files = []
+        for f in mkv_files:
+            if check_filename(f):
+                logger.info(f"Skipping {f}, already processed")
+            else:
+                unprocessed_files.append(f)
+
+        if not unprocessed_files:
+            logger.info(f"No new files to process in {season_path}")
+            continue
+
+        logger.info(f"Processing {len(unprocessed_files)} files in {season_path}")
+        convert_mkv_to_srt(season_path, unprocessed_files)
+        
+    # Process reference and SRT files after all seasons are converted
     reference_text_dict = process_reference_srt_files(show_name)
     srt_text_dict = process_srt_files(show_dir)
     compare_and_rename_files(srt_text_dict, reference_text_dict, dry_run=dry_run)
