@@ -154,7 +154,7 @@ class CommonFixes(SubtitleTextModification):
         # replace uppercase I with lowercase L in words
         NReProcessor(
             re.compile(r"(?u)([a-zà-ž]+)(I+)"),
-            lambda match: r"%s%s" % (match.group(1), "l" * len(match.group(2))),
+            lambda match: r"{}{}".format(match.group(1), "l" * len(match.group(2))),
             name="CM_uppercase_i_in_word",
         ),
         # fix spaces in numbers (allows for punctuation: ,.:' (comma/dot only fixed if after space, those may be
@@ -187,7 +187,7 @@ class CommonFixes(SubtitleTextModification):
         # add space after punctuation
         NReProcessor(
             re.compile(r"(?u)(([^\s]*)([!?.,:])([A-zÀ-ž]{2,}))"),
-            lambda match: "%s%s %s" % (match.group(2), match.group(3), match.group(4))
+            lambda match: f"{match.group(2)}{match.group(3)} {match.group(4)}"
             if not get_tld(match.group(1), fail_silently=True, fix_protocol=True)
             else match.group(1),
             name="CM_punctuation_space2",

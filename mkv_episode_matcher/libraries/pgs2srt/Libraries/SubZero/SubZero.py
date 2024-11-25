@@ -70,7 +70,7 @@ class Processor:
         return content
 
     def __repr__(self):
-        return "Processor <%s %s>" % (self.__class__.__name__, self.info)
+        return f"Processor <{self.__class__.__name__} {self.info}>"
 
     def __str__(self):
         return repr(self)
@@ -217,7 +217,7 @@ class SubtitleModification:
                 return
             new_content = self._process(
                 new_content,
-                getattr(self, "%sors" % method),
+                getattr(self, f"{method}ors"),
                 debug=debug,
                 parent=parent,
                 **kwargs,
@@ -228,9 +228,9 @@ class SubtitleModification:
     @classmethod
     def get_signature(cls, **kwargs):
         string_args = ",".join([
-            "%s=%s" % (key, value) for key, value in kwargs.items()
+            f"{key}={value}" for key, value in kwargs.items()
         ])
-        return "%s(%s)" % (cls.identifier, string_args)
+        return f"{cls.identifier}({string_args})"
 
     @classmethod
     def merge_args(cls, args1, args2):

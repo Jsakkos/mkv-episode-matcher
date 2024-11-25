@@ -173,7 +173,7 @@ def get_subtitles(show_id, seasons: set[int]):
                 response = requests.get(url)
                 response.raise_for_status()
                 episode_data = response.json()
-                episode_name = episode_data["name"]
+                episode_data["name"]
                 episode_id = episode_data["id"]
                 # search for the subtitle
                 response = subtitles.search(tmdb_id=episode_id, languages="en")

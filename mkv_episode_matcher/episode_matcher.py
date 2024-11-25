@@ -247,7 +247,7 @@ def compare_and_rename_files(srt_files, reference_files, dry_run=False):
     for srt_text in srt_files.keys():
         parent_dir = os.path.dirname(os.path.dirname(srt_text))
         for reference in reference_files.keys():
-            season, episode = extract_season_episode(reference)
+            _season, _episode = extract_season_episode(reference)
             mkv_file = os.path.join(
                 parent_dir, os.path.basename(srt_text).replace(".srt", ".mkv")
             )

@@ -30,6 +30,7 @@ cd mkv-episode-matcher
 
 # Install UV
 pip install uv
+
 # Load the virtual environment
 uv sync
 
