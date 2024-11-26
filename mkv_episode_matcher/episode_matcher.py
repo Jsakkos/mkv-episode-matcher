@@ -26,9 +26,9 @@ def process_show(season=None, dry_run=False, get_subs=False):
     """Process the show using both speech recognition and OCR fallback."""
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    
+    show_name = clean_text(os.path.basename(show_dir))
     # Initialize episode matcher
-    matcher = EpisodeMatcher(CACHE_DIR)
+    matcher = EpisodeMatcher(CACHE_DIR,show_name)
     
     # Get valid season directories
     season_paths = get_valid_seasons(show_dir)

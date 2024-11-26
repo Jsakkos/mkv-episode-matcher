@@ -11,11 +11,11 @@ import json
 import shutil
 
 class EpisodeMatcher:
-    def __init__(self, cache_dir, min_confidence=0.6):
+    def __init__(self, cache_dir, show_name,min_confidence=0.6):
         self.cache_dir = Path(cache_dir)
         self.min_confidence = min_confidence
         self.whisper_segments = None
-        self.series_name = None
+        self.series_name = show_name
         
     def clean_text(self, text):
         """Clean text by removing stage directions and normalizing repeated words."""
