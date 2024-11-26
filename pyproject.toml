@@ -32,7 +32,6 @@ dependencies = [
     "rapidfuzz>=3.10.1",
     "requests>=2.32.3",
     "tmdb-client>=0.0.1",
-    "vosk>=0.3.45",
     "wave>=0.0.2",
 ]
 [project.urls]
@@ -49,6 +48,8 @@ dev = [
     "pytest>=8.3.3",
     "ruff>=0.8.0",
 ]
+
+
 [tool.ruff.format]
 preview = true
 quote-style = "double"
