@@ -1746,9 +1746,9 @@
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the show using both speech recognition and OCR fallback.&quot;&quot;&quot;</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="n">show_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;show_dir&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="n">show_name</span> <span class="o">=</span> <span class="n">clean_text</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">show_dir</span><span class="p">))</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="c1"># Initialize episode matcher</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">matcher</span> <span class="o">=</span> <span class="n">EpisodeMatcher</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">)</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">matcher</span> <span class="o">=</span> <span class="n">EpisodeMatcher</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">,</span><span class="n">show_name</span><span class="p">)</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="c1"># Get valid season directories</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">season_paths</span> <span class="o">=</span> <span class="n">get_valid_seasons</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
