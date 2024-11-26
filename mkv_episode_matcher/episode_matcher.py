@@ -60,6 +60,12 @@ def process_show(season=None, dry_run=False, get_subs=False):
         ocr_dir.mkdir(exist_ok=True)
 
         try:
+            # Download subtitles if requested
+            if get_subs:
+                show_id = fetch_show_id(matcher.series_name)
+                if show_id:
+                    seasons = {int(os.path.basename(p).split()[-1]) for p in season_paths}
+                    get_subtitles(show_id, seasons=seasons)
             unmatched_files = []
             
             # First pass: Try speech recognition matching
@@ -103,12 +109,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
                     min_confidence=0.1  # Lower threshold for OCR
                 )
             
-            # Download subtitles if requested
-            if get_subs:
-                show_id = fetch_show_id(matcher.series_name)
-                if show_id:
-                    seasons = {int(os.path.basename(p).split()[-1]) for p in season_paths}
-                    get_subtitles(show_id, seasons=seasons)
+
 
         finally:
             # Cleanup
