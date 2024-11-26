@@ -1,7 +1,7 @@
 # MKV Episode Matcher
 
 [![Documentation Status](https://img.shields.io/github/actions/workflow/status/Jsakkos/mkv-episode-matcher/documentation.yml?label=docs)](https://jsakkos.github.io/mkv-episode-matcher/)
-[![PyPI version](https://badge.fury.io/py/mkv-episode-matcher.svg)](https://badge.fury.io/py/mkv-episode-matcher)
+[![PyPI version](https://img.shields.io/pypi/v/mkv-episode-matcher.svg)](https://pypi.org/project/mkv-episode-matcher/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Automatically match and rename your MKV TV episodes using The Movie Database (TMDb).
