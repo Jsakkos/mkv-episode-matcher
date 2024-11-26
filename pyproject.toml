@@ -21,16 +21,19 @@ classifiers = [
 authors = [
   { name = "Jsakkos", email = "jonathansakkos@gmail.com" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = [
     "configparser>=7.1.0",
     "ffmpeg>=1.4",
     "loguru>=0.7.2",
-    "numpy>=2.1.3",
+    "openai-whisper>=20240930",
     "opensubtitlescom>=0.1.5",
     "pytesseract>=0.3.13",
+    "rapidfuzz>=3.10.1",
     "requests>=2.32.3",
     "tmdb-client>=0.0.1",
+    "vosk>=0.3.45",
+    "wave>=0.0.2",
 ]
 [project.urls]
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"

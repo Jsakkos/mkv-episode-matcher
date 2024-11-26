@@ -11,32 +11,51 @@ from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.tmdb_client import fetch_season_details
 
-
-def check_filename(filename, series_title, season_number, episode_number):
+def get_valid_seasons(show_dir):
     """
-    Check if a filename matches the expected naming convention for a series episode.
+    Get all season directories that contain MKV files.
 
     Args:
-        filename (str): The filename to be checked.
-        series_title (str): The title of the series.
-        season_number (int): The season number of the episode.
-        episode_number (int): The episode number of the episode.
+        show_dir (str): Base directory for the TV show
 
     Returns:
-        bool: True if the filename matches the expected naming convention, False otherwise.
-
-    This function checks if the given filename matches the expected naming convention for a series episode.
-    The expected naming convention is '{series_title} - S{season_number:02d}E{episode_number:02d}.mkv'.
-    If the filename matches the expected pattern, it returns True; otherwise, it returns False.
-
-    Example:
-        If filename = 'Example - S01E03.mkv', series_title = 'Example', season_number = 1, and episode_number = 3,
-        the function will return True because the filename matches the expected pattern.
+        list: List of paths to valid season directories
     """
-    pattern = re.compile(
-        f"{re.escape(series_title)} - S{season_number:02d}E{episode_number:02d}.mkv"
-    )
-    return bool(pattern.match(filename))
+    # Get all season directories
+    season_paths = [
+        os.path.join(show_dir, d)
+        for d in os.listdir(show_dir)
+        if os.path.isdir(os.path.join(show_dir, d))
+    ]
+
+    # Filter seasons to only include those with .mkv files
+    valid_season_paths = []
+    for season_path in season_paths:
+        mkv_files = [f for f in os.listdir(season_path) if f.endswith(".mkv")]
+        if mkv_files:
+            valid_season_paths.append(season_path)
+
+    if not valid_season_paths:
+        logger.warning(f"No seasons with .mkv files found in show '{os.path.basename(show_dir)}'")
+    else:
+        logger.info(
+            f"Found {len(valid_season_paths)} seasons with .mkv files in '{os.path.basename(show_dir)}'"
+        )
+
+    return valid_season_paths
+def check_filename(filename):
+    """
+    Check if the filename is in the correct format (S01E02).
+
+    Args:
+        filename (str): The filename to check.
+
+    Returns:
+        bool: True if the filename matches the expected pattern.
+    """
+    # Check if the filename matches the expected format
+    match = re.search(r'.*S\d+E\d+', filename)
+    return bool(match)
 
 
 def scramble_filename(original_file_path, file_number):
@@ -63,57 +82,41 @@ def scramble_filename(original_file_path, file_number):
         os.rename(original_file_path, new_file_path)
 
 
-def rename_episode_file(original_file_path, season_number, episode_number):
+def rename_episode_file(original_file_path, new_filename):
     """
     Rename an episode file with a standardized naming convention.
 
     Args:
         original_file_path (str): The original file path of the episode.
-        season_number (int): The season number of the episode.
-        episode_number (int): The episode number of the episode.
+        new_filename (str): The new filename including season/episode info.
 
     Returns:
-        None
-
-    This function renames an episode file with a standardized naming convention based on the series title, season number,
-    and episode number. If a file with the intended new name already exists, it appends a numerical suffix to the filename
-    until it finds a unique name.
-
-    Example:
-        If original_file_path = '/path/to/episode.mkv', season_number = 1, and episode_number = 3, and the series title is 'Example',
-        the function will rename the file to 'Example - S01E03.mkv' if no file with that name already exists. If a file with that
-        name already exists, it will be renamed to 'Example - S01E03_2.mkv', and so on.
+        str: Path to the renamed file, or None if rename failed.
     """
-    series_title = os.path.basename(
-        os.path.dirname(os.path.dirname(original_file_path))
-    )
-    original_file_name = os.path.basename(original_file_path)
-    extension = os.path.splitext(original_file_path)[-1]
-    new_file_name = (
-        f"{series_title} - S{season_number:02d}E{episode_number:02d}{extension}"
-    )
-    new_file_path = os.path.join(os.path.dirname(original_file_path), new_file_name)
-
-    # Check if the new file path already exists
+    original_dir = os.path.dirname(original_file_path)
+    new_file_path = os.path.join(original_dir, new_filename)
+    
+    # Check if new filepath already exists
     if os.path.exists(new_file_path):
-        logger.warning(f"Filename already exists: {new_file_name}.")
-
-        # If the file already exists, find a unique name by appending a numerical suffix
+        logger.warning(f"File already exists: {new_filename}")
+        
+        # Add numeric suffix if file exists
+        base, ext = os.path.splitext(new_filename)
         suffix = 2
         while True:
-            new_file_name = f"{series_title} - S{season_number:02d}E{episode_number:02d}_{suffix}{extension}"
-            new_file_path = os.path.join(
-                os.path.dirname(original_file_path), new_file_name
-            )
+            new_filename = f"{base}_{suffix}{ext}"
+            new_file_path = os.path.join(original_dir, new_filename)
             if not os.path.exists(new_file_path):
                 break
             suffix += 1
-
-        logger.info(f"Renaming {original_file_name} -> {new_file_name}")
+    
+    try:
         os.rename(original_file_path, new_file_path)
-    else:
-        logger.info(f"Renaming {original_file_name} -> {new_file_name}")
-        os.rename(original_file_path, new_file_path)
+        logger.info(f"Renamed {os.path.basename(original_file_path)} -> {new_filename}")
+        return new_file_path
+    except OSError as e:
+        logger.error(f"Failed to rename file: {e}")
+        return None
 
 
 def get_subtitles(show_id, seasons: set[int]):
@@ -230,3 +233,152 @@ def clean_text(text):
     cleaned_text = re.sub(r"\[.*?\]|\(.*?\)|\{.*?\}", "", text)
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
+# mkv_episode_matcher/utils.py
+
+# Add this to your existing utils.py, keeping all other functions
+
+def process_reference_srt_files(series_name):
+    """
+    Process reference SRT files for a given series.
+
+    Args:
+        series_name (str): The name of the series.
+
+    Returns:
+        dict: A dictionary containing the reference files where the keys are the MKV filenames
+              and the values are the corresponding SRT texts.
+    """
+    from mkv_episode_matcher.__main__ import CACHE_DIR
+    import os
+    
+    reference_files = {}
+    reference_dir = os.path.join(CACHE_DIR, "data", series_name)
+    
+    for dirpath, _, filenames in os.walk(reference_dir):
+        for filename in filenames:
+            if filename.lower().endswith(".srt"):
+                srt_file = os.path.join(dirpath, filename)
+                logger.info(f"Processing {srt_file}")
+                srt_text = extract_srt_text(srt_file)
+                season, episode = extract_season_episode(filename)
+                mkv_filename = f"{series_name} - S{season:02}E{episode:02}.mkv"
+                reference_files[mkv_filename] = srt_text
+                
+    return reference_files
+
+def extract_srt_text(filepath):
+    """
+    Extracts text content from an SRT file.
+
+    Args:
+        filepath (str): Path to the SRT file.
+
+    Returns:
+        list: List of text lines from the SRT file.
+    """
+    # Read the file content
+    with open(filepath) as f:
+        content = f.read()
+        
+    # Split into subtitle blocks
+    blocks = content.strip().split('\n\n')
+    
+    text_lines = []
+    for block in blocks:
+        lines = block.split('\n')
+        if len(lines) < 3:
+            continue
+            
+        # Skip index and timestamp, get all remaining lines as text
+        text = ' '.join(lines[2:])
+        # Remove stage directions and tags
+        text = re.sub(r'\[.*?\]|\<.*?\>', '', text)
+        if text:
+            text_lines.append(text)
+            
+    return text_lines
+
+def extract_season_episode(filename):
+    """
+    Extract season and episode numbers from filename.
+    
+    Args:
+        filename (str): Filename to parse
+        
+    Returns:
+        tuple: (season_number, episode_number)
+    """
+    match = re.search(r'S(\d+)E(\d+)', filename)
+    if match:
+        return int(match.group(1)), int(match.group(2))
+    return None, None
+def process_srt_files(show_dir):
+    """
+    Process all SRT files in the given directory and its subdirectories.
+
+    Args:
+        show_dir (str): The directory path where the SRT files are located.
+
+    Returns:
+        dict: A dictionary containing the SRT file paths as keys and their corresponding text content as values.
+    """
+    srt_files = {}
+    for dirpath, _, filenames in os.walk(show_dir):
+        for filename in filenames:
+            if filename.lower().endswith(".srt"):
+                srt_file = os.path.join(dirpath, filename)
+                logger.info(f"Processing {srt_file}")
+                srt_text = extract_srt_text(srt_file)
+                srt_files[srt_file] = srt_text
+    return srt_files
+def compare_and_rename_files(srt_files, reference_files, dry_run=False):
+    """
+    Compare the srt files with the reference files and rename the matching mkv files.
+
+    Args:
+        srt_files (dict): A dictionary containing the srt files as keys and their contents as values.
+        reference_files (dict): A dictionary containing the reference files as keys and their contents as values.
+        dry_run (bool, optional): If True, the function will only log the renaming actions without actually renaming the files. Defaults to False.
+    """
+    logger.info(
+        f"Comparing {len(srt_files)} srt files with {len(reference_files)} reference files"
+    )
+    for srt_text in srt_files.keys():
+        parent_dir = os.path.dirname(os.path.dirname(srt_text))
+        for reference in reference_files.keys():
+            _season, _episode = extract_season_episode(reference)
+            mkv_file = os.path.join(
+                parent_dir, os.path.basename(srt_text).replace(".srt", ".mkv")
+            )
+            matching_lines = compare_text(
+                reference_files[reference], srt_files[srt_text]
+            )
+            if matching_lines >= int(len(reference_files[reference]) * 0.1):
+                logger.info(f"Matching lines: {matching_lines}")
+                logger.info(f"Found matching file: {mkv_file} ->{reference}")
+                new_filename = os.path.join(parent_dir, reference)
+                if not os.path.exists(new_filename):
+                    if os.path.exists(mkv_file) and not dry_run:
+                        logger.info(f"Renaming {mkv_file} to {new_filename}")
+                        os.rename(mkv_file, new_filename)
+                else:
+                    logger.info(f"File {new_filename} already exists, skipping")
+
+def compare_text(text1, text2):
+    """
+    Compare two lists of text lines and return the number of matching lines.
+
+    Args:
+        text1 (list): List of text lines from the first source.
+        text2 (list): List of text lines from the second source.
+
+    Returns:
+        int: Number of matching lines between the two sources.
+    """
+    # Flatten the list of text lines
+    flat_text1 = [line for lines in text1 for line in lines]
+    flat_text2 = [line for lines in text2 for line in lines]
+
+    # Compare the two lists of text lines
+    matching_lines = set(flat_text1).intersection(flat_text2)
+    return len(matching_lines)
