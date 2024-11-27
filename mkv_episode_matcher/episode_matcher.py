@@ -17,7 +17,7 @@ from mkv_episode_matcher.utils import (
     get_subtitles,
     process_reference_srt_files,
     process_srt_files,
-    compare_and_rename_files,get_valid_seasons
+    compare_and_rename_files,get_valid_seasons,rename_episode_file
 )
 from mkv_episode_matcher.speech_to_text import process_speech_to_text
 from mkv_episode_matcher.episode_identification import EpisodeMatcher
@@ -74,7 +74,8 @@ def process_show(season=None, dry_run=False, get_subs=False):
                               f"(confidence: {match['confidence']:.2f})")
                     
                     if not dry_run:
-                        os.rename(mkv_file, new_path)
+                        logger.info(f"Renaming {mkv_file} to {new_name}")
+                        rename_episode_file(mkv_file, new_name)
                 else:
                     logger.info(f"Speech recognition match failed for {mkv_file}, trying OCR")
                     unmatched_files.append(mkv_file)
@@ -91,7 +92,6 @@ def process_show(season=None, dry_run=False, get_subs=False):
                     srt_text_dict, 
                     reference_text_dict, 
                     dry_run=dry_run,
-                    min_confidence=0.1
                 )
 
         finally:
