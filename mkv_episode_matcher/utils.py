@@ -117,8 +117,10 @@ def rename_episode_file(original_file_path, new_filename):
     except OSError as e:
         logger.error(f"Failed to rename file: {e}")
         return None
-
-
+    except FileExistsError as e:
+        logger.error(f"Failed to rename file: {e}")
+        return None
+        
 def get_subtitles(show_id, seasons: set[int]):
     """
     Retrieves and saves subtitles for a given TV show and seasons.
@@ -233,9 +235,7 @@ def clean_text(text):
     cleaned_text = re.sub(r"\[.*?\]|\(.*?\)|\{.*?\}", "", text)
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
-# mkv_episode_matcher/utils.py
 
-# Add this to your existing utils.py, keeping all other functions
 
 def process_reference_srt_files(series_name):
     """
@@ -357,12 +357,9 @@ def compare_and_rename_files(srt_files, reference_files, dry_run=False):
                 logger.info(f"Matching lines: {matching_lines}")
                 logger.info(f"Found matching file: {mkv_file} ->{reference}")
                 new_filename = os.path.join(parent_dir, reference)
-                if not os.path.exists(new_filename):
-                    if os.path.exists(mkv_file) and not dry_run:
-                        logger.info(f"Renaming {mkv_file} to {new_filename}")
-                        os.rename(mkv_file, new_filename)
-                else:
-                    logger.info(f"File {new_filename} already exists, skipping")
+                if not dry_run:
+                    logger.info(f"Renaming {mkv_file} to {new_filename}")
+                    rename_episode_file(mkv_file, new_filename)
 
 def compare_text(text1, text2):
     """
