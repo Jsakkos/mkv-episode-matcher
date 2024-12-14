@@ -10,7 +10,7 @@ from opensubtitlescom import OpenSubtitles
 from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.tmdb_client import fetch_season_details
-
+from mkv_episode_matcher.subtitle_utils import find_existing_subtitle,sanitize_filename
 def get_valid_seasons(show_dir):
     """
     Get all season directories that contain MKV files.
@@ -128,20 +128,17 @@ def get_subtitles(show_id, seasons: set[int]):
     Args:
         show_id (int): The ID of the TV show.
         seasons (Set[int]): A set of season numbers for which subtitles should be retrieved.
-
-    Returns:
-        None
     """
-
     logger.info(f"Getting subtitles for show ID {show_id}")
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    series_name = os.path.basename(show_dir)
+    series_name = sanitize_filename(os.path.basename(show_dir))
     tmdb_api_key = config.get("tmdb_api_key")
     open_subtitles_api_key = config.get("open_subtitles_api_key")
     open_subtitles_user_agent = config.get("open_subtitles_user_agent")
     open_subtitles_username = config.get("open_subtitles_username")
     open_subtitles_password = config.get("open_subtitles_password")
+
     if not all([
         show_dir,
         tmdb_api_key,
@@ -151,62 +148,65 @@ def get_subtitles(show_id, seasons: set[int]):
         open_subtitles_password,
     ]):
         logger.error("Missing configuration settings. Please run the setup script.")
-    try:
-        # Initialize the OpenSubtitles client
-        subtitles = OpenSubtitles(open_subtitles_user_agent, open_subtitles_api_key)
+        return
 
-        # Log in (retrieve auth token)
+    try:
+        subtitles = OpenSubtitles(open_subtitles_user_agent, open_subtitles_api_key)
         subtitles.login(open_subtitles_username, open_subtitles_password)
     except Exception as e:
         logger.error(f"Failed to log in to OpenSubtitles: {e}")
         return
+
     for season in seasons:
         episodes = fetch_season_details(show_id, season)
         logger.info(f"Found {episodes} episodes in Season {season}")
 
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
+            
             series_cache_dir = os.path.join(CACHE_DIR, "data", series_name)
             os.makedirs(series_cache_dir, exist_ok=True)
+            
+            # Check for existing subtitle in any supported format
+            existing_subtitle = find_existing_subtitle(
+                series_cache_dir, series_name, season, episode
+            )
+            
+            if existing_subtitle:
+                logger.info(f"Subtitle already exists: {os.path.basename(existing_subtitle)}")
+                continue
+                
+            # Default to standard format for new downloads
             srt_filepath = os.path.join(
                 series_cache_dir,
                 f"{series_name} - S{season:02d}E{episode:02d}.srt",
             )
-            if not os.path.exists(srt_filepath):
-                # get the episode info from TMDB
-                url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}"
-                response = requests.get(url)
-                response.raise_for_status()
-                episode_data = response.json()
-                episode_data["name"]
-                episode_id = episode_data["id"]
-                # search for the subtitle
-                response = subtitles.search(tmdb_id=episode_id, languages="en")
-                if len(response.data) == 0:
-                    logger.warning(
-                        f"No subtitles found for {series_name} - S{season:02d}E{episode:02d}"
-                    )
 
-                for subtitle in response.data:
-                    subtitle_dict = subtitle.to_dict()
-                    # Remove special characters and convert to uppercase
-                    filename_clean = re.sub(
-                        r"\W+", " ", subtitle_dict["file_name"]
-                    ).upper()
-                    if f"E{episode:02d}" in filename_clean:
-                        logger.info(f"Original filename: {subtitle_dict['file_name']}")
-                        srt_file = subtitles.download_and_save(subtitle)
-                        series_name = series_name.replace(":", " -")
-                        shutil.move(srt_file, srt_filepath)
-                        logger.info(f"Subtitle saved to {srt_filepath}")
-                        break
-                    else:
-                        continue
-            else:
-                logger.info(
-                    f"Subtitle already exists for {series_name} - S{season:02d}E{episode:02d}"
+            # get the episode info from TMDB
+            url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}"
+            response = requests.get(url)
+            response.raise_for_status()
+            episode_data = response.json()
+            episode_id = episode_data["id"]
+            
+            # search for the subtitle
+            response = subtitles.search(tmdb_id=episode_id, languages="en")
+            if len(response.data) == 0:
+                logger.warning(
+                    f"No subtitles found for {series_name} - S{season:02d}E{episode:02d}"
                 )
                 continue
+
+            for subtitle in response.data:
+                subtitle_dict = subtitle.to_dict()
+                # Remove special characters and convert to uppercase
+                filename_clean = re.sub(r"\W+", " ", subtitle_dict["file_name"]).upper()
+                if f"E{episode:02d}" in filename_clean:
+                    logger.info(f"Original filename: {subtitle_dict['file_name']}")
+                    srt_file = subtitles.download_and_save(subtitle)
+                    shutil.move(srt_file, srt_filepath)
+                    logger.info(f"Subtitle saved to {srt_filepath}")
+                    break
 
 
 def cleanup_ocr_files(show_dir):
@@ -236,7 +236,7 @@ def clean_text(text):
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
 
-
+@logger.catch
 def process_reference_srt_files(series_name):
     """
     Process reference SRT files for a given series.
