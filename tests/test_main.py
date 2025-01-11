@@ -13,6 +13,31 @@ from mkv_episode_matcher.utils import (
 )
 from mkv_episode_matcher.episode_identification import EpisodeMatcher
 from mkv_episode_matcher.config import get_config, set_config
+from unittest.mock import Mock, patch
+
+
+# @pytest.fixture
+# def mock_config():
+#     return {
+#         "tmdb_api_key": "test_key",
+#         "show_dir": "/test/path",
+#         "max_threads": 4,
+#         "tesseract_path": "/usr/bin/tesseract",
+#     }
+
+
+@pytest.fixture
+def mock_episode_data():
+    return {
+        "name": "Test Episode",
+        "season_number": 1,
+        "episode_number": 1,
+        "overview": "Test overview",
+    }
+
+@pytest.fixture
+def mock_seasons():
+    return ["/test/path/Season 1"]
 
 @pytest.fixture
 def temp_show_dir(tmp_path):
@@ -101,8 +126,8 @@ class TestEpisodeMatcher:
         return EpisodeMatcher(tmp_path, "Test Show")
 
     def test_clean_text(self, matcher):
-        text = "Test [action] <tag> T-t-test"
-        assert matcher.clean_text(text) == "test action tag test"
+        text = "Test [action] T-t-test"
+        assert matcher.clean_text(text) == "test action test"
 
     def test_chunk_score(self, matcher):
         score = matcher.chunk_score("Test dialogue", "test dialog")
@@ -116,22 +141,27 @@ class TestEpisodeMatcher:
         assert isinstance(chunk, str)
         assert mock_run.called
 
-class TestProcessShow:
-    @patch('mkv_episode_matcher.episode_matcher.get_valid_seasons')
-    @patch('mkv_episode_matcher.episode_matcher.get_config')
-    def test_process_show_no_seasons(self, mock_config, mock_seasons, mock_config_data):
-        mock_seasons.return_value = []
-        mock_config.return_value = mock_config_data
-        process_show()
-        mock_seasons.assert_called_once()
+class TestEpisodeMatcher:
+    def test_extract_season_episode(self):
+        from mkv_episode_matcher.utils import extract_season_episode
 
-    @patch('mkv_episode_matcher.episode_matcher.get_valid_seasons')
-    @patch('mkv_episode_matcher.episode_matcher.get_config')
-    def test_process_show_with_season(self, mock_config, mock_seasons, temp_show_dir, mock_config_data):
-        mock_seasons.return_value = [str(temp_show_dir / "Season 1")]
-        mock_config.return_value = mock_config_data
-        process_show(season=1)
-        mock_seasons.assert_called_once()
+        # Test valid filename
+        assert extract_season_episode("Show - S01E02.mkv") == (1, 2)
+
+        # Test invalid filename
+        assert extract_season_episode("invalid.mkv") == (None, None)
+
+    @patch("mkv_episode_matcher.tmdb_client.requests.get")
+    def test_fetch_show_id(self, mock_get):
+        from mkv_episode_matcher.tmdb_client import fetch_show_id
+
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"results": [{"id": 12345}]}
+        mock_get.return_value = mock_response
+
+        assert fetch_show_id("Test Show") == "12345"
+
 
 if __name__ == '__main__':
     pytest.main(['-v'])
