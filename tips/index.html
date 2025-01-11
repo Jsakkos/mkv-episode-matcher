@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1028,7 +1028,7 @@
 </ol>
 <h2 id="advanced-usage">Advanced Usage</h2>
 <h3 id="custom-matching">Custom Matching</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher</span> <span class="kn">import</span> <span class="n">process_show</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_show</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Custom matching with specific settings</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">process_show</span><span class="p">(</span>
@@ -1041,13 +1041,13 @@
 <ol>
 <li>
 <p>Extract subtitles only:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.mkv_to_srt</span> <span class="kn">import</span> <span class="n">convert_mkv_to_srt</span>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.mkv_to_srt</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_mkv_to_srt</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">)</span>
 </code></pre></div></p>
 </li>
 <li>
 <p>Download specific subtitles:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.utils</span> <span class="kn">import</span> <span class="n">get_subtitles</span>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_subtitles</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">get_subtitles</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>  <span class="c1"># Seasons 1, 2, 3</span>
 </code></pre></div></p>
 </li>
@@ -1079,7 +1079,7 @@
 <ol>
 <li>
 <p>Remove temporary files:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.utils</span> <span class="kn">import</span> <span class="n">cleanup_ocr_files</span>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">cleanup_ocr_files</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">cleanup_ocr_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">)</span>
 </code></pre></div></p>
 </li>
@@ -1114,8 +1114,8 @@
 <li>
 <p><strong>Watch Folders</strong>
    <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Monitor for new files</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">watchdog.observers</span> <span class="kn">import</span> <span class="n">Observer</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span> <span class="nn">watchdog.events</span> <span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">watchdog.observers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Observer</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">watchdog.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
 </code></pre></div></p>
 </li>
 </ol>
@@ -1123,14 +1123,14 @@
 <ol>
 <li>
 <p>Rate limiting:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">mkv_episode_matcher.tmdb_client</span> <span class="kn">import</span> <span class="n">RateLimitedRequest</span>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.tmdb_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">RateLimitedRequest</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">request</span> <span class="o">=</span> <span class="n">RateLimitedRequest</span><span class="p">(</span><span class="n">rate_limit</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div></p>
 </li>
 <li>
 <p>Cache management:
    <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Cache API responses</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">import</span> <span class="nn">shelve</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">shelve</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">with</span> <span class="n">shelve</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;cache&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="c1"># Cache operations</span>
 </code></pre></div></p>
@@ -1208,7 +1208,7 @@
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>

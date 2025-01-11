@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1724,7 +1724,7 @@
 <span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
 <span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
 <span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
-<span class="normal"><a href="#__codelineno-0-100">100</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">def</span> <span class="nf">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">get_subs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">get_subs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the show using streaming speech recognition with OCR fallback.&quot;&quot;&quot;</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="n">show_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;show_dir&quot;</span><span class="p">)</span>
@@ -1954,7 +1954,7 @@
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate_limit</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate_limit</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">rate_limit</span> <span class="o">=</span> <span class="n">rate_limit</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">requests_made</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2063,7 +2063,7 @@
 <span class="normal"><a href="#__codelineno-0-51">51</a></span>
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Sends a rate-limited GET request to the specified URL.</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36"></a>
@@ -2185,7 +2185,7 @@
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span>
 <span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="k">def</span> <span class="nf">fetch_show_id</span><span class="p">(</span><span class="n">show_name</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_show_id</span><span class="p">(</span><span class="n">show_name</span><span class="p">):</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    Fetch the TMDb ID for a given show name.</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a>
@@ -2321,7 +2321,7 @@
 <span class="normal"><a href="#__codelineno-0-107">107</a></span>
 <span class="normal"><a href="#__codelineno-0-108">108</a></span>
 <span class="normal"><a href="#__codelineno-0-109">109</a></span>
-<span class="normal"><a href="#__codelineno-0-110">110</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="k">def</span> <span class="nf">fetch_season_details</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">season_number</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-110">110</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_season_details</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">season_number</span><span class="p">):</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">    Fetch the total number of episodes for a given show and season from the TMDb API.</span>
 <a id="__codelineno-0-85" name="__codelineno-0-85"></a>
@@ -2400,7 +2400,7 @@
 <span class="normal"><a href="#__codelineno-0-131">131</a></span>
 <span class="normal"><a href="#__codelineno-0-132">132</a></span>
 <span class="normal"><a href="#__codelineno-0-133">133</a></span>
-<span class="normal"><a href="#__codelineno-0-134">134</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="k">def</span> <span class="nf">get_number_of_seasons</span><span class="p">(</span><span class="n">show_id</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_number_of_seasons</span><span class="p">(</span><span class="n">show_id</span><span class="p">):</span>
 <a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">    Retrieves the number of seasons for a given TV show from the TMDB API.</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a>
@@ -2551,7 +2551,7 @@
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
 <span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">def</span> <span class="nf">check_if_processed</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">def</span><span class="w"> </span><span class="nf">check_if_processed</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    Check if the file has already been processed (has SxxExx format)</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24"></a>
@@ -2561,7 +2561,7 @@
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        bool: True if file is already processed</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="kn">import</span> <span class="nn">re</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;S\d+E\d+&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -2680,7 +2680,7 @@
 <span class="normal"><a href="#__codelineno-0-60">60</a></span>
 <span class="normal"><a href="#__codelineno-0-61">61</a></span>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">def</span> <span class="nf">convert_mkv_to_sup</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">def</span><span class="w"> </span><span class="nf">convert_mkv_to_sup</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    Convert an .mkv file to a .sup file using FFmpeg and pgs2srt.</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>
@@ -2833,7 +2833,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-164">164</a></span>
 <span class="normal"><a href="#__codelineno-0-165">165</a></span>
 <span class="normal"><a href="#__codelineno-0-166">166</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="k">def</span> <span class="nf">perform_ocr</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="k">def</span><span class="w"> </span><span class="nf">perform_ocr</span><span class="p">(</span><span class="n">sup_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    Perform OCR on a .sup file and save the extracted text to a .srt file.</span>
 <a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    Returns the path to the created SRT file.</span>
@@ -2997,7 +2997,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-231">231</a></span>
 <span class="normal"><a href="#__codelineno-0-232">232</a></span>
 <span class="normal"><a href="#__codelineno-0-233">233</a></span>
-<span class="normal"><a href="#__codelineno-0-234">234</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-193" name="__codelineno-0-193"></a><span class="k">def</span> <span class="nf">extract_subtitles</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal"><a href="#__codelineno-0-234">234</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-193" name="__codelineno-0-193"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_subtitles</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-194" name="__codelineno-0-194"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-195" name="__codelineno-0-195"></a><span class="sd">    Extract subtitles from MKV file based on detected subtitle type.</span>
 <a id="__codelineno-0-196" name="__codelineno-0-196"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -3096,7 +3096,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-267">267</a></span>
 <span class="normal"><a href="#__codelineno-0-268">268</a></span>
 <span class="normal"><a href="#__codelineno-0-269">269</a></span>
-<span class="normal"><a href="#__codelineno-0-270">270</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-236" name="__codelineno-0-236"></a><span class="k">def</span> <span class="nf">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-270">270</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-236" name="__codelineno-0-236"></a><span class="k">def</span><span class="w"> </span><span class="nf">convert_mkv_to_srt</span><span class="p">(</span><span class="n">season_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mkv_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-237" name="__codelineno-0-237"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-238" name="__codelineno-0-238"></a><span class="sd">    Convert subtitles from MKV files to SRT format.</span>
 <a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -3184,7 +3184,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-299">299</a></span>
 <span class="normal"><a href="#__codelineno-0-300">300</a></span>
 <span class="normal"><a href="#__codelineno-0-301">301</a></span>
-<span class="normal"><a href="#__codelineno-0-302">302</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-272" name="__codelineno-0-272"></a><span class="k">def</span> <span class="nf">detect_subtitle_type</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="normal"><a href="#__codelineno-0-302">302</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-272" name="__codelineno-0-272"></a><span class="k">def</span><span class="w"> </span><span class="nf">detect_subtitle_type</span><span class="p">(</span><span class="n">mkv_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <a id="__codelineno-0-273" name="__codelineno-0-273"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">    Detect the type and index of subtitle streams in an MKV file.</span>
 <a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -3357,7 +3357,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-42">42</a></span>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">def</span> <span class="nf">get_valid_seasons</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_seasons</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Get all season directories that contain MKV files.</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a>
@@ -3474,7 +3474,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
 <span class="normal"><a href="#__codelineno-0-56">56</a></span>
 <span class="normal"><a href="#__codelineno-0-57">57</a></span>
-<span class="normal"><a href="#__codelineno-0-58">58</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">def</span> <span class="nf">check_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">def</span><span class="w"> </span><span class="nf">check_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    Check if the filename is in the correct format (S01E02).</span>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>
@@ -3596,7 +3596,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="k">def</span> <span class="nf">scramble_filename</span><span class="p">(</span><span class="n">original_file_path</span><span class="p">,</span> <span class="n">file_number</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="k">def</span><span class="w"> </span><span class="nf">scramble_filename</span><span class="p">(</span><span class="n">original_file_path</span><span class="p">,</span> <span class="n">file_number</span><span class="p">):</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    Scrambles the filename of the given file path by adding the series title and file number.</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a>
@@ -3744,7 +3744,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-119">119</a></span>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
 <span class="normal"><a href="#__codelineno-0-121">121</a></span>
-<span class="normal"><a href="#__codelineno-0-122">122</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="k">def</span> <span class="nf">rename_episode_file</span><span class="p">(</span><span class="n">original_file_path</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_episode_file</span><span class="p">(</span><span class="n">original_file_path</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">):</span>
 <a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">    Rename an episode file with a standardized naming convention.</span>
 <a id="__codelineno-0-88" name="__codelineno-0-88"></a>
@@ -3934,7 +3934,7 @@ Returns the path to the created SRT file.</p>
 <span class="normal"><a href="#__codelineno-0-206">206</a></span>
 <span class="normal"><a href="#__codelineno-0-207">207</a></span>
 <span class="normal"><a href="#__codelineno-0-208">208</a></span>
-<span class="normal"><a href="#__codelineno-0-209">209</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="k">def</span> <span class="nf">get_subtitles</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">seasons</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+<span class="normal"><a href="#__codelineno-0-209">209</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subtitles</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">seasons</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="sd">    Retrieves and saves subtitles for a given TV show and seasons.</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a>
@@ -4112,7 +4112,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-227">227</a></span>
 <span class="normal"><a href="#__codelineno-0-228">228</a></span>
 <span class="normal"><a href="#__codelineno-0-229">229</a></span>
-<span class="normal"><a href="#__codelineno-0-230">230</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-212" name="__codelineno-0-212"></a><span class="k">def</span> <span class="nf">cleanup_ocr_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-230">230</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-212" name="__codelineno-0-212"></a><span class="k">def</span><span class="w"> </span><span class="nf">cleanup_ocr_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
 <a id="__codelineno-0-213" name="__codelineno-0-213"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-214" name="__codelineno-0-214"></a><span class="sd">    Clean up OCR files generated during the episode matching process.</span>
 <a id="__codelineno-0-215" name="__codelineno-0-215"></a>
@@ -4234,7 +4234,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-265">265</a></span>
 <span class="normal"><a href="#__codelineno-0-266">266</a></span>
 <span class="normal"><a href="#__codelineno-0-267">267</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="k">def</span> <span class="nf">process_reference_srt_files</span><span class="p">(</span><span class="n">series_name</span><span class="p">):</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_reference_srt_files</span><span class="p">(</span><span class="n">series_name</span><span class="p">):</span>
 <a id="__codelineno-0-241" name="__codelineno-0-241"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">    Process reference SRT files for a given series.</span>
 <a id="__codelineno-0-243" name="__codelineno-0-243"></a>
@@ -4245,8 +4245,8 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">        dict: A dictionary containing the reference files where the keys are the MKV filenames</span>
 <a id="__codelineno-0-249" name="__codelineno-0-249"></a><span class="sd">              and the values are the corresponding SRT texts.</span>
 <a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-251" name="__codelineno-0-251"></a>    <span class="kn">from</span> <span class="nn">mkv_episode_matcher.__main__</span> <span class="kn">import</span> <span class="n">CACHE_DIR</span>
-<a id="__codelineno-0-252" name="__codelineno-0-252"></a>    <span class="kn">import</span> <span class="nn">os</span>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.__main__</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHE_DIR</span>
+<a id="__codelineno-0-252" name="__codelineno-0-252"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <a id="__codelineno-0-253" name="__codelineno-0-253"></a>
 <a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="n">reference_files</span> <span class="o">=</span> <span class="p">{}</span>
 <a id="__codelineno-0-255" name="__codelineno-0-255"></a>    <span class="n">reference_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">series_name</span><span class="p">)</span>
@@ -4365,7 +4365,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-296">296</a></span>
 <span class="normal"><a href="#__codelineno-0-297">297</a></span>
 <span class="normal"><a href="#__codelineno-0-298">298</a></span>
-<span class="normal"><a href="#__codelineno-0-299">299</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-269" name="__codelineno-0-269"></a><span class="k">def</span> <span class="nf">extract_srt_text</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-299">299</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-269" name="__codelineno-0-269"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_srt_text</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
 <a id="__codelineno-0-270" name="__codelineno-0-270"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="sd">    Extracts text content from an SRT file.</span>
 <a id="__codelineno-0-272" name="__codelineno-0-272"></a>
@@ -4482,7 +4482,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-311">311</a></span>
 <span class="normal"><a href="#__codelineno-0-312">312</a></span>
 <span class="normal"><a href="#__codelineno-0-313">313</a></span>
-<span class="normal"><a href="#__codelineno-0-314">314</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="k">def</span> <span class="nf">extract_season_episode</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-314">314</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_season_episode</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <a id="__codelineno-0-302" name="__codelineno-0-302"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="sd">    Extract season and episode numbers from filename.</span>
 <a id="__codelineno-0-304" name="__codelineno-0-304"></a>
@@ -4587,7 +4587,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-330">330</a></span>
 <span class="normal"><a href="#__codelineno-0-331">331</a></span>
 <span class="normal"><a href="#__codelineno-0-332">332</a></span>
-<span class="normal"><a href="#__codelineno-0-333">333</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-315" name="__codelineno-0-315"></a><span class="k">def</span> <span class="nf">process_srt_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-333">333</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-315" name="__codelineno-0-315"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_srt_files</span><span class="p">(</span><span class="n">show_dir</span><span class="p">):</span>
 <a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-317" name="__codelineno-0-317"></a><span class="sd">    Process all SRT files in the given directory and its subdirectories.</span>
 <a id="__codelineno-0-318" name="__codelineno-0-318"></a>
@@ -4721,7 +4721,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-359">359</a></span>
 <span class="normal"><a href="#__codelineno-0-360">360</a></span>
 <span class="normal"><a href="#__codelineno-0-361">361</a></span>
-<span class="normal"><a href="#__codelineno-0-362">362</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-334" name="__codelineno-0-334"></a><span class="k">def</span> <span class="nf">compare_and_rename_files</span><span class="p">(</span><span class="n">srt_files</span><span class="p">,</span> <span class="n">reference_files</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-362">362</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-334" name="__codelineno-0-334"></a><span class="k">def</span><span class="w"> </span><span class="nf">compare_and_rename_files</span><span class="p">(</span><span class="n">srt_files</span><span class="p">,</span> <span class="n">reference_files</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <a id="__codelineno-0-335" name="__codelineno-0-335"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-336" name="__codelineno-0-336"></a><span class="sd">    Compare the srt files with the reference files and rename the matching mkv files.</span>
 <a id="__codelineno-0-337" name="__codelineno-0-337"></a>
@@ -4856,7 +4856,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-378">378</a></span>
 <span class="normal"><a href="#__codelineno-0-379">379</a></span>
 <span class="normal"><a href="#__codelineno-0-380">380</a></span>
-<span class="normal"><a href="#__codelineno-0-381">381</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-364" name="__codelineno-0-364"></a><span class="k">def</span> <span class="nf">compare_text</span><span class="p">(</span><span class="n">text1</span><span class="p">,</span> <span class="n">text2</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-381">381</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-364" name="__codelineno-0-364"></a><span class="k">def</span><span class="w"> </span><span class="nf">compare_text</span><span class="p">(</span><span class="n">text1</span><span class="p">,</span> <span class="n">text2</span><span class="p">):</span>
 <a id="__codelineno-0-365" name="__codelineno-0-365"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-366" name="__codelineno-0-366"></a><span class="sd">    Compare two lists of text lines and return the number of matching lines.</span>
 <a id="__codelineno-0-367" name="__codelineno-0-367"></a>
@@ -5141,7 +5141,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-60">60</a></span>
 <span class="normal"><a href="#__codelineno-0-61">61</a></span>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">def</span> <span class="nf">set_config</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">def</span><span class="w"> </span><span class="nf">set_config</span><span class="p">(</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">tmdb_api_key</span><span class="p">,</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">open_subtitles_api_key</span><span class="p">,</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">open_subtitles_user_agent</span><span class="p">,</span>
@@ -5272,7 +5272,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    Read and return the configuration from the specified file.</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
@@ -5374,7 +5374,7 @@ It deletes the 'ocr' directory and all its contents in each season directory of 
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>
