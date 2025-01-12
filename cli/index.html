@@ -668,24 +668,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exit Codes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#logging" class="md-nav__link">
     <span class="md-ellipsis">
       Logging
@@ -860,24 +842,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exit Codes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#logging" class="md-nav__link">
     <span class="md-ellipsis">
       Logging
@@ -980,44 +944,11 @@
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--get-subs<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--dry-run<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
-<h2 id="environment-variables">Environment Variables</h2>
-<p>Alternative to command line options:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TMDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHOW_DIR</span><span class="o">=</span><span class="s2">&quot;/path/to/shows&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>mkv-match
-</code></pre></div>
-<h2 id="exit-codes">Exit Codes</h2>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>Success</td>
-</tr>
-<tr>
-<td>1</td>
-<td>General error</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Configuration error</td>
-</tr>
-<tr>
-<td>3</td>
-<td>API error</td>
-</tr>
-</tbody>
-</table>
 <h2 id="logging">Logging</h2>
 <p>Logs are stored in:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>~/.mkv-episode-matcher/logs/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── stdout.log
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>└── stderr.log
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>~/.mkv-episode-matcher/logs/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── stdout.log
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>└── stderr.log
 </code></pre></div></p>
 <h2 id="tips">Tips</h2>
 <ol>
@@ -1025,6 +956,7 @@
 <li>Use dry-run first to test</li>
 <li>Check logs for details</li>
 <li>Use full paths for reliability</li>
+<li>Avoid using a trailing slash in paths</li>
 </ol>
 
 
