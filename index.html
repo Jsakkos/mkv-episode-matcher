@@ -391,18 +391,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Start
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      Quick Start
     </span>
   </a>
   
@@ -418,18 +418,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic Usage
+      Directory Structure
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#reference-subtitle-file-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Directory Structure
+      Reference Subtitle File Structure
     </span>
   </a>
   
@@ -721,18 +721,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Start
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      Quick Start
     </span>
   </a>
   
@@ -748,18 +748,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic Usage
+      Directory Structure
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#reference-subtitle-file-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Directory Structure
+      Reference Subtitle File Structure
     </span>
   </a>
   
@@ -831,6 +831,14 @@
 <li>✨ <strong>Bulk Processing</strong>: Handle entire seasons at once</li>
 <li>🧪 <strong>Dry Run Mode</strong>: Test changes before applying</li>
 </ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Python 3.9 or higher</li>
+<li><a href="https://ffmpeg.org/download.html">FFmpeg</a> installed and available in system PATH</li>
+<li><a href="https://github.com/UB-Mannheim/tesseract/wiki">Tesseract OCR</a> installed (required for image-based subtitle processing)</li>
+<li>TMDb API key</li>
+<li>OpenSubtitles account (optional, for subtitle downloads)</li>
+</ul>
 <h2 id="quick-start">Quick Start</h2>
 <ol>
 <li>
@@ -840,43 +848,32 @@
 </li>
 <li>
 <p>Run on your show directory:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;path/to/your/show&quot;</span><span class="w"> </span>--season<span class="w"> </span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;path/to/your/show&quot;</span><span class="w"> </span>--get-subs<span class="w"> </span><span class="nb">true</span>
 </code></pre></div></p>
 </li>
 </ol>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Python 3.8 or higher</li>
-<li>TMDb API key</li>
-<li>OpenSubtitles account (optional, for subtitle downloads)</li>
-</ul>
 <h2 id="documentation">Documentation</h2>
 <p>Full documentation is available at <a href="https://jsakkos.github.io/mkv-episode-matcher/">https://jsakkos.github.io/mkv-episode-matcher/</a></p>
-<h2 id="basic-usage">Basic Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_show</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Process all seasons</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">process_show</span><span class="p">()</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Process specific season</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Test run without making changes</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Process and download subtitles</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">process_show</span><span class="p">(</span><span class="n">get_subs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
 <h2 id="directory-structure">Directory Structure</h2>
 <p>MKV Episode Matcher expects your TV shows to be organized as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Show Name/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── Season 1/
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   ├── episode1.mkv
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── episode2.mkv
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── Season 2/
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ├── episode1.mkv
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   └── episode2.mkv
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Show Name/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── Season 1/
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│   ├── episode1.mkv
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│   ├── episode2.mkv
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>├── Season 2/
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   ├── episode1.mkv
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   └── episode2.mkv
 </code></pre></div>
+<h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
+<p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>└── ...
+</code></pre></div>
+<p>On Windows, the cache directory is located at <code>C:\Users\{username}\.mkv-episode-matcher\cache\data\</code></p>
+<p>Reference subtitle files should follow this naming pattern:
+<code>{show_name} - S{season:02d}E{episode:02d}.srt</code></p>
 <h2 id="contributing">Contributing</h2>
 <ol>
 <li>Fork the repository</li>

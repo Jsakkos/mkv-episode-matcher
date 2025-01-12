@@ -528,9 +528,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#python-api-usage" class="md-nav__link">
+  <a href="#reference-subtitle-file-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Python API Usage
+      Reference Subtitle File Structure
     </span>
   </a>
   
@@ -785,9 +785,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#python-api-usage" class="md-nav__link">
+  <a href="#reference-subtitle-file-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Python API Usage
+      Reference Subtitle File Structure
     </span>
   </a>
   
@@ -854,23 +854,17 @@
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   ├── episode1.mkv
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│   └── episode2.mkv
 </code></pre></div>
-<h2 id="python-api-usage">Python API Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_show</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Process all seasons</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">process_show</span><span class="p">()</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Process specific season</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Test run</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># With subtitles</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">process_show</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">get_subs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<!-- Add a note about the .srt reference files -->
+
+<h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
+<p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>└── ...
 </code></pre></div>
 <h2 id="configuration">Configuration</h2>
-<p>Create a configuration file at <code>~/.mkv-episode-matcher/config.ini</code>:</p>
+<p>The configuration file is automatically generated at <code>~/.mkv-episode-matcher/config.ini</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[Config]</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_api_key</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_opensubs_key</span>
