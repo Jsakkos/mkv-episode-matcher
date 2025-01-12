@@ -16,14 +16,14 @@ mkv-match --show-dir "/path/to/show" --season 1
 
 ## Command Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--show-dir` | Show directory path | None |
-| `--season` | Season number to process | None (all) |
-| `--dry-run` | Test without making changes | False |
-| `--get-subs` | Download subtitles | False |
-| `--tmdb-api-key` | TMDb API key | None |
-| `--tesseract-path` | Path to Tesseract | None |
+| Option             | Description                 | Default    |
+| ------------------ | --------------------------- | ---------- |
+| `--show-dir`       | Show directory path         | None       |
+| `--season`         | Season number to process    | None (all) |
+| `--dry-run`        | Test without making changes | False      |
+| `--get-subs`       | Download subtitles          | False      |
+| `--tmdb-api-key`   | TMDb API key                | None       |
+| `--tesseract-path` | Path to Tesseract           | None       |
 
 ## Examples
 
@@ -55,25 +55,6 @@ mkv-match \
   --dry-run true
 ```
 
-## Environment Variables
-
-Alternative to command line options:
-
-```bash
-export TMDB_API_KEY="your_key"
-export SHOW_DIR="/path/to/shows"
-mkv-match
-```
-
-## Exit Codes
-
-| Code | Meaning |
-|------|---------|
-| 0 | Success |
-| 1 | General error |
-| 2 | Configuration error |
-| 3 | API error |
-
 ## Logging
 
 Logs are stored in:
@@ -89,3 +70,4 @@ Logs are stored in:
 2. Use dry-run first to test
 3. Check logs for details
 4. Use full paths for reliability
+5. Avoid using a trailing slash in paths

@@ -41,7 +41,6 @@ Show Name/
 │   ├── episode1.mkv
 │   └── episode2.mkv
 ```
-<!-- Add a note about the .srt reference files -->
 
 ## Reference Subtitle File Structure
 
@@ -60,10 +59,14 @@ The configuration file is automatically generated at `~/.mkv-episode-matcher/con
 
 ```ini
 [Config]
-tmdb_api_key = your_api_key
-open_subtitles_api_key = your_opensubs_key
-show_dir = /path/to/shows
+tmdb_api_key = your_tmdb_api_key
+show_dir = /path/to/show
 max_threads = 4
+open_subtitles_api_key = your_opensubs_key
+open_subtitles_user_agent = your_user_agent
+open_subtitles_username = your_username
+open_subtitles_password = your_password
+tesseract_path = C:\Program Files\Tesseract-OCR\tesseract.exe
 ```
 
 ## Next Steps

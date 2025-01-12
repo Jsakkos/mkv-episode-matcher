@@ -36,10 +36,11 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 ```bash
 pip install mkv-episode-matcher
 ```
+2. Download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/
 
-2. Run on your show directory:
+3. Run on your show directory:
 ```bash
-mkv-match --show-dir "path/to/your/show" --get-subs true
+mkv-match --show-dir "path/to/your/show"
 ```
 
 ## Documentation
