@@ -9,6 +9,10 @@ from loguru import logger
 import whisper
 import numpy as np
 import re
+from pathlib import Path
+import chardet
+from loguru import logger
+
 class EpisodeMatcher:
     def __init__(self, cache_dir, show_name, min_confidence=0.6):
         self.cache_dir = Path(cache_dir)
@@ -50,34 +54,32 @@ class EpisodeMatcher:
         return str(chunk_path)
 
     def load_reference_chunk(self, srt_file, chunk_idx):
-        """Load reference subtitles for a specific time chunk."""
+        """
+        Load reference subtitles for a specific time chunk with robust encoding handling.
+        
+        Args:
+            srt_file (str or Path): Path to the SRT file
+            chunk_idx (int): Index of the chunk to load
+            
+        Returns:
+            str: Combined text from the subtitle chunk
+        """
         chunk_start = chunk_idx * self.chunk_duration
         chunk_end = chunk_start + self.chunk_duration
-        text_lines = []
         
-        with open(srt_file, 'r', encoding='utf-8') as f:
-            content = f.read().strip()
+        try:
+            # Read the file content using our robust reader
+            reader = SubtitleReader()
+            content = reader.read_srt_file(srt_file)
             
-        for block in content.split('\n\n'):
-            lines = block.split('\n')
-            if len(lines) < 3 or '-->' not in lines[1]:  # Skip malformed blocks
-                continue
-                
-            try:
-                timestamp = lines[1]
-                text = ' '.join(lines[2:])
-                
-                end_time = timestamp.split(' --> ')[1].strip()
-                hours, minutes, seconds = map(float, end_time.replace(',','.').split(':'))
-                total_seconds = hours * 3600 + minutes * 60 + seconds
-                
-                if chunk_start <= total_seconds <= chunk_end:
-                    text_lines.append(text)
-                    
-            except (IndexError, ValueError):
-                continue
-                
-        return ' '.join(text_lines)
+            # Extract subtitles for the time chunk
+            text_lines = reader.extract_subtitle_chunk(content, chunk_start, chunk_end)
+            
+            return ' '.join(text_lines)
+            
+        except Exception as e:
+            logger.error(f"Error loading reference chunk from {srt_file}: {e}")
+            return ''
 
     def identify_episode(self, video_file, temp_dir, season_number):
         try:
@@ -148,3 +150,120 @@ class EpisodeMatcher:
             # Cleanup temp files
             for file in self.temp_dir.glob("chunk_*.wav"):
                 file.unlink()
+
+def detect_file_encoding(file_path):
+    """
+    Detect the encoding of a file using chardet.
+    
+    Args:
+        file_path (str or Path): Path to the file
+        
+    Returns:
+        str: Detected encoding, defaults to 'utf-8' if detection fails
+    """
+    try:
+        with open(file_path, 'rb') as f:
+            raw_data = f.read()
+        result = chardet.detect(raw_data)
+        encoding = result['encoding']
+        confidence = result['confidence']
+        
+        logger.debug(f"Detected encoding {encoding} with {confidence:.2%} confidence for {file_path}")
+        return encoding if encoding else 'utf-8'
+    except Exception as e:
+        logger.warning(f"Error detecting encoding for {file_path}: {e}")
+        return 'utf-8'
+
+def read_file_with_fallback(file_path, encodings=None):
+    """
+    Read a file trying multiple encodings in order of preference.
+    
+    Args:
+        file_path (str or Path): Path to the file
+        encodings (list): List of encodings to try, defaults to common subtitle encodings
+        
+    Returns:
+        str: File contents
+        
+    Raises:
+        ValueError: If file cannot be read with any encoding
+    """
+    if encodings is None:
+        # First try detected encoding, then fallback to common subtitle encodings
+        detected = detect_file_encoding(file_path)
+        encodings = [detected, 'utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+    
+    file_path = Path(file_path)
+    errors = []
+    
+    for encoding in encodings:
+        try:
+            with open(file_path, 'r', encoding=encoding) as f:
+                content = f.read()
+            logger.debug(f"Successfully read {file_path} using {encoding} encoding")
+            return content
+        except UnicodeDecodeError as e:
+            errors.append(f"{encoding}: {str(e)}")
+            continue
+            
+    error_msg = f"Failed to read {file_path} with any encoding. Errors:\n" + "\n".join(errors)
+    logger.error(error_msg)
+    raise ValueError(error_msg)
+
+class SubtitleReader:
+    """Helper class for reading and parsing subtitle files."""
+    
+    @staticmethod
+    def parse_timestamp(timestamp):
+        """Parse SRT timestamp into seconds."""
+        hours, minutes, seconds = timestamp.replace(',', '.').split(':')
+        return float(hours) * 3600 + float(minutes) * 60 + float(seconds)
+    
+    @staticmethod
+    def read_srt_file(file_path):
+        """
+        Read an SRT file and return its contents with robust encoding handling.
+        
+        Args:
+            file_path (str or Path): Path to the SRT file
+            
+        Returns:
+            str: Contents of the SRT file
+        """
+        return read_file_with_fallback(file_path)
+    
+    @staticmethod
+    def extract_subtitle_chunk(content, start_time, end_time):
+        """
+        Extract subtitle text for a specific time window.
+        
+        Args:
+            content (str): Full SRT file content
+            start_time (float): Chunk start time in seconds
+            end_time (float): Chunk end time in seconds
+            
+        Returns:
+            list: List of subtitle texts within the time window
+        """
+        text_lines = []
+        
+        for block in content.strip().split('\n\n'):
+            lines = block.split('\n')
+            if len(lines) < 3 or '-->' not in lines[1]:
+                continue
+                
+            try:
+                timestamp = lines[1]
+                text = ' '.join(lines[2:])
+                
+                end_stamp = timestamp.split(' --> ')[1].strip()
+                total_seconds = SubtitleReader.parse_timestamp(end_stamp)
+                
+                if start_time <= total_seconds <= end_time:
+                    text_lines.append(text)
+                    
+            except (IndexError, ValueError) as e:
+                logger.warning(f"Error parsing subtitle block: {e}")
+                continue
+                
+        return text_lines
