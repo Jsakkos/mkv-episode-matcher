@@ -41,28 +41,22 @@ Show Name/
 │   ├── episode1.mkv
 │   └── episode2.mkv
 ```
+<!-- Add a note about the .srt reference files -->
 
-## Python API Usage
+## Reference Subtitle File Structure
 
-```python
-from mkv_episode_matcher import process_show
+Subtitle files that are not automatically downloaded using the `--get-subs` flag should be named as follows:
 
-# Process all seasons
-process_show()
-
-# Process specific season
-process_show(season=1)
-
-# Test run
-process_show(season=1, dry_run=True)
-
-# With subtitles
-process_show(season=1, get_subs=True)
+```plaintext
+~/.mkv-episode-matcher/cache/data/Show Name/
+├── Show Name - S01E01.srt
+├── Show Name - S01E02.srt
+└── ...
 ```
 
 ## Configuration
 
-Create a configuration file at `~/.mkv-episode-matcher/config.ini`:
+The configuration file is automatically generated at `~/.mkv-episode-matcher/config.ini`:
 
 ```ini
 [Config]

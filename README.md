@@ -22,6 +22,14 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 - ✨ **Bulk Processing**: Handle entire seasons at once
 - 🧪 **Dry Run Mode**: Test changes before applying
 
+## Prerequisites
+
+- Python 3.9 or higher
+- [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
+- [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) installed (required for image-based subtitle processing)
+- TMDb API key
+- OpenSubtitles account (optional, for subtitle downloads)
+
 ## Quick Start
 
 1. Install the package:
@@ -31,36 +39,12 @@ pip install mkv-episode-matcher
 
 2. Run on your show directory:
 ```bash
-mkv-match --show-dir "path/to/your/show" --season 1
+mkv-match --show-dir "path/to/your/show" --get-subs true
 ```
-
-## Requirements
-
-- Python 3.8 or higher
-- TMDb API key
-- OpenSubtitles account (optional, for subtitle downloads)
 
 ## Documentation
 
 Full documentation is available at [https://jsakkos.github.io/mkv-episode-matcher/](https://jsakkos.github.io/mkv-episode-matcher/)
-
-## Basic Usage
-
-```python
-from mkv_episode_matcher import process_show
-
-# Process all seasons
-process_show()
-
-# Process specific season
-process_show(season=1)
-
-# Test run without making changes
-process_show(season=1, dry_run=True)
-
-# Process and download subtitles
-process_show(get_subs=True)
-```
 
 ## Directory Structure
 
@@ -75,6 +59,23 @@ Show Name/
 │   ├── episode1.mkv
 │   └── episode2.mkv
 ```
+
+## Reference Subtitle File Structure
+
+Subtitle files that are not automatically downloaded using the `--get-subs` flag should be named as follows:
+
+```
+
+~/.mkv-episode-matcher/cache/data/Show Name/
+├── Show Name - S01E01.srt
+├── Show Name - S01E02.srt
+└── ...
+```
+
+On Windows, the cache directory is located at `C:\Users\{username}\.mkv-episode-matcher\cache\data\`
+
+Reference subtitle files should follow this naming pattern:
+`{show_name} - S{season:02d}E{episode:02d}.srt`
 
 ## Contributing
 
