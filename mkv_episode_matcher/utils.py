@@ -300,7 +300,7 @@ def extract_srt_text(filepath):
 
 def extract_season_episode(filename):
     """
-    Extract season and episode numbers from filename.
+    Extract season and episode numbers from filename with support for multiple formats.
     
     Args:
         filename (str): Filename to parse
@@ -308,10 +308,20 @@ def extract_season_episode(filename):
     Returns:
         tuple: (season_number, episode_number)
     """
-    match = re.search(r'S(\d+)E(\d+)', filename)
-    if match:
-        return int(match.group(1)), int(match.group(2))
+    # List of patterns to try
+    patterns = [
+        r'S(\d+)E(\d+)',          # S01E01
+        r'(\d+)x(\d+)',           # 1x01 or 01x01
+        r'Season\s*(\d+).*?(\d+)' # Season 1 - 01
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, filename, re.IGNORECASE)
+        if match:
+            return int(match.group(1)), int(match.group(2))
+            
     return None, None
+
 def process_srt_files(show_dir):
     """
     Process all SRT files in the given directory and its subdirectories.

@@ -96,13 +96,26 @@ class EpisodeMatcher:
             # Load Whisper model
             model = whisper.load_model("base", device=self.device)
             
-            # Get season-specific reference files
+            # Get season-specific reference files using multiple patterns
             reference_dir = self.cache_dir / "data" / self.show_name
-            season_pattern = f"S{season_number:02d}E"
-            reference_files = [
-                f for f in reference_dir.glob("*.srt")
-                if season_pattern in f.name
+            
+            # Create season patterns for different formats
+            patterns = [
+                f"S{season_number:02d}E",  # S01E01
+                f"S{season_number}E",      # S1E01
+                f"{season_number:02d}x",   # 01x01
+                f"{season_number}x",       # 1x01
             ]
+            
+            reference_files = []
+            for pattern in patterns:
+                files = [f for f in reference_dir.glob("*.srt") 
+                        if any(re.search(f"{p}\\d+", f.name, re.IGNORECASE) 
+                        for p in patterns)]
+                reference_files.extend(files)
+            
+            # Remove duplicates while preserving order
+            reference_files = list(dict.fromkeys(reference_files))
             
             if not reference_files:
                 logger.error(f"No reference files found for season {season_number}")
