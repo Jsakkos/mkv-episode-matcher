@@ -29,6 +29,14 @@ def process_show(season=None, dry_run=False, get_subs=False):
     show_name = clean_text(os.path.basename(show_dir))
     matcher = EpisodeMatcher(CACHE_DIR, show_name)
     
+    # Early check for reference files
+    reference_dir = Path(CACHE_DIR) / "data" / show_name
+    reference_files = list(reference_dir.glob("*.srt"))
+    if not reference_files:
+        logger.error(f"No reference subtitle files found in {reference_dir}")
+        logger.info("Please download reference subtitles first")
+        return
+        
     season_paths = get_valid_seasons(show_dir)
     if not season_paths:
         logger.warning(f"No seasons with .mkv files found")
