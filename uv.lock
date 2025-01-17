@@ -383,7 +383,7 @@ wheels = [
 
 [[package]]
 name = "mkv-episode-matcher"
-version = "0.3.5.post1.dev0+g1beb2cf.d20250112"
+version = "0.3.6.post1.dev0+g7f7c8c4.d20250113"
 source = { editable = "." }
 dependencies = [
     { name = "configparser" },

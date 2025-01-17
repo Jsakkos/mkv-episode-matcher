@@ -92,7 +92,18 @@ def main():
         nargs="?",
         help="Path to the tesseract executable (default: None)",
     )
+    parser.add_argument(
+        "--check-gpu",
+        type=bool,
+        default=False,
+        nargs="?",
+        help="Check if GPU is available (default: False)",
+    )
     args = parser.parse_args()
+    if args.check_gpu:
+        from mkv_episode_matcher.speech_to_text import check_gpu_support
+        check_gpu_support()
+        return
     logger.debug(f"Command-line arguments: {args}")
     open_subtitles_api_key = ""
     open_subtitles_user_agent = ""

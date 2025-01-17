@@ -88,3 +88,9 @@ def extract_audio(mkv_file, output_dir):
         logger.info(f"Audio file {wav_file} already exists, skipping extraction")
     
     return wav_file
+def check_gpu_support():
+    logger.info('Checking GPU support...')
+    if torch.cuda.is_available():
+        logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
+    else:
+        logger.warning("CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.")
