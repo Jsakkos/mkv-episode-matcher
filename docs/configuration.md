@@ -102,4 +102,8 @@ Adjust based on your system's capabilities:
 tesseract_path = /path/to/tesseract
 ```
 
-Required only if processing image-based subtitles.
+Required for processing image-based subtitles. Common paths:
+- Windows: `C:\Program Files\Tesseract-OCR\tesseract.exe`
+- Linux/macOS: `/usr/bin/tesseract`
+
+Make sure Tesseract OCR is properly installed before using this feature.

@@ -1,5 +1,23 @@
 # Installation Guide
 
+## Prerequisites
+
+### Required System Dependencies
+
+1. **FFmpeg**
+   - Windows: Download from [FFmpeg website](https://ffmpeg.org/download.html)
+   - Linux: `sudo apt install ffmpeg` or equivalent
+   - macOS: `brew install ffmpeg`
+   - Verify installation: `ffmpeg -version`
+
+2. **Tesseract OCR**
+   - Windows: Install from [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+   - Linux: `sudo apt install tesseract-ocr` or equivalent
+   - macOS: `brew install tesseract`
+   - Verify installation: `tesseract --version`
+
+Make sure both FFmpeg and Tesseract are added to your system PATH.
+
 ## Basic Installation
 
 Install MKV Episode Matcher using pip:
