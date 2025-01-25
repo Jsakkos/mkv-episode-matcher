@@ -936,8 +936,11 @@
 <p>For GPU acceleration (recommended if you have a CUDA-capable GPU):</p>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;mkv-episode-matcher&quot;</span>
 </code></pre></div>
-Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4):
+Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4) from the <a href="https://pytorch.org/get-started/locally/">compatibility matrix</a>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>torch<span class="w"> </span>torchvision<span class="w"> </span>torchaudio<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/cu124
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Verify GPU availability</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>mkv-match<span class="w"> </span>--check-gpu<span class="w"> </span><span class="nb">true</span>
 </code></pre></div></p>
 <h3 id="development-installation">Development Installation</h3>
 <p>For contributing or development:</p>
@@ -949,13 +952,12 @@ Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4):
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>pip<span class="w"> </span>install<span class="w"> </span>uv
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Install with development dependencies</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>uv<span class="w"> </span>venv
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>uv<span class="w"> </span>sync<span class="w"> </span>--dev
 </code></pre></div>
 <h2 id="api-keys-setup">API Keys Setup</h2>
 <ol>
 <li>
-<p><strong>TMDb API Key</strong></p>
+<p><strong>TMDb API Key (Optional)</strong></p>
 <ul>
 <li>Create an account at <a href="https://www.themoviedb.org/">TMDb</a></li>
 <li>Go to your account settings</li>
@@ -986,14 +988,16 @@ Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4):
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkv-match<span class="w"> </span>--version
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Check GPU availability (if installed with GPU support)</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import torch; print(f&#39;GPU available: {torch.cuda.is_available()}&#39;)&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>mkv-match<span class="w"> </span>--check-gpu<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
 <h2 id="troubleshooting">Troubleshooting</h2>
-<p>If you encounter any issues:
-1. Ensure you have the latest pip: <code>pip install --upgrade pip</code>
-2. For GPU installations, verify CUDA is properly installed
-3. Check the <a href="https://pytorch.org/get-started/locally/">compatibility matrix</a> for PyTorch and CUDA versions
-4. If you encounter any other issues, please <a href="https://github.com/Jsakkos/mkv-episode-matcher/issues">open an issue</a> on GitHub</p>
+<p>If you encounter any issues:</p>
+<ol>
+<li>Ensure you have the latest pip: <code>pip install --upgrade pip</code></li>
+<li>For GPU installations, verify CUDA is properly installed</li>
+<li>Check the <a href="https://pytorch.org/get-started/locally/">compatibility matrix</a> for PyTorch and CUDA versions</li>
+<li>If you encounter any other issues, please <a href="https://github.com/Jsakkos/mkv-episode-matcher/issues">open an issue</a> on GitHub</li>
+</ol>
 
 
 
