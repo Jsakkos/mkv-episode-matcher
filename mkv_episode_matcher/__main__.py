@@ -1,9 +1,10 @@
 # __main__.py
 import argparse
 import os
+import sys
 
 from loguru import logger
-
+from mkv_episode_matcher import __version__
 from mkv_episode_matcher.config import get_config, set_config
 
 # Log the start of the application
@@ -62,6 +63,12 @@ def main():
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Process shows with TMDb API")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+        help="Show the version number and exit"
+    )
     parser.add_argument("--tmdb-api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
     parser.add_argument(
