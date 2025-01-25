@@ -27,7 +27,7 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 - Python 3.9 or higher
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
 - [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) installed (required for image-based subtitle processing)
-- TMDb API key
+- TMDb API key (optional, for subtitle downloads)
 - OpenSubtitles account (optional, for subtitle downloads)
 
 ## Quick Start
@@ -42,10 +42,6 @@ pip install mkv-episode-matcher
 ```bash
 mkv-match --show-dir "path/to/your/show"
 ```
-
-## Documentation
-
-Full documentation is available at [https://jsakkos.github.io/mkv-episode-matcher/](https://jsakkos.github.io/mkv-episode-matcher/)
 
 ## Directory Structure
 
@@ -96,3 +92,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - [OpenSubtitles](https://www.opensubtitles.com/) for subtitle integration
 - All contributors who have helped improve this project
 
+## Documentation
+
+Full documentation is available at [https://jsakkos.github.io/mkv-episode-matcher/](https://jsakkos.github.io/mkv-episode-matcher/)

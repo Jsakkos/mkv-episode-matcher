@@ -35,9 +35,12 @@ For GPU acceleration (recommended if you have a CUDA-capable GPU):
 ```bash
 pip install "mkv-episode-matcher"
 ```
-Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4):
+Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4) from the [compatibility matrix](https://pytorch.org/get-started/locally/):
 ```bash
 pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+# Verify GPU availability
+mkv-match --check-gpu true
 ```
 
 
@@ -54,13 +57,12 @@ cd mkv-episode-matcher
 pip install uv
 
 # Install with development dependencies
-uv venv
-uv pip install -e ".[dev]"
+uv sync --dev
 ```
 
 ## API Keys Setup
 
-1. **TMDb API Key**
+1. **TMDb API Key (Optional)**
     - Create an account at [TMDb](https://www.themoviedb.org/)
     - Go to your account settings
     - Request an API key
@@ -87,12 +89,13 @@ Verify your installation:
 mkv-match --version
 
 # Check GPU availability (if installed with GPU support)
-python -c "import torch; print(f'GPU available: {torch.cuda.is_available()}')"
+mkv-match --check-gpu true
 ```
 
 ## Troubleshooting
 
 If you encounter any issues:
+
 1. Ensure you have the latest pip: `pip install --upgrade pip`
 2. For GPU installations, verify CUDA is properly installed
 3. Check the [compatibility matrix](https://pytorch.org/get-started/locally/) for PyTorch and CUDA versions
