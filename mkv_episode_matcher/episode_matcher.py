@@ -32,7 +32,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
     # Early check for reference files
     reference_dir = Path(CACHE_DIR) / "data" / show_name
     reference_files = list(reference_dir.glob("*.srt"))
-    if not reference_files:
+    if (not get_subs) and (not reference_files):
         logger.error(f"No reference subtitle files found in {reference_dir}")
         logger.info("Please download reference subtitles first")
         return
