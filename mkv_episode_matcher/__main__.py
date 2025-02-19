@@ -112,71 +112,49 @@ def main():
         check_gpu_support()
         return
     logger.debug(f"Command-line arguments: {args}")
-    open_subtitles_api_key = ""
-    open_subtitles_user_agent = ""
-    open_subtitles_username = ""
-    open_subtitles_password = ""
-    # Check if API key is provided via command-line argument
-    tmdb_api_key = args.tmdb_api_key
 
-    # If API key is not provided, try to get it from the cache
-    if not tmdb_api_key:
-        cached_config = get_config(CONFIG_FILE)
-        if cached_config:
-            tmdb_api_key = cached_config.get("tmdb_api_key")
+    # Load configuration once
+    config = get_config(CONFIG_FILE)
 
-    # If API key is still not available, prompt the user to input it
+    # Get TMDb API key
+    tmdb_api_key = args.tmdb_api_key or config.get("tmdb_api_key")
     if not tmdb_api_key:
         tmdb_api_key = input("Enter your TMDb API key: ")
-        # Cache the API key
-
     logger.debug(f"TMDb API Key: {tmdb_api_key}")
+    
     logger.debug("Getting OpenSubtitles API key")
-    cached_config = get_config(CONFIG_FILE)
-    try:
-        open_subtitles_api_key = cached_config.get("open_subtitles_api_key")
-        open_subtitles_user_agent = cached_config.get("open_subtitles_user_agent")
-        open_subtitles_username = cached_config.get("open_subtitles_username")
-        open_subtitles_password = cached_config.get("open_subtitles_password")
-    except:
-        pass
+    open_subtitles_api_key = config.get("open_subtitles_api_key")
+    open_subtitles_user_agent = config.get("open_subtitles_user_agent")
+    open_subtitles_username = config.get("open_subtitles_username")
+    open_subtitles_password = config.get("open_subtitles_password")
+    
     if args.get_subs:
         if not open_subtitles_api_key:
             open_subtitles_api_key = input("Enter your OpenSubtitles API key: ")
-
         if not open_subtitles_user_agent:
             open_subtitles_user_agent = input("Enter your OpenSubtitles User Agent: ")
-
         if not open_subtitles_username:
             open_subtitles_username = input("Enter your OpenSubtitles Username: ")
-
         if not open_subtitles_password:
             open_subtitles_password = input("Enter your OpenSubtitles Password: ")
-
-    # If show directory is provided via command-line argument, use it
-    show_dir = args.show_dir
+    
+    # Use config for show directory and tesseract path
+    show_dir = args.show_dir or config.get("show_dir")
     if not show_dir:
-        show_dir = cached_config.get("show_dir")
-        if not show_dir:
-            # If show directory is not provided, prompt the user to input it
-            show_dir = input("Enter the main directory of the show:")
-        logger.info(f"Show Directory: {show_dir}")
-        # if the user does not provide a show directory, make the default show directory the current working directory
-        if not show_dir:
-            show_dir = os.getcwd()
+        show_dir = input("Enter the main directory of the show:")
+    logger.info(f"Show Directory: {show_dir}")
+    if not show_dir:
+        show_dir = os.getcwd()
+    
     if not args.tesseract_path:
-        tesseract_path = cached_config.get("tesseract_path")
-
+        tesseract_path = config.get("tesseract_path")
         if not tesseract_path:
-            tesseract_path = input(
-                r"Enter the path to the tesseract executable: ['C:\Program Files\Tesseract-OCR\tesseract.exe']"
-            )
-
+            tesseract_path = input(r"Enter the path to the tesseract executable: ['C:\Program Files\Tesseract-OCR\tesseract.exe']")
     else:
         tesseract_path = args.tesseract_path
     logger.debug(f"Teesseract Path: {tesseract_path}")
     logger.debug(f"Show Directory: {show_dir}")
-
+    
     # Set the configuration
     set_config(
         tmdb_api_key,
