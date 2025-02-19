@@ -54,40 +54,6 @@ def process_speech_to_text(mkv_file, output_dir):
     
     return segments_file
 
-def extract_audio(mkv_file, output_dir):
-    """
-    Extract audio from MKV file using FFmpeg.
-    
-    Args:
-        mkv_file (str): Path to MKV file
-        output_dir (str): Directory to save WAV file
-        
-    Returns:
-        str: Path to extracted WAV file
-    """
-    wav_file = os.path.join(output_dir, f"{Path(mkv_file).stem}.wav")
-    
-    if not os.path.exists(wav_file):
-        logger.info(f"Extracting audio from {mkv_file}")
-        try:
-            cmd = [
-                'ffmpeg',
-                '-i', mkv_file,
-                '-vn',  # Disable video
-                '-acodec', 'pcm_s16le',  # Convert to PCM format
-                '-ar', '16000',  # Set sample rate to 16kHz
-                '-ac', '1',  # Convert to mono
-                wav_file
-            ]
-            subprocess.run(cmd, check=True, capture_output=True)
-            logger.info(f"Audio extracted to {wav_file}")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Error extracting audio: {e}")
-            return None
-    else:
-        logger.info(f"Audio file {wav_file} already exists, skipping extraction")
-    
-    return wav_file
 def check_gpu_support():
     logger.info('Checking GPU support...')
     if torch.cuda.is_available():
