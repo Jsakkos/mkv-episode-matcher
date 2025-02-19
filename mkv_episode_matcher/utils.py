@@ -121,16 +121,17 @@ def rename_episode_file(original_file_path, new_filename):
         logger.error(f"Failed to rename file: {e}")
         return None
         
-def get_subtitles(show_id, seasons: set[int]):
+def get_subtitles(show_id, seasons: set[int], config=None):
     """
     Retrieves and saves subtitles for a given TV show and seasons.
 
     Args:
         show_id (int): The ID of the TV show.
         seasons (Set[int]): A set of season numbers for which subtitles should be retrieved.
+        config (Config object, optional): Preloaded configuration.
     """
-    logger.info(f"Getting subtitles for show ID {show_id}")
-    config = get_config(CONFIG_FILE)
+    if config is None:
+        config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
     series_name = sanitize_filename(os.path.basename(show_dir))
     tmdb_api_key = config.get("tmdb_api_key")

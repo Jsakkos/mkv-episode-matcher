@@ -67,7 +67,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
             if get_subs:
                 show_id = fetch_show_id(matcher.show_name)
                 if show_id:
-                    get_subtitles(show_id, seasons={season_num})
+                    get_subtitles(show_id, seasons={season_num}, config=config)
                     
             unmatched_files = []
             for mkv_file in mkv_files:
