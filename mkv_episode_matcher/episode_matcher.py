@@ -19,7 +19,6 @@ from mkv_episode_matcher.utils import (
     process_srt_files,
     compare_and_rename_files,get_valid_seasons,rename_episode_file
 )
-from mkv_episode_matcher.speech_to_text import process_speech_to_text
 from mkv_episode_matcher.episode_identification import EpisodeMatcher
 
 def process_show(season=None, dry_run=False, get_subs=False):
@@ -76,8 +75,6 @@ def process_show(season=None, dry_run=False, get_subs=False):
                 
                 if match:
                     new_name = f"{matcher.show_name} - S{match['season']:02d}E{match['episode']:02d}.mkv"
-                    new_path = os.path.join(season_path, new_name)
-                    
                     logger.info(f"Speech matched {os.path.basename(mkv_file)} to {new_name} "
                               f"(confidence: {match['confidence']:.2f})")
                     

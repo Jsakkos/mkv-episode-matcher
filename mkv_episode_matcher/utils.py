@@ -2,7 +2,7 @@
 import os
 import re
 import shutil
-
+import torch
 import requests
 from loguru import logger
 from opensubtitlescom import OpenSubtitles
@@ -390,3 +390,10 @@ def compare_text(text1, text2):
     # Compare the two lists of text lines
     matching_lines = set(flat_text1).intersection(flat_text2)
     return len(matching_lines)
+
+def check_gpu_support():
+    logger.info('Checking GPU support...')
+    if torch.cuda.is_available():
+        logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
+    else:
+        logger.warning("CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.")

@@ -18,7 +18,7 @@ class EpisodeMatcher:
         self.cache_dir = Path(cache_dir)
         self.min_confidence = min_confidence
         self.show_name = show_name
-        self.chunk_duration = 300  # 5 minutes
+        self.chunk_duration = 30
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.temp_dir = Path(tempfile.gettempdir()) / "whisper_chunks"
         self.temp_dir.mkdir(exist_ok=True)
@@ -44,7 +44,9 @@ class EpisodeMatcher:
                 '-ss', str(start_time),
                 '-t', str(self.chunk_duration),
                 '-i', mkv_file,
-                '-vn',
+                '-vn',  # Disable video
+                '-sn',  # Disable subtitles
+                '-dn',  # Disable data streams
                 '-acodec', 'pcm_s16le',
                 '-ar', '16000',
                 '-ac', '1',
@@ -80,31 +82,73 @@ class EpisodeMatcher:
         except Exception as e:
             logger.error(f"Error loading reference chunk from {srt_file}: {e}")
             return ''
+    def _try_match_with_model(self, video_file, model_name, max_duration, reference_files):
+        """
+        Attempt to match using specified model, checking multiple 30-second chunks up to max_duration.
+        
+        Args:
+            video_file: Path to the video file
+            model_name: Name of the Whisper model to use
+            max_duration: Maximum duration in seconds to check
+            reference_files: List of reference subtitle files
+        """
+        # Use cached model
+        model = get_whisper_model(model_name, self.device)
+        
+        # Calculate number of chunks to check (30 seconds each)
+        num_chunks = max_duration // self.chunk_duration
+        
+        for chunk_idx in range(num_chunks):
+            start_time = chunk_idx * self.chunk_duration
+            logger.debug(f"Trying {model_name} model at {start_time} seconds")
+            
+            audio_path = self.extract_audio_chunk(video_file, start_time)
+            
+            result = model.transcribe(
+                audio_path,
+                task="transcribe",
+                language="en"
+            )
+            
+            chunk_text = result["text"]
+            best_confidence = 0
+            best_match = None
+            
+            # Compare with reference chunks
+            for ref_file in reference_files:
+                ref_text = self.load_reference_chunk(ref_file, chunk_idx)
+                confidence = self.chunk_score(chunk_text, ref_text)
+                
+                if confidence > best_confidence:
+                    best_confidence = confidence
+                    best_match = ref_file
+                    
+                if confidence > self.min_confidence:
+                    season_ep = re.search(r'S(\d+)E(\d+)', best_match.stem)
+                    if season_ep:
+                        season, episode = map(int, season_ep.groups())
+                        return {
+                            'season': season,
+                            'episode': episode,
+                            'confidence': best_confidence,
+                            'reference_file': str(best_match),
+                            'matched_at': start_time
+                        }
+            
+            logger.debug(f"No match found at {start_time} seconds (best confidence: {best_confidence:.2f})")
+        
+        return None
 
     def identify_episode(self, video_file, temp_dir, season_number):
+        """Progressive episode identification with faster initial attempt."""
         try:
-            # Get video duration
-            duration = float(subprocess.check_output([
-                'ffprobe', '-v', 'error',
-                '-show_entries', 'format=duration',
-                '-of', 'default=noprint_wrappers=1:nokey=1',
-                video_file
-            ]).decode())
-            
-            total_chunks = int(np.ceil(duration / self.chunk_duration))
-            
-            # Load Whisper model
-            model = whisper.load_model("base", device=self.device)
-            
-            # Get season-specific reference files using multiple patterns
+            # Get reference files first
             reference_dir = self.cache_dir / "data" / self.show_name
-            
-            # Create season patterns for different formats
             patterns = [
-                f"S{season_number:02d}E",  # S01E01
-                f"S{season_number}E",      # S1E01
-                f"{season_number:02d}x",   # 01x01
-                f"{season_number}x",       # 1x01
+                f"S{season_number:02d}E",
+                f"S{season_number}E",
+                f"{season_number:02d}x",
+                f"{season_number}x",
             ]
             
             reference_files = []
@@ -114,55 +158,43 @@ class EpisodeMatcher:
                         for p in patterns)]
                 reference_files.extend(files)
             
-            # Remove duplicates while preserving order
             reference_files = list(dict.fromkeys(reference_files))
             
             if not reference_files:
                 logger.error(f"No reference files found for season {season_number}")
                 return None
-                
-            # Process chunks until match found
-            for chunk_idx in range(min(3, total_chunks)):  # Only try first 3 chunks
-                start_time = chunk_idx * self.chunk_duration
-                audio_path = self.extract_audio_chunk(video_file, start_time)
-                
-                # Transcribe chunk
-                result = model.transcribe(
-                    audio_path,
-                    task="transcribe",
-                    language="en"
-                )
-                
-                chunk_text = result["text"]
-                best_confidence = 0
-                best_match = None
-                
-                # Compare with reference chunks
-                for ref_file in reference_files:
-                    ref_text = self.load_reference_chunk(ref_file, chunk_idx)
-                    confidence = self.chunk_score(chunk_text, ref_text)
-                    
-                    if confidence > best_confidence:
-                        best_confidence = confidence
-                        best_match = ref_file
-                        
-                    if confidence > self.min_confidence:
-                        season_ep = re.search(r'S(\d+)E(\d+)', best_match.stem)
-                        if season_ep:
-                            season, episode = map(int, season_ep.groups())
-                            return {
-                                'season': season,
-                                'episode': episode,
-                                'confidence': best_confidence,
-                                'reference_file': str(best_match),
-                            }
+
+            # Try with tiny model first (fastest) - check first 2 minutes
+            logger.info("Attempting match with tiny model (first 2 minutes)...")
+            match = self._try_match_with_model(video_file, "tiny", 120, reference_files)
+            if match and match['confidence'] > 0.65:  # Slightly lower threshold for tiny
+                logger.info(f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
+                return match
             
+            # If unsuccessful with tiny, try base model on first 3 minutes
+            logger.info("Tiny model match failed, trying base model (first 3 minutes)...")
+            match = self._try_match_with_model(video_file, "base", 180, reference_files)
+            if match and match['confidence'] > self.min_confidence:
+                logger.info(f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
+                return match
+            
+            # If still no match, try base model on up to 10 minutes
+            logger.info("No match in first 3 minutes, extending base model search to 10 minutes...")
+            match = self._try_match_with_model(video_file, "base", 600, reference_files)
+            if match:
+                logger.info(f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
+                return match
+            
+            logger.info("Speech recognition match failed")
             return None
             
         finally:
             # Cleanup temp files
             for file in self.temp_dir.glob("chunk_*.wav"):
-                file.unlink()
+                try:
+                    file.unlink()
+                except Exception as e:
+                    logger.warning(f"Failed to delete temp file {file}: {e}")
 
 def detect_file_encoding(file_path):
     """
@@ -280,3 +312,18 @@ class SubtitleReader:
                 continue
                 
         return text_lines
+    
+_whisper_models = {}
+
+def get_whisper_model(model_name="tiny", device=None):
+    """Cache whisper models to avoid reloading."""
+    global _whisper_models
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        
+    key = f"{model_name}_{device}"
+    if key not in _whisper_models:
+        _whisper_models[key] = whisper.load_model(model_name, device=device)
+        logger.info(f"Loaded {model_name} model on {device}")
+    
+    return _whisper_models[key]

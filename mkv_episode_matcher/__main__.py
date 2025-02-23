@@ -108,7 +108,7 @@ def main():
     )
     args = parser.parse_args()
     if args.check_gpu:
-        from mkv_episode_matcher.speech_to_text import check_gpu_support
+        from mkv_episode_matcher.utils import check_gpu_support
         check_gpu_support()
         return
     logger.debug(f"Command-line arguments: {args}")
