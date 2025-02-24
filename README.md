@@ -8,7 +8,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/Jsakkos/mkv-episode-matcher)](https://github.com/Jsakkos/mkv-episode-matcher/commits/main)
 [![GitHub issues](https://img.shields.io/github/issues/Jsakkos/mkv-episode-matcher)](https://github.com/Jsakkos/mkv-episode-matcher/issues)
 [![Tests](https://github.com/Jsakkos/mkv-episode-matcher/actions/workflows/tests.yml/badge.svg)](https://github.com/Jsakkos/mkv-episode-matcher/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/Jsakkos/mkv-episode-matcher/branch/main/graph/badge.svg)](https://codecov.io/gh/Jsakkos/mkv-episode-matcher)
+[![codecov](https://codecov.io/gh/Jsakkos/mkv-episode-matcher/branch/main/graph/badge.svg)](https://codecov.io/gh/Jsakkos/mkv-episode-matcher/)
 
 Automatically match and rename your MKV TV episodes using The Movie Database (TMDb).
 
@@ -21,6 +21,7 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 - ⬇️ **Subtitle Downloads**: Integration with OpenSubtitles
 - ✨ **Bulk Processing**: Handle entire seasons at once
 - 🧪 **Dry Run Mode**: Test changes before applying
+
 
 ## Prerequisites
 
@@ -95,3 +96,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Documentation
 
 Full documentation is available at [https://jsakkos.github.io/mkv-episode-matcher/](https://jsakkos.github.io/mkv-episode-matcher/)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes.
