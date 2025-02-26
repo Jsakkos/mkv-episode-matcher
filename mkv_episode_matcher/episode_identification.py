@@ -11,7 +11,6 @@ import numpy as np
 import re
 from pathlib import Path
 import chardet
-from loguru import logger
 
 class EpisodeMatcher:
     def __init__(self, cache_dir, show_name, min_confidence=0.6):
@@ -71,17 +70,132 @@ class EpisodeMatcher:
         
         try:
             # Read the file content using our robust reader
-            reader = SubtitleReader()
-            content = reader.read_srt_file(srt_file)
+            content = self.read_srt_file(srt_file)
             
             # Extract subtitles for the time chunk
-            text_lines = reader.extract_subtitle_chunk(content, chunk_start, chunk_end)
+            text_lines = self.extract_subtitle_chunk(content, chunk_start, chunk_end)
             
             return ' '.join(text_lines)
             
         except Exception as e:
             logger.error(f"Error loading reference chunk from {srt_file}: {e}")
             return ''
+            
+    @staticmethod
+    def parse_timestamp(timestamp):
+        """Parse SRT timestamp into seconds."""
+        hours, minutes, seconds = timestamp.replace(',', '.').split(':')
+        return float(hours) * 3600 + float(minutes) * 60 + float(seconds)
+    
+    @staticmethod
+    def read_srt_file(file_path):
+        """
+        Read an SRT file and return its contents with robust encoding handling.
+        
+        Args:
+            file_path (str or Path): Path to the SRT file
+            
+        Returns:
+            str: Contents of the SRT file
+        """
+        return EpisodeMatcher.read_file_with_fallback(file_path)
+        
+    @staticmethod
+    def read_file_with_fallback(file_path, encodings=None):
+        """
+        Read a file trying multiple encodings in order of preference.
+        
+        Args:
+            file_path (str or Path): Path to the file
+            encodings (list): List of encodings to try, defaults to common subtitle encodings
+            
+        Returns:
+            str: File contents
+            
+        Raises:
+            ValueError: If file cannot be read with any encoding
+        """
+        if encodings is None:
+            # First try detected encoding, then fallback to common subtitle encodings
+            detected = EpisodeMatcher.detect_file_encoding(file_path)
+            encodings = [detected, 'utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+        
+        file_path = Path(file_path)
+        errors = []
+        
+        for encoding in encodings:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    content = f.read()
+                logger.debug(f"Successfully read {file_path} using {encoding} encoding")
+                return content
+            except UnicodeDecodeError as e:
+                errors.append(f"{encoding}: {str(e)}")
+                continue
+                
+        error_msg = f"Failed to read {file_path} with any encoding. Errors:\n" + "\n".join(errors)
+        logger.error(error_msg)
+        raise ValueError(error_msg)
+        
+    @staticmethod
+    def detect_file_encoding(file_path):
+        """
+        Detect the encoding of a file using chardet.
+        
+        Args:
+            file_path (str or Path): Path to the file
+            
+        Returns:
+            str: Detected encoding, defaults to 'utf-8' if detection fails
+        """
+        try:
+            with open(file_path, 'rb') as f:
+                raw_data = f.read()
+            result = chardet.detect(raw_data)
+            encoding = result['encoding']
+            confidence = result['confidence']
+            
+            logger.debug(f"Detected encoding {encoding} with {confidence:.2%} confidence for {file_path}")
+            return encoding if encoding else 'utf-8'
+        except Exception as e:
+            logger.warning(f"Error detecting encoding for {file_path}: {e}")
+            return 'utf-8'
+    
+    def extract_subtitle_chunk(self, content, start_time, end_time):
+        """
+        Extract subtitle text for a specific time window.
+        
+        Args:
+            content (str): Full SRT file content
+            start_time (float): Chunk start time in seconds
+            end_time (float): Chunk end time in seconds
+            
+        Returns:
+            list: List of subtitle texts within the time window
+        """
+        text_lines = []
+        
+        for block in content.strip().split('\n\n'):
+            lines = block.split('\n')
+            if len(lines) < 3 or '-->' not in lines[1]:
+                continue
+                
+            try:
+                timestamp = lines[1]
+                text = ' '.join(lines[2:])
+                
+                end_stamp = timestamp.split(' --> ')[1].strip()
+                total_seconds = self.parse_timestamp(end_stamp)
+                
+                if start_time <= total_seconds <= end_time:
+                    text_lines.append(text)
+                    
+            except (IndexError, ValueError) as e:
+                logger.warning(f"Error parsing subtitle block: {e}")
+                continue
+                
+        return text_lines
+
     def _try_match_with_model(self, video_file, model_name, max_duration, reference_files):
         """
         Attempt to match using specified model, checking multiple 30-second chunks up to max_duration.
@@ -124,7 +238,7 @@ class EpisodeMatcher:
                     best_match = ref_file
                     
                 if confidence > self.min_confidence:
-                    season_ep = re.search(r'S(\d+)E(\d+)', best_match.stem)
+                    season_ep = re.search(r'S(\d+)E(\d+)', str(best_match.stem))
                     if season_ep:
                         season, episode = map(int, season_ep.groups())
                         return {
@@ -139,7 +253,7 @@ class EpisodeMatcher:
         
         return None
 
-    def identify_episode(self, video_file, temp_dir, season_number):
+    def identify_episode(self, video_file, season_number):
         """Progressive episode identification with faster initial attempt."""
         try:
             # Get reference files first
@@ -153,10 +267,11 @@ class EpisodeMatcher:
             
             reference_files = []
             for pattern in patterns:
-                files = [f for f in reference_dir.glob("*.srt") 
+                files = list(reference_dir.glob("*.srt"))
+                matching_files = [f for f in files 
                         if any(re.search(f"{p}\\d+", f.name, re.IGNORECASE) 
                         for p in patterns)]
-                reference_files.extend(files)
+                reference_files.extend(matching_files)
             
             reference_files = list(dict.fromkeys(reference_files))
             
@@ -181,137 +296,22 @@ class EpisodeMatcher:
             # If still no match, try base model on up to 10 minutes
             logger.info("No match in first 3 minutes, extending base model search to 10 minutes...")
             match = self._try_match_with_model(video_file, "base", 600, reference_files)
-            if match:
+            if match and match['confidence'] > self.min_confidence:
                 logger.info(f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
                 return match
+                
+            # As last resort, try small model on extended portion (up to 15 minutes)
+            logger.info("Base model match failed, trying small model on extended portion (up to 15 minutes)...")
+            match = self._try_match_with_model(video_file, "small", 900, reference_files)
+            if match:
+                logger.info(f"Successfully matched with small model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
+                return match
             
-            logger.info("Speech recognition match failed")
+            logger.warning("Speech recognition match failed after exhausting all attempts")
             return None
-            
-        finally:
-            # Cleanup temp files
-            for file in self.temp_dir.glob("chunk_*.wav"):
-                try:
-                    file.unlink()
-                except Exception as e:
-                    logger.warning(f"Failed to delete temp file {file}: {e}")
-
-def detect_file_encoding(file_path):
-    """
-    Detect the encoding of a file using chardet.
-    
-    Args:
-        file_path (str or Path): Path to the file
-        
-    Returns:
-        str: Detected encoding, defaults to 'utf-8' if detection fails
-    """
-    try:
-        with open(file_path, 'rb') as f:
-            raw_data = f.read()
-        result = chardet.detect(raw_data)
-        encoding = result['encoding']
-        confidence = result['confidence']
-        
-        logger.debug(f"Detected encoding {encoding} with {confidence:.2%} confidence for {file_path}")
-        return encoding if encoding else 'utf-8'
-    except Exception as e:
-        logger.warning(f"Error detecting encoding for {file_path}: {e}")
-        return 'utf-8'
-
-def read_file_with_fallback(file_path, encodings=None):
-    """
-    Read a file trying multiple encodings in order of preference.
-    
-    Args:
-        file_path (str or Path): Path to the file
-        encodings (list): List of encodings to try, defaults to common subtitle encodings
-        
-    Returns:
-        str: File contents
-        
-    Raises:
-        ValueError: If file cannot be read with any encoding
-    """
-    if encodings is None:
-        # First try detected encoding, then fallback to common subtitle encodings
-        detected = detect_file_encoding(file_path)
-        encodings = [detected, 'utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
-    
-    file_path = Path(file_path)
-    errors = []
-    
-    for encoding in encodings:
-        try:
-            with open(file_path, 'r', encoding=encoding) as f:
-                content = f.read()
-            logger.debug(f"Successfully read {file_path} using {encoding} encoding")
-            return content
-        except UnicodeDecodeError as e:
-            errors.append(f"{encoding}: {str(e)}")
-            continue
-            
-    error_msg = f"Failed to read {file_path} with any encoding. Errors:\n" + "\n".join(errors)
-    logger.error(error_msg)
-    raise ValueError(error_msg)
-
-class SubtitleReader:
-    """Helper class for reading and parsing subtitle files."""
-    
-    @staticmethod
-    def parse_timestamp(timestamp):
-        """Parse SRT timestamp into seconds."""
-        hours, minutes, seconds = timestamp.replace(',', '.').split(':')
-        return float(hours) * 3600 + float(minutes) * 60 + float(seconds)
-    
-    @staticmethod
-    def read_srt_file(file_path):
-        """
-        Read an SRT file and return its contents with robust encoding handling.
-        
-        Args:
-            file_path (str or Path): Path to the SRT file
-            
-        Returns:
-            str: Contents of the SRT file
-        """
-        return read_file_with_fallback(file_path)
-    
-    @staticmethod
-    def extract_subtitle_chunk(content, start_time, end_time):
-        """
-        Extract subtitle text for a specific time window.
-        
-        Args:
-            content (str): Full SRT file content
-            start_time (float): Chunk start time in seconds
-            end_time (float): Chunk end time in seconds
-            
-        Returns:
-            list: List of subtitle texts within the time window
-        """
-        text_lines = []
-        
-        for block in content.strip().split('\n\n'):
-            lines = block.split('\n')
-            if len(lines) < 3 or '-->' not in lines[1]:
-                continue
-                
-            try:
-                timestamp = lines[1]
-                text = ' '.join(lines[2:])
-                
-                end_stamp = timestamp.split(' --> ')[1].strip()
-                total_seconds = SubtitleReader.parse_timestamp(end_stamp)
-                
-                if start_time <= total_seconds <= end_time:
-                    text_lines.append(text)
-                    
-            except (IndexError, ValueError) as e:
-                logger.warning(f"Error parsing subtitle block: {e}")
-                continue
-                
-        return text_lines
+        except Exception as e:
+            logger.error(f"Error identifying episode: {e}")
+            return None
     
 _whisper_models = {}
 

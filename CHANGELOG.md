@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2025-02-25
+
+### Changed
+- Enhanced speech recognition with progressive model fallbacks (tiny → base → small)
+- Extended audio matching duration to 15 minutes for difficult cases
+- Improved subtitle file reading with robust encoding detection
+- Simplified codebase and reduced dependencies
+
+### Removed
+- Removed OCR fallback functionality 
+- Removed Tesseract OCR dependency
+- Removed SUP/PGS subtitle extraction and processing
+- Removed OCR-related configuration options
+
 ## [0.5.0] - 2025-02-23
 
 ### Changed
@@ -15,4 +29,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Removed unused code
 
+[0.6.0]: https://github.com/Jsakkos/mkv-episode-matcher/releases/tag/v0.6.0
 [0.5.0]: https://github.com/Jsakkos/mkv-episode-matcher/releases/tag/v0.5.0

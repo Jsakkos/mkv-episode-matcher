@@ -26,8 +26,7 @@ def set_config(
     open_subtitles_username,
     open_subtitles_password,
     show_dir,
-    file,
-    tesseract_path=None,
+    file
 ):
     """
     Sets the configuration values and writes them to a file.
@@ -40,7 +39,6 @@ def set_config(
         open_subtitles_password (str): The password for OpenSubtitles.
         show_dir (str): The directory where the TV show episodes are located.
         file (str): The path to the configuration file.
-        tesseract_path (str, optional): The path to the Tesseract OCR executable.
 
     Returns:
         None
@@ -53,8 +51,7 @@ def set_config(
         "open_subtitles_api_key": str(open_subtitles_api_key),
         "open_subtitles_user_agent": str(open_subtitles_user_agent),
         "open_subtitles_username": str(open_subtitles_username),
-        "open_subtitles_password": str(open_subtitles_password),
-        "tesseract_path": str(tesseract_path),
+        "open_subtitles_password": str(open_subtitles_password)
     }
     logger.info(
         f"Setting config with API:{tmdb_api_key}, show_dir: {show_dir}, and max_threads: {MAX_THREADS}"

@@ -66,8 +66,18 @@ open_subtitles_api_key = your_opensubs_key
 open_subtitles_user_agent = your_user_agent
 open_subtitles_username = your_username
 open_subtitles_password = your_password
-tesseract_path = C:\Program Files\Tesseract-OCR\tesseract.exe
 ```
+
+## How It Works
+
+MKV Episode Matcher uses speech recognition to identify episodes:
+
+1. Extracts audio from your MKV files
+2. Processes the audio with OpenAI's Whisper
+3. Compares audio transcript to reference subtitles
+4. Renames files based on matched episodes
+
+The process is progressive, using faster models first and only falling back to more accurate (but slower) models when needed.
 
 ## Next Steps
 
