@@ -10,7 +10,13 @@
    - macOS: `brew install ffmpeg`
    - Verify installation: `ffmpeg -version`
 
-Make sure FFmpeg is added to your system PATH.
+2. **Tesseract OCR**
+   - Windows: Install from [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+   - Linux: `sudo apt install tesseract-ocr` or equivalent
+   - macOS: `brew install tesseract`
+   - Verify installation: `tesseract --version`
+
+Make sure both FFmpeg and Tesseract are added to your system PATH.
 
 ## Basic Installation
 
@@ -36,6 +42,7 @@ pip install -U torch torchvision torchaudio --index-url https://download.pytorch
 # Verify GPU availability
 mkv-match --check-gpu true
 ```
+
 
 ### Development Installation
 

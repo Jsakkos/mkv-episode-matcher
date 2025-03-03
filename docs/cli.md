@@ -16,14 +16,14 @@ mkv-match --show-dir "/path/to/show" --season 1
 
 ## Command Options
 
-| Option           | Description                 | Default    |
-| ---------------- | --------------------------- | ---------- |
-| `--show-dir`     | Show directory path         | None       |
-| `--season`       | Season number to process    | None (all) |
-| `--dry-run`      | Test without making changes | False      |
-| `--get-subs`     | Download subtitles          | False      |
-| `--tmdb-api-key` | TMDb API key                | None       |
-| `--check-gpu`    | Check GPU availability      | False      |
+| Option             | Description                 | Default    |
+| ------------------ | --------------------------- | ---------- |
+| `--show-dir`       | Show directory path         | None       |
+| `--season`         | Season number to process    | None (all) |
+| `--dry-run`        | Test without making changes | False      |
+| `--get-subs`       | Download subtitles          | False      |
+| `--tmdb-api-key`   | TMDb API key                | None       |
+| `--tesseract-path` | Path to Tesseract           | None       |
 
 ## Examples
 
@@ -43,12 +43,6 @@ mkv-match --show-dir "/path/to/show" --get-subs true
 
 ```bash
 mkv-match --show-dir "/path/to/show" --tmdb-api-key "your_key"
-```
-
-### Check GPU Support
-
-```bash
-mkv-match --check-gpu true
 ```
 
 ### Multiple Options

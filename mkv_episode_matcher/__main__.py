@@ -30,12 +30,11 @@ log_dir = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher", "logs")
 if not os.path.exists(log_dir):
     os.mkdir(log_dir)
 
-logger.remove()
 # Add a new handler for stdout logs
 logger.add(
     os.path.join(log_dir, "stdout.log"),
     format="{time} {level} {message}",
-    level="INFO",
+    level="DEBUG",
     rotation="10 MB",
 )
 
@@ -57,6 +56,9 @@ def main():
     --season: The season number to be processed. If not provided, all seasons will be processed.
     --dry-run: A boolean flag indicating whether to perform a dry run (i.e., not rename any files). If not provided, the function will rename files.
     --get-subs: A boolean flag indicating whether to download subtitles for the show. If not provided, the function will not download subtitles.
+    --tesseract-path: The path to the tesseract executable. If not provided, the function will try to get it from the cache or prompt the user to input it.
+
+    The function logs its progress to two separate log files: one for standard output and one for errors.
     """
 
     # Parse command-line arguments
@@ -91,6 +93,13 @@ def main():
         help="Download subtitles for the show (default: None)",
     )
     parser.add_argument(
+        "--tesseract-path",
+        type=str,
+        default=None,
+        nargs="?",
+        help="Path to the tesseract executable (default: None)",
+    )
+    parser.add_argument(
         "--check-gpu",
         type=bool,
         default=False,
@@ -109,19 +118,17 @@ def main():
 
     # Get TMDb API key
     tmdb_api_key = args.tmdb_api_key or config.get("tmdb_api_key")
-
+    if not tmdb_api_key:
+        tmdb_api_key = input("Enter your TMDb API key: ")
+    logger.debug(f"TMDb API Key: {tmdb_api_key}")
     
-
+    logger.debug("Getting OpenSubtitles API key")
     open_subtitles_api_key = config.get("open_subtitles_api_key")
     open_subtitles_user_agent = config.get("open_subtitles_user_agent")
     open_subtitles_username = config.get("open_subtitles_username")
     open_subtitles_password = config.get("open_subtitles_password")
     
     if args.get_subs:
-        if not tmdb_api_key:
-            tmdb_api_key = input("Enter your TMDb API key: ")
-            logger.debug(f"TMDb API Key: {tmdb_api_key}")
-        logger.debug("Getting OpenSubtitles API key")
         if not open_subtitles_api_key:
             open_subtitles_api_key = input("Enter your OpenSubtitles API key: ")
         if not open_subtitles_user_agent:
@@ -131,13 +138,22 @@ def main():
         if not open_subtitles_password:
             open_subtitles_password = input("Enter your OpenSubtitles Password: ")
     
-    # Use config for show directory
+    # Use config for show directory and tesseract path
     show_dir = args.show_dir or config.get("show_dir")
     if not show_dir:
         show_dir = input("Enter the main directory of the show:")
     logger.info(f"Show Directory: {show_dir}")
     if not show_dir:
         show_dir = os.getcwd()
+    
+    if not args.tesseract_path:
+        tesseract_path = config.get("tesseract_path")
+        if not tesseract_path:
+            tesseract_path = input(r"Enter the path to the tesseract executable: ['C:\Program Files\Tesseract-OCR\tesseract.exe']")
+    else:
+        tesseract_path = args.tesseract_path
+    logger.debug(f"Teesseract Path: {tesseract_path}")
+    logger.debug(f"Show Directory: {show_dir}")
     
     # Set the configuration
     set_config(
@@ -147,7 +163,8 @@ def main():
         open_subtitles_username,
         open_subtitles_password,
         show_dir,
-        CONFIG_FILE
+        CONFIG_FILE,
+        tesseract_path=tesseract_path,
     )
     logger.info("Configuration set")
 

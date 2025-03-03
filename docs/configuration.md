@@ -21,6 +21,7 @@ open_subtitles_api_key = your_opensubs_key
 open_subtitles_user_agent = your_user_agent
 open_subtitles_username = your_username
 open_subtitles_password = your_password
+tesseract_path = /path/to/tesseract
 ```
 
 ## Command Line Configuration
@@ -33,7 +34,8 @@ mkv-match \
   --show-dir "/path/to/shows" \
   --season 1 \
   --dry-run true \
-  --get-subs true
+  --get-subs true \
+  --tesseract-path "/path/to/tesseract"
 ```
 
 ## Environment Variables
@@ -93,13 +95,15 @@ Adjust based on your system's capabilities:
 - Minimum: 1 thread
 - Maximum: Number of CPU cores
 
-### Speech Recognition
+### OCR Configuration
 
-MKV Episode Matcher uses OpenAI's Whisper for speech recognition to identify episodes. The process follows these steps:
+```ini
+[Config]
+tesseract_path = /path/to/tesseract
+```
 
-1. First attempts with "tiny" model (fastest, least accurate) for the first 2 minutes
-2. If no match, tries "base" model for the first 3 minutes
-3. If still no match, extends to 10 minutes with "base" model
-4. As last resort, uses "small" model (most accurate, slowest) for up to 15 minutes
+Required for processing image-based subtitles. Common paths:
+- Windows: `C:\Program Files\Tesseract-OCR\tesseract.exe`
+- Linux/macOS: `/usr/bin/tesseract`
 
-This progressive approach balances speed and accuracy.
+Make sure Tesseract OCR is properly installed before using this feature.

@@ -24,16 +24,7 @@ TV Shows/
    max_threads = 4  # Adjust based on CPU cores
    ```
 
-2. **GPU Acceleration**
-   ```bash
-   # Check GPU support
-   mkv-match --check-gpu true
-   
-   # If not available, install CUDA support
-   pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-   ```
-
-3. **Batch Processing**
+2. **Batch Processing**
    ```bash
    # Process multiple seasons
    for i in {1..5}; do
@@ -68,16 +59,15 @@ process_show(
 )
 ```
 
-### Speech Recognition Tips
-
-1. **Quality Matters**: Higher quality audio leads to better recognition
-2. **First Few Minutes**: The first 2-3 minutes of an episode are most important for matching
-3. **Reference Subtitles**: Ensure you have good quality reference subtitle files
-4. **Dialogue Heavy**: Episodes with clear dialogue in the opening scenes match better
-
 ### Subtitle Processing
 
-1. Download specific subtitles:
+1. Extract subtitles only:
+   ```python
+   from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
+   convert_mkv_to_srt(season_path, mkv_files)
+   ```
+
+2. Download specific subtitles:
    ```python
    from mkv_episode_matcher.utils import get_subtitles
    get_subtitles(show_id, {1, 2, 3})  # Seasons 1, 2, 3
@@ -101,16 +91,17 @@ process_show(
    - Reduce max_threads
    - Process seasons separately
 
-4. **Low Match Confidence**
-   - Ensure reference subtitle quality
-   - Try with different episodes
-   - Check audio quality of MKV files
-
 ## Maintenance
 
 ### Clean Up
 
-1. Clear cache:
+1. Remove temporary files:
+   ```python
+   from mkv_episode_matcher.utils import cleanup_ocr_files
+   cleanup_ocr_files(show_dir)
+   ```
+
+2. Clear cache:
    ```bash
    rm -rf ~/.mkv-episode-matcher/cache/*
    ```
