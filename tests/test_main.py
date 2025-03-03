@@ -12,17 +12,6 @@ from mkv_episode_matcher.utils import (
     get_valid_seasons,
     rename_episode_file,
 )
-
-# @pytest.fixture
-# def mock_config():
-#     return {
-#         "tmdb_api_key": "test_key",
-#         "show_dir": "/test/path",
-#         "max_threads": 4,
-#         "tesseract_path": "/usr/bin/tesseract",
-#     }
-
-
 @pytest.fixture
 def mock_episode_data():
     return {
@@ -59,7 +48,6 @@ def mock_config():
         "open_subtitles_user_agent": "test_agent",
         "open_subtitles_username": "test_user",
         "open_subtitles_password": "test_pass",
-        "tesseract_path": "/test/tesseract"
     }
 
 
@@ -102,7 +90,6 @@ class TestConfiguration:
             mock_config["open_subtitles_password"],
             mock_config["show_dir"],
             str(config_file),
-            mock_config["tesseract_path"]
         )
         assert config_file.exists()
 
@@ -116,7 +103,6 @@ class TestConfiguration:
             mock_config["open_subtitles_password"],
             mock_config["show_dir"],
             str(config_file),
-            mock_config["tesseract_path"]
         )
         config = get_config(str(config_file))
         assert config["tmdb_api_key"] == mock_config["tmdb_api_key"]
