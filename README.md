@@ -16,18 +16,16 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 
 - 🎯 **Automatic Episode Matching**: Uses TMDb to accurately identify episodes
 - 📝 **Subtitle Extraction**: Extracts subtitles from MKV files
-- 🔍 **OCR Support**: Handles image-based subtitles
+- 🔊 **Speech Recognition**: Uses Whisper for accurate episode identification
 - 🚀 **Multi-threaded**: Fast processing of multiple files
 - ⬇️ **Subtitle Downloads**: Integration with OpenSubtitles
 - ✨ **Bulk Processing**: Handle entire seasons at once
 - 🧪 **Dry Run Mode**: Test changes before applying
 
-
 ## Prerequisites
 
 - Python 3.9 or higher
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
-- [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) installed (required for image-based subtitle processing)
 - TMDb API key (optional, for subtitle downloads)
 - OpenSubtitles account (optional, for subtitle downloads)
 
