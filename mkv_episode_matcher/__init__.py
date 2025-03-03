@@ -1,4 +1,5 @@
 """MKV Episode Matcher package."""
+
 from importlib.metadata import PackageNotFoundError, version
 
 try:

@@ -34,7 +34,7 @@ if not os.path.exists(log_dir):
 logger.add(
     os.path.join(log_dir, "stdout.log"),
     format="{time} {level} {message}",
-    level="DEBUG",
+    level="INFO",
     rotation="10 MB",
 )
 
@@ -66,7 +66,7 @@ def main():
         "--version",
         action="version",
         version=f"%(prog)s {__version__}",
-        help="Show the version number and exit"
+        help="Show the version number and exit",
     )
     parser.add_argument("--tmdb-api-key", help="TMDb API key")
     parser.add_argument("--show-dir", help="Main directory of the show")
@@ -101,6 +101,7 @@ def main():
     args = parser.parse_args()
     if args.check_gpu:
         from mkv_episode_matcher.utils import check_gpu_support
+
         check_gpu_support()
         return
     logger.debug(f"Command-line arguments: {args}")

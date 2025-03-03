@@ -15,18 +15,14 @@ from mkv_episode_matcher.tmdb_client import fetch_show_id
 from mkv_episode_matcher.utils import (
     check_filename,
     clean_text,
-    cleanup_ocr_files,
-    compare_and_rename_files,
     get_subtitles,
     get_valid_seasons,
-    process_reference_srt_files,
-    process_srt_files,
     rename_episode_file,
 )
 
 
 def process_show(season=None, dry_run=False, get_subs=False):
-    """Process the show using streaming speech recognition with OCR fallback."""
+    """Process the show using streaming speech recognition."""
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
     show_name = clean_text(os.path.basename(show_dir))
@@ -62,9 +58,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
 
         season_num = int(re.search(r'Season (\d+)', season_path).group(1))
         temp_dir = Path(season_path) / "temp"
-        ocr_dir = Path(season_path) / "ocr"
         temp_dir.mkdir(exist_ok=True)
-        ocr_dir.mkdir(exist_ok=True)
 
         try:
             if get_subs:
@@ -72,7 +66,6 @@ def process_show(season=None, dry_run=False, get_subs=False):
                 if show_id:
                     get_subtitles(show_id, seasons={season_num}, config=config)
 
-            unmatched_files = []
             for mkv_file in mkv_files:
                 logger.info(f"Attempting speech recognition match for {mkv_file}")
                 match = matcher.identify_episode(mkv_file, temp_dir, season_num)
@@ -86,24 +79,7 @@ def process_show(season=None, dry_run=False, get_subs=False):
                         logger.info(f"Renaming {mkv_file} to {new_name}")
                         rename_episode_file(mkv_file, new_name)
                 else:
-                    logger.info(f"Speech recognition match failed for {mkv_file}, trying OCR")
-                    unmatched_files.append(mkv_file)
-
-            # OCR fallback for unmatched files
-            if unmatched_files:
-                logger.info(f"Attempting OCR matching for {len(unmatched_files)} unmatched files")
-                convert_mkv_to_srt(season_path, unmatched_files)
-
-                reference_text_dict = process_reference_srt_files(matcher.show_name)
-                srt_text_dict = process_srt_files(str(ocr_dir))
-
-                compare_and_rename_files(
-                    srt_text_dict,
-                    reference_text_dict,
-                    dry_run=dry_run,
-                )
-
+                    logger.info(f"Speech recognition match failed for {mkv_file}")
         finally:
             if not dry_run:
                 shutil.rmtree(temp_dir)
-                cleanup_ocr_files(show_dir)

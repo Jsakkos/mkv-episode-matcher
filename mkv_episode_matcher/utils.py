@@ -39,7 +39,9 @@ def get_valid_seasons(show_dir):
             valid_season_paths.append(season_path)
 
     if not valid_season_paths:
-        logger.warning(f"No seasons with .mkv files found in show '{os.path.basename(show_dir)}'")
+        logger.warning(
+            f"No seasons with .mkv files found in show '{os.path.basename(show_dir)}'"
+        )
     else:
         logger.info(
             f"Found {len(valid_season_paths)} seasons with .mkv files in '{os.path.basename(show_dir)}'"
@@ -59,7 +61,7 @@ def check_filename(filename):
         bool: True if the filename matches the expected pattern.
     """
     # Check if the filename matches the expected format
-    match = re.search(r'.*S\d+E\d+', filename)
+    match = re.search(r".*S\d+E\d+", filename)
     return bool(match)
 
 
@@ -180,7 +182,9 @@ def get_subtitles(show_id, seasons: set[int], config=None):
             )
 
             if existing_subtitle:
-                logger.info(f"Subtitle already exists: {os.path.basename(existing_subtitle)}")
+                logger.info(
+                    f"Subtitle already exists: {os.path.basename(existing_subtitle)}"
+                )
                 continue
 
             # Default to standard format for new downloads
@@ -214,27 +218,6 @@ def get_subtitles(show_id, seasons: set[int], config=None):
                     shutil.move(srt_file, srt_filepath)
                     logger.info(f"Subtitle saved to {srt_filepath}")
                     break
-
-
-def cleanup_ocr_files(show_dir):
-    """
-    Clean up OCR files generated during the episode matching process.
-
-    Args:
-        show_dir (str): The directory containing the show files.
-
-    Returns:
-        None
-
-    This function cleans up the OCR files generated during the episode matching process.
-    It deletes the 'ocr' directory and all its contents in each season directory of the show.
-    """
-    for season_dir in os.listdir(show_dir):
-        season_dir_path = os.path.join(show_dir, season_dir)
-        ocr_dir_path = os.path.join(season_dir_path, "ocr")
-        if os.path.exists(ocr_dir_path):
-            logger.info(f"Cleaning up OCR files in {ocr_dir_path}")
-            shutil.rmtree(ocr_dir_path)
 
 
 def clean_text(text):
@@ -291,18 +274,18 @@ def extract_srt_text(filepath):
         content = f.read()
 
     # Split into subtitle blocks
-    blocks = content.strip().split('\n\n')
+    blocks = content.strip().split("\n\n")
 
     text_lines = []
     for block in blocks:
-        lines = block.split('\n')
+        lines = block.split("\n")
         if len(lines) < 3:
             continue
 
         # Skip index and timestamp, get all remaining lines as text
-        text = ' '.join(lines[2:])
+        text = " ".join(lines[2:])
         # Remove stage directions and tags
-        text = re.sub(r'\[.*?\]|\<.*?\>', '', text)
+        text = re.sub(r"\[.*?\]|\<.*?\>", "", text)
         if text:
             text_lines.append(text)
 
@@ -312,18 +295,18 @@ def extract_srt_text(filepath):
 def extract_season_episode(filename):
     """
     Extract season and episode numbers from filename with support for multiple formats.
-    
+
     Args:
         filename (str): Filename to parse
-        
+
     Returns:
         tuple: (season_number, episode_number)
     """
     # List of patterns to try
     patterns = [
-        r'S(\d+)E(\d+)',          # S01E01
-        r'(\d+)x(\d+)',           # 1x01 or 01x01
-        r'Season\s*(\d+).*?(\d+)'  # Season 1 - 01
+        r"S(\d+)E(\d+)",  # S01E01
+        r"(\d+)x(\d+)",  # 1x01 or 01x01
+        r"Season\s*(\d+).*?(\d+)",  # Season 1 - 01
     ]
 
     for pattern in patterns:
@@ -407,8 +390,10 @@ def compare_text(text1, text2):
 
 
 def check_gpu_support():
-    logger.info('Checking GPU support...')
+    logger.info("Checking GPU support...")
     if torch.cuda.is_available():
         logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
     else:
-        logger.warning("CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.")
+        logger.warning(
+            "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support."
+        )
