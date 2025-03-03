@@ -21,7 +21,7 @@ TV Shows/
 1. **Thread Configuration**
    ```ini
    [Config]
-   max_threads = 4  # Adjust based on CPU cores
+   max_threads = 4  # Adjust based on CPU/GPU capability
    ```
 
 2. **Batch Processing**
@@ -31,6 +31,12 @@ TV Shows/
      mkv-match --show-dir "/path/to/show" --season $i
    done
    ```
+
+3. **Speech Recognition**
+   - Uses OpenAI Whisper for audio analysis
+   - Tiny model is tried first for speed
+   - Falls back to base model if needed
+   - Works with both DVD and Blu-ray sources
 
 ### Error Handling
 
@@ -87,6 +93,11 @@ process_show(
    - Use rate limiting in configuration
    - Implement exponential backoff
 
+3. **Speech Recognition**
+   - GPU recommended for faster processing
+   - Processing happens in 30s intervals
+   - More accurate than OCR-based methods
+
 3. **Memory Usage**
    - Reduce max_threads
    - Process seasons separately
@@ -97,8 +108,8 @@ process_show(
 
 1. Remove temporary files:
    ```python
-   from mkv_episode_matcher.utils import cleanup_ocr_files
-   cleanup_ocr_files(show_dir)
+   from mkv_episode_matcher.utils import cleanup_temp_files
+   cleanup_temp_files(show_dir)
    ```
 
 2. Clear cache:
