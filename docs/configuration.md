@@ -21,7 +21,6 @@ open_subtitles_api_key = your_opensubs_key
 open_subtitles_user_agent = your_user_agent
 open_subtitles_username = your_username
 open_subtitles_password = your_password
-tesseract_path = /path/to/tesseract
 ```
 
 ## Command Line Configuration
@@ -34,8 +33,7 @@ mkv-match \
   --show-dir "/path/to/shows" \
   --season 1 \
   --dry-run true \
-  --get-subs true \
-  --tesseract-path "/path/to/tesseract"
+  --get-subs true
 ```
 
 ## Environment Variables
@@ -94,16 +92,3 @@ Adjust based on your system's capabilities:
 - Default: 4 threads
 - Minimum: 1 thread
 - Maximum: Number of CPU cores
-
-### OCR Configuration
-
-```ini
-[Config]
-tesseract_path = /path/to/tesseract
-```
-
-Required for processing image-based subtitles. Common paths:
-- Windows: `C:\Program Files\Tesseract-OCR\tesseract.exe`
-- Linux/macOS: `/usr/bin/tesseract`
-
-Make sure Tesseract OCR is properly installed before using this feature.

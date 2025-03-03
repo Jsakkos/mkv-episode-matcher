@@ -16,14 +16,13 @@ mkv-match --show-dir "/path/to/show" --season 1
 
 ## Command Options
 
-| Option             | Description                 | Default    |
-| ------------------ | --------------------------- | ---------- |
-| `--show-dir`       | Show directory path         | None       |
-| `--season`         | Season number to process    | None (all) |
-| `--dry-run`        | Test without making changes | False      |
-| `--get-subs`       | Download subtitles          | False      |
-| `--tmdb-api-key`   | TMDb API key                | None       |
-| `--tesseract-path` | Path to Tesseract           | None       |
+| Option           | Description                 | Default    |
+| ---------------- | --------------------------- | ---------- |
+| `--show-dir`     | Show directory path         | None       |
+| `--season`       | Season number to process    | None (all) |
+| `--dry-run`      | Test without making changes | False      |
+| `--get-subs`     | Download subtitles          | False      |
+| `--tmdb-api-key` | TMDb API key                | None       |
 
 ## Examples
 

@@ -1,56 +1,9 @@
 version = 1
 requires-python = ">=3.9"
 resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_version < '0'",
-    "python_version < '0'",
-    "python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
 ]
-conflicts = [[
-    { package = "mkv-episode-matcher", extra = "cpu" },
-    { package = "mkv-episode-matcher", extra = "cu124" },
-]]
 
 [[package]]
 name = "annotated-types"
@@ -242,7 +195,7 @@ wheels = [
 
 [package.optional-dependencies]
 toml = [
-    { name = "tomli", marker = "python_full_version <= '3.11' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "tomli", marker = "python_full_version <= '3.11'" },
 ]
 
 [[package]]
@@ -313,11 +266,7 @@ name = "llvmlite"
 version = "0.43.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version < '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/9f/3d/f513755f285db51ab363a53e898b85562e950f79a2e6767a364530c2f645/llvmlite-0.43.0.tar.gz", hash = "sha256:ae2b5b5c3ef67354824fb75517c8db5fbe93bc02cd9671f3c62271626bc041d5", size = 157069 }
 wheels = [
@@ -348,16 +297,7 @@ name = "llvmlite"
 version = "0.44.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version >= '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/89/6a/95a3d3610d5c75293d5dbbb2a76480d5d4eeba641557b69fe90af6c5b84e/llvmlite-0.44.0.tar.gz", hash = "sha256:07667d66a5d150abed9157ab6c0b9393c9356f229784a4385c02f99e94fc94d4", size = 171880 }
 wheels = [
@@ -388,8 +328,8 @@ name = "loguru"
 version = "0.7.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "win32-setctime", marker = "sys_platform == 'win32' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "win32-setctime", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3a/05/a1dae3dffd1116099471c643b8924f5aa6524411dc6c63fdae648c4f1aca/loguru-0.7.3.tar.gz", hash = "sha256:19480589e77d47b8d85b2c827ad95d49bf31b0dcde16593892eb51dd18706eb6", size = 63559 }
 wheels = [
@@ -473,42 +413,13 @@ dependencies = [
     { name = "loguru" },
     { name = "openai-whisper" },
     { name = "opensubtitlescom" },
-    { name = "pytesseract" },
     { name = "rapidfuzz" },
     { name = "requests" },
     { name = "tmdb-client" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "extra == 'extra-19-mkv-episode-matcher-cu124'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torch", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchaudio", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchaudio", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cu124') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchaudio", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchaudio", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchaudio", version = "2.5.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchvision", version = "0.20.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchvision", version = "0.20.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cu124') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchvision", version = "0.20.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchvision", version = "0.20.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torchvision", version = "0.20.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "torch" },
+    { name = "torchaudio" },
+    { name = "torchvision" },
     { name = "wave" },
-]
-
-[package.optional-dependencies]
-cpu = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "torch", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "torchaudio", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "torchaudio", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "torchvision", version = "0.20.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "torchvision", version = "0.20.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-]
-cu124 = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" } },
-    { name = "torchaudio", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
-    { name = "torchaudio", version = "2.5.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine != 'aarch64' or sys_platform != 'linux'" },
-    { name = "torchvision", version = "0.20.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
-    { name = "torchvision", version = "0.20.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine != 'aarch64' or sys_platform != 'linux'" },
 ]
 
 [package.dev-dependencies]
@@ -526,19 +437,12 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.2" },
     { name = "openai-whisper", specifier = ">=20240930" },
     { name = "opensubtitlescom", specifier = ">=0.1.5" },
-    { name = "pytesseract", specifier = ">=0.3.13" },
     { name = "rapidfuzz", specifier = ">=3.10.1" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "tmdb-client", specifier = ">=0.0.1" },
     { name = "torch", specifier = ">=2.5.1" },
-    { name = "torch", marker = "extra == 'cpu'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "mkv-episode-matcher", extra = "cpu" } },
-    { name = "torch", marker = "extra == 'cu124'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cu124", conflict = { package = "mkv-episode-matcher", extra = "cu124" } },
     { name = "torchaudio", specifier = ">=2.5.1" },
-    { name = "torchaudio", marker = "extra == 'cpu'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "mkv-episode-matcher", extra = "cpu" } },
-    { name = "torchaudio", marker = "extra == 'cu124'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cu124", conflict = { package = "mkv-episode-matcher", extra = "cu124" } },
     { name = "torchvision", specifier = ">=0.20.1" },
-    { name = "torchvision", marker = "extra == 'cpu'", specifier = ">=0.20.1", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "mkv-episode-matcher", extra = "cpu" } },
-    { name = "torchvision", marker = "extra == 'cu124'", specifier = ">=0.20.1", index = "https://download.pytorch.org/whl/cu124", conflict = { package = "mkv-episode-matcher", extra = "cu124" } },
     { name = "wave", specifier = ">=0.0.2" },
 ]
 
@@ -573,11 +477,7 @@ name = "networkx"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version < '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/c4/80/a84676339aaae2f1cfdf9f418701dd634aef9cc76f708ef55c36ff39c3ca/networkx-3.2.1.tar.gz", hash = "sha256:9f1bb5cf3409bf324e0a722c20bdb4c20ee39bf1c30ce8ae499c8502b0b5e0c6", size = 2073928 }
 wheels = [
@@ -589,16 +489,7 @@ name = "networkx"
 version = "3.4.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version >= '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/fd/1d/06475e1cd5264c0b870ea2cc6fdb3e37177c1e565c43f56ff17a10e3937f/networkx-3.4.2.tar.gz", hash = "sha256:307c3669428c5362aab27c8a1260aa8f47c4e91d3891f48be0141738d8d053e1", size = 2151368 }
 wheels = [
@@ -610,15 +501,11 @@ name = "numba"
 version = "0.60.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version < '3.12'",
 ]
 dependencies = [
-    { name = "llvmlite", version = "0.43.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "llvmlite", version = "0.43.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3c/93/2849300a9184775ba274aba6f82f303343669b0592b7bb0849ea713dabb0/numba-0.60.0.tar.gz", hash = "sha256:5df6158e5584eece5fc83294b949fd30b9f1125df7708862205217e068aabf16", size = 2702171 }
 wheels = [
@@ -649,20 +536,11 @@ name = "numba"
 version = "0.61.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version >= '3.12'",
 ]
 dependencies = [
-    { name = "llvmlite", version = "0.44.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "llvmlite", version = "0.44.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3c/88/c13a935f200fda51384411e49840a8e7f70c9cb1ee8d809dd0f2477cf7ef/numba-0.61.0.tar.gz", hash = "sha256:888d2e89b8160899e19591467e8fdd4970e07606e1fbc248f239c89818d5f925", size = 2816484 }
 wheels = [
@@ -693,11 +571,7 @@ name = "numpy"
 version = "2.0.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version < '3.10' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version < '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a9/75/10dd1f8116a8b796cb2c737b674e02d02e80454bda953fa7e65d8c12b016/numpy-2.0.2.tar.gz", hash = "sha256:883c987dee1880e2a864ab0dc9892292582510604156762362d9326444636e78", size = 18902015 }
 wheels = [
@@ -752,16 +626,7 @@ name = "numpy"
 version = "2.1.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')",
-    "python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124'",
+    "python_full_version >= '3.12'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/25/ca/1166b75c21abd1da445b97bf1fa2f14f423c6cfb4fc7c4ef31dccf9f6a94/numpy-2.1.3.tar.gz", hash = "sha256:aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f4921fd761", size = 20166090 }
 wheels = [
@@ -822,22 +687,137 @@ wheels = [
 ]
 
 [[package]]
+name = "nvidia-cublas-cu12"
+version = "12.4.5.8"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ae/71/1c91302526c45ab494c23f61c7a84aa568b8c1f9d196efa5993957faf906/nvidia_cublas_cu12-12.4.5.8-py3-none-manylinux2014_x86_64.whl", hash = "sha256:2fc8da60df463fdefa81e323eef2e36489e1c94335b5358bcb38360adf75ac9b", size = 363438805 },
+]
+
+[[package]]
+name = "nvidia-cuda-cupti-cu12"
+version = "12.4.127"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/67/42/f4f60238e8194a3106d06a058d494b18e006c10bb2b915655bd9f6ea4cb1/nvidia_cuda_cupti_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:9dec60f5ac126f7bb551c055072b69d85392b13311fcc1bcda2202d172df30fb", size = 13813957 },
+]
+
+[[package]]
+name = "nvidia-cuda-nvrtc-cu12"
+version = "12.4.127"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2c/14/91ae57cd4db3f9ef7aa99f4019cfa8d54cb4caa7e00975df6467e9725a9f/nvidia_cuda_nvrtc_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:a178759ebb095827bd30ef56598ec182b85547f1508941a3d560eb7ea1fbf338", size = 24640306 },
+]
+
+[[package]]
+name = "nvidia-cuda-runtime-cu12"
+version = "12.4.127"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ea/27/1795d86fe88ef397885f2e580ac37628ed058a92ed2c39dc8eac3adf0619/nvidia_cuda_runtime_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:64403288fa2136ee8e467cdc9c9427e0434110899d07c779f25b5c068934faa5", size = 883737 },
+]
+
+[[package]]
+name = "nvidia-cudnn-cu12"
+version = "9.1.0.70"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nvidia-cublas-cu12" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9f/fd/713452cd72343f682b1c7b9321e23829f00b842ceaedcda96e742ea0b0b3/nvidia_cudnn_cu12-9.1.0.70-py3-none-manylinux2014_x86_64.whl", hash = "sha256:165764f44ef8c61fcdfdfdbe769d687e06374059fbb388b6c89ecb0e28793a6f", size = 664752741 },
+]
+
+[[package]]
+name = "nvidia-cufft-cu12"
+version = "11.2.1.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nvidia-nvjitlink-cu12" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/94/3266821f65b92b3138631e9c8e7fe1fb513804ac934485a8d05776e1dd43/nvidia_cufft_cu12-11.2.1.3-py3-none-manylinux2014_x86_64.whl", hash = "sha256:f083fc24912aa410be21fa16d157fed2055dab1cc4b6934a0e03cba69eb242b9", size = 211459117 },
+]
+
+[[package]]
+name = "nvidia-curand-cu12"
+version = "10.3.5.147"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8a/6d/44ad094874c6f1b9c654f8ed939590bdc408349f137f9b98a3a23ccec411/nvidia_curand_cu12-10.3.5.147-py3-none-manylinux2014_x86_64.whl", hash = "sha256:a88f583d4e0bb643c49743469964103aa59f7f708d862c3ddb0fc07f851e3b8b", size = 56305206 },
+]
+
+[[package]]
+name = "nvidia-cusolver-cu12"
+version = "11.6.1.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nvidia-cublas-cu12" },
+    { name = "nvidia-cusparse-cu12" },
+    { name = "nvidia-nvjitlink-cu12" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/e1/5b9089a4b2a4790dfdea8b3a006052cfecff58139d5a4e34cb1a51df8d6f/nvidia_cusolver_cu12-11.6.1.9-py3-none-manylinux2014_x86_64.whl", hash = "sha256:19e33fa442bcfd085b3086c4ebf7e8debc07cfe01e11513cc6d332fd918ac260", size = 127936057 },
+]
+
+[[package]]
+name = "nvidia-cusparse-cu12"
+version = "12.3.1.170"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nvidia-nvjitlink-cu12" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/db/f7/97a9ea26ed4bbbfc2d470994b8b4f338ef663be97b8f677519ac195e113d/nvidia_cusparse_cu12-12.3.1.170-py3-none-manylinux2014_x86_64.whl", hash = "sha256:ea4f11a2904e2a8dc4b1833cc1b5181cde564edd0d5cd33e3c168eff2d1863f1", size = 207454763 },
+]
+
+[[package]]
+name = "nvidia-cusparselt-cu12"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/78/a8/bcbb63b53a4b1234feeafb65544ee55495e1bb37ec31b999b963cbccfd1d/nvidia_cusparselt_cu12-0.6.2-py3-none-manylinux2014_x86_64.whl", hash = "sha256:df2c24502fd76ebafe7457dbc4716b2fec071aabaed4fb7691a201cde03704d9", size = 150057751 },
+]
+
+[[package]]
+name = "nvidia-nccl-cu12"
+version = "2.21.5"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/df/99/12cd266d6233f47d00daf3a72739872bdc10267d0383508b0b9c84a18bb6/nvidia_nccl_cu12-2.21.5-py3-none-manylinux2014_x86_64.whl", hash = "sha256:8579076d30a8c24988834445f8d633c697d42397e92ffc3f63fa26766d25e0a0", size = 188654414 },
+]
+
+[[package]]
+name = "nvidia-nvjitlink-cu12"
+version = "12.4.127"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ff/ff/847841bacfbefc97a00036e0fce5a0f086b640756dc38caea5e1bb002655/nvidia_nvjitlink_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:06b3b9b25bf3f8af351d664978ca26a16d2c5127dbd53c0497e28d1fb9611d57", size = 21066810 },
+]
+
+[[package]]
+name = "nvidia-nvtx-cu12"
+version = "12.4.127"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/87/20/199b8713428322a2f22b722c62b8cc278cc53dffa9705d744484b5035ee9/nvidia_nvtx_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:781e950d9b9f60d8241ccea575b32f5105a5baf4c2351cab5256a24869f12a1a", size = 99144 },
+]
+
+[[package]]
 name = "openai-whisper"
 version = "20240930"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "more-itertools" },
-    { name = "numba", version = "0.60.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numba", version = "0.61.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "numba", version = "0.60.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numba", version = "0.61.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "tiktoken" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (platform_machine != 'aarch64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "extra == 'extra-19-mkv-episode-matcher-cu124'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torch", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform != 'darwin' and sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu') or (sys_platform == 'darwin' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (sys_platform == 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "torch" },
     { name = "tqdm" },
-    { name = "triton", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine != 'x86_64' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or sys_platform == 'linux2' or (sys_platform != 'linux' and extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "triton", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux') or sys_platform == 'linux2'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/f5/77/952ca71515f81919bd8a6a4a3f89a27b09e73880cebf90957eda8f2f8545/openai-whisper-20240930.tar.gz", hash = "sha256:b7178e9c1615576807a300024f4daa6353f7e1a815dac5e38c33f1ef055dd2d2", size = 800544 }
 
@@ -1074,29 +1054,16 @@ wheels = [
 ]
 
 [[package]]
-name = "pytesseract"
-version = "0.3.13"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "packaging" },
-    { name = "pillow" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/9f/a6/7d679b83c285974a7cb94d739b461fa7e7a9b17a3abfd7bf6cbc5c2394b0/pytesseract-0.3.13.tar.gz", hash = "sha256:4bf5f880c99406f52a3cfc2633e42d9dc67615e69d8a509d74867d3baddb5db9", size = 17689 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7a/33/8312d7ce74670c9d39a532b2c246a853861120486be9443eebf048043637/pytesseract-0.3.13-py3-none-any.whl", hash = "sha256:7a99c6c2ac598360693d83a416e36e0b33a67638bb9d77fdcac094a3589d4b34", size = 14705 },
-]
-
-[[package]]
 name = "pytest"
 version = "8.3.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "exceptiongroup", marker = "python_full_version < '3.11' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
     { name = "iniconfig" },
     { name = "packaging" },
     { name = "pluggy" },
-    { name = "tomli", marker = "python_full_version < '3.11' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz", hash = "sha256:965370d062bce11e73868e0335abac31b4d3de0e82f4007408d242b4f8610761", size = 1445919 }
 wheels = [
@@ -1476,384 +1443,116 @@ wheels = [
 
 [[package]]
 name = "torch"
-version = "2.5.1"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform == 'darwin')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')",
-]
-dependencies = [
-    { name = "filelock", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "fsspec", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "jinja2", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "networkx", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')" },
-    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform == 'darwin')" },
-    { name = "setuptools", marker = "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform == 'darwin')" },
-    { name = "sympy", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "typing-extensions", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:269b10c34430aa8e9643dbe035dc525c4a9b1d671cd3dbc8ecbcaed280ae322d" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:23d062bf70776a3d04dbe74db950db2a5245e1ba4f27208a87f0d743b0d06e86" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d5b3203f191bc40783c99488d2e776dcf93ac431a59491d627a1ca5b3ae20b22" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp311-none-macosx_11_0_arm64.whl", hash = "sha256:31f8c39660962f9ae4eeec995e3049b5492eb7360dd4f07377658ef4d728fa4c" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:36d1be99281b6f602d9639bd0af3ee0006e7aab16f6718d86f709d395b6f262c" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp312-none-macosx_11_0_arm64.whl", hash = "sha256:8c712df61101964eb11910a846514011f0b6f5920c55dbf567bff8a34163d5b1" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c74f73da179fa7eaa2167ab0b493f267ae481a6c007249e2674cbd0baf4a5cc1" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1-cp39-none-macosx_11_0_arm64.whl", hash = "sha256:8046768b7f6d35b85d101b4b38cba8aa2f3cd51952bc4c06a49580f2ce682291" },
-]
-
-[[package]]
-name = "torch"
-version = "2.5.1"
-source = { registry = "https://download.pytorch.org/whl/cu124" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.12' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64') or (python_full_version < '3.10' and sys_platform != 'linux')",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-]
+version = "2.6.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "filelock" },
     { name = "fsspec" },
     { name = "jinja2" },
-    { name = "networkx", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "networkx", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "nvidia-cublas-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cuda-cupti-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cuda-nvrtc-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cuda-runtime-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cudnn-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cufft-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-curand-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cusolver-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cusparse-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-cusparselt-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-nccl-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-nvjitlink-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
+    { name = "nvidia-nvtx-cu12", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
     { name = "setuptools", marker = "python_full_version >= '3.12'" },
     { name = "sympy" },
+    { name = "triton", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://download.pytorch.org/whl/cu124/torch-2.5.1-cp310-cp310-linux_aarch64.whl", hash = "sha256:d468d0eddc188aa3c1e417ec24ce615c48c0c3f592b0354d9d3b99837ef5faa6" },
-    { url = "https://download.pytorch.org/whl/cu124/torch-2.5.1-cp311-cp311-linux_aarch64.whl", hash = "sha256:e080353c245b752cd84122e4656261eee6d4323a37cfb7d13e0fffd847bae1a3" },
-    { url = "https://download.pytorch.org/whl/cu124/torch-2.5.1-cp312-cp312-linux_aarch64.whl", hash = "sha256:302041d457ee169fd925b53da283c13365c6de75c6bb3e84130774b10e2fbb39" },
-    { url = "https://download.pytorch.org/whl/cu124/torch-2.5.1-cp39-cp39-linux_aarch64.whl", hash = "sha256:012887a6190e562cb266d2210052c5deb5113f520a46dc2beaa57d76144a0e9b" },
+    { url = "https://files.pythonhosted.org/packages/37/81/aa9ab58ec10264c1abe62c8b73f5086c3c558885d6beecebf699f0dbeaeb/torch-2.6.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:6860df13d9911ac158f4c44031609700e1eba07916fff62e21e6ffa0a9e01961", size = 766685561 },
+    { url = "https://files.pythonhosted.org/packages/86/86/e661e229df2f5bfc6eab4c97deb1286d598bbeff31ab0cdb99b3c0d53c6f/torch-2.6.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:c4f103a49830ce4c7561ef4434cc7926e5a5fe4e5eb100c19ab36ea1e2b634ab", size = 95751887 },
+    { url = "https://files.pythonhosted.org/packages/20/e0/5cb2f8493571f0a5a7273cd7078f191ac252a402b5fb9cb6091f14879109/torch-2.6.0-cp310-cp310-win_amd64.whl", hash = "sha256:56eeaf2ecac90da5d9e35f7f35eb286da82673ec3c582e310a8d1631a1c02341", size = 204165139 },
+    { url = "https://files.pythonhosted.org/packages/e5/16/ea1b7842413a7b8a5aaa5e99e8eaf3da3183cc3ab345ad025a07ff636301/torch-2.6.0-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:09e06f9949e1a0518c5b09fe95295bc9661f219d9ecb6f9893e5123e10696628", size = 66520221 },
+    { url = "https://files.pythonhosted.org/packages/78/a9/97cbbc97002fff0de394a2da2cdfa859481fdca36996d7bd845d50aa9d8d/torch-2.6.0-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:7979834102cd5b7a43cc64e87f2f3b14bd0e1458f06e9f88ffa386d07c7446e1", size = 766715424 },
+    { url = "https://files.pythonhosted.org/packages/6d/fa/134ce8f8a7ea07f09588c9cc2cea0d69249efab977707cf67669431dcf5c/torch-2.6.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:ccbd0320411fe1a3b3fec7b4d3185aa7d0c52adac94480ab024b5c8f74a0bf1d", size = 95759416 },
+    { url = "https://files.pythonhosted.org/packages/11/c5/2370d96b31eb1841c3a0883a492c15278a6718ccad61bb6a649c80d1d9eb/torch-2.6.0-cp311-cp311-win_amd64.whl", hash = "sha256:46763dcb051180ce1ed23d1891d9b1598e07d051ce4c9d14307029809c4d64f7", size = 204164970 },
+    { url = "https://files.pythonhosted.org/packages/0b/fa/f33a4148c6fb46ca2a3f8de39c24d473822d5774d652b66ed9b1214da5f7/torch-2.6.0-cp311-none-macosx_11_0_arm64.whl", hash = "sha256:94fc63b3b4bedd327af588696559f68c264440e2503cc9e6954019473d74ae21", size = 66530713 },
+    { url = "https://files.pythonhosted.org/packages/e5/35/0c52d708144c2deb595cd22819a609f78fdd699b95ff6f0ebcd456e3c7c1/torch-2.6.0-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:2bb8987f3bb1ef2675897034402373ddfc8f5ef0e156e2d8cfc47cacafdda4a9", size = 766624563 },
+    { url = "https://files.pythonhosted.org/packages/01/d6/455ab3fbb2c61c71c8842753b566012e1ed111e7a4c82e0e1c20d0c76b62/torch-2.6.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:b789069020c5588c70d5c2158ac0aa23fd24a028f34a8b4fcb8fcb4d7efcf5fb", size = 95607867 },
+    { url = "https://files.pythonhosted.org/packages/18/cf/ae99bd066571656185be0d88ee70abc58467b76f2f7c8bfeb48735a71fe6/torch-2.6.0-cp312-cp312-win_amd64.whl", hash = "sha256:7e1448426d0ba3620408218b50aa6ada88aeae34f7a239ba5431f6c8774b1239", size = 204120469 },
+    { url = "https://files.pythonhosted.org/packages/81/b4/605ae4173aa37fb5aa14605d100ff31f4f5d49f617928c9f486bb3aaec08/torch-2.6.0-cp312-none-macosx_11_0_arm64.whl", hash = "sha256:9a610afe216a85a8b9bc9f8365ed561535c93e804c2a317ef7fabcc5deda0989", size = 66532538 },
+    { url = "https://files.pythonhosted.org/packages/24/85/ead1349fc30fe5a32cadd947c91bda4a62fbfd7f8c34ee61f6398d38fb48/torch-2.6.0-cp313-cp313-manylinux1_x86_64.whl", hash = "sha256:4874a73507a300a5d089ceaff616a569e7bb7c613c56f37f63ec3ffac65259cf", size = 766626191 },
+    { url = "https://files.pythonhosted.org/packages/dd/b0/26f06f9428b250d856f6d512413e9e800b78625f63801cbba13957432036/torch-2.6.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:a0d5e1b9874c1a6c25556840ab8920569a7a4137afa8a63a32cee0bc7d89bd4b", size = 95611439 },
+    { url = "https://files.pythonhosted.org/packages/c2/9c/fc5224e9770c83faed3a087112d73147cd7c7bfb7557dcf9ad87e1dda163/torch-2.6.0-cp313-cp313-win_amd64.whl", hash = "sha256:510c73251bee9ba02ae1cb6c9d4ee0907b3ce6020e62784e2d7598e0cfa4d6cc", size = 204126475 },
+    { url = "https://files.pythonhosted.org/packages/88/8b/d60c0491ab63634763be1537ad488694d316ddc4a20eaadd639cedc53971/torch-2.6.0-cp313-none-macosx_11_0_arm64.whl", hash = "sha256:ff96f4038f8af9f7ec4231710ed4549da1bdebad95923953a25045dcf6fd87e2", size = 66536783 },
+    { url = "https://files.pythonhosted.org/packages/40/bb/feb5644baa621fd8e1e88bf51f6fa38ab3f985d472a764144ff4867ac1d6/torch-2.6.0-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:9ea955317cfcd3852b1402b62af258ce735c2edeee42ca9419b6bc889e5ae053", size = 766680961 },
+    { url = "https://files.pythonhosted.org/packages/ee/11/08774a8198a33263947c59e04b8a0bf85a61a44e82100c46cf833bbce35e/torch-2.6.0-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:bb2c6c3e65049f081940f5ab15c9136c7de40d3f01192541c920a07c7c585b7e", size = 95782656 },
+    { url = "https://files.pythonhosted.org/packages/c1/0d/56fb07032accbfebb4555638b6002ec5678d0942da85497e40f9405ab756/torch-2.6.0-cp39-cp39-win_amd64.whl", hash = "sha256:683410f97984103148e31b38a8631acf31c3034c020c0f4d26171e7626d8317a", size = 204061417 },
+    { url = "https://files.pythonhosted.org/packages/b3/17/41f681b87290a1d2f1394f943e470f8b0b3c2987b7df8dc078d8831fce5b/torch-2.6.0-cp39-none-macosx_11_0_arm64.whl", hash = "sha256:265f70de5fd45b864d924b64be1797f86e76c8e48a02c2a3a6fc7ec247d2226c", size = 66520446 },
 ]
 
 [[package]]
-name = "torch"
-version = "2.5.1"
+name = "torchaudio"
+version = "2.6.0"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.12'",
-    "python_full_version >= '3.10' and python_full_version < '3.12'",
-    "python_full_version < '3.10'",
-]
 dependencies = [
-    { name = "filelock", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "fsspec", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "jinja2", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "networkx", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "setuptools", marker = "(python_full_version >= '3.12' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "sympy", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "typing-extensions", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "torch" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/ef/834af4a885b31a0b32fff2d80e1e40f771e1566ea8ded55347502440786a/torch-2.5.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:71328e1bbe39d213b8721678f9dcac30dfc452a46d586f1d514a6aa0a99d4744", size = 906446312 },
-    { url = "https://files.pythonhosted.org/packages/69/f0/46e74e0d145f43fa506cb336eaefb2d240547e4ce1f496e442711093ab25/torch-2.5.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:34bfa1a852e5714cbfa17f27c49d8ce35e1b7af5608c4bc6e81392c352dbc601", size = 91919522 },
-    { url = "https://files.pythonhosted.org/packages/a5/13/1eb674c8efbd04d71e4a157ceba991904f633e009a584dd65dccbafbb648/torch-2.5.1-cp310-cp310-win_amd64.whl", hash = "sha256:32a037bd98a241df6c93e4c789b683335da76a2ac142c0973675b715102dc5fa", size = 203088048 },
-    { url = "https://files.pythonhosted.org/packages/a9/9d/e0860474ee0ff8f6ef2c50ec8f71a250f38d78a9b9df9fd241ad3397a65b/torch-2.5.1-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:23d062bf70776a3d04dbe74db950db2a5245e1ba4f27208a87f0d743b0d06e86", size = 63877046 },
-    { url = "https://files.pythonhosted.org/packages/d1/35/e8b2daf02ce933e4518e6f5682c72fd0ed66c15910ea1fb4168f442b71c4/torch-2.5.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:de5b7d6740c4b636ef4db92be922f0edc425b65ed78c5076c43c42d362a45457", size = 906474467 },
-    { url = "https://files.pythonhosted.org/packages/40/04/bd91593a4ca178ece93ca55f27e2783aa524aaccbfda66831d59a054c31e/torch-2.5.1-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:340ce0432cad0d37f5a31be666896e16788f1adf8ad7be481196b503dad675b9", size = 91919450 },
-    { url = "https://files.pythonhosted.org/packages/0d/4a/e51420d46cfc90562e85af2fee912237c662ab31140ab179e49bd69401d6/torch-2.5.1-cp311-cp311-win_amd64.whl", hash = "sha256:603c52d2fe06433c18b747d25f5c333f9c1d58615620578c326d66f258686f9a", size = 203098237 },
-    { url = "https://files.pythonhosted.org/packages/d0/db/5d9cbfbc7968d79c5c09a0bc0bc3735da079f2fd07cc10498a62b320a480/torch-2.5.1-cp311-none-macosx_11_0_arm64.whl", hash = "sha256:31f8c39660962f9ae4eeec995e3049b5492eb7360dd4f07377658ef4d728fa4c", size = 63884466 },
-    { url = "https://files.pythonhosted.org/packages/8b/5c/36c114d120bfe10f9323ed35061bc5878cc74f3f594003854b0ea298942f/torch-2.5.1-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:ed231a4b3a5952177fafb661213d690a72caaad97d5824dd4fc17ab9e15cec03", size = 906389343 },
-    { url = "https://files.pythonhosted.org/packages/6d/69/d8ada8b6e0a4257556d5b4ddeb4345ea8eeaaef3c98b60d1cca197c7ad8e/torch-2.5.1-cp312-cp312-manylinux2014_aarch64.whl", hash = "sha256:3f4b7f10a247e0dcd7ea97dc2d3bfbfc90302ed36d7f3952b0008d0df264e697", size = 91811673 },
-    { url = "https://files.pythonhosted.org/packages/5f/ba/607d013b55b9fd805db2a5c2662ec7551f1910b4eef39653eeaba182c5b2/torch-2.5.1-cp312-cp312-win_amd64.whl", hash = "sha256:73e58e78f7d220917c5dbfad1a40e09df9929d3b95d25e57d9f8558f84c9a11c", size = 203046841 },
-    { url = "https://files.pythonhosted.org/packages/57/6c/bf52ff061da33deb9f94f4121fde7ff3058812cb7d2036c97bc167793bd1/torch-2.5.1-cp312-none-macosx_11_0_arm64.whl", hash = "sha256:8c712df61101964eb11910a846514011f0b6f5920c55dbf567bff8a34163d5b1", size = 63858109 },
-    { url = "https://files.pythonhosted.org/packages/69/72/20cb30f3b39a9face296491a86adb6ff8f1a47a897e4d14667e6cf89d5c3/torch-2.5.1-cp313-cp313-manylinux1_x86_64.whl", hash = "sha256:9b61edf3b4f6e3b0e0adda8b3960266b9009d02b37555971f4d1c8f7a05afed7", size = 906393265 },
-    { url = "https://files.pythonhosted.org/packages/a9/18/81c399e8f4f1580d34bf99d827cb5fb5cf7a18a266bb5d30ca3ec2e89ba6/torch-2.5.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:1f3b7fb3cf7ab97fae52161423f81be8c6b8afac8d9760823fd623994581e1a3", size = 906479005 },
-    { url = "https://files.pythonhosted.org/packages/5d/86/1c4b168d52cddb8d17952a7b5b25f69ef0da1fc34de1223d73d0d9db1801/torch-2.5.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:7974e3dce28b5a21fb554b73e1bc9072c25dde873fa00d54280861e7a009d7dc", size = 91846074 },
-    { url = "https://files.pythonhosted.org/packages/76/49/4a0a8b19ce8f9bf32fcab4e863c7e2366f519f9826c84ca250567b11a014/torch-2.5.1-cp39-cp39-win_amd64.whl", hash = "sha256:46c817d3ea33696ad3b9df5e774dba2257e9a4cd3c4a3afbf92f6bb13ac5ce2d", size = 203000888 },
-    { url = "https://files.pythonhosted.org/packages/25/07/3548a7cfcf69d0eccec2ee79ee3913f1cdaadb27b36946774db86729ee47/torch-2.5.1-cp39-none-macosx_11_0_arm64.whl", hash = "sha256:8046768b7f6d35b85d101b4b38cba8aa2f3cd51952bc4c06a49580f2ce682291", size = 63876023 },
+    { url = "https://files.pythonhosted.org/packages/38/aa/f634960ac094e3fc6869f5c214ccfa6f74da2b1a89cefac024f6c650a717/torchaudio-2.6.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:0eda1cd876f44fc014dc04aa680db2fa355a83df5d834398db6dd5f5cd911f4c", size = 1808471 },
+    { url = "https://files.pythonhosted.org/packages/ad/28/4dbe7e70966e16ebb90d5c887c12e3fc6d08a1c1ce0a79f8de357f0c36f9/torchaudio-2.6.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:22798d5d8e37869bd5875d37f42270efbeb8ae94bda97fed40c1c5e0e1c62fa3", size = 3378103 },
+    { url = "https://files.pythonhosted.org/packages/5b/ca/0e7f2149702fc659c2ac250570d51728f23e42358516f3089ca50c24dc28/torchaudio-2.6.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:9d8e07789452efdb8132d62afe21f2293a72805f26c2891c6c53e4e4df38ddf6", size = 1645722 },
+    { url = "https://files.pythonhosted.org/packages/18/46/988457057404f15e713e7b89180ba2c16bbac616431c17410cb282cf6333/torchaudio-2.6.0-cp310-cp310-win_amd64.whl", hash = "sha256:c6386bfa478afae2137715bb60f35520e3b05f5fc6d3bcc6969cf9cdfb11c09c", size = 2449940 },
+    { url = "https://files.pythonhosted.org/packages/a9/30/bba293c8300245a09b7f82d3cfc04aee1950228da49c6cdd637d1145b6f5/torchaudio-2.6.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:c12fc41241b8dfce3ccc1917f1c81a0f92f532d9917706600046f1eb21d2d765", size = 1815253 },
+    { url = "https://files.pythonhosted.org/packages/3e/00/2c69d436c613043f3051210d2f84a4c9062a815fa609c5f54d25ea8bfd07/torchaudio-2.6.0-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:377b177a3d683a9163e4cab5a06f0346dac9ff96fa527477338fd90fc6a2a4b6", size = 3382518 },
+    { url = "https://files.pythonhosted.org/packages/f5/b8/7d4dbbf6b505caddbfccd38e2882e47a791310b32b347f977a0a66efbf80/torchaudio-2.6.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:0f0db5c997d031c34066d8be1c0ce7d2a1f2b6c016a92885b20b00bfeb17b753", size = 1652980 },
+    { url = "https://files.pythonhosted.org/packages/1f/31/417d6955585be76842e9b0159d3801c0b5f9a4ea0db39db1a72bc262c861/torchaudio-2.6.0-cp311-cp311-win_amd64.whl", hash = "sha256:52182f6de4e7b342d139e54b703185d428de9cce3c4cf914a9b2ab2359d192a3", size = 2454430 },
+    { url = "https://files.pythonhosted.org/packages/ac/4a/d71b932bda4171970bdf4997541b5c778daa0e2967ed5009d207fca86ded/torchaudio-2.6.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:7d0e4b08c42325bf4b887de9a25c44ed882997001740e1bd7d901f65581cf1ab", size = 1812899 },
+    { url = "https://files.pythonhosted.org/packages/ed/aa/9082e715a673dd8e22b6a60cec7f301e897406023672b2090f8bcd8a5959/torchaudio-2.6.0-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:715aa21f6bdbd085454c313ae3a2c7cc07bf2e8cf05752f819afb5b4c57f4e6f", size = 3379510 },
+    { url = "https://files.pythonhosted.org/packages/f2/e7/0bcb2e33f4bdec69477344eccfe25c515b90496888095e99f837ea422089/torchaudio-2.6.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:6291d9507dc1d6b4ffe8843fbfb201e6c8270dd8c42ad70bb76226c0ebdcad56", size = 1653523 },
+    { url = "https://files.pythonhosted.org/packages/80/95/29e917905328337c7b104ce81f3bb5e2ad8dc70af2edf1d43f67eb621513/torchaudio-2.6.0-cp312-cp312-win_amd64.whl", hash = "sha256:86d6239792bf94741a41acd6fe3d549faaf0d50e7275d17d076a190bd007e2f9", size = 2449191 },
+    { url = "https://files.pythonhosted.org/packages/fb/73/861afa5864e95fbf42b693e0359b2bf0177b6b5f4274fa4472fd51e5298e/torchaudio-2.6.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:66f2e0bd5ab56fd81419d2f5afb74a9a70141688594646441756c8c24f424a73", size = 1813188 },
+    { url = "https://files.pythonhosted.org/packages/d2/f0/daffd9afa60bd835a2d7980eddfe44524adcb3ee0837486ceae4cd1f68e2/torchaudio-2.6.0-cp313-cp313-manylinux1_x86_64.whl", hash = "sha256:52f15185349c370fc1faa84e8b8b2782c007472db9d586a16bba314130b322f2", size = 3380706 },
+    { url = "https://files.pythonhosted.org/packages/94/7b/887b91372e34119aa140cf67614e5ba901bf6a0db86f2c39e30ff71eec54/torchaudio-2.6.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:b521ea9618fb4c29a6f8071628170c222291f46a48a3bf424cfeb488f54af714", size = 1653553 },
+    { url = "https://files.pythonhosted.org/packages/55/c8/3010878a5e7f15d89450e22769697173c6dc244a0647ddc5386c28b6dacc/torchaudio-2.6.0-cp313-cp313-win_amd64.whl", hash = "sha256:393fa74ec40d167f0170728ea21c9b5e0f830648fd02df7db2bf7e62f64245ec", size = 2449350 },
+    { url = "https://files.pythonhosted.org/packages/d3/d3/81b8b800bac7149aba7996352af9dd66cbade3a83b5127fa3e8cfa98d38d/torchaudio-2.6.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:04803a969710bdb77a4ddfdb85a32fa9b9e0310dc91f7eb7e54d6083dd69bfab", size = 1809120 },
+    { url = "https://files.pythonhosted.org/packages/d1/be/ff09ae00e8de07241c06ea5853f706450be6ee56d8c1a99c261a230b9233/torchaudio-2.6.0-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:8c1a4d08e35a9ceaadadbff6e60bcb3442482f800369be350103dfd08b4ddf52", size = 3379298 },
+    { url = "https://files.pythonhosted.org/packages/e8/46/1a5cf6b40971420c92572272cc952a6f1401fadb54f1184fa76fb93ff7de/torchaudio-2.6.0-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:72e77055d8e742475c6dfacf59fab09b1fc94d4423e14897e188b67cad3851c6", size = 1646041 },
+    { url = "https://files.pythonhosted.org/packages/2f/39/94778b2fe3fdd9312287c80b57e4e0c7d47e97e2cb8161b3af92df53326b/torchaudio-2.6.0-cp39-cp39-win_amd64.whl", hash = "sha256:d855da878a28c2e5e6fb3d76fcddd544f4d957a320b29602cea5af2fe0ad1f3a", size = 2448783 },
 ]
 
 [[package]]
-name = "torch"
-version = "2.5.1+cpu"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
-]
-dependencies = [
-    { name = "filelock", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "fsspec", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "jinja2", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "networkx", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "setuptools", marker = "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "sympy", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "typing-extensions", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp310-cp310-linux_x86_64.whl", hash = "sha256:7f91a2200e352745d70e22396bd501448e28350fbdbd8d8b1c83037e25451150" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp310-cp310-win_amd64.whl", hash = "sha256:df93157482b672892d29134d3fae9d38ba3219702faedd79f407eb36774c56ce" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp311-cp311-linux_x86_64.whl", hash = "sha256:07d7c9e069123d5af08b0cf0013d74f680b2d8be7d9e2cf561a52c90c55d9409" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp311-cp311-win_amd64.whl", hash = "sha256:81531d4d5ca74163dc9574b87396531e546a60cceb6253303c7db6a21e867fdf" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp312-cp312-linux_x86_64.whl", hash = "sha256:4856f9d6925121d13c2df07aa7580b767f449dfe71ae5acde9c27535d5da4840" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:a6b720410350765d3d77c01a5ce098a6c45af446284e45e87a98b8a16e7d564d" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp313-cp313-linux_x86_64.whl", hash = "sha256:5dbbdf83caa90d0bcaa50e4933ca424889133b35226db79000877d4ec5d9ea37" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp39-cp39-linux_x86_64.whl", hash = "sha256:a3ad26468abc5ee601aba49ff02f72387ae734b0900aa589b890c80d72b7b26b" },
-    { url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp39-cp39-win_amd64.whl", hash = "sha256:2ebd0b6135dc60b96ce51349c92c9757b2b9634a6b90045dfab3eb4921a4d62f" },
-]
-
-[[package]]
-name = "torchaudio"
-version = "2.5.1"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform == 'darwin')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')",
-]
-dependencies = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp310-cp310-linux_aarch64.whl", hash = "sha256:9b3872c5dd5080be6322908d62365581a1dd9250e3dd6d47bab3f5b0854a5d1f" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:901291d770aeeb1f51920bb5aa73ff82e9b7f26354a3c7b90d80ff0b4e9a5044" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp311-cp311-linux_aarch64.whl", hash = "sha256:4ba24769a72bd686903feaf1040c895d710af2ffbcd25ee7a9794ee285561b26" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:7005354aa7dda9ef908e13c2566ee1fe0bd6d7f5bae0583b5e53016cd229fc34" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp312-cp312-linux_aarch64.whl", hash = "sha256:6bb65416405f40e00b20701257c16e7493bfdd7188e02e87cc5b389c31c10c2c" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:f1cbfdfd1bbdfbe7289d47a74f36ff6c5d87c3205606202fef5a7fb693f61cf0" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp39-cp39-linux_aarch64.whl", hash = "sha256:d29349944955eb061e774fe4d9eea4681c5bc9ff42ea39a877f8f14de1e4ed00" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:a40a0e4b238564a19bf138c64d593c7b52d97c8737843d85d6ca09216241ae66" },
-]
-
-[[package]]
-name = "torchaudio"
-version = "2.5.1"
-source = { registry = "https://download.pytorch.org/whl/cu124" }
-resolution-markers = [
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-]
-dependencies = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1-cp310-cp310-linux_aarch64.whl", hash = "sha256:2e77a8528d5e332096a69c0707aa083e058a9dcb844bc93ef040debb6aadeaa8" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1-cp311-cp311-linux_aarch64.whl", hash = "sha256:f51d4eda003927f07d4a34b09199a79fde5e5b3df5432880685b70dd63b7c91e" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1-cp312-cp312-linux_aarch64.whl", hash = "sha256:b5eeaeb2be9e980077e5713b689442e776bebfe1d836c0c507ae725772c8a8a2" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1-cp39-cp39-linux_aarch64.whl", hash = "sha256:cf1104c5894df875d75937828c707087fa13e4254ab91e8ac9e6524db95eae3c" },
-]
-
-[[package]]
-name = "torchaudio"
-version = "2.5.1"
+name = "torchvision"
+version = "0.21.0"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.12'",
-    "python_full_version >= '3.10' and python_full_version < '3.12'",
-    "python_full_version < '3.10'",
-]
 dependencies = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "pillow" },
+    { name = "torch" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b3/db/246930ba5933a9f6ce8e2cca7086924487286a0bf7d8d28aeb354e8b0504/torchaudio-2.5.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:901291d770aeeb1f51920bb5aa73ff82e9b7f26354a3c7b90d80ff0b4e9a5044", size = 1794150 },
-    { url = "https://files.pythonhosted.org/packages/e3/2c/3db92d48e2e4a0bd7398ecb39fb731ad876c7cd6ce6c365630865654d253/torchaudio-2.5.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:abacbec3b6d695cf99ada8b1db55db933181c8ff7d283e246e2bbefdde674235", size = 3369055 },
-    { url = "https://files.pythonhosted.org/packages/c2/06/b122f0475ca97abdc8daf637c0f62778893aa40f91e988a7baef8eedf8c6/torchaudio-2.5.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:9b3872c5dd5080be6322908d62365581a1dd9250e3dd6d47bab3f5b0854a5d1f", size = 1666734 },
-    { url = "https://files.pythonhosted.org/packages/fb/a8/113d41cfab3220ded1f9a5910e6b3c217bf3a6896925dca8cd13df0c23dc/torchaudio-2.5.1-cp310-cp310-win_amd64.whl", hash = "sha256:4aead2d6b32426d0e657e243f6f5146f8d400bc8db9fe8a8000254baeec1202d", size = 2435898 },
-    { url = "https://files.pythonhosted.org/packages/6a/97/1780e3dd8733da30ff1051b8cbd8006e4824b76028558a58c31e790c09cd/torchaudio-2.5.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:7005354aa7dda9ef908e13c2566ee1fe0bd6d7f5bae0583b5e53016cd229fc34", size = 1801479 },
-    { url = "https://files.pythonhosted.org/packages/41/33/0f21b15f8e231bb55578f6b32e8c18675585b7bf97cb0aee96b1591e4193/torchaudio-2.5.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:7af3f7f92fd33bc9f036a60cdeda4cbeb6bccebd18eae89776dd1e8ed042672e", size = 3374576 },
-    { url = "https://files.pythonhosted.org/packages/0c/0e/89294062dbca27ed8bc4a89d9ceea0bd64b45ebc005e0306871b3f55bb31/torchaudio-2.5.1-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:4ba24769a72bd686903feaf1040c895d710af2ffbcd25ee7a9794ee285561b26", size = 1672185 },
-    { url = "https://files.pythonhosted.org/packages/32/6a/019e426ab4af487167182a19e115fc03234fe28bc30e22cb0e1a9958f70e/torchaudio-2.5.1-cp311-cp311-win_amd64.whl", hash = "sha256:cba8ccab1bff0496ccdc71ebbdcd31d0f7bf97ff3c46276425ff86460f6f8967", size = 2439124 },
-    { url = "https://files.pythonhosted.org/packages/03/ab/151037a41e2cf4a5d489dfe5e7196b755e0fd83958d5ca7ad8ed85afcb1c/torchaudio-2.5.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:f1cbfdfd1bbdfbe7289d47a74f36ff6c5d87c3205606202fef5a7fb693f61cf0", size = 1798042 },
-    { url = "https://files.pythonhosted.org/packages/34/1c/345d11bf492a1414dced70a9572ff1eb2c73013578d24fb4d728a91a09d1/torchaudio-2.5.1-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:9c8fb06fbd8d2016e7b7caf15a3231867c792a2e3b0f2f8f9013633e9c2ce412", size = 3371851 },
-    { url = "https://files.pythonhosted.org/packages/1c/74/a27c6d0d4c4fad90462f08e99222d3557f118beb8fb560b87d607a727a0a/torchaudio-2.5.1-cp312-cp312-manylinux2014_aarch64.whl", hash = "sha256:6bb65416405f40e00b20701257c16e7493bfdd7188e02e87cc5b389c31c10c2c", size = 1668849 },
-    { url = "https://files.pythonhosted.org/packages/99/a1/4220b73ba6e083229099892d9126e01836afe96cf7e2fbfe60b327506f49/torchaudio-2.5.1-cp312-cp312-win_amd64.whl", hash = "sha256:ec8f12d6be12aed248a0d65a76c7bb341ee5eef969fe2e9dc3154c7cfba1bdf4", size = 2435747 },
-    { url = "https://files.pythonhosted.org/packages/13/a0/43a7b3bd4f19bb2ca46e44aee83cba6cb1450f3126d9615f30ac51db24ec/torchaudio-2.5.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:a40a0e4b238564a19bf138c64d593c7b52d97c8737843d85d6ca09216241ae66", size = 1794974 },
-    { url = "https://files.pythonhosted.org/packages/4f/7e/72d930d1093790182ca6a2b3a90b6f6750a0432444efc53569cfd90f57e7/torchaudio-2.5.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:f2f0a4fa19137cad247087dcf4b85c56860f924c3ca4a89679299cf0e002ee33", size = 3372203 },
-    { url = "https://files.pythonhosted.org/packages/6d/fc/6253fa7f48ce68eb0f64cb200b5944389cb6b4cf20f69f3b14cf23554747/torchaudio-2.5.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:d29349944955eb061e774fe4d9eea4681c5bc9ff42ea39a877f8f14de1e4ed00", size = 1668256 },
-    { url = "https://files.pythonhosted.org/packages/8a/7b/30677c86a054cab96274362c501c274ff8bd5884281b1841dc73146a7ec2/torchaudio-2.5.1-cp39-cp39-win_amd64.whl", hash = "sha256:0be6d6f5127b17f9f1ac33fb02c8f1127bfea955de630c5cab6eb9daaef4db6d", size = 2433723 },
-]
-
-[[package]]
-name = "torchaudio"
-version = "2.5.1+cpu"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
-]
-dependencies = [
-    { name = "torch", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp310-cp310-linux_x86_64.whl", hash = "sha256:c64af43548713e5abc3e9e3b5f33a2a47c57122ee953e0b0cb102f7855f8d017" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp310-cp310-win_amd64.whl", hash = "sha256:8904a77ad311992d3dd3dae6556ea023fbb291b10b8698fecd1dec10bc189d6c" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp311-cp311-linux_x86_64.whl", hash = "sha256:209f8e7efff818d2066f49c27c8097f2246f8bf6fd743c69bcf8dce80c63ee80" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp311-cp311-win_amd64.whl", hash = "sha256:e08047b9f1997bd303ea6528e5b8009719665a55516a49b6acc359dac20c474d" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp312-cp312-linux_x86_64.whl", hash = "sha256:b7fbd9c264dcbe28efb061364c76d3770eb13ae692d2982949b583edfb9ed7f5" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:68b58c1dae7bb738df8a36f0d147d2c9c69e56a35ff40dedb84ac30aff2e59e1" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp39-cp39-linux_x86_64.whl", hash = "sha256:63518869ddb6bbf37a305bb0c085552c230e130ea4640fd71db17b6689586aa5" },
-    { url = "https://download.pytorch.org/whl/cpu/torchaudio-2.5.1%2Bcpu-cp39-cp39-win_amd64.whl", hash = "sha256:ea2c7fd25311ea47fd78abf0ee6ffbc4820d785773d0bc5ac87f82912851643f" },
-]
-
-[[package]]
-name = "torchaudio"
-version = "2.5.1+cu124"
-source = { registry = "https://download.pytorch.org/whl/cu124" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.12' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64') or (python_full_version < '3.10' and sys_platform != 'linux')",
-]
-dependencies = [
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine != 'aarch64' or sys_platform != 'linux'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp310-cp310-linux_x86_64.whl", hash = "sha256:097593edf32f0a8450aba7822b8097d2f2476fe96c0ab99331d12c347003180b" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp310-cp310-win_amd64.whl", hash = "sha256:5caf6c3fc7f1e858bcca87451fe0402321754f4fb10d118ef47caf9f8f28a257" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp311-cp311-linux_x86_64.whl", hash = "sha256:e98938dcc44ebaab8bd8379545784cfddfc23ae17787389448b7ff9918dc3df9" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp311-cp311-win_amd64.whl", hash = "sha256:b3d75f4e6efc5412fe78c7f2787ee4f39cea1317652e1a47785879cde109f5c4" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp312-cp312-linux_x86_64.whl", hash = "sha256:9902598e0330aeead0bc1545837804eb268549b9b4ce41ae3ca51b2384904e89" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp312-cp312-win_amd64.whl", hash = "sha256:cca2de94f232611b20d379edf28befa7a1aa482ae9ed41c3b958b08ed1bf4983" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp39-cp39-linux_x86_64.whl", hash = "sha256:ac73c29c48568463bebc60b4b2b20b01d2edddb1f5135e66153f1af85e39f3fd" },
-    { url = "https://download.pytorch.org/whl/cu124/torchaudio-2.5.1%2Bcu124-cp39-cp39-win_amd64.whl", hash = "sha256:882b96eff7b82cfc0738440c380d0cbf223dd25dc91e12066b2201ea39ae93de" },
-]
-
-[[package]]
-name = "torchvision"
-version = "0.20.1"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform == 'darwin')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin')",
-    "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')",
-]
-dependencies = [
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform == 'darwin')" },
-    { name = "pillow", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp310-cp310-linux_aarch64.whl", hash = "sha256:75f8a4d51a593c4bab6c9bf7d75bdd88691b00a53b07656678bc55a3a753dd73" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:4878fefb96ef293d06c27210918adc83c399d9faaf34cda5a63e129f772328f1" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp311-cp311-linux_aarch64.whl", hash = "sha256:a40d766345927639da322c693934e5f91b1ba2218846c7104b868dea2314ce8e" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:344b339e15e6bbb59ee0700772616d0afefd209920c762b1604368d8c3458322" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp312-cp312-linux_aarch64.whl", hash = "sha256:9f853ba4497ac4691815ad41b523ee23cf5ba4f87b1ce869d704052e233ca8b7" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:1a31256ff945d64f006bb306813a7c95a531fe16bfb2535c837dd4c104533d7a" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp39-cp39-linux_aarch64.whl", hash = "sha256:abcb8005de8dc393dbd1310ecb669dc68ab664b9107af6d698a6341d1d3f2c3c" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:2cd58406978b813188cf4e9135b218775b57e0bb86d4a88f0339874b8a224819" },
-]
-
-[[package]]
-name = "torchvision"
-version = "0.20.1"
-source = { registry = "https://download.pytorch.org/whl/cu124" }
-resolution-markers = [
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-]
-dependencies = [
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'" },
-    { name = "pillow", marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1-cp310-cp310-linux_aarch64.whl", hash = "sha256:38765e53653f93e529e329755992ddbea81091aacedb61ed053f6a14efb289e5" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1-cp311-cp311-linux_aarch64.whl", hash = "sha256:2c5350a08abe005a16c316ae961207a409d0e35df86240db5f77ec41345c82f3" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1-cp312-cp312-linux_aarch64.whl", hash = "sha256:3e3289e53d0cb5d1b7f55b3f5912f46a08293c6791585ba2fc32c12cded9f9af" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1-cp39-cp39-linux_aarch64.whl", hash = "sha256:e25b4ac3c9eec3f789f1c5491331dfe236b5f06a1f406ea82fa59fed4fc6f71e" },
-]
-
-[[package]]
-name = "torchvision"
-version = "0.20.1"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.12'",
-    "python_full_version >= '3.10' and python_full_version < '3.12'",
-    "python_full_version < '3.10'",
-]
-dependencies = [
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124') or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "pillow", marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124') or (extra != 'extra-19-mkv-episode-matcher-cpu' and extra != 'extra-19-mkv-episode-matcher-cu124')" },
-]
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/8d/59/aea68d755da1451e1a0d894528a7edc9b58eb30d33e274bf21bef28dad1a/torchvision-0.20.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:4878fefb96ef293d06c27210918adc83c399d9faaf34cda5a63e129f772328f1", size = 1787552 },
-    { url = "https://files.pythonhosted.org/packages/a2/f6/7ff89a9f8703f623f5664afd66c8600e3f09fe188e1e0b7e6f9a8617f865/torchvision-0.20.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:8ffbdf8bf5b30eade22d459f5a313329eeadb20dc75efa142987b53c007098c3", size = 7238975 },
-    { url = "https://files.pythonhosted.org/packages/f7/ce/4c31e9b96cc4f9fec746b258d2aa35f8d1247f4f58d63f9c505ea5eb254d/torchvision-0.20.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:75f8a4d51a593c4bab6c9bf7d75bdd88691b00a53b07656678bc55a3a753dd73", size = 14265343 },
-    { url = "https://files.pythonhosted.org/packages/17/11/b5ce67715bbbec8798fb48c4a20ac28828aec1710ac01091a3eddcb8e075/torchvision-0.20.1-cp310-cp310-win_amd64.whl", hash = "sha256:22c2fa44e20eb404b85e42b22b453863a14b0927d25e550fd4f84eea97fa5b39", size = 1562413 },
-    { url = "https://files.pythonhosted.org/packages/28/57/4d7ad90be612f5ac6c4bdafcb0ff13e818e14a340a88c8ca00d9ed8c2dad/torchvision-0.20.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:344b339e15e6bbb59ee0700772616d0afefd209920c762b1604368d8c3458322", size = 1787548 },
-    { url = "https://files.pythonhosted.org/packages/de/e9/e190ecec448d5a2abad8348cf085fcb39962a491e3f40dcb023721e04feb/torchvision-0.20.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:86f6523dee420000fe14c3527f6c8e0175139fda7d995b187f54a0b0ebec7eb6", size = 7241222 },
-    { url = "https://files.pythonhosted.org/packages/b1/a3/cbb8177e5e379f0c040b00c6f80f14d323a97e30495d7115d169b101b2f7/torchvision-0.20.1-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:a40d766345927639da322c693934e5f91b1ba2218846c7104b868dea2314ce8e", size = 14267510 },
-    { url = "https://files.pythonhosted.org/packages/69/55/ce836703ff77bb21582c3098d5311f8ddde7eadc7eab04be9561961f4725/torchvision-0.20.1-cp311-cp311-win_amd64.whl", hash = "sha256:5b501d5c04b034d2ecda96a31ed050e383cf8201352e4c9276ca249cbecfded0", size = 1562402 },
-    { url = "https://files.pythonhosted.org/packages/c5/eb/4ba19616378f2bc085999432fded2b7dfdbdccc6dd0fc293203452508100/torchvision-0.20.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:1a31256ff945d64f006bb306813a7c95a531fe16bfb2535c837dd4c104533d7a", size = 1787553 },
-    { url = "https://files.pythonhosted.org/packages/d4/75/00a852275ade58d3dc474530f7a7b6bc999a817148f0eb59d4fde12eb955/torchvision-0.20.1-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:17cd78adddf81dac57d7dccc9277a4d686425b1c55715f308769770cb26cad5c", size = 7240323 },
-    { url = "https://files.pythonhosted.org/packages/af/f0/ca1445406eb12cbeb7a41fc833a1941ede78e7c55621198b83ecd7bcfd0f/torchvision-0.20.1-cp312-cp312-manylinux2014_aarch64.whl", hash = "sha256:9f853ba4497ac4691815ad41b523ee23cf5ba4f87b1ce869d704052e233ca8b7", size = 14266936 },
-    { url = "https://files.pythonhosted.org/packages/c3/18/00993d420b1d6e88582e51d4bc82c824c99a2e9c045d50eaf9b34fff729a/torchvision-0.20.1-cp312-cp312-win_amd64.whl", hash = "sha256:4a330422c36dbfc946d3a6c1caec3489db07ecdf3675d83369adb2e5a0ca17c4", size = 1562392 },
-    { url = "https://files.pythonhosted.org/packages/a1/14/c13e8b49fa812266e3340969b3157b11928a3608faa3a0448b8a564b01b8/torchvision-0.20.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:2cd58406978b813188cf4e9135b218775b57e0bb86d4a88f0339874b8a224819", size = 1787569 },
-    { url = "https://files.pythonhosted.org/packages/f1/6c/f5fcf2e2a5828643354939ececbcd45bfde4d0355b1e44722c960c6f81c2/torchvision-0.20.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:408766b2f0ada9e1bc880d12346cec9638535af5df6459ba9ac4ce5c46402f91", size = 7240810 },
-    { url = "https://files.pythonhosted.org/packages/44/a7/a69e090ee59b6b042580304524af035dc0e980f05f9b0592f2153de94579/torchvision-0.20.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:abcb8005de8dc393dbd1310ecb669dc68ab664b9107af6d698a6341d1d3f2c3c", size = 1896028 },
-    { url = "https://files.pythonhosted.org/packages/d4/1e/0bd619dd8aa443e167fb62c6167ecb9b6ce8f275e9ca1842e7994fd9653d/torchvision-0.20.1-cp39-cp39-win_amd64.whl", hash = "sha256:ea9678163bbf19568f4f959d927f3751eeb833cc8eac949de507edde38c1fc9f", size = 1562339 },
-]
-
-[[package]]
-name = "torchvision"
-version = "0.20.1+cpu"
-source = { registry = "https://download.pytorch.org/whl/cpu" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
-]
-dependencies = [
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "pillow", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-    { name = "torch", version = "2.5.1+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp310-cp310-linux_x86_64.whl", hash = "sha256:17bbc073920e429bf23a290472d51edc75e7b9809b81a93503d10d8edb6f3a6d" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp310-cp310-win_amd64.whl", hash = "sha256:58773dc7110425ff3ffa462ed32d5522deaed81179b24780136ebc493fb94feb" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp311-cp311-linux_x86_64.whl", hash = "sha256:a4153bcc9f6219596c65761aa00588704e91e3db91d911c251e614f6140ed047" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp311-cp311-win_amd64.whl", hash = "sha256:ebdeb19a49da0b5d11cc512a76b24a43971e17cfb9c1ec42564d0e300670d5fa" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp312-cp312-linux_x86_64.whl", hash = "sha256:5f46c7ac7f00a065cb40bfb1e1bfc4ba16a35f5d46b3fe70cca6b3cea7f822f7" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:64832095b9b8b8185f24788f1a531ae96c937bf797cd3474a2ea7511852e5cd7" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp39-cp39-linux_x86_64.whl", hash = "sha256:a476464e8b3d4d1d7207a943e2c6a2f5c71219cd808167acde5731725280ae2a" },
-    { url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp39-cp39-win_amd64.whl", hash = "sha256:7470316f50404e5036fbdc820bacdebeb662bb0baa9601320dcdaecef7cba3a8" },
-]
-
-[[package]]
-name = "torchvision"
-version = "0.20.1+cu124"
-source = { registry = "https://download.pytorch.org/whl/cu124" }
-resolution-markers = [
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.12' and sys_platform != 'linux')",
-    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'linux')",
-    "(python_full_version < '3.10' and platform_machine != 'aarch64') or (python_full_version < '3.10' and sys_platform != 'linux')",
-]
-dependencies = [
-    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.10' and platform_machine != 'aarch64') or (python_full_version < '3.10' and sys_platform != 'linux')" },
-    { name = "numpy", version = "2.1.3", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and platform_machine != 'aarch64') or (python_full_version >= '3.10' and sys_platform != 'linux')" },
-    { name = "pillow", marker = "platform_machine != 'aarch64' or sys_platform != 'linux'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "platform_machine != 'aarch64' or sys_platform != 'linux'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp310-cp310-linux_x86_64.whl", hash = "sha256:3a055e4e9040b129878d57c39db55f117f975899ff30dd70c8f2621d91170dbe" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp310-cp310-win_amd64.whl", hash = "sha256:b18c35fad1199d027f1b4a7a7027bbf8ab5e8d1dc6feb72431c2efaa58551c64" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp311-cp311-linux_x86_64.whl", hash = "sha256:a5f7eb5ef22f34a7d18fcbc27b6c01f7dde5cd530df311cdbdd31169f91cbd98" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp311-cp311-win_amd64.whl", hash = "sha256:15796b453a99ed0f0cbc249d129685ddc88157310135fb3addaf738a15db5306" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp312-cp312-linux_x86_64.whl", hash = "sha256:d1053ec5054549e7dac2613b151bffe323f3c924939d296df4d7d34925aaf3ad" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp312-cp312-win_amd64.whl", hash = "sha256:0f6c7b3b0e13663fb3359e64f3604c0ab74c2b4809ae6949ace5635a5240f0e5" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp39-cp39-linux_x86_64.whl", hash = "sha256:0bf4e2ce08bc7495734dc540953c65990e42ebb7c9ed27e2ff795154baef5cc0" },
-    { url = "https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp39-cp39-win_amd64.whl", hash = "sha256:8d41e78a1c523926aafb48a36c652606ece5170a7f148cb2b146a49a0df50a57" },
+    { url = "https://files.pythonhosted.org/packages/8e/0d/143bd264876fad17c82096b6c2d433f1ac9b29cdc69ee45023096976ee3d/torchvision-0.21.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:044ea420b8c6c3162a234cada8e2025b9076fa82504758cd11ec5d0f8cd9fa37", size = 1784140 },
+    { url = "https://files.pythonhosted.org/packages/5e/44/32e2d2d174391374d5ff3c4691b802e8efda9ae27ab9062eca2255b006af/torchvision-0.21.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:b0c0b264b89ab572888244f2e0bad5b7eaf5b696068fc0b93e96f7c3c198953f", size = 7237187 },
+    { url = "https://files.pythonhosted.org/packages/0e/6b/4fca9373eda42c1b04096758306b7bd55f7d8f78ba273446490855a0f25d/torchvision-0.21.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:54815e0a56dde95cc6ec952577f67e0dc151eadd928e8d9f6a7f821d69a4a734", size = 14699067 },
+    { url = "https://files.pythonhosted.org/packages/aa/f7/799ddd538b21017cbf80294c92e9efbf6db08dff6efee37c3be114a81845/torchvision-0.21.0-cp310-cp310-win_amd64.whl", hash = "sha256:abbf1d7b9d52c00d2af4afa8dac1fb3e2356f662a4566bd98dfaaa3634f4eb34", size = 1560542 },
+    { url = "https://files.pythonhosted.org/packages/29/88/00c69db213ee2443ada8886ec60789b227e06bb869d85ee324578221a7f7/torchvision-0.21.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:110d115333524d60e9e474d53c7d20f096dbd8a080232f88dddb90566f90064c", size = 1784141 },
+    { url = "https://files.pythonhosted.org/packages/be/a2/b0cedf0a411f1a5d75cfc0b87cde56dd1ddc1878be46a42c905cd8580220/torchvision-0.21.0-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:3891cd086c5071bda6b4ee9d266bb2ac39c998c045c2ebcd1e818b8316fb5d41", size = 7237719 },
+    { url = "https://files.pythonhosted.org/packages/8c/a1/ee962ef9d0b2bf7a6f8b14cb95acb70e05cd2101af521032a09e43f8582f/torchvision-0.21.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:54454923a50104c66a9ab6bd8b73a11c2fc218c964b1006d5d1fe5b442c3dcb6", size = 14700617 },
+    { url = "https://files.pythonhosted.org/packages/88/53/4ad334b9b1d8dd99836869fec139cb74a27781298360b91b9506c53f1d10/torchvision-0.21.0-cp311-cp311-win_amd64.whl", hash = "sha256:49bcfad8cfe2c27dee116c45d4f866d7974bcf14a5a9fbef893635deae322f2f", size = 1560523 },
+    { url = "https://files.pythonhosted.org/packages/6e/1b/28f527b22d5e8800184d0bc847f801ae92c7573a8c15979d92b7091c0751/torchvision-0.21.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:97a5814a93c793aaf0179cfc7f916024f4b63218929aee977b645633d074a49f", size = 1784140 },
+    { url = "https://files.pythonhosted.org/packages/36/63/0722e153fd27d64d5b0af45b5c8cb0e80b35a68cf0130303bc9a8bb095c7/torchvision-0.21.0-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:b578bcad8a4083b40d34f689b19ca9f7c63e511758d806510ea03c29ac568f7b", size = 7238673 },
+    { url = "https://files.pythonhosted.org/packages/bb/ea/03541ed901cdc30b934f897060d09bbf7a98466a08ad1680320f9ce0cbe0/torchvision-0.21.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:5083a5b1fec2351bf5ea9900a741d54086db75baec4b1d21e39451e00977f1b1", size = 14701186 },
+    { url = "https://files.pythonhosted.org/packages/4c/6a/c7752603060d076dfed95135b78b047dc71792630cbcb022e3693d6f32ef/torchvision-0.21.0-cp312-cp312-win_amd64.whl", hash = "sha256:6eb75d41e3bbfc2f7642d0abba9383cc9ae6c5a4ca8d6b00628c225e1eaa63b3", size = 1560520 },
+    { url = "https://files.pythonhosted.org/packages/f9/56/47d456b61c3bbce7bed4af3925c83d405bb87468e659fd3cf3d9840c3b51/torchvision-0.21.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:659b76c86757cb2ee4ca2db245e0740cfc3081fef46f0f1064d11adb4a8cee31", size = 1784141 },
+    { url = "https://files.pythonhosted.org/packages/cb/4c/99880813aa50e64447fb1c4c6c804a793d2d78f7f7c53e99ddee7fa175fa/torchvision-0.21.0-cp313-cp313-manylinux1_x86_64.whl", hash = "sha256:084ac3f5a1f50c70d630a488d19bf62f323018eae1b1c1232f2b7047d3a7b76d", size = 7238714 },
+    { url = "https://files.pythonhosted.org/packages/0b/2d/3c3ee10608310a395594aac7da8640372ed79c6585910ccae6919658dcdc/torchvision-0.21.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:5045a3a5f21ec3eea6962fa5f2fa2d4283f854caec25ada493fcf4aab2925467", size = 2281252 },
+    { url = "https://files.pythonhosted.org/packages/ed/b4/fc60e3bc003879d3de842baea258fffc3586f4b49cd435a5ba1e09c33315/torchvision-0.21.0-cp313-cp313-win_amd64.whl", hash = "sha256:9147f5e096a9270684e3befdee350f3cacafd48e0c54ab195f45790a9c146d67", size = 1560519 },
+    { url = "https://files.pythonhosted.org/packages/49/d5/d18c5d89cbe32015b033f1fa06918c7cdd5c0af0c03e55d72a3cc2d768f8/torchvision-0.21.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:5c22caeaae8b3c36d93459f1a5294e6f43306cff856ed243189a229331a404b4", size = 1784154 },
+    { url = "https://files.pythonhosted.org/packages/b1/1e/0c329d94f92c498f1b76eb283b2d26f244ea8631dee37b2566e20ff4724d/torchvision-0.21.0-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:e6572227228ec521618cea9ac3a368c45b7f96f1f8622dc9f1afe891c044051f", size = 7237998 },
+    { url = "https://files.pythonhosted.org/packages/a8/53/6822bd507088419b44d95d40a165f83d635568044e2e40c8dd5ff48984b2/torchvision-0.21.0-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:6bdce3890fa949219de129e85e4f6d544598af3c073afe5c44e14aed15bdcbb2", size = 2328849 },
+    { url = "https://files.pythonhosted.org/packages/6d/34/8b74ffdcb8e066b9abfc7a59407ae8fa9a67cb1e296f090d71bf4577f6cd/torchvision-0.21.0-cp39-cp39-win_amd64.whl", hash = "sha256:8c44b6924b530d0702e88ff383b65c4b34a0eaf666e8b399a73245574d546947", size = 1560537 },
 ]
 
 [[package]]
@@ -1861,7 +1560,7 @@ name = "tqdm"
 version = "4.67.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-19-mkv-episode-matcher-cpu' and extra == 'extra-19-mkv-episode-matcher-cu124')" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz", hash = "sha256:f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2", size = 169737 }
 wheels = [

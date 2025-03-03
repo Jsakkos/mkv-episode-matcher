@@ -28,7 +28,6 @@ dependencies = [
     "loguru>=0.7.2",
     "openai-whisper>=20240930",
     "opensubtitlescom>=0.1.5",
-    "pytesseract>=0.3.13",
     "rapidfuzz>=3.10.1",
     "requests>=2.32.3",
     "tmdb-client>=0.0.1",
@@ -53,49 +52,6 @@ dev = [
     "chardet>=5.2.0",
 ]
 
-[project.optional-dependencies]
-cpu = [
-  "torch>=2.5.1",
-  "torchvision>=0.20.1",
-  "torchaudio>=2.5.1",
-]
-cu124 = [
-  "torch>=2.5.1",
-  "torchvision>=0.20.1",
-    "torchaudio>=2.5.1",
-]
-
-[tool.uv]
-conflicts = [
-  [
-    { extra = "cpu" },
-    { extra = "cu124" },
-  ],
-]
-
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-cpu", extra = "cpu" },
-  { index = "pytorch-cu124", extra = "cu124" },
-]
-torchvision = [
-  { index = "pytorch-cpu", extra = "cpu" },
-  { index = "pytorch-cu124", extra = "cu124" },
-]
-torchaudio = [
-  { index = "pytorch-cpu", extra = "cpu" },
-  { index = "pytorch-cu124", extra = "cu124" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cu124"
-url = "https://download.pytorch.org/whl/cu124"
-explicit = true
 
 [tool.ruff.format]
 preview = true
@@ -109,7 +65,6 @@ preview = true
 extend-select = ["C901"]
 select = [
     "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
     "F",  # pyflakes
     "I",  # isort
     "C",  # flake8-comprehensions
