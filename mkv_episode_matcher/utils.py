@@ -2,15 +2,18 @@
 import os
 import re
 import shutil
-import torch
+
 import requests
+import torch
 from loguru import logger
 from opensubtitlescom import OpenSubtitles
 
 from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
 from mkv_episode_matcher.tmdb_client import fetch_season_details
-from mkv_episode_matcher.subtitle_utils import find_existing_subtitle,sanitize_filename
+
+
 def get_valid_seasons(show_dir):
     """
     Get all season directories that contain MKV files.
@@ -43,6 +46,8 @@ def get_valid_seasons(show_dir):
         )
 
     return valid_season_paths
+
+
 def check_filename(filename):
     """
     Check if the filename is in the correct format (S01E02).
@@ -95,11 +100,11 @@ def rename_episode_file(original_file_path, new_filename):
     """
     original_dir = os.path.dirname(original_file_path)
     new_file_path = os.path.join(original_dir, new_filename)
-    
+
     # Check if new filepath already exists
     if os.path.exists(new_file_path):
         logger.warning(f"File already exists: {new_filename}")
-        
+
         # Add numeric suffix if file exists
         base, ext = os.path.splitext(new_filename)
         suffix = 2
@@ -109,7 +114,7 @@ def rename_episode_file(original_file_path, new_filename):
             if not os.path.exists(new_file_path):
                 break
             suffix += 1
-    
+
     try:
         os.rename(original_file_path, new_file_path)
         logger.info(f"Renamed {os.path.basename(original_file_path)} -> {new_filename}")
@@ -120,7 +125,8 @@ def rename_episode_file(original_file_path, new_filename):
     except FileExistsError as e:
         logger.error(f"Failed to rename file: {e}")
         return None
-        
+
+
 def get_subtitles(show_id, seasons: set[int], config=None):
     """
     Retrieves and saves subtitles for a given TV show and seasons.
@@ -164,19 +170,19 @@ def get_subtitles(show_id, seasons: set[int], config=None):
 
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
-            
+
             series_cache_dir = os.path.join(CACHE_DIR, "data", series_name)
             os.makedirs(series_cache_dir, exist_ok=True)
-            
+
             # Check for existing subtitle in any supported format
             existing_subtitle = find_existing_subtitle(
                 series_cache_dir, series_name, season, episode
             )
-            
+
             if existing_subtitle:
                 logger.info(f"Subtitle already exists: {os.path.basename(existing_subtitle)}")
                 continue
-                
+
             # Default to standard format for new downloads
             srt_filepath = os.path.join(
                 series_cache_dir,
@@ -189,7 +195,7 @@ def get_subtitles(show_id, seasons: set[int], config=None):
             response.raise_for_status()
             episode_data = response.json()
             episode_id = episode_data["id"]
-            
+
             # search for the subtitle
             response = subtitles.search(tmdb_id=episode_id, languages="en")
             if len(response.data) == 0:
@@ -237,6 +243,7 @@ def clean_text(text):
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
 
+
 @logger.catch
 def process_reference_srt_files(series_name):
     """
@@ -249,12 +256,13 @@ def process_reference_srt_files(series_name):
         dict: A dictionary containing the reference files where the keys are the MKV filenames
               and the values are the corresponding SRT texts.
     """
-    from mkv_episode_matcher.__main__ import CACHE_DIR
     import os
-    
+
+    from mkv_episode_matcher.__main__ import CACHE_DIR
+
     reference_files = {}
     reference_dir = os.path.join(CACHE_DIR, "data", series_name)
-    
+
     for dirpath, _, filenames in os.walk(reference_dir):
         for filename in filenames:
             if filename.lower().endswith(".srt"):
@@ -264,8 +272,9 @@ def process_reference_srt_files(series_name):
                 season, episode = extract_season_episode(filename)
                 mkv_filename = f"{series_name} - S{season:02}E{episode:02}.mkv"
                 reference_files[mkv_filename] = srt_text
-                
+
     return reference_files
+
 
 def extract_srt_text(filepath):
     """
@@ -280,24 +289,25 @@ def extract_srt_text(filepath):
     # Read the file content
     with open(filepath) as f:
         content = f.read()
-        
+
     # Split into subtitle blocks
     blocks = content.strip().split('\n\n')
-    
+
     text_lines = []
     for block in blocks:
         lines = block.split('\n')
         if len(lines) < 3:
             continue
-            
+
         # Skip index and timestamp, get all remaining lines as text
         text = ' '.join(lines[2:])
         # Remove stage directions and tags
         text = re.sub(r'\[.*?\]|\<.*?\>', '', text)
         if text:
             text_lines.append(text)
-            
+
     return text_lines
+
 
 def extract_season_episode(filename):
     """
@@ -313,15 +323,16 @@ def extract_season_episode(filename):
     patterns = [
         r'S(\d+)E(\d+)',          # S01E01
         r'(\d+)x(\d+)',           # 1x01 or 01x01
-        r'Season\s*(\d+).*?(\d+)' # Season 1 - 01
+        r'Season\s*(\d+).*?(\d+)'  # Season 1 - 01
     ]
-    
+
     for pattern in patterns:
         match = re.search(pattern, filename, re.IGNORECASE)
         if match:
             return int(match.group(1)), int(match.group(2))
-            
+
     return None, None
+
 
 def process_srt_files(show_dir):
     """
@@ -342,6 +353,8 @@ def process_srt_files(show_dir):
                 srt_text = extract_srt_text(srt_file)
                 srt_files[srt_file] = srt_text
     return srt_files
+
+
 def compare_and_rename_files(srt_files, reference_files, dry_run=False):
     """
     Compare the srt files with the reference files and rename the matching mkv files.
@@ -372,6 +385,7 @@ def compare_and_rename_files(srt_files, reference_files, dry_run=False):
                     logger.info(f"Renaming {mkv_file} to {new_filename}")
                     rename_episode_file(mkv_file, new_filename)
 
+
 def compare_text(text1, text2):
     """
     Compare two lists of text lines and return the number of matching lines.
@@ -390,6 +404,7 @@ def compare_text(text1, text2):
     # Compare the two lists of text lines
     matching_lines = set(flat_text1).intersection(flat_text2)
     return len(matching_lines)
+
 
 def check_gpu_support():
     logger.info('Checking GPU support...')

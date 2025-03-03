@@ -1,20 +1,17 @@
-import pytest
-import os
-import shutil
 from pathlib import Path
-from unittest.mock import Mock, patch, mock_open
-from mkv_episode_matcher.episode_matcher import process_show
-from mkv_episode_matcher.utils import (
-    get_valid_seasons,
-    check_filename,
-    rename_episode_file,
-    clean_text,
-    extract_season_episode
-)
-from mkv_episode_matcher.episode_identification import EpisodeMatcher
-from mkv_episode_matcher.config import get_config, set_config
 from unittest.mock import Mock, patch
 
+import pytest
+
+from mkv_episode_matcher.config import get_config, set_config
+from mkv_episode_matcher.episode_identification import EpisodeMatcher
+from mkv_episode_matcher.utils import (
+    check_filename,
+    clean_text,
+    extract_season_episode,
+    get_valid_seasons,
+    rename_episode_file,
+)
 
 # @pytest.fixture
 # def mock_config():
@@ -35,9 +32,11 @@ def mock_episode_data():
         "overview": "Test overview",
     }
 
+
 @pytest.fixture
 def mock_seasons():
     return ["/test/path/Season 1"]
+
 
 @pytest.fixture
 def temp_show_dir(tmp_path):
@@ -48,6 +47,7 @@ def temp_show_dir(tmp_path):
     (season_dir / "episode1.mkv").touch()
     (season_dir / "episode2.mkv").touch()
     return show_dir
+
 
 @pytest.fixture
 def mock_config():
@@ -62,6 +62,7 @@ def mock_config():
         "tesseract_path": "/test/tesseract"
     }
 
+
 class TestUtilities:
     def test_get_valid_seasons(self, temp_show_dir):
         seasons = get_valid_seasons(str(temp_show_dir))
@@ -69,8 +70,8 @@ class TestUtilities:
         assert str(temp_show_dir / "Season 1") in seasons
 
     def test_check_filename(self):
-        assert check_filename("Show - S01E02.mkv") == True
-        assert check_filename("random_file.mkv") == False
+        assert check_filename("Show - S01E02.mkv") is True
+        assert check_filename("random_file.mkv") is False
 
     def test_rename_episode_file(self, temp_show_dir):
         original = temp_show_dir / "Season 1" / "episode1.mkv"
@@ -88,6 +89,7 @@ class TestUtilities:
         season, episode = extract_season_episode(filename)
         assert season == 1
         assert episode == 2
+
 
 class TestConfiguration:
     def test_set_config(self, tmp_path, mock_config):
@@ -120,6 +122,7 @@ class TestConfiguration:
         assert config["tmdb_api_key"] == mock_config["tmdb_api_key"]
         assert config["show_dir"] == mock_config["show_dir"]
 
+
 class TestEpisodeMatcher:
     @pytest.fixture
     def matcher(self, tmp_path):
@@ -140,6 +143,7 @@ class TestEpisodeMatcher:
         chunk = matcher.extract_audio_chunk(str(mkv_file), 0)
         assert isinstance(chunk, str)
         assert mock_run.called
+
 
 class TestEpisodeMatcher:
     def test_extract_season_episode(self):
