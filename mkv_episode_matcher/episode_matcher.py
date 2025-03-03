@@ -7,6 +7,8 @@ import shutil
 from pathlib import Path
 
 from loguru import logger
+from rich.console import Console
+from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn
 
 from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
@@ -20,9 +22,20 @@ from mkv_episode_matcher.utils import (
     rename_episode_file,
 )
 
+# Initialize Rich console
+console = Console()
 
-def process_show(season=None, dry_run=False, get_subs=False):
-    """Process the show using streaming speech recognition."""
+
+def process_show(season=None, dry_run=False, get_subs=False, verbose=False):
+    """
+    Process the show using streaming speech recognition with improved UI feedback.
+    
+    Args:
+        season (int, optional): Season number to process. Defaults to None (all seasons).
+        dry_run (bool): If True, only simulate actions without making changes.
+        get_subs (bool): If True, download subtitles for the show.
+        verbose (bool): If True, display more detailed progress information.
+    """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
     show_name = clean_text(os.path.basename(show_dir))
@@ -32,28 +45,36 @@ def process_show(season=None, dry_run=False, get_subs=False):
     reference_dir = Path(CACHE_DIR) / "data" / show_name
     reference_files = list(reference_dir.glob("*.srt"))
     if (not get_subs) and (not reference_files):
-        logger.error(f"No reference subtitle files found in {reference_dir}")
-        logger.info("Please download reference subtitles first")
+        console.print(
+            f"[bold yellow]Warning:[/bold yellow] No reference subtitle files found in {reference_dir}"
+        )
+        console.print("[cyan]Tip:[/cyan] Use --get-subs to download reference subtitles")
         return
 
     season_paths = get_valid_seasons(show_dir)
     if not season_paths:
-        logger.warning("No seasons with .mkv files found")
+        console.print("[bold red]Error:[/bold red] No seasons with .mkv files found")
         return
 
     if season is not None:
         season_path = os.path.join(show_dir, f"Season {season}")
         if season_path not in season_paths:
-            logger.warning(f"Season {season} has no .mkv files to process")
+            console.print(f"[bold red]Error:[/bold red] Season {season} has no .mkv files to process")
             return
         season_paths = [season_path]
 
+    total_processed = 0
+    total_matched = 0
+
     for season_path in season_paths:
-        mkv_files = [f for f in glob.glob(os.path.join(season_path, "*.mkv"))
-                    if not check_filename(f)]
+        mkv_files = [
+            f for f in glob.glob(os.path.join(season_path, "*.mkv"))
+            if not check_filename(f)
+        ]
 
         if not mkv_files:
-            logger.info(f"No new files to process in {season_path}")
+            season_num = os.path.basename(season_path).replace("Season ", "")
+            console.print(f"[dim]No new files to process in Season {season_num}[/dim]")
             continue
 
         season_num = int(re.search(r'Season (\d+)', season_path).group(1))
@@ -64,22 +85,67 @@ def process_show(season=None, dry_run=False, get_subs=False):
             if get_subs:
                 show_id = fetch_show_id(matcher.show_name)
                 if show_id:
+                    console.print(f"[bold cyan]Downloading subtitles for Season {season_num}...[/bold cyan]")
                     get_subtitles(show_id, seasons={season_num}, config=config)
-
-            for mkv_file in mkv_files:
-                logger.info(f"Attempting speech recognition match for {mkv_file}")
-                match = matcher.identify_episode(mkv_file, temp_dir, season_num)
-
-                if match:
-                    new_name = f"{matcher.show_name} - S{match['season']:02d}E{match['episode']:02d}.mkv"
-                    logger.info(f"Speech matched {os.path.basename(mkv_file)} to {new_name} "
-                              f"(confidence: {match['confidence']:.2f})")
-
-                    if not dry_run:
-                        logger.info(f"Renaming {mkv_file} to {new_name}")
-                        rename_episode_file(mkv_file, new_name)
                 else:
-                    logger.info(f"Speech recognition match failed for {mkv_file}")
+                    console.print("[bold red]Error:[/bold red] Could not find show ID. Skipping subtitle download.")
+
+            console.print(f"[bold cyan]Processing {len(mkv_files)} files in Season {season_num}...[/bold cyan]")
+            
+            # Process files with a progress bar
+            with Progress(
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+                TimeElapsedColumn(),
+                console=console,
+            ) as progress:
+                task = progress.add_task(f"[cyan]Matching Season {season_num}[/cyan]", total=len(mkv_files))
+                
+                for mkv_file in mkv_files:
+                    file_basename = os.path.basename(mkv_file)
+                    progress.update(task, description=f"[cyan]Processing[/cyan] {file_basename}")
+                    
+                    if verbose:
+                        console.print(f"  Analyzing {file_basename}...")
+                    
+                    total_processed += 1
+                    match = matcher.identify_episode(mkv_file, temp_dir, season_num)
+
+                    if match:
+                        total_matched += 1
+                        new_name = f"{matcher.show_name} - S{match['season']:02d}E{match['episode']:02d}.mkv"
+                        
+                        confidence_color = "green" if match['confidence'] > 0.8 else "yellow"
+                        
+                        if verbose or dry_run:
+                            console.print(
+                                f"  Match: [bold]{file_basename}[/bold] → [bold cyan]{new_name}[/bold cyan] "
+                                f"(confidence: [{confidence_color}]{match['confidence']:.2f}[/{confidence_color}])"
+                            )
+
+                        if not dry_run:
+                            rename_episode_file(mkv_file, new_name)
+                    else:
+                        if verbose:
+                            console.print(f"  [yellow]No match found for {file_basename}[/yellow]")
+                    
+                    progress.advance(task)
         finally:
-            if not dry_run:
+            if not dry_run and temp_dir.exists():
                 shutil.rmtree(temp_dir)
+    
+    # Summary
+    console.print()
+    if total_processed == 0:
+        console.print("[yellow]No files needed processing[/yellow]")
+    else:
+        console.print(f"[bold]Summary:[/bold] Processed {total_processed} files")
+        console.print(f"[bold green]Successfully matched:[/bold green] {total_matched} files")
+        
+        if total_matched < total_processed:
+            console.print(f"[bold yellow]Unmatched:[/bold yellow] {total_processed - total_matched} files")
+            console.print(
+                "[cyan]Tip:[/cyan] Try downloading subtitles with --get-subs or "
+                "check that your files are named consistently"
+            )
