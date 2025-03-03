@@ -10,13 +10,7 @@
    - macOS: `brew install ffmpeg`
    - Verify installation: `ffmpeg -version`
 
-2. **Tesseract OCR**
-   - Windows: Install from [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
-   - Linux: `sudo apt install tesseract-ocr` or equivalent
-   - macOS: `brew install tesseract`
-   - Verify installation: `tesseract --version`
-
-Make sure both FFmpeg and Tesseract are added to your system PATH.
+Make sure FFmpeg is added to your system PATH.
 
 ## Basic Installation
 
@@ -42,7 +36,6 @@ pip install -U torch torchvision torchaudio --index-url https://download.pytorch
 # Verify GPU availability
 mkv-match --check-gpu true
 ```
-
 
 ### Development Installation
 
@@ -80,6 +73,7 @@ uv sync --dev
 
 ### For CPU-Only
 - No special requirements beyond Python 3.9+
+- Note: Speech recognition will be slower on CPU
 
 ## Verification
 
