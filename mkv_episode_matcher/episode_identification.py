@@ -2,7 +2,8 @@ import re
 import subprocess
 import tempfile
 from pathlib import Path
-
+from rich import print
+from rich.console import Console
 import chardet
 import numpy as np
 import torch
@@ -10,6 +11,7 @@ import whisper
 from loguru import logger
 from rapidfuzz import fuzz
 
+console = Console()
 
 class EpisodeMatcher:
     def __init__(self, cache_dir, show_name, min_confidence=0.6):
@@ -143,7 +145,6 @@ class EpisodeMatcher:
             logger.info(
                 f"No match found at {start_time} seconds (best confidence: {best_confidence:.2f})"
             )
-
         return None
 
     def identify_episode(self, video_file, temp_dir, season_number):
