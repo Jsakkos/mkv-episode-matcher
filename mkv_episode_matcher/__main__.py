@@ -169,13 +169,23 @@ def main():
         action="store_true",
         help="Enable verbose output",
     )
+    parser.add_argument(
+        "--confidence",
+        type=float,
+        default=0.7,
+        help="Set confidence threshold for episode matching (0.0-1.0)",
+    )
     
     args = parser.parse_args()
+    if args.verbose:
+        console.print("[bold cyan]Command-line Arguments[/bold cyan]")
+        console.print(args)
     if args.check_gpu:
         from mkv_episode_matcher.utils import check_gpu_support
         with console.status("[bold green]Checking GPU support..."):
             check_gpu_support()
         return
+
     
     logger.debug(f"Command-line arguments: {args}")
 
@@ -283,13 +293,19 @@ def main():
         f"[bold green]Processing[/bold green] [cyan]{show_name}[/cyan], {season_text}"
     )
     
-    # Setup progress spinner
-    with Progress(
-        TextColumn("[bold green]Processing...[/bold green]"),
-        console=console,
-    ) as progress:
-        task = progress.add_task("", total=None)
-        process_show(selected_season, dry_run=args.dry_run, get_subs=args.get_subs, verbose=args.verbose)
+    # # Setup progress spinner
+    # with Progress(
+    #     TextColumn("[bold green]Processing...[/bold green]"),
+    #     console=console,
+    # ) as progress:
+    #     task = progress.add_task("", total=None)
+    process_show(
+        selected_season, 
+        dry_run=args.dry_run, 
+        get_subs=args.get_subs, 
+        verbose=args.verbose,
+        confidence=args.confidence
+    )
     
     console.print("[bold green]✓[/bold green] Processing completed successfully!")
     

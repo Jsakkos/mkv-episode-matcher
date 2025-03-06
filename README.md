@@ -15,12 +15,14 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 ## Features
 
 - 🎯 **Automatic Episode Matching**: Uses TMDb to accurately identify episodes
+- 🎨 **Rich User Interface**: Color-coded output and progress indicators
 - 📝 **Subtitle Extraction**: Extracts subtitles from MKV files
 - 🔊 **Speech Recognition**: Uses Whisper for accurate episode identification
 - 🚀 **Multi-threaded**: Fast processing of multiple files
 - ⬇️ **Subtitle Downloads**: Integration with OpenSubtitles
 - ✨ **Bulk Processing**: Handle entire seasons at once
 - 🧪 **Dry Run Mode**: Test changes before applying
+- 🎮 **Interactive Mode**: User-friendly season selection and configuration
 
 ## Prerequisites
 

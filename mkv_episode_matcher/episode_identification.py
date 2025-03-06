@@ -201,7 +201,6 @@ class EpisodeMatcher:
                 logger.info(
                     f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
                 )
-                console.print(f"\n  Matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})")
                 return match
 
             # If no match, try base model

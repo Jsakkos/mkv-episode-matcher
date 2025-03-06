@@ -26,7 +26,7 @@ from mkv_episode_matcher.utils import (
 console = Console()
 
 
-def process_show(season=None, dry_run=False, get_subs=False, verbose=False):
+def process_show(season=None, dry_run=False, get_subs=False, verbose=False, confidence=0.6):
     """
     Process the show using streaming speech recognition with improved UI feedback.
     
@@ -35,11 +35,12 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False):
         dry_run (bool): If True, only simulate actions without making changes.
         get_subs (bool): If True, download subtitles for the show.
         verbose (bool): If True, display more detailed progress information.
+        confidence (float): Confidence threshold for episode matching (0.0-1.0).
     """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
     show_name = clean_text(os.path.basename(show_dir))
-    matcher = EpisodeMatcher(CACHE_DIR, show_name)
+    matcher = EpisodeMatcher(CACHE_DIR, show_name, min_confidence=confidence)
 
     # Early check for reference files
     reference_dir = Path(CACHE_DIR) / "data" / show_name

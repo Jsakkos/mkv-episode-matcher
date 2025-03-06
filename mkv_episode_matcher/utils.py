@@ -7,13 +7,15 @@ import requests
 import torch
 from loguru import logger
 from opensubtitlescom import OpenSubtitles
-
+from rich.console import Console
+from rich.panel import Panel
+from rich.progress import Progress, SpinnerColumn, TextColumn
 from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
 from mkv_episode_matcher.tmdb_client import fetch_season_details
 
-
+console = Console()
 def get_valid_seasons(show_dir):
     """
     Get all season directories that contain MKV files.
@@ -391,9 +393,24 @@ def compare_text(text1, text2):
 
 def check_gpu_support():
     logger.info("Checking GPU support...")
+    console.print("[bold]Checking GPU support...[/bold]")
     if torch.cuda.is_available():
         logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
+        console.print(
+        Panel.fit(
+                f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}",
+                title="GPU Support",
+                border_style="magenta",
+            )
+        )
     else:
         logger.warning(
             "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support."
+        )
+        console.print(
+        Panel.fit(
+            "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.",
+            title="GPU Support",
+            border_style="red",
+        )
         )
