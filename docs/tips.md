@@ -16,68 +16,51 @@ TV Shows/
 │       └── episode2.mkv
 ```
 
-### Performance Optimization
+### Performance & Accuracy
 
-1. **Thread Configuration**
-   ```ini
-   [Config]
-   max_threads = 4  # Adjust based on CPU/GPU capability
-   ```
-
-2. **Batch Processing**
+1. **Confidence Threshold**
    ```bash
-   # Process multiple seasons
-   for i in {1..5}; do
-     mkv-match --show-dir "/path/to/show" --season $i
-   done
+   # Increase matching accuracy (default: 0.7)
+   mkv-match --show-dir "/path/to/show" --confidence 0.8
+   ```
+   Start with a higher value and decrease if needed. Lower values may result in false positives.
+
+2. **Batch Processing with Progress**
+   The tool now shows detailed progress for each season:
+   ```bash
+   mkv-match --show-dir "/path/to/show"
    ```
 
 3. **Speech Recognition**
-   - Uses OpenAI Whisper for audio analysis
-   - Tiny model is tried first for speed
-   - Falls back to base model if needed
-   - Works with both DVD and Blu-ray sources
+   - Uses Whisper for audio analysis
+   - Processes files in parallel for speed
+   - Shows real-time progress with completion estimates
 
-### Error Handling
-
-1. Always use dry-run first:
-   ```bash
-   mkv-match --show-dir "/path/to/show" --dry-run true
-   ```
-
-2. Check logs regularly:
-   ```bash
-   tail -f ~/.mkv-episode-matcher/logs/stderr.log
-   ```
 
 ## Advanced Usage
 
-### Custom Matching
+### Testing Changes
 
-```python
-from mkv_episode_matcher import process_show
-
-# Custom matching with specific settings
-process_show(
-    season=1,
-    dry_run=True,
-    get_subs=True
-)
+Always use dry-run first:
+```bash
+mkv-match --show-dir "/path/to/show" --dry-run true
 ```
 
-### Subtitle Processing
+### Debug Output
 
-1. Extract subtitles only:
-   ```python
-   from mkv_episode_matcher.mkv_to_srt import convert_mkv_to_srt
-   convert_mkv_to_srt(season_path, mkv_files)
-   ```
+Enable verbose logging:
+```bash
+mkv-match --show-dir "/path/to/show" -v
+```
 
-2. Download specific subtitles:
-   ```python
-   from mkv_episode_matcher.utils import get_subtitles
-   get_subtitles(show_id, {1, 2, 3})  # Seasons 1, 2, 3
-   ```
+### Log Files
+
+Check the logs at:
+```
+~/.mkv-episode-matcher/logs/
+├── stdout.log  # General operation logs
+└── stderr.log  # Error and warning logs
+```
 
 ## Troubleshooting
 
@@ -98,66 +81,17 @@ process_show(
    - Processing happens in 30s intervals
    - More accurate than OCR-based methods
 
-3. **Memory Usage**
-   - Reduce max_threads
-   - Process seasons separately
 
-## Maintenance
+4. **Low Confidence Matches**
+   - Increase confidence threshold
+   - Check reference subtitles for accuracy
 
-### Clean Up
+5. **No Matches Found**
+   - Verify file organization
+   - Check reference subtitles
+   - Enable verbose output
 
-1. Remove temporary files:
-   ```python
-   from mkv_episode_matcher.utils import cleanup_temp_files
-   cleanup_temp_files(show_dir)
-   ```
-
-2. Clear cache:
-   ```bash
-   rm -rf ~/.mkv-episode-matcher/cache/*
-   ```
-
-### Backup Strategy
-
-1. Create backups before processing:
-   ```bash
-   cp -r "/path/to/show" "/path/to/backup"
-   ```
-
-2. Use dry-run to verify changes:
-   ```bash
-   mkv-match --show-dir "/path/to/show" --dry-run true
-   ```
-
-## Integration Tips
-
-### Automation
-
-1. **Cron Jobs**
-   ```bash
-   # Check for new episodes daily
-   0 0 * * * mkv-match --show-dir "/path/to/show" --get-subs true
-   ```
-
-2. **Watch Folders**
-   ```python
-   # Monitor for new files
-   from watchdog.observers import Observer
-   from watchdog.events import FileSystemEventHandler
-   ```
-
-### API Usage
-
-1. Rate limiting:
-   ```python
-   from mkv_episode_matcher.tmdb_client import RateLimitedRequest
-   request = RateLimitedRequest(rate_limit=30, period=1)
-   ```
-
-2. Cache management:
-   ```python
-   # Cache API responses
-   import shelve
-   with shelve.open('cache') as db:
-       # Cache operations
-   ```
+6. **Performance Issues**
+   - Process one season at a time
+   - Check available disk space
+   - Monitor system resources

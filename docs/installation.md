@@ -34,7 +34,7 @@ Find the appropriate CUDA version and upgrade Torch (e.g., for CUDA 12.4) from t
 pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
 # Verify GPU availability
-mkv-match --check-gpu true
+mkv-match --check-gpu
 ```
 
 ### Development Installation
@@ -83,7 +83,7 @@ Verify your installation:
 mkv-match --version
 
 # Check GPU availability (if installed with GPU support)
-mkv-match --check-gpu true
+mkv-match --check-gpu
 ```
 
 ## Troubleshooting

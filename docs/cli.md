@@ -1,5 +1,7 @@
 # Command Line Interface
 
+The CLI features a rich, user-friendly interface with color-coded output and progress indicators.
+
 ## Basic Commands
 
 ### Process Show
@@ -29,13 +31,13 @@ mkv-match --show-dir "/path/to/show" --season 1
 ### Dry Run Mode
 
 ```bash
-mkv-match --show-dir "/path/to/show" --dry-run true
+mkv-match --show-dir "/path/to/show" --dry-run
 ```
 
 ### Download Subtitles
 
 ```bash
-mkv-match --show-dir "/path/to/show" --get-subs true
+mkv-match --show-dir "/path/to/show" --get-subs
 ```
 
 ### Set API Key
@@ -50,8 +52,8 @@ mkv-match --show-dir "/path/to/show" --tmdb-api-key "your_key"
 mkv-match \
   --show-dir "/path/to/show" \
   --season 1 \
-  --get-subs true \
-  --dry-run true
+  --get-subs \
+  --dry-run
 ```
 
 ## Logging
