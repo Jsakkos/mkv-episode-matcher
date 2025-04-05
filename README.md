@@ -26,7 +26,7 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 
 ## Prerequisites
 
-- Python 3.9 or higher
+- Python 3.9-3.12
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
 - TMDb API key (optional, for subtitle downloads)
 - OpenSubtitles account (optional, for subtitle downloads)

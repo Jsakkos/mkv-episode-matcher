@@ -21,7 +21,7 @@ classifiers = [
 authors = [
   { name = "Jsakkos", email = "jonathansakkos@gmail.com" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.9,<=3.12"
 dependencies = [
     "configparser>=7.1.0",
     "ffmpeg>=1.4",
@@ -51,6 +51,9 @@ dev = [
     "pytest>=8.3.3",
     "ruff>=0.8.0",
     "chardet>=5.2.0",
+    "matplotlib>=3.9.4",
+    "memory-profiler>=0.61.0",
+    "line-profiler>=4.2.0",
 ]
 
 
