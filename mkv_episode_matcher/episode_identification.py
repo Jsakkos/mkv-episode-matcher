@@ -10,6 +10,7 @@ import torch
 import whisper
 from loguru import logger
 from rapidfuzz import fuzz
+from utils import extract_season_episode
 
 console = Console()
 
@@ -127,13 +128,19 @@ class EpisodeMatcher:
                 confidence = self.chunk_score(chunk_text, ref_text)
 
                 if confidence > best_confidence:
+                    print(f"New best confidence: {confidence} for {ref_file}")
                     best_confidence = confidence
-                    best_match = ref_file
+                    best_match = Path(ref_file)
 
                 if confidence > self.min_confidence:
-                    season_ep = re.search(r"S(\d+)E(\d+)", best_match.stem)
-                    if season_ep:
-                        season, episode = map(int, season_ep.groups())
+                    print(f"Matched with {best_match} (confidence: {best_confidence:.2f})")
+                    try:
+                        season,episode = extract_season_episode(best_match.stem)
+                    except Exception as e:
+                        print(f"Error extracting season/episode: {e}")
+                        continue
+                    print(f"Season: {season}, Episode: {episode} (confidence: {best_confidence:.2f})")
+                    if season and episode:
                         return {
                             "season": season,
                             "episode": episode,
