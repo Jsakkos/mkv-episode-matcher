@@ -10,7 +10,7 @@ import torch
 import whisper
 from loguru import logger
 from rapidfuzz import fuzz
-from utils import extract_season_episode
+from mkv_episode_matcher.utils import extract_season_episode
 from functools import lru_cache
 
 console = Console()
