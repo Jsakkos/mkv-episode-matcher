@@ -50,6 +50,7 @@ class EpisodeMatcher:
         self.min_confidence = min_confidence
         self.show_name = show_name
         self.chunk_duration = 30
+        self.skip_initial_duration = 300
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.temp_dir = Path(tempfile.gettempdir()) / "whisper_chunks"
         self.temp_dir.mkdir(exist_ok=True)
@@ -121,7 +122,8 @@ class EpisodeMatcher:
             str: Combined text from the subtitle chunk
         """
         try:
-            chunk_start = chunk_idx * self.chunk_duration
+            # Apply the same offset as in _try_match_with_model
+            chunk_start = self.skip_initial_duration + (chunk_idx * self.chunk_duration)
             chunk_end = chunk_start + self.chunk_duration
             
             return self.subtitle_cache.get_chunk(srt_file, chunk_idx, chunk_start, chunk_end)
@@ -133,8 +135,10 @@ class EpisodeMatcher:
     def get_reference_files(self, season_number):
         """Get reference subtitle files with caching."""
         cache_key = (self.show_name, season_number)
+        logger.debug(f"Reference cache key: {cache_key}")
         
         if cache_key in self.reference_files_cache:
+            logger.debug("Returning cached reference files")
             return self.reference_files_cache[cache_key]
             
         reference_dir = self.cache_dir / "data" / self.show_name
@@ -158,7 +162,7 @@ class EpisodeMatcher:
 
         # Remove duplicates while preserving order
         reference_files = list(dict.fromkeys(reference_files))
-        
+        logger.debug(f"Found {len(reference_files)} reference files for season {season_number}")
         self.reference_files_cache[cache_key] = reference_files
         return reference_files
 
@@ -166,7 +170,8 @@ class EpisodeMatcher:
         self, video_file, model_name, max_duration, reference_files
     ):
         """
-        Attempt to match using specified model, checking multiple 30-second chunks up to max_duration.
+        Attempt to match using specified model, checking multiple chunks starting from skip_initial_duration
+        and continuing up to max_duration.
 
         Args:
             video_file: Path to the video file
@@ -177,7 +182,7 @@ class EpisodeMatcher:
         # Use cached model
         model = get_whisper_model(model_name, self.device)
 
-        # Calculate number of chunks to check (30 seconds each)
+        # Calculate number of chunks to check
         num_chunks = min(max_duration // self.chunk_duration, 10)  # Limit to 10 chunks for initial check
 
         # Pre-load all reference chunks for the chunks we'll check
@@ -186,14 +191,21 @@ class EpisodeMatcher:
                 self.load_reference_chunk(ref_file, chunk_idx)
 
         for chunk_idx in range(num_chunks):
-            start_time = chunk_idx * self.chunk_duration
+            # Start at self.skip_initial_duration and check subsequent chunks
+            start_time = self.skip_initial_duration + (chunk_idx * self.chunk_duration)
             logger.debug(f"Trying {model_name} model at {start_time} seconds")
 
             audio_path = self.extract_audio_chunk(video_file, start_time)
+            logger.debug(f"Extracted audio chunk: {audio_path}")
 
             result = model.transcribe(audio_path, task="transcribe", language="en")
 
+
             chunk_text = result["text"]
+            logger.debug(f"Transcription result: {chunk_text} ({len(chunk_text)} characters)")
+            if len(chunk_text) < 10:
+                logger.debug(f"Transcription result too short: {chunk_text} ({len(chunk_text)} characters)")
+                continue
             best_confidence = 0
             best_match = None
 
@@ -245,7 +257,7 @@ class EpisodeMatcher:
             # Try with tiny model first (fastest)
             logger.info("Attempting match with tiny model...")
             match = self._try_match_with_model(
-                video_file, "tiny", min(duration, 300), reference_files  # Limit to first 5 minutes
+                video_file, "tiny.en", min(duration, 300), reference_files  # Limit to first 5 minutes
             )
             if match and match["confidence"] > 0.65:  # Slightly lower threshold for tiny
                 logger.info(
@@ -255,10 +267,10 @@ class EpisodeMatcher:
 
             # If no match, try base model
             logger.info(
-                "No match with tiny model, extending base model search to 10 minutes..."
+                "No match with tiny model, extending base model search to 5 minutes..."
             )
             match = self._try_match_with_model(
-                video_file, "base", min(duration, 600), reference_files  # Limit to first 10 minutes
+                video_file, "base.en", min(duration, 300), reference_files  # Limit to first 5 minutes
             )
             if match:
                 logger.info(
