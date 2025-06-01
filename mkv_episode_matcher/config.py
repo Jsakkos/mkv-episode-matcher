@@ -1,7 +1,7 @@
 # config.py
 import configparser
 import multiprocessing
-import os
+from pathlib import Path
 
 from loguru import logger
 
@@ -73,7 +73,7 @@ def get_config(file):
     """
     logger.info(f"Loading config from {file}")
     config = configparser.ConfigParser()
-    if os.path.exists(file):
+    if Path(file).exists():
         config.read(file)
         return config["Config"] if "Config" in config else None
     return {}

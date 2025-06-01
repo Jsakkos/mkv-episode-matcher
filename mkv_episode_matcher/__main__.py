@@ -1,7 +1,7 @@
 # __main__.py (enhanced version)
 import argparse
-import os
 import sys
+from pathlib import Path
 from typing import Optional
 
 from loguru import logger
@@ -20,33 +20,33 @@ console = Console()
 logger.info("Starting the application")
 
 # Check if the configuration directory exists, if not create it
-CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".mkv-episode-matcher")
-if not os.path.exists(CONFIG_DIR):
-    os.makedirs(CONFIG_DIR)
+CONFIG_DIR = Path.home() / ".mkv-episode-matcher"
+if not CONFIG_DIR.exists():
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Define the paths for the configuration file and cache directory
-CONFIG_FILE = os.path.join(CONFIG_DIR, "config.ini")
-CACHE_DIR = os.path.join(CONFIG_DIR, "cache")
+CONFIG_FILE = CONFIG_DIR / "config.ini"
+CACHE_DIR = CONFIG_DIR / "cache"
 
 # Check if the cache directory exists, if not create it
-if not os.path.exists(CACHE_DIR):
-    os.makedirs(CACHE_DIR)
+if not CACHE_DIR.exists():
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 # Check if logs directory exists, if not create it
-log_dir = os.path.join(CONFIG_DIR, "logs")
-if not os.path.exists(log_dir):
-    os.mkdir(log_dir)
+log_dir = CONFIG_DIR / "logs"
+if not log_dir.exists():
+    log_dir.mkdir(exist_ok=True)
 logger.remove()
 # Add a new handler for stdout logs
 logger.add(
-    os.path.join(log_dir, "stdout.log"),
+    str(log_dir / "stdout.log"),
     format="{time} {level} {message}",
     level="INFO",
     rotation="10 MB",
 )
 
 # Add a new handler for error logs
-logger.add(os.path.join(log_dir, "stderr.log"), level="ERROR", rotation="10 MB")
+logger.add(str(log_dir / "stderr.log"), level="ERROR", rotation="10 MB")
 
 
 def print_welcome_message():
@@ -104,7 +104,7 @@ def select_season(seasons):
     """
     console.print("[bold cyan]Available Seasons:[/bold cyan]")
     for i, season in enumerate(seasons, 1):
-        season_num = os.path.basename(season).replace("Season ", "")
+        season_num = Path(season).name.replace("Season ", "")
         console.print(f"  {i}. Season {season_num}")
     
     console.print(f"  0. All Seasons")
@@ -119,7 +119,7 @@ def select_season(seasons):
         return None
     
     selected_season = seasons[int(choice) - 1]
-    return int(os.path.basename(selected_season).replace("Season ", ""))
+    return int(Path(selected_season).name.replace("Season ", ""))
 
 
 @logger.catch
@@ -239,7 +239,7 @@ def main():
         show_dir = Prompt.ask("Enter the main directory of the show")
     
     logger.info(f"Show Directory: {show_dir}")
-    if not os.path.exists(show_dir):
+    if not Path(show_dir).exists():
         console.print(f"[bold red]Error:[/bold red] Show directory '{show_dir}' does not exist.")
         return
     
@@ -286,7 +286,7 @@ def main():
         selected_season = select_season(seasons)
     
     # Show what's going to happen
-    show_name = os.path.basename(show_dir)
+    show_name = Path(show_dir).name
     season_text = f"Season {selected_season}" if selected_season else "all seasons"
     
     console.print(

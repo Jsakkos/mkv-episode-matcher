@@ -1,5 +1,5 @@
-import os
 import re
+from pathlib import Path
 from typing import Optional
 
 
@@ -55,8 +55,8 @@ def find_existing_subtitle(
     patterns = generate_subtitle_patterns(series_name, season, episode)
 
     for pattern in patterns:
-        filepath = os.path.join(series_cache_dir, pattern)
-        if os.path.exists(filepath):
+        filepath = Path(series_cache_dir) / pattern
+        if filepath.exists():
             return filepath
 
     return None
