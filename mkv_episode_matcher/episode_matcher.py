@@ -17,6 +17,7 @@ from mkv_episode_matcher.utils import (
     clean_text,
     get_subtitles,
     get_valid_seasons,
+    normalize_path,
     rename_episode_file,
 )
 
@@ -37,7 +38,7 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False, conf
     """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    show_name = clean_text(Path(show_dir).name)
+    show_name = clean_text(normalize_path(show_dir).name)
     matcher = EpisodeMatcher(CACHE_DIR, show_name, min_confidence=confidence)
 
     # Early check for reference files

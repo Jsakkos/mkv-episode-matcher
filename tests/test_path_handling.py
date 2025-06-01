@@ -12,7 +12,7 @@ sys.path.append(str(Path(__file__).parent.parent.absolute()))
 # Import the modules we want to test
 from mkv_episode_matcher.__main__ import main as main_module
 from mkv_episode_matcher.episode_matcher import process_show
-from mkv_episode_matcher.utils import check_filename, rename_episode_file
+from mkv_episode_matcher.utils import check_filename, rename_episode_file, normalize_path
 
 # Test paths to use in tests
 TEST_PATHS = [
@@ -28,19 +28,19 @@ class TestPathLibImplementation(unittest.TestCase):
     """Test the pathlib implementation used throughout the codebase"""
     
     def test_show_name_extraction_with_pathlib(self):
-        """Test that Path.name correctly extracts the show name even with trailing slash"""
+        """Test that normalize_path.name correctly extracts the show name even with trailing slash"""
         # Path with trailing slash that previously caused bugs with os.path.basename
         path_with_trailing_slash = "/mnt/c/Shows/Breaking Bad/"
         
         # Expected correct show name
         expected_show_name = "Breaking Bad"
         
-        # Our new implementation using Path.name
-        extracted_name = Path(path_with_trailing_slash).name
+        # Our new implementation using normalize_path
+        extracted_name = normalize_path(path_with_trailing_slash).name
         
-        # This should succeed with pathlib
+        # This should succeed with our normalized path
         self.assertEqual(extracted_name, expected_show_name, 
-                        "Path.name should correctly extract the show name with trailing slash")
+                        "normalize_path.name should correctly extract the show name with trailing slash")
     
     def test_check_filename_with_path_objects(self):
         """Test that check_filename works with both Path objects and strings"""
@@ -91,13 +91,13 @@ class TestEpisodeMatcherShowNameExtraction(unittest.TestCase):
         # This line simulates what happens in process_show() but we're just testing the show_name extraction
         show_dir = mock_config.get("show_dir")
         
-        # How the code would extract show_name with pathlib - this would work
-        fixed_show_name = Path(show_dir).name
+        # How the code would extract show_name with normalize_path - this would work
+        fixed_show_name = normalize_path(show_dir).name
         self.assertEqual(fixed_show_name, "Breaking Bad",
-                         "Path.name should extract correct show name even with trailing slash")
+                         "normalize_path.name should extract correct show name even with trailing slash")
 
 def test_pathlib_works_with_trailing_slashes():
-    """Test that pathlib.Path.name works correctly with trailing slashes"""
+    """Test that normalize_path.name works correctly with trailing slashes"""
     for path, expected in TEST_PATHS:
-        result = Path(path).name
-        assert result == expected, f"Pathlib should extract correct name for: {path}"
+        result = normalize_path(path).name
+        assert result == expected, f"Normalized path should extract correct name for: {path}"

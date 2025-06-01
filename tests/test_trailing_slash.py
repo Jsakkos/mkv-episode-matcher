@@ -5,6 +5,12 @@ This test verifies that pathlib.Path.name correctly handles paths with trailing 
 """
 
 from pathlib import Path
+import sys
+import os
+
+# Add the parent directory to the path so we can import the project modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mkv_episode_matcher.utils import normalize_path
 
 # Test paths with their expected basename
 TEST_PATHS = [
@@ -17,19 +23,19 @@ TEST_PATHS = [
 def test_pathlib_works_with_trailing_slash():
     """Verify that pathlib.Path.name correctly handles paths with trailing slash."""
     path_with_slash = "/mnt/c/Shows/Breaking Bad/"
-    result = Path(path_with_slash).name
+    result = normalize_path(path_with_slash).name
     assert result == "Breaking Bad", "Path.name should extract correct name even with trailing slash"
 
 def test_pathlib_works_with_trailing_backslash():
     """Verify that pathlib.Path.name correctly handles paths with trailing backslash."""
     path_with_backslash = "X:\\Shows\\Breaking Bad\\"
-    result = Path(path_with_backslash).name
+    result = normalize_path(path_with_backslash).name
     assert result == "Breaking Bad", "Path.name should extract correct name even with trailing backslash"
 
 def test_pathlib_works_without_trailing_slash():
     """Verify pathlib works correctly for paths without trailing slash."""
     normal_path = "/mnt/c/Shows/Breaking Bad"
-    result = Path(normal_path).name
+    result = normalize_path(normal_path).name
     assert result == "Breaking Bad", "Path.name should work for paths without trailing slash"
 
 def test_path_parent_behavior():
@@ -37,8 +43,8 @@ def test_path_parent_behavior():
     path_with_slash = "/mnt/c/Shows/Breaking Bad/"
     path_without_slash = "/mnt/c/Shows/Breaking Bad"
     
-    assert Path(path_with_slash).parent == Path("/mnt/c/Shows"), "Parent should be correctly extracted"
-    assert Path(path_without_slash).parent == Path("/mnt/c/Shows"), "Parent should be correctly extracted"
+    assert normalize_path(path_with_slash).parent == Path("/mnt/c/Shows"), "Parent should be correctly extracted"
+    assert normalize_path(path_without_slash).parent == Path("/mnt/c/Shows"), "Parent should be correctly extracted"
 
 def test_path_stem_suffix():
     """Test Path.stem and Path.suffix functionality."""
@@ -51,8 +57,8 @@ def test_path_stem_suffix():
 def test_all_paths_with_pathlib():
     """Test all the path formats with pathlib."""
     for path, expected in TEST_PATHS:
-        # Check Path.name always works
-        pathlib_result = Path(path).name
-        assert pathlib_result == expected, f"Expected '{expected}' for Path('{path}').name but got '{pathlib_result}'"
-        rstrip_result = Path(path.rstrip('/').rstrip('\\')).name
-        assert rstrip_result == expected, f"Expected '{expected}' for rstrip approach on '{path}' but got '{rstrip_result}'"
+        # Check normalize_path.name always works
+        pathlib_result = normalize_path(path).name
+        assert pathlib_result == expected, f"Expected '{expected}' for normalize_path('{path}').name but got '{pathlib_result}'"
+        rstrip_result = normalize_path(path).name
+        assert rstrip_result == expected, f"Expected '{expected}' for normalize_path approach on '{path}' but got '{rstrip_result}'"

@@ -1,6 +1,7 @@
 # utils.py
 import re
 import shutil
+import os
 from pathlib import Path
 
 import requests
@@ -17,6 +18,34 @@ from mkv_episode_matcher.tmdb_client import fetch_season_details
 
 console = Console()
 
+
+def normalize_path(path_str):
+    """
+    Normalize a path string to handle cross-platform path issues.
+    Properly handles trailing slashes and backslashes in both Windows and Unix paths.
+    
+    Args:
+        path_str (str): The path string to normalize
+        
+    Returns:
+        pathlib.Path: A normalized Path object
+    """
+    # Convert to string if it's a Path object
+    if isinstance(path_str, Path):
+        path_str = str(path_str)
+        
+    # Remove trailing slashes or backslashes
+    path_str = path_str.rstrip('/').rstrip('\\')
+    
+    # Handle Windows paths on non-Windows platforms
+    if os.name != 'nt' and '\\' in path_str and ':' in path_str[:2]:
+        # This looks like a Windows path on a non-Windows system
+        # Extract the last component which should be the directory/file name
+        components = path_str.split('\\')
+        return Path(components[-1])
+    
+    return Path(path_str)
+
 def get_valid_seasons(show_dir):
     """
     Get all season directories that contain MKV files.
@@ -28,7 +57,7 @@ def get_valid_seasons(show_dir):
         list: List of paths to valid season directories
     """
     # Get all season directories
-    show_path = Path(show_dir)
+    show_path = normalize_path(show_dir)
     season_paths = [
         str(show_path / d.name)
         for d in show_path.iterdir()
@@ -45,11 +74,11 @@ def get_valid_seasons(show_dir):
 
     if not valid_season_paths:
         logger.warning(
-            f"No seasons with .mkv files found in show '{Path(show_dir).name}'"
+            f"No seasons with .mkv files found in show '{normalize_path(show_dir).name}'"
         )
     else:
         logger.info(
-            f"Found {len(valid_season_paths)} seasons with .mkv files in '{Path(show_dir).name}'"
+            f"Found {len(valid_season_paths)} seasons with .mkv files in '{normalize_path(show_dir).name}'"
         )
 
     return valid_season_paths
@@ -85,7 +114,7 @@ def scramble_filename(original_file_path, file_number):
         None
     """
     logger.info(f"Scrambling {original_file_path}")
-    series_title = Path(original_file_path).parent.parent.name
+    series_title = normalize_path(original_file_path).parent.parent.name
     original_file_name = Path(original_file_path).name
     extension = Path(original_file_path).suffix
     new_file_name = f"{series_title} - {file_number:03d}{extension}"
@@ -147,7 +176,7 @@ def get_subtitles(show_id, seasons: set[int], config=None):
     if config is None:
         config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    series_name = sanitize_filename(Path(show_dir).name)
+    series_name = sanitize_filename(normalize_path(show_dir).name)
     tmdb_api_key = config.get("tmdb_api_key")
     open_subtitles_api_key = config.get("open_subtitles_api_key")
     open_subtitles_user_agent = config.get("open_subtitles_user_agent")
