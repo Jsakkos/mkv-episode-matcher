@@ -1,7 +1,5 @@
 # mkv_episode_matcher/episode_matcher.py
 
-import glob
-import os
 import re
 import shutil
 from pathlib import Path
@@ -39,7 +37,7 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False, conf
     """
     config = get_config(CONFIG_FILE)
     show_dir = config.get("show_dir")
-    show_name = clean_text(os.path.basename(show_dir))
+    show_name = clean_text(Path(show_dir).name)
     matcher = EpisodeMatcher(CACHE_DIR, show_name, min_confidence=confidence)
 
     # Early check for reference files
@@ -58,7 +56,7 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False, conf
         return
 
     if season is not None:
-        season_path = os.path.join(show_dir, f"Season {season}")
+        season_path = str(Path(show_dir) / f"Season {season}")
         if season_path not in season_paths:
             console.print(f"[bold red]Error:[/bold red] Season {season} has no .mkv files to process")
             return
@@ -69,12 +67,12 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False, conf
 
     for season_path in season_paths:
         mkv_files = [
-            f for f in glob.glob(os.path.join(season_path, "*.mkv"))
+            f for f in Path(season_path).glob("*.mkv")
             if not check_filename(f)
         ]
 
         if not mkv_files:
-            season_num = os.path.basename(season_path).replace("Season ", "")
+            season_num = Path(season_path).name.replace("Season ", "")
             console.print(f"[dim]No new files to process in Season {season_num}[/dim]")
             continue
 
@@ -104,7 +102,7 @@ def process_show(season=None, dry_run=False, get_subs=False, verbose=False, conf
                 task = progress.add_task(f"[cyan]Matching Season {season_num}[/cyan]", total=len(mkv_files))
                 
                 for mkv_file in mkv_files:
-                    file_basename = os.path.basename(mkv_file)
+                    file_basename = Path(mkv_file).name
                     progress.update(task, description=f"[cyan]Processing[/cyan] {file_basename}")
                     
                     if verbose:
