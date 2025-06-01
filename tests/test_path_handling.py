@@ -73,29 +73,6 @@ class TestPathLibImplementation(unittest.TestCase):
         self.assertEqual(episode_path.suffix, ".mkv", "File extension should be correctly extracted")
 
 
-class TestLegacyOsPathIssues(unittest.TestCase):
-    """Demonstrate why we migrated from os.path to pathlib"""
-    
-    def test_show_name_extraction_with_trailing_slash(self):
-        """Test that os.path.basename fails with trailing slash"""
-        # Path with trailing slash that caused the bug
-        path_with_trailing_slash = "/mnt/c/Shows/Breaking Bad/"
-        
-        # Import os here to demonstrate the issue
-        import os
-        
-        # This fails with os.path.basename
-        extracted_name = os.path.basename(path_with_trailing_slash)
-        
-        # This verifies that os.path.basename fails with trailing slashes
-        self.assertEqual(extracted_name, "", 
-                        "os.path.basename returns empty string with trailing slash")
-        
-        # Contrast with pathlib which handles it correctly
-        pathlib_extracted_name = Path(path_with_trailing_slash).name
-        self.assertEqual(pathlib_extracted_name, "Breaking Bad", 
-                        "Path.name correctly extracts name even with trailing slash")
-
 class TestEpisodeMatcherShowNameExtraction(unittest.TestCase):
     """Test the show name extraction in episode_matcher.py"""
     
@@ -118,16 +95,6 @@ class TestEpisodeMatcherShowNameExtraction(unittest.TestCase):
         fixed_show_name = Path(show_dir).name
         self.assertEqual(fixed_show_name, "Breaking Bad",
                          "Path.name should extract correct show name even with trailing slash")
-
-def test_basename_with_trailing_slashes():
-    """Test that os.path.basename fails with trailing slashes for all test paths"""
-    for path, expected in TEST_PATHS:
-        if path.endswith('/') or path.endswith('\\'):
-            # We're keeping this to test the behavior that we're trying to fix
-            import os
-            result = os.path.basename(path)
-            assert result == "", f"Expected empty string for path with trailing slash: {path}"
-            assert result != expected, f"Should not extract correct name for path with trailing slash: {path}"
 
 def test_pathlib_works_with_trailing_slashes():
     """Test that pathlib.Path.name works correctly with trailing slashes"""
