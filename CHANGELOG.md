@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2025-06-01
+
+### Changed
+- Replaced all `os.path` calls with `pathlib.Path` for improved path handling
+- Fixed issues with trailing slashes in directory paths
+- Updated `check_filename` to handle both string paths and Path objects
+- Modernized file and directory operations to use pathlib API
+
+### Enhanced
+- Improved robustness of path manipulation operations
+- Better handling of different path formats across operating systems
+- More consistent behavior with paths containing trailing slashes
+
+### Fixed
+- Fixed bug where paths with trailing slashes would result in empty show names
+- Fixed incorrect handling of paths in subtitle downloads and match operations
+
 ## [0.7.0] - 2025-03-05
 
 ### Added
