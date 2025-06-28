@@ -8,6 +8,7 @@ import requests
 import torch
 from loguru import logger
 from opensubtitlescom import OpenSubtitles
+from opensubtitlescom.exceptions import OpenSubtitlesException
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -164,7 +165,7 @@ def rename_episode_file(original_file_path, new_filename):
         return None
 
 
-def get_subtitles(show_id, seasons: set[int], config=None):
+def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
     """
     Retrieves and saves subtitles for a given TV show and seasons.
 
@@ -172,6 +173,7 @@ def get_subtitles(show_id, seasons: set[int], config=None):
         show_id (int): The ID of the TV show.
         seasons (Set[int]): A set of season numbers for which subtitles should be retrieved.
         config (Config object, optional): Preloaded configuration.
+        max_retries (int, optional): Number of times to retry subtitle download on OpenSubtitlesException. Defaults to 3.
     """
     if config is None:
         config = get_config(CONFIG_FILE)
@@ -243,12 +245,40 @@ def get_subtitles(show_id, seasons: set[int], config=None):
             for subtitle in response.data:
                 subtitle_dict = subtitle.to_dict()
                 # Remove special characters and convert to uppercase
-                filename_clean = re.sub(r"\W+", " ", subtitle_dict["file_name"]).upper()
+                filename_clean = re.sub(r"\\W+", " ", subtitle_dict["file_name"]).upper()
                 if f"E{episode:02d}" in filename_clean:
                     logger.info(f"Original filename: {subtitle_dict['file_name']}")
-                    srt_file = subtitles.download_and_save(subtitle)
-                    shutil.move(srt_file, srt_filepath)
-                    logger.info(f"Subtitle saved to {srt_filepath}")
+                    retry_count = 0
+                    while retry_count < max_retries:
+                        try:
+                            srt_file = subtitles.download_and_save(subtitle)
+                            shutil.move(srt_file, srt_filepath)
+                            logger.info(f"Subtitle saved to {srt_filepath}")
+                            break
+                        except OpenSubtitlesException as e:
+                            retry_count += 1
+                            logger.error(f"OpenSubtitlesException (attempt {retry_count}): {e}")
+                            console.print(f"[red]OpenSubtitlesException (attempt {retry_count}): {e}[/red]")
+                            if retry_count >= max_retries:
+                                user_input = input("Would you like to continue matching? (y/n): ")
+                                if user_input.strip().lower() != 'y':
+                                    logger.info("User chose to stop matching due to the error.")
+                                    return
+                                else:
+                                    logger.info("User chose to continue matching despite the error.")
+                                    break
+                        except Exception as e:
+                            logger.error(f"Failed to download and save subtitle: {e}")
+                            console.print(f"[red]Failed to download and save subtitle: {e}[/red]")
+                            user_input = input("Would you like to continue matching despite the error? (y/n): ")
+                            if user_input.strip().lower() != 'y':
+                                logger.info("User chose to stop matching due to the error.")
+                                return
+                            else:
+                                logger.info("User chose to continue matching despite the error.")
+                                break
+                    else:
+                        continue
                     break
 
 
