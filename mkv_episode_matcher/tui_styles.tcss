@@ -1,0 +1,234 @@
+/* TUI Styles for MKV Episode Matcher */
+
+/* Main containers */
+#welcome_container {
+    padding: 1;
+    align: center middle;
+}
+
+#title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    margin-bottom: 1;
+}
+
+#subtitle {
+    text-align: center;
+    color: $secondary;
+    margin-bottom: 2;
+}
+
+#main_buttons {
+    align: center middle;
+    margin-bottom: 2;
+}
+
+#main_buttons Button {
+    margin: 0 1;
+    min-width: 20;
+}
+
+#recent_container {
+    height: 10;
+    border: solid $accent;
+    margin-top: 1;
+}
+
+#recent_title {
+    text-style: bold;
+    color: $accent;
+    margin-bottom: 1;
+}
+
+#recent_table {
+    height: 8;
+}
+
+/* Configuration Screen */
+#config_container {
+    padding: 1;
+}
+
+#config_title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    margin-bottom: 1;
+}
+
+#config_form {
+    height: auto;
+    margin-bottom: 2;
+}
+
+#config_form Label {
+    margin-top: 1;
+    text-style: bold;
+    color: $secondary;
+}
+
+#config_form Input {
+    margin-bottom: 1;
+}
+
+#config_form Horizontal {
+    margin-bottom: 1;
+}
+
+#config_buttons {
+    align: center middle;
+}
+
+#config_buttons Button {
+    margin: 0 1;
+    min-width: 18;
+}
+
+/* Browse Screen */
+#browse_container {
+    padding: 1;
+}
+
+#browse_title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    margin-bottom: 1;
+}
+
+#browse_content {
+    height: 100%;
+}
+
+#dir_tree {
+    width: 50%;
+    border: solid $accent;
+    margin-right: 1;
+}
+
+#details_panel {
+    width: 50%;
+    border: solid $accent;
+    padding: 1;
+}
+
+#selected_label {
+    text-style: bold;
+    color: $secondary;
+    margin-bottom: 1;
+}
+
+#seasons_table {
+    height: 15;
+    margin-bottom: 2;
+}
+
+#details_panel Button {
+    margin: 0 1;
+    min-width: 15;
+}
+
+/* Processing Screen */
+#processing_container {
+    padding: 1;
+}
+
+#processing_title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    margin-bottom: 1;
+}
+
+#overall_label, #step_label {
+    text-style: bold;
+    color: $secondary;
+    margin-bottom: 1;
+}
+
+#overall_progress, #step_progress {
+    margin-bottom: 2;
+}
+
+#current_episode {
+    text-style: bold;
+    color: $accent;
+    margin-bottom: 1;
+}
+
+#status {
+    color: $success;
+    margin-bottom: 1;
+}
+
+#results_container {
+    height: 15;
+    border: solid $accent;
+    margin-bottom: 2;
+}
+
+#results_title {
+    text-style: bold;
+    color: $accent;
+    margin-bottom: 1;
+}
+
+#results_table {
+    height: 12;
+}
+
+#processing_buttons {
+    align: center middle;
+}
+
+#processing_buttons Button {
+    margin: 0 1;
+    min-width: 16;
+}
+
+/* General styling */
+Button {
+    height: 3;
+    min-width: 12;
+    text-style: bold;
+}
+
+Input {
+    height: 3;
+    border: solid $accent;
+}
+
+Input:focus {
+    border: solid $primary;
+}
+
+Checkbox {
+    margin: 0 1;
+}
+
+DataTable {
+    background: $surface;
+    border: solid $accent;
+}
+
+DirectoryTree {
+    background: $surface;
+}
+
+ProgressBar {
+    height: 3;
+    border: solid $accent;
+}
+
+/* Color scheme adjustments */
+Screen {
+    background: $background;
+}
+
+Static {
+    color: $text;
+}
+
+/* Note: Textual doesn't support media queries, so responsive behavior 
+   would need to be handled in Python code if needed */

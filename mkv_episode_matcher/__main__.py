@@ -1,5 +1,6 @@
 # __main__.py (enhanced version)
 import argparse
+import os
 import sys
 from pathlib import Path
 from typing import Optional
@@ -175,6 +176,11 @@ def main():
         default=0.7,
         help="Set confidence threshold for episode matching (0.0-1.0)",
     )
+    parser.add_argument(
+        "--tui",
+        action="store_true",
+        help="Launch the Text User Interface (TUI) mode",
+    )
     
     args = parser.parse_args()
     if args.verbose:
@@ -184,6 +190,10 @@ def main():
         from mkv_episode_matcher.utils import check_gpu_support
         with console.status("[bold green]Checking GPU support..."):
             check_gpu_support()
+        return
+    if args.tui:
+        from mkv_episode_matcher.tui_app import run_tui
+        run_tui()
         return
 
     
