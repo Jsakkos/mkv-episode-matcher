@@ -22,7 +22,7 @@ from textual.binding import Binding
 from textual.reactive import reactive
 from textual.message import Message
 from textual.validation import Function, Number
-# Using threading instead of textual workers for compatibility
+from textual.worker import get_current_worker
 
 from mkv_episode_matcher import __version__
 from mkv_episode_matcher.config import get_config, set_config
@@ -426,25 +426,269 @@ class ProcessingScreen(Screen):
         # Add a test row to show the table is working
         table.add_row("Test", "Initializing...", "0.00")
         
-        # Start processing
-        self.start_processing()
+        # Use Textual's timer to delay processing start
+        self.set_timer(1.0, self.start_processing)
     
     def start_processing(self) -> None:
-        """Start the processing workflow in a background thread."""
-        if self.processing_thread and self.processing_thread.is_alive():
-            self.notify("Processing already running")
-            return
+        """Start the processing workflow using Textual workers."""
+        self.notify("start_processing called via timer")
         
         self.notify("Starting processing...")
         self._update_status("🚀 Initializing...")
         
+        # Use Textual's worker system for proper background processing
+        self.run_worker(self._process_episodes_worker, name="episode_processing", exclusive=True)
+        self.notify("Processing worker started")
+    
+    async def _process_episodes_worker(self) -> None:
+        """Main processing logic running in Textual worker."""
         try:
-            self.processing_thread = threading.Thread(target=self._process_episodes, daemon=True)
-            self.processing_thread.start()
-            self.notify("Processing thread started")
+            self.notify("Worker started successfully")
+            self.call_later(self._update_status, "📋 Loading configuration...")
+            
+            config = get_config(CONFIG_FILE)
+            self.notify(f"Config loaded. Show dir: {self.show_dir}")
+            
+            show_name = clean_text(normalize_path(self.show_dir).name)
+            self.notify(f"Cleaned show name: {show_name}")
+            self.call_later(self._update_status, "🧠 Initializing episode matcher...")
+            
+            matcher = EpisodeMatcher(CACHE_DIR, show_name, min_confidence=self.confidence)
+            self.notify("Episode matcher initialized")
+            
+            # Update UI with show info
+            self.call_later(self._update_processing_title, f"🔄 Processing: {show_name}")
+            
+            # Check for reference files
+            reference_dir = Path(CACHE_DIR) / "data" / show_name
+            self.notify(f"Checking reference dir: {reference_dir}")
+            reference_files = list(reference_dir.glob("*.srt"))
+            self.notify(f"Found {len(reference_files)} reference files")
+            
+            if (not self.get_subs) and (not reference_files):
+                self.call_later(self._update_status, "⚠️ No reference subtitle files found")
+                self.notify("Warning: No reference subtitle files found. Consider using --get-subs")
+                return
+            
+            # Get season paths
+            self.notify(f"Getting valid seasons from: {self.show_dir}")
+            season_paths = get_valid_seasons(self.show_dir)
+            self.notify(f"Found season paths: {season_paths}")
+            
+            if not season_paths:
+                self.call_later(self._update_status, "❌ No seasons with .mkv files found")
+                self.notify("Error: No seasons with .mkv files found")
+                return
+            
+            # Filter by specific season if requested
+            self.notify(f"Season filter: {self.season}")
+            if self.season is not None:
+                season_path = str(Path(self.show_dir) / f"Season {self.season}")
+                self.notify(f"Looking for specific season: {season_path}")
+                if season_path not in season_paths:
+                    self.call_later(self._update_status, f"❌ Season {self.season} has no .mkv files")
+                    self.notify(f"Error: Season {self.season} has no .mkv files to process")
+                    return
+                season_paths = [season_path]
+                self.notify(f"Using filtered season paths: {season_paths}")
+            else:
+                self.notify(f"Using all season paths: {season_paths}")
+            
+            # Count total files
+            self.notify("Counting MKV files...")
+            all_mkv_files = []
+            for season_path in season_paths:
+                self.notify(f"Checking season: {season_path}")
+                mkv_files = [
+                    f for f in Path(season_path).glob("*.mkv")
+                    if not check_filename(f)
+                ]
+                self.notify(f"Found {len(mkv_files)} unprocessed MKV files in {season_path}")
+                all_mkv_files.extend([(season_path, f) for f in mkv_files])
+            
+            self.total_files = len(all_mkv_files)
+            self.notify(f"Total files to process: {self.total_files}")
+            
+            if self.total_files == 0:
+                self.call_later(self._update_status, "✅ No new files to process")
+                self.notify("All files already processed")
+                return
+            
+            self.notify("Initializing progress tracking...")
+            self.call_later(self._update_overall_progress, 0)
+            
+            # Process each season
+            self.notify("Starting season processing loop...")
+            for i, season_path in enumerate(season_paths):
+                self.notify(f"Processing season {i+1}/{len(season_paths)}: {season_path}")
+                
+                if self.is_cancelled:
+                    self.notify("Processing cancelled during season loop")
+                    break
+                
+                season_num = int(re.search(r'Season (\d+)', season_path).group(1))
+                self.notify(f"Extracted season number: {season_num}")
+                
+                mkv_files = [
+                    f for f in Path(season_path).glob("*.mkv")
+                    if not check_filename(f)
+                ]
+                self.notify(f"Files to process in season {season_num}: {len(mkv_files)}")
+                
+                if not mkv_files:
+                    self.notify(f"No files in season {season_num}, skipping")
+                    continue
+                
+                temp_dir = Path(season_path) / "temp"
+                self.notify(f"Creating temp directory: {temp_dir}")
+                temp_dir.mkdir(exist_ok=True)
+                
+                try:
+                    # Download subtitles if requested
+                    if self.get_subs:
+                        self.notify(f"get_subs enabled - downloading subtitles for season {season_num}")
+                        self.call_later(self._update_status, f"⬇️ Downloading subtitles for Season {season_num}...")
+                        
+                        self.notify(f"Fetching show ID for: {matcher.show_name}")
+                        show_id = fetch_show_id(matcher.show_name)
+                        self.notify(f"Show ID result: {show_id}")
+                        
+                        if show_id:
+                            self.notify(f"Downloading subtitles for show ID {show_id}, season {season_num}")
+                            get_subtitles(show_id, seasons={season_num}, config=config)
+                            self.notify(f"Subtitles downloaded for Season {season_num}")
+                        else:
+                            self.notify("Could not find show ID for subtitle download")
+                    else:
+                        self.notify("get_subs disabled, skipping subtitle download")
+                    
+                    # Process each file
+                    self.notify(f"Starting file processing loop for {len(mkv_files)} files")
+                    for i, mkv_file in enumerate(mkv_files):
+                        self.notify(f"Processing file {i+1}/{len(mkv_files)}: {mkv_file}")
+                        
+                        if self.is_cancelled:
+                            self.notify("Processing cancelled during file loop")
+                            break
+                        
+                        # Handle pause
+                        while self.is_paused and not self.is_cancelled:
+                            await asyncio.sleep(0.1)
+                        
+                        if self.is_cancelled:
+                            self.notify("Processing cancelled after pause check")
+                            break
+                        
+                        file_basename = Path(mkv_file).name
+                        self.current_file = file_basename
+                        self.notify(f"Current file: {file_basename}")
+                        
+                        # Update UI
+                        self.call_later(self._update_current_episode, f"S{season_num:02d}E?? - {file_basename}")
+                        self.call_later(self._update_status, "🔊 Analyzing audio...")
+                        self.call_later(self._update_step_progress, 0)
+                        
+                        # Process the file
+                        self.processed_files += 1
+                        self.notify(f"About to process single file: {mkv_file}")
+                        
+                        try:
+                            match = await self._process_single_file_worker(matcher, mkv_file, temp_dir, season_num)
+                            self.notify(f"File processing completed. Match result: {match}")
+                        except Exception as e:
+                            self.notify(f"Error processing file {mkv_file}: {str(e)}")
+                            match = None
+                        
+                        if match:
+                            self.matched_files += 1
+                            episode_name = f"S{match['season']:02d}E{match['episode']:02d}"
+                            new_name = f"{matcher.show_name} - {episode_name}.mkv"
+                            confidence = match['confidence']
+                            
+                            # Update results table
+                            status = "✓ Matched" if confidence > 0.8 else "⚠️ Low confidence"
+                            self.call_later(self._add_result, episode_name, status, f"{confidence:.2f}")
+                            
+                            # Rename file if not dry run
+                            if not self.dry_run:
+                                self.call_later(self._update_status, "📝 Renaming file...")
+                                rename_episode_file(mkv_file, new_name)
+                        else:
+                            # No match found
+                            self.call_later(self._add_result, file_basename, "❌ No match", "0.00")
+                        
+                        # Update overall progress
+                        overall_progress = int((self.processed_files / self.total_files) * 100)
+                        self.call_later(self._update_overall_progress, overall_progress)
+                        
+                finally:
+                    # Cleanup temp directory
+                    if not self.dry_run and temp_dir.exists():
+                        shutil.rmtree(temp_dir)
+            
+            # Final status update
+            if self.is_cancelled:
+                self.call_later(self._update_status, "❌ Processing cancelled")
+            else:
+                success_rate = (self.matched_files / self.processed_files) * 100 if self.processed_files > 0 else 0
+                self.call_later(self._update_status, f"✅ Complete! {self.matched_files}/{self.processed_files} matched ({success_rate:.1f}%)")
+                self.notify(f"Processing complete! {self.matched_files} files matched")
+                
         except Exception as e:
-            self.notify(f"Failed to start processing: {str(e)}")
-            self._update_status(f"❌ Failed to start: {str(e)}")
+            error_msg = f"Processing error: {str(e)}"
+            self.call_later(self._update_status, f"❌ Error: {str(e)}")
+            self.notify(error_msg)
+            
+            # Log the full traceback
+            import traceback
+            traceback_str = traceback.format_exc()
+            self.notify(f"Full traceback: {traceback_str[:200]}...")
+            print(f"TUI Processing Error: {error_msg}")
+            print(f"Full traceback:\n{traceback_str}")
+    
+    async def _process_single_file_worker(self, matcher: EpisodeMatcher, mkv_file: Path, temp_dir: Path, season_num: int) -> Optional[dict]:
+        """Process a single MKV file and return match result (async version)."""
+        try:
+            self.notify(f"_process_single_file_worker started for: {mkv_file.name}")
+            
+            # Update step progress for different stages
+            self.call_later(self._update_step_progress, 20)
+            self.call_later(self._update_status, "🎵 Extracting audio...")
+            self.notify("Step 1: Audio extraction simulation")
+            
+            # Brief pause for UI updates
+            await asyncio.sleep(0.1)
+            
+            self.call_later(self._update_step_progress, 40)
+            self.call_later(self._update_status, "🎙️ Running speech recognition...")
+            self.notify("Step 2: About to call matcher.identify_episode")
+            
+            # Actual episode identification - THIS WAS WHERE IT HUNG BEFORE
+            self.notify(f"Calling matcher.identify_episode with: file={mkv_file}, temp_dir={temp_dir}, season={season_num}")
+            match = matcher.identify_episode(mkv_file, temp_dir, season_num)
+            self.notify(f"matcher.identify_episode returned: {match}")
+            
+            self.call_later(self._update_step_progress, 80)
+            self.call_later(self._update_status, "🔍 Comparing with reference subtitles...")
+            self.notify("Step 3: Post-processing")
+            
+            await asyncio.sleep(0.1)
+            
+            self.call_later(self._update_step_progress, 100)
+            self.notify(f"_process_single_file_worker completed successfully")
+            
+            return match
+            
+        except Exception as e:
+            error_msg = f"Error processing {mkv_file.name}: {str(e)}"
+            self.notify(error_msg)
+            
+            # Get traceback
+            import traceback
+            tb = traceback.format_exc()
+            self.notify(f"Traceback: {tb[:200]}...")
+            
+            return None
     
     def _process_episodes(self) -> None:
         """Main processing logic running in background thread."""
@@ -736,7 +980,9 @@ class ProcessingScreen(Screen):
     
     def action_pause(self) -> None:
         """Pause/resume processing."""
-        if not self.processing_thread or not self.processing_thread.is_alive():
+        # Check if worker is running
+        workers = [w for w in self.workers if w.name == "episode_processing"]
+        if not workers:
             self.notify("No processing is currently running")
             return
             
@@ -764,17 +1010,19 @@ class ProcessingScreen(Screen):
     
     def action_cancel(self) -> None:
         """Cancel processing and return to previous screen."""
-        if self.processing_thread and self.processing_thread.is_alive():
+        # Check if worker is running
+        workers = [w for w in self.workers if w.name == "episode_processing"]
+        if workers:
             self.is_cancelled = True
             self._update_status("🛑 Cancelling...")
             self.notify("Cancelling processing...")
             
-            # Wait briefly for cleanup, then return
-            def delayed_exit():
-                time.sleep(1)
-                self.app.call_from_thread(self.app.pop_screen)
+            # Cancel the worker
+            for worker in workers:
+                worker.cancel()
             
-            threading.Thread(target=delayed_exit, daemon=True).start()
+            # Return after brief delay
+            self.set_timer(1.0, self.app.pop_screen)
         else:
             self.app.pop_screen()
 
