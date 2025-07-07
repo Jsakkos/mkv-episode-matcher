@@ -477,80 +477,119 @@ class ProcessingScreen(Screen):
                 return
             
             # Get season paths
+            self.call_from_thread(self.notify, f"Getting valid seasons from: {self.show_dir}")
             season_paths = get_valid_seasons(self.show_dir)
+            self.call_from_thread(self.notify, f"Found season paths: {season_paths}")
+            
             if not season_paths:
                 self.call_from_thread(self._update_status, "❌ No seasons with .mkv files found")
                 self.call_from_thread(self.notify, "Error: No seasons with .mkv files found")
                 return
             
             # Filter by specific season if requested
+            self.call_from_thread(self.notify, f"Season filter: {self.season}")
             if self.season is not None:
                 season_path = str(Path(self.show_dir) / f"Season {self.season}")
+                self.call_from_thread(self.notify, f"Looking for specific season: {season_path}")
                 if season_path not in season_paths:
                     self.call_from_thread(self._update_status, f"❌ Season {self.season} has no .mkv files")
                     self.call_from_thread(self.notify, f"Error: Season {self.season} has no .mkv files to process")
                     return
                 season_paths = [season_path]
+                self.call_from_thread(self.notify, f"Using filtered season paths: {season_paths}")
+            else:
+                self.call_from_thread(self.notify, f"Using all season paths: {season_paths}")
             
             # Count total files
+            self.call_from_thread(self.notify, "Counting MKV files...")
             all_mkv_files = []
             for season_path in season_paths:
+                self.call_from_thread(self.notify, f"Checking season: {season_path}")
                 mkv_files = [
                     f for f in Path(season_path).glob("*.mkv")
                     if not check_filename(f)
                 ]
+                self.call_from_thread(self.notify, f"Found {len(mkv_files)} unprocessed MKV files in {season_path}")
                 all_mkv_files.extend([(season_path, f) for f in mkv_files])
             
             self.total_files = len(all_mkv_files)
+            self.call_from_thread(self.notify, f"Total files to process: {self.total_files}")
+            
             if self.total_files == 0:
                 self.call_from_thread(self._update_status, "✅ No new files to process")
                 self.call_from_thread(self.notify, "All files already processed")
                 return
             
+            self.call_from_thread(self.notify, "Initializing progress tracking...")
             self.call_from_thread(self._update_overall_progress, 0)
             
             # Process each season
-            for season_path in season_paths:
+            self.call_from_thread(self.notify, "Starting season processing loop...")
+            for i, season_path in enumerate(season_paths):
+                self.call_from_thread(self.notify, f"Processing season {i+1}/{len(season_paths)}: {season_path}")
+                
                 if self.is_cancelled:
+                    self.call_from_thread(self.notify, "Processing cancelled during season loop")
                     break
                 
                 season_num = int(re.search(r'Season (\d+)', season_path).group(1))
+                self.call_from_thread(self.notify, f"Extracted season number: {season_num}")
+                
                 mkv_files = [
                     f for f in Path(season_path).glob("*.mkv")
                     if not check_filename(f)
                 ]
+                self.call_from_thread(self.notify, f"Files to process in season {season_num}: {len(mkv_files)}")
                 
                 if not mkv_files:
+                    self.call_from_thread(self.notify, f"No files in season {season_num}, skipping")
                     continue
                 
                 temp_dir = Path(season_path) / "temp"
+                self.call_from_thread(self.notify, f"Creating temp directory: {temp_dir}")
                 temp_dir.mkdir(exist_ok=True)
                 
                 try:
                     # Download subtitles if requested
                     if self.get_subs:
+                        self.call_from_thread(self.notify, f"get_subs enabled - downloading subtitles for season {season_num}")
                         self.call_from_thread(self._update_status, f"⬇️ Downloading subtitles for Season {season_num}...")
+                        
+                        self.call_from_thread(self.notify, f"Fetching show ID for: {matcher.show_name}")
                         show_id = fetch_show_id(matcher.show_name)
+                        self.call_from_thread(self.notify, f"Show ID result: {show_id}")
+                        
                         if show_id:
+                            self.call_from_thread(self.notify, f"Downloading subtitles for show ID {show_id}, season {season_num}")
                             get_subtitles(show_id, seasons={season_num}, config=config)
                             self.call_from_thread(self.notify, f"Subtitles downloaded for Season {season_num}")
                         else:
                             self.call_from_thread(self.notify, "Could not find show ID for subtitle download")
+                    else:
+                        self.call_from_thread(self.notify, "get_subs disabled, skipping subtitle download")
                     
                     # Process each file
+                    self.call_from_thread(self.notify, f"Starting file processing loop for {len(mkv_files)} files")
                     for i, mkv_file in enumerate(mkv_files):
+                        self.call_from_thread(self.notify, f"Processing file {i+1}/{len(mkv_files)}: {mkv_file}")
+                        
                         if self.is_cancelled:
+                            self.call_from_thread(self.notify, "Processing cancelled during file loop")
                             break
                         
                         # Handle pause
+                        if self.is_paused:
+                            self.call_from_thread(self.notify, "Processing paused, waiting...")
                         while self.is_paused and not self.is_cancelled:
                             time.sleep(0.1)
                         
                         if self.is_cancelled:
+                            self.call_from_thread(self.notify, "Processing cancelled after pause check")
                             break
                         
                         file_basename = Path(mkv_file).name
                         self.current_file = file_basename
+                        self.call_from_thread(self.notify, f"Current file: {file_basename}")
                         
                         # Update UI
                         self.call_from_thread(self._update_current_episode, f"S{season_num:02d}E?? - {file_basename}")
@@ -559,7 +598,14 @@ class ProcessingScreen(Screen):
                         
                         # Process the file
                         self.processed_files += 1
-                        match = self._process_single_file(matcher, mkv_file, temp_dir, season_num)
+                        self.call_from_thread(self.notify, f"About to process single file: {mkv_file}")
+                        
+                        try:
+                            match = self._process_single_file(matcher, mkv_file, temp_dir, season_num)
+                            self.call_from_thread(self.notify, f"File processing completed. Match result: {match}")
+                        except Exception as e:
+                            self.call_from_thread(self.notify, f"Error processing file {mkv_file}: {str(e)}")
+                            match = None
                         
                         if match:
                             self.matched_files += 1
@@ -611,30 +657,45 @@ class ProcessingScreen(Screen):
     def _process_single_file(self, matcher: EpisodeMatcher, mkv_file: Path, temp_dir: Path, season_num: int) -> Optional[dict]:
         """Process a single MKV file and return match result."""
         try:
+            self.call_from_thread(self.notify, f"_process_single_file started for: {mkv_file.name}")
+            
             # Update step progress for different stages
             self.call_from_thread(self._update_step_progress, 20)
             self.call_from_thread(self._update_status, "🎵 Extracting audio...")
+            self.call_from_thread(self.notify, "Step 1: Audio extraction simulation")
             
             # Simulate processing steps with progress updates
             time.sleep(0.1)  # Brief pause for UI updates
             
             self.call_from_thread(self._update_step_progress, 40)
             self.call_from_thread(self._update_status, "🎙️ Running speech recognition...")
+            self.call_from_thread(self.notify, "Step 2: About to call matcher.identify_episode")
             
-            # Actual episode identification
+            # Actual episode identification - THIS IS LIKELY WHERE IT HANGS
+            self.call_from_thread(self.notify, f"Calling matcher.identify_episode with: file={mkv_file}, temp_dir={temp_dir}, season={season_num}")
             match = matcher.identify_episode(mkv_file, temp_dir, season_num)
+            self.call_from_thread(self.notify, f"matcher.identify_episode returned: {match}")
             
             self.call_from_thread(self._update_step_progress, 80)
             self.call_from_thread(self._update_status, "🔍 Comparing with reference subtitles...")
+            self.call_from_thread(self.notify, "Step 3: Post-processing")
             
             time.sleep(0.1)  # Brief pause for UI updates
             
             self.call_from_thread(self._update_step_progress, 100)
+            self.call_from_thread(self.notify, f"_process_single_file completed successfully")
             
             return match
             
         except Exception as e:
-            self.call_from_thread(self.notify, f"Error processing {mkv_file.name}: {str(e)}")
+            error_msg = f"Error processing {mkv_file.name}: {str(e)}"
+            self.call_from_thread(self.notify, error_msg)
+            
+            # Get traceback
+            import traceback
+            tb = traceback.format_exc()
+            self.call_from_thread(self.notify, f"Traceback: {tb[:200]}...")
+            
             return None
     
     def _update_processing_title(self, title: str) -> None:
