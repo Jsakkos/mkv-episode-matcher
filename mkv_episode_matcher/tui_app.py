@@ -423,9 +423,6 @@ class ProcessingScreen(Screen):
         self.notify("ProcessingScreen mounted - initializing...")
         self._update_status("🎬 ProcessingScreen starting up...")
         
-        # Add a test row to show the table is working
-        table.add_row("Test", "Initializing...", "0.00")
-        
         # Use Textual's timer to delay processing start
         self.set_timer(1.0, self.start_processing)
     
