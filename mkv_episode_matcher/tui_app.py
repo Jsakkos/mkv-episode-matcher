@@ -5,6 +5,10 @@ TUI Application for MKV Episode Matcher using Textual.
 from pathlib import Path
 from typing import Optional, List
 import asyncio
+import threading
+import time
+import re
+import shutil
 
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
@@ -18,11 +22,17 @@ from textual.binding import Binding
 from textual.reactive import reactive
 from textual.message import Message
 from textual.validation import Function, Number
+# Using threading instead of textual workers for compatibility
 
 from mkv_episode_matcher import __version__
 from mkv_episode_matcher.config import get_config, set_config
 from mkv_episode_matcher.__main__ import CONFIG_FILE, CACHE_DIR
-from mkv_episode_matcher.utils import get_valid_seasons
+from mkv_episode_matcher.utils import (
+    get_valid_seasons, check_filename, clean_text, 
+    normalize_path, rename_episode_file, get_subtitles
+)
+from mkv_episode_matcher.episode_identification import EpisodeMatcher
+from mkv_episode_matcher.tmdb_client import fetch_show_id
 import os
 
 
@@ -288,13 +298,39 @@ class BrowseScreen(Screen):
     
     def action_process(self) -> None:
         """Process the selected show."""
-        # TODO: Get selected directory from tree
-        self.notify("Processing not implemented yet")
+        # Get selected directory from tree
+        tree = self.query_one("#dir_tree", DirectoryTree)
+        if hasattr(tree, 'cursor_node') and tree.cursor_node:
+            selected_path = str(tree.cursor_node.data.path)
+            if Path(selected_path).is_dir():
+                # Check if it's a valid show directory
+                seasons = get_valid_seasons(selected_path)
+                if seasons:
+                    self.app.push_screen(ProcessingScreen(selected_path))
+                else:
+                    self.notify("No seasons with .mkv files found in selected directory")
+            else:
+                self.notify("Please select a show directory")
+        else:
+            self.notify("Please select a show directory first")
     
     def action_get_subs(self) -> None:
         """Download subtitles for selected show."""
-        # TODO: Implement subtitle download
-        self.notify("Subtitle download not implemented yet")
+        # Get selected directory from tree
+        tree = self.query_one("#dir_tree", DirectoryTree)
+        if hasattr(tree, 'cursor_node') and tree.cursor_node:
+            selected_path = str(tree.cursor_node.data.path)
+            if Path(selected_path).is_dir():
+                # Check if it's a valid show directory
+                seasons = get_valid_seasons(selected_path)
+                if seasons:
+                    self.app.push_screen(ProcessingScreen(selected_path, get_subs=True))
+                else:
+                    self.notify("No seasons with .mkv files found in selected directory")
+            else:
+                self.notify("Please select a show directory")
+        else:
+            self.notify("Please select a show directory first")
     
     def action_back(self) -> None:
         """Go back to welcome screen."""
@@ -310,11 +346,21 @@ class ProcessingScreen(Screen):
         Binding("escape", "cancel", "Cancel"),
     ]
     
-    def __init__(self, show_dir: str, season: Optional[int] = None):
+    def __init__(self, show_dir: str, season: Optional[int] = None, dry_run: bool = False, get_subs: bool = False, confidence: float = 0.7):
         super().__init__()
         self.show_dir = show_dir
         self.season = season
+        self.dry_run = dry_run
+        self.get_subs = get_subs
+        self.confidence = confidence
         self.is_paused = False
+        self.is_cancelled = False
+        self.current_file = ""
+        self.current_step = ""
+        self.total_files = 0
+        self.processed_files = 0
+        self.matched_files = 0
+        self.processing_thread = None
     
     def compose(self) -> ComposeResult:
         yield Header()
@@ -351,9 +397,210 @@ class ProcessingScreen(Screen):
         self.start_processing()
     
     def start_processing(self) -> None:
-        """Start the processing workflow."""
-        # TODO: Implement actual processing logic
-        self.notify("Processing started (not fully implemented)")
+        """Start the processing workflow in a background thread."""
+        if self.processing_thread and self.processing_thread.is_alive():
+            return
+        
+        self.processing_thread = threading.Thread(target=self._process_episodes, daemon=True)
+        self.processing_thread.start()
+    
+    def _process_episodes(self) -> None:
+        """Main processing logic running in background thread."""
+        try:
+            config = get_config(CONFIG_FILE)
+            show_name = clean_text(normalize_path(self.show_dir).name)
+            matcher = EpisodeMatcher(CACHE_DIR, show_name, min_confidence=self.confidence)
+            
+            # Update UI with show info
+            self.call_from_thread(self._update_processing_title, f"🔄 Processing: {show_name}")
+            
+            # Check for reference files
+            reference_dir = Path(CACHE_DIR) / "data" / show_name
+            reference_files = list(reference_dir.glob("*.srt"))
+            if (not self.get_subs) and (not reference_files):
+                self.call_from_thread(self._update_status, "⚠️ No reference subtitle files found")
+                self.call_from_thread(self.notify, "Warning: No reference subtitle files found. Consider using --get-subs")
+                return
+            
+            # Get season paths
+            season_paths = get_valid_seasons(self.show_dir)
+            if not season_paths:
+                self.call_from_thread(self._update_status, "❌ No seasons with .mkv files found")
+                self.call_from_thread(self.notify, "Error: No seasons with .mkv files found")
+                return
+            
+            # Filter by specific season if requested
+            if self.season is not None:
+                season_path = str(Path(self.show_dir) / f"Season {self.season}")
+                if season_path not in season_paths:
+                    self.call_from_thread(self._update_status, f"❌ Season {self.season} has no .mkv files")
+                    self.call_from_thread(self.notify, f"Error: Season {self.season} has no .mkv files to process")
+                    return
+                season_paths = [season_path]
+            
+            # Count total files
+            all_mkv_files = []
+            for season_path in season_paths:
+                mkv_files = [
+                    f for f in Path(season_path).glob("*.mkv")
+                    if not check_filename(f)
+                ]
+                all_mkv_files.extend([(season_path, f) for f in mkv_files])
+            
+            self.total_files = len(all_mkv_files)
+            if self.total_files == 0:
+                self.call_from_thread(self._update_status, "✅ No new files to process")
+                self.call_from_thread(self.notify, "All files already processed")
+                return
+            
+            self.call_from_thread(self._update_overall_progress, 0)
+            
+            # Process each season
+            for season_path in season_paths:
+                if self.is_cancelled:
+                    break
+                
+                season_num = int(re.search(r'Season (\d+)', season_path).group(1))
+                mkv_files = [
+                    f for f in Path(season_path).glob("*.mkv")
+                    if not check_filename(f)
+                ]
+                
+                if not mkv_files:
+                    continue
+                
+                temp_dir = Path(season_path) / "temp"
+                temp_dir.mkdir(exist_ok=True)
+                
+                try:
+                    # Download subtitles if requested
+                    if self.get_subs:
+                        self.call_from_thread(self._update_status, f"⬇️ Downloading subtitles for Season {season_num}...")
+                        show_id = fetch_show_id(matcher.show_name)
+                        if show_id:
+                            get_subtitles(show_id, seasons={season_num}, config=config)
+                            self.call_from_thread(self.notify, f"Subtitles downloaded for Season {season_num}")
+                        else:
+                            self.call_from_thread(self.notify, "Could not find show ID for subtitle download")
+                    
+                    # Process each file
+                    for i, mkv_file in enumerate(mkv_files):
+                        if self.is_cancelled:
+                            break
+                        
+                        # Handle pause
+                        while self.is_paused and not self.is_cancelled:
+                            time.sleep(0.1)
+                        
+                        if self.is_cancelled:
+                            break
+                        
+                        file_basename = Path(mkv_file).name
+                        self.current_file = file_basename
+                        
+                        # Update UI
+                        self.call_from_thread(self._update_current_episode, f"S{season_num:02d}E?? - {file_basename}")
+                        self.call_from_thread(self._update_status, "🔊 Analyzing audio...")
+                        self.call_from_thread(self._update_step_progress, 0)
+                        
+                        # Process the file
+                        self.processed_files += 1
+                        match = self._process_single_file(matcher, mkv_file, temp_dir, season_num)
+                        
+                        if match:
+                            self.matched_files += 1
+                            episode_name = f"S{match['season']:02d}E{match['episode']:02d}"
+                            new_name = f"{matcher.show_name} - {episode_name}.mkv"
+                            confidence = match['confidence']
+                            
+                            # Update results table
+                            status = "✓ Matched" if confidence > 0.8 else "⚠️ Low confidence"
+                            self.call_from_thread(self._add_result, episode_name, status, f"{confidence:.2f}")
+                            
+                            # Rename file if not dry run
+                            if not self.dry_run:
+                                self.call_from_thread(self._update_status, "📝 Renaming file...")
+                                rename_episode_file(mkv_file, new_name)
+                        else:
+                            # No match found
+                            self.call_from_thread(self._add_result, file_basename, "❌ No match", "0.00")
+                        
+                        # Update overall progress
+                        overall_progress = int((self.processed_files / self.total_files) * 100)
+                        self.call_from_thread(self._update_overall_progress, overall_progress)
+                        
+                finally:
+                    # Cleanup temp directory
+                    if not self.dry_run and temp_dir.exists():
+                        shutil.rmtree(temp_dir)
+            
+            # Final status update
+            if self.is_cancelled:
+                self.call_from_thread(self._update_status, "❌ Processing cancelled")
+            else:
+                success_rate = (self.matched_files / self.processed_files) * 100 if self.processed_files > 0 else 0
+                self.call_from_thread(self._update_status, f"✅ Complete! {self.matched_files}/{self.processed_files} matched ({success_rate:.1f}%)")
+                self.call_from_thread(self.notify, f"Processing complete! {self.matched_files} files matched")
+                
+        except Exception as e:
+            self.call_from_thread(self._update_status, f"❌ Error: {str(e)}")
+            self.call_from_thread(self.notify, f"Processing error: {str(e)}")
+    
+    def _process_single_file(self, matcher: EpisodeMatcher, mkv_file: Path, temp_dir: Path, season_num: int) -> Optional[dict]:
+        """Process a single MKV file and return match result."""
+        try:
+            # Update step progress for different stages
+            self.call_from_thread(self._update_step_progress, 20)
+            self.call_from_thread(self._update_status, "🎵 Extracting audio...")
+            
+            # Simulate processing steps with progress updates
+            time.sleep(0.1)  # Brief pause for UI updates
+            
+            self.call_from_thread(self._update_step_progress, 40)
+            self.call_from_thread(self._update_status, "🎙️ Running speech recognition...")
+            
+            # Actual episode identification
+            match = matcher.identify_episode(mkv_file, temp_dir, season_num)
+            
+            self.call_from_thread(self._update_step_progress, 80)
+            self.call_from_thread(self._update_status, "🔍 Comparing with reference subtitles...")
+            
+            time.sleep(0.1)  # Brief pause for UI updates
+            
+            self.call_from_thread(self._update_step_progress, 100)
+            
+            return match
+            
+        except Exception as e:
+            self.call_from_thread(self.notify, f"Error processing {mkv_file.name}: {str(e)}")
+            return None
+    
+    def _update_processing_title(self, title: str) -> None:
+        """Update the processing title."""
+        self.query_one("#processing_title", Static).update(title)
+    
+    def _update_status(self, status: str) -> None:
+        """Update the current status."""
+        self.query_one("#status", Static).update(f"Status: {status}")
+    
+    def _update_current_episode(self, episode: str) -> None:
+        """Update the current episode being processed."""
+        self.query_one("#current_episode", Static).update(f"Current Episode: {episode}")
+    
+    def _update_overall_progress(self, progress: int) -> None:
+        """Update the overall progress bar."""
+        progress_bar = self.query_one("#overall_progress", ProgressBar)
+        progress_bar.progress = progress
+    
+    def _update_step_progress(self, progress: int) -> None:
+        """Update the step progress bar."""
+        progress_bar = self.query_one("#step_progress", ProgressBar)
+        progress_bar.progress = progress
+    
+    def _add_result(self, episode: str, status: str, confidence: str) -> None:
+        """Add a result to the results table."""
+        table = self.query_one("#results_table", DataTable)
+        table.add_row(episode, status, confidence)
     
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button presses."""
@@ -366,23 +613,47 @@ class ProcessingScreen(Screen):
     
     def action_pause(self) -> None:
         """Pause/resume processing."""
+        if not self.processing_thread or not self.processing_thread.is_alive():
+            self.notify("No processing is currently running")
+            return
+            
         self.is_paused = not self.is_paused
         btn = self.query_one("#pause_btn", Button)
         if self.is_paused:
             btn.label = "Resume Processing"
+            self._update_status("⏸️ Processing paused")
             self.notify("Processing paused")
         else:
             btn.label = "Pause Processing"
+            self._update_status("▶️ Processing resumed")
             self.notify("Processing resumed")
+    
+    def action_resume(self) -> None:
+        """Resume processing (same as unpause)."""
+        if self.is_paused:
+            self.action_pause()
     
     def action_review(self) -> None:
         """Review processing results."""
-        # TODO: Implement results review
-        self.notify("Results review not implemented yet")
+        # Focus on the results table for easier navigation
+        self.query_one("#results_table").focus()
+        self.notify("Use arrow keys to navigate results")
     
     def action_cancel(self) -> None:
         """Cancel processing and return to previous screen."""
-        self.app.pop_screen()
+        if self.processing_thread and self.processing_thread.is_alive():
+            self.is_cancelled = True
+            self._update_status("🛑 Cancelling...")
+            self.notify("Cancelling processing...")
+            
+            # Wait briefly for cleanup, then return
+            def delayed_exit():
+                time.sleep(1)
+                self.app.call_from_thread(self.app.pop_screen)
+            
+            threading.Thread(target=delayed_exit, daemon=True).start()
+        else:
+            self.app.pop_screen()
 
 
 class MKVEpisodeMatcherApp(App):
