@@ -500,18 +500,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-interactive-mode" class="md-nav__link">
+  <a href="#1-onboarding-first-time-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Interactive Mode
+      1. Onboarding (First-Time Setup)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-command-line-options" class="md-nav__link">
+  <a href="#2-interactive-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Command Line Options
+      2. Interactive Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-command-line-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Command Line Options
     </span>
   </a>
   
@@ -792,18 +801,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-interactive-mode" class="md-nav__link">
+  <a href="#1-onboarding-first-time-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Interactive Mode
+      1. Onboarding (First-Time Setup)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-command-line-options" class="md-nav__link">
+  <a href="#2-interactive-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Command Line Options
+      2. Interactive Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-command-line-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Command Line Options
     </span>
   </a>
   
@@ -914,20 +932,30 @@
 <h1 id="quick-start-guide">Quick Start Guide</h1>
 <p>Get started with MKV Episode Matcher quickly and efficiently.</p>
 <h2 id="basic-usage">Basic Usage</h2>
-<h3 id="1-interactive-mode">1. Interactive Mode</h3>
-<p>Simply run:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkv-match
+<h3 id="1-onboarding-first-time-setup">1. Onboarding (First-Time Setup)</h3>
+<p>Before running any matching, set up your configuration:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkv-match<span class="w"> </span>--onboard
 </code></pre></div>
-The program will guide you through the setup interactively.</p>
-<h3 id="2-command-line-options">2. Command Line Options</h3>
+You will be prompted for:
+- TMDb API key (for episode matching)
+- OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)
+- Show Directory (main directory of your show)
+If a value already exists, you can accept the default or enter a new value.</p>
+<p>You can re-run onboarding at any time to update your credentials or show directory.</p>
+<h3 id="2-interactive-mode">2. Interactive Mode</h3>
+<p>Simply run:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match
+</code></pre></div>
+The program will guide you through the setup interactively if configuration is missing.</p>
+<h3 id="3-command-line-options">3. Command Line Options</h3>
 <p>Process a specific season:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--season<span class="w"> </span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--season<span class="w"> </span><span class="m">1</span>
 </code></pre></div></p>
-<p>Process all seasons with subtitles:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--get-subs
+<p>Process all seasons with subtitles (requires onboarding):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--get-subs
 </code></pre></div></p>
 <p>Test run with detailed output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span>--verbose
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span>--verbose
 </code></pre></div></p>
 <h2 id="key-features">Key Features</h2>
 <ul>
@@ -940,33 +968,36 @@ The program will guide you through the setup interactively.</p>
 </ul>
 <h2 id="directory-structure">Directory Structure</h2>
 <p>Expected TV show organization:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Show Name/
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── Season 1/
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│   ├── episode1.mkv
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│   ├── episode2.mkv
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>├── Season 2/
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   ├── episode1.mkv
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│   └── episode2.mkv
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Show Name/
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── Season 1/
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│   ├── episode1.mkv
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│   ├── episode2.mkv
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>├── Season 2/
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│   ├── episode1.mkv
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│   └── episode2.mkv
 </code></pre></div></p>
 <h2 id="configuration">Configuration</h2>
-<p>Configuration is stored at <code>~/.mkv-episode-matcher/config.ini</code>:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_tmdb_api_key</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">show_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/show</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_opensubs_key</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_user_agent</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_username</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_password</span>
+<p>Configuration is stored at <code>~/.mkv-episode-matcher/config.ini</code> and can be set up or updated at any time with:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkv-match<span class="w"> </span>--onboard
+</code></pre></div></p>
+<p>Example config:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_tmdb_api_key</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="na">show_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/show</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_opensubs_key</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_user_agent</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_username</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_password</span>
 </code></pre></div></p>
 <h2 id="common-commands">Common Commands</h2>
 <h3 id="check-gpu-support">Check GPU Support</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkv-match<span class="w"> </span>--check-gpu<span class="w"> </span><span class="nb">true</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkv-match<span class="w"> </span>--check-gpu<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
 <h3 id="set-confidence-level">Set Confidence Level</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--confidence<span class="w"> </span><span class="m">0</span>.8
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--confidence<span class="w"> </span><span class="m">0</span>.8
 </code></pre></div>
 <h3 id="enable-verbose-output">Enable Verbose Output</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--verbose<span class="w"> </span><span class="nb">true</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span><span class="w"> </span>--verbose<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <ul>

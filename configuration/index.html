@@ -540,24 +540,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#detailed-options" class="md-nav__link">
     <span class="md-ellipsis">
       Detailed Options
@@ -785,24 +767,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-priority" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Priority
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#detailed-options" class="md-nav__link">
     <span class="md-ellipsis">
       Detailed Options
@@ -892,40 +856,26 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--dry-run<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>--get-subs<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
-<h2 id="environment-variables">Environment Variables</h2>
-<p>You can also use environment variables:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TMDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHOW_DIR</span><span class="o">=</span><span class="s2">&quot;/path/to/shows&quot;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPEN_SUBTITLES_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
-</code></pre></div>
-<h2 id="configuration-priority">Configuration Priority</h2>
-<p>Settings are loaded in the following order (later overrides earlier):</p>
-<ol>
-<li>Default values</li>
-<li>Configuration file</li>
-<li>Environment variables</li>
-<li>Command line arguments</li>
-</ol>
 <h2 id="detailed-options">Detailed Options</h2>
 <h3 id="tmdb-configuration">TMDb Configuration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_api_key</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_api_key</span>
 </code></pre></div>
 <p>The TMDb API key is required for:
 - Show identification
 - Episode information
 - Season details</p>
 <h3 id="opensubtitles-configuration">OpenSubtitles Configuration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_key</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_agent</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">username</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">password</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_key</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_agent</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">username</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">password</span>
 </code></pre></div>
 <p>Required only if using subtitle download functionality.</p>
 <h3 id="performance-settings">Performance Settings</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[Config]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
 </code></pre></div>
 <p>Adjust based on your system's capabilities:
 - Default: 4 threads

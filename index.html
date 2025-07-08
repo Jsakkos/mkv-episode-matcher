@@ -424,6 +424,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#onboarding-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onboarding &amp; Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
       Directory Structure
@@ -781,6 +790,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#onboarding-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Onboarding &amp; Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
       Directory Structure
@@ -875,15 +893,11 @@
 <p>Automatically match and rename your MKV TV episodes using The Movie Database (TMDb).</p>
 <h2 id="features">Features</h2>
 <ul>
-<li>🎯 <strong>Automatic Episode Matching</strong>: Uses TMDb to accurately identify episodes</li>
-<li>🎨 <strong>Rich User Interface</strong>: Color-coded output and progress indicators</li>
-<li>📝 <strong>Subtitle Extraction</strong>: Extracts subtitles from MKV files</li>
-<li>🔊 <strong>Speech Recognition</strong>: Uses Whisper for accurate episode identification</li>
-<li>🚀 <strong>Multi-threaded</strong>: Fast processing of multiple files</li>
+<li>🎯 <strong>Automatic Episode Matching</strong>: Uses TMDb and OpenSubtitles to accurately identify episodes</li>
+<li>🔊 <strong>Speech Recognition</strong>: Uses OpenAI Whisper for accurate episode identification</li>
 <li>⬇️ <strong>Subtitle Downloads</strong>: Integration with OpenSubtitles</li>
 <li>✨ <strong>Bulk Processing</strong>: Handle entire seasons at once</li>
 <li>🧪 <strong>Dry Run Mode</strong>: Test changes before applying</li>
-<li>🎮 <strong>Interactive Mode</strong>: User-friendly season selection and configuration</li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
@@ -895,33 +909,56 @@
 <h2 id="quick-start">Quick Start</h2>
 <ol>
 <li>Install the package:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkv-episode-matcher
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>mkv-episode-matcher
 </code></pre></div></li>
+<li>Run onboarding to set up your configuration (first-time users or to update credentials):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span>--onboard
+</code></pre></div></li>
+<li>You will be prompted for:<ul>
+<li>TMDb API key (for episode matching)</li>
+<li>OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)</li>
+<li>Show Directory (main directory of your show)</li>
+</ul>
+</li>
 <li>
-<p>Download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/</p>
+<p>If a config value already exists, you can accept the default or enter a new value.</p>
+</li>
+<li>
+<p>a. If you setup the TMDb and Opensubtitles credentials above, automatically fetch subtitles with the <code>--get-subs</code> flag. 
+   b. Alternatively, manually download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/</p>
 </li>
 <li>
 <p>Run on your show directory:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;path/to/your/show&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkv-match<span class="w"> </span>--show-dir<span class="w"> </span><span class="s2">&quot;path/to/your/show&quot;</span>
 </code></pre></div></p>
 </li>
 </ol>
+<h2 id="onboarding-configuration">Onboarding &amp; Configuration</h2>
+<p>The onboarding process will prompt you for all required configuration values if you run with <code>--onboard</code> or if no config file exists. You can re-run onboarding at any time to update your credentials or show directory.</p>
+<p><strong>Required information:</strong>
+- TMDb API key (for episode matching)
+- OpenSubtitles API key (for subtitle downloads)
+- OpenSubtitles Consumer Name (for subtitle downloads)
+- OpenSubtitles Username (for subtitle downloads)
+- OpenSubtitles Password (for subtitle downloads)
+- Show Directory (main directory of your show)</p>
+<p>If a value already exists, it will be shown as the default and you can accept it or enter a new value.</p>
 <h2 id="directory-structure">Directory Structure</h2>
 <p>MKV Episode Matcher expects your TV shows to be organized as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Show Name/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── Season 1/
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│   ├── episode1.mkv
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│   ├── episode2.mkv
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>├── Season 2/
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   ├── episode1.mkv
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   └── episode2.mkv
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Show Name/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── Season 1/
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   ├── episode1.mkv
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── episode2.mkv
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── Season 2/
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ├── episode1.mkv
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   └── episode2.mkv
 </code></pre></div>
 <h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
 <p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── Show Name - S01E01.srt
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── Show Name - S01E02.srt
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>└── ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└── ...
 </code></pre></div>
 <p>On Windows, the cache directory is located at <code>C:\Users\{username}\.mkv-episode-matcher\cache\data\</code></p>
 <p>Reference subtitle files should follow this naming pattern:
