@@ -7,7 +7,6 @@ from typing import Optional
 from loguru import logger
 from rich.console import Console
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.prompt import Confirm, Prompt
 
 from mkv_episode_matcher import __version__
@@ -62,15 +61,17 @@ def print_welcome_message():
     console.print()
 
 
-def confirm_api_key(config_value: Optional[str], key_name: str, description: str) -> str:
+def confirm_api_key(
+    config_value: Optional[str], key_name: str, description: str
+) -> str:
     """
     Confirm if the user wants to use an existing API key or enter a new one.
-    
+
     Args:
         config_value: The current value from the config
         key_name: The name of the key
         description: Description of the key for user information
-        
+
     Returns:
         The API key to use
     """
@@ -79,7 +80,7 @@ def confirm_api_key(config_value: Optional[str], key_name: str, description: str
         console.print(f"Current value: [green]{mask_api_key(config_value)}[/green]")
         if Confirm.ask("Use existing key?", default=True):
             return config_value
-    
+
     return Prompt.ask(f"Enter your {key_name}")
 
 
@@ -95,10 +96,10 @@ def mask_api_key(key: str) -> str:
 def select_season(seasons):
     """
     Allow user to select a season from a list.
-    
+
     Args:
         seasons: List of available seasons
-        
+
     Returns:
         Selected season number or None for all seasons
     """
@@ -106,18 +107,18 @@ def select_season(seasons):
     for i, season in enumerate(seasons, 1):
         season_num = Path(season).name.replace("Season ", "")
         console.print(f"  {i}. Season {season_num}")
-    
-    console.print(f"  0. All Seasons")
-    
+
+    console.print("  0. All Seasons")
+
     choice = Prompt.ask(
         "Select a season number (0 for all)",
         choices=[str(i) for i in range(len(seasons) + 1)],
-        default="0"
+        default="0",
     )
-    
+
     if int(choice) == 0:
         return None
-    
+
     selected_season = seasons[int(choice) - 1]
     return int(Path(selected_season).name.replace("Season ", ""))
 
@@ -165,7 +166,8 @@ def main():
         help="Check if GPU is available for faster processing",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Enable verbose output",
     )
@@ -175,18 +177,18 @@ def main():
         default=0.7,
         help="Set confidence threshold for episode matching (0.0-1.0)",
     )
-    
+
     args = parser.parse_args()
     if args.verbose:
         console.print("[bold cyan]Command-line Arguments[/bold cyan]")
         console.print(args)
     if args.check_gpu:
         from mkv_episode_matcher.utils import check_gpu_support
+
         with console.status("[bold green]Checking GPU support..."):
             check_gpu_support()
         return
 
-    
     logger.debug(f"Command-line arguments: {args}")
 
     # Load configuration once
@@ -202,49 +204,49 @@ def main():
 
     if args.get_subs:
         console.print("[bold cyan]Subtitle Download Configuration[/bold cyan]")
-        
+
         tmdb_api_key = confirm_api_key(
-            tmdb_api_key, 
-            "TMDb API key", 
-            "Used to lookup show and episode information"
+            tmdb_api_key, "TMDb API key", "Used to lookup show and episode information"
         )
-        
+
         open_subtitles_api_key = confirm_api_key(
             open_subtitles_api_key,
             "OpenSubtitles API key",
-            "Required for subtitle downloads"
+            "Required for subtitle downloads",
         )
-        
+
         open_subtitles_user_agent = confirm_api_key(
             open_subtitles_user_agent,
             "OpenSubtitles User Agent",
-            "Required for subtitle downloads"
+            "Required for subtitle downloads",
         )
-        
+
         open_subtitles_username = confirm_api_key(
             open_subtitles_username,
             "OpenSubtitles Username",
-            "Account username for OpenSubtitles"
+            "Account username for OpenSubtitles",
         )
-        
+
         open_subtitles_password = confirm_api_key(
             open_subtitles_password,
             "OpenSubtitles Password",
-            "Account password for OpenSubtitles"
+            "Account password for OpenSubtitles",
         )
 
     # Use config for show directory
     show_dir = args.show_dir or config.get("show_dir")
     if not show_dir:
         show_dir = Prompt.ask("Enter the main directory of the show")
-    
+
     logger.info(f"Show Directory: {show_dir}")
     if not Path(show_dir).exists():
-        console.print(f"[bold red]Error:[/bold red] Show directory '{show_dir}' does not exist.")
+        console.print(
+            f"[bold red]Error:[/bold red] Show directory '{show_dir}' does not exist."
+        )
         return
-    
+
     if not show_dir:
-        show_dir = os.getcwd()
+        show_dir = Path.cwd()
         console.print(f"Using current directory: [cyan]{show_dir}[/cyan]")
 
     logger.debug(f"Show Directory: {show_dir}")
@@ -274,25 +276,27 @@ def main():
                 border_style="yellow",
             )
         )
-    
+
     seasons = get_valid_seasons(show_dir)
     if not seasons:
-        console.print("[bold red]Error:[/bold red] No seasons with .mkv files found in the show directory.")
+        console.print(
+            "[bold red]Error:[/bold red] No seasons with .mkv files found in the show directory."
+        )
         return
-    
+
     # If season wasn't specified and there are multiple seasons, let user choose
     selected_season = args.season
     if selected_season is None and len(seasons) > 1:
         selected_season = select_season(seasons)
-    
+
     # Show what's going to happen
     show_name = Path(show_dir).name
     season_text = f"Season {selected_season}" if selected_season else "all seasons"
-    
+
     console.print(
         f"[bold green]Processing[/bold green] [cyan]{show_name}[/cyan], {season_text}"
     )
-    
+
     # # Setup progress spinner
     # with Progress(
     #     TextColumn("[bold green]Processing...[/bold green]"),
@@ -300,15 +304,15 @@ def main():
     # ) as progress:
     #     task = progress.add_task("", total=None)
     process_show(
-        selected_season, 
-        dry_run=args.dry_run, 
-        get_subs=args.get_subs, 
+        selected_season,
+        dry_run=args.dry_run,
+        get_subs=args.get_subs,
         verbose=args.verbose,
-        confidence=args.confidence
+        confidence=args.confidence,
     )
-    
+
     console.print("[bold green]✓[/bold green] Processing completed successfully!")
-    
+
     # Show where logs are stored
     console.print(f"\n[dim]Logs available at: {log_dir}[/dim]")
 

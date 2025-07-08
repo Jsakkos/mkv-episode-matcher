@@ -4,7 +4,6 @@ from unittest.mock import Mock, patch
 import pytest
 
 from mkv_episode_matcher.config import get_config, set_config
-from mkv_episode_matcher.episode_identification import EpisodeMatcher
 from mkv_episode_matcher.utils import (
     check_filename,
     clean_text,
@@ -12,6 +11,8 @@ from mkv_episode_matcher.utils import (
     get_valid_seasons,
     rename_episode_file,
 )
+
+
 @pytest.fixture
 def mock_episode_data():
     return {
@@ -110,28 +111,6 @@ class TestConfiguration:
 
 
 class TestEpisodeMatcher:
-    @pytest.fixture
-    def matcher(self, tmp_path):
-        return EpisodeMatcher(tmp_path, "Test Show")
-
-    def test_clean_text(self, matcher):
-        text = "Test [action] T-t-test"
-        assert matcher.clean_text(text) == "test action test"
-
-    def test_chunk_score(self, matcher):
-        score = matcher.chunk_score("Test dialogue", "test dialog")
-        assert 0 <= score <= 1
-
-    @patch('subprocess.run')
-    def test_extract_audio_chunk(self, mock_run, matcher, tmp_path):
-        mkv_file = tmp_path / "test.mkv"
-        mkv_file.touch()
-        chunk = matcher.extract_audio_chunk(str(mkv_file), 0)
-        assert isinstance(chunk, str)
-        assert mock_run.called
-
-
-class TestEpisodeMatcher:
     def test_extract_season_episode(self):
         from mkv_episode_matcher.utils import extract_season_episode
 
@@ -153,5 +132,5 @@ class TestEpisodeMatcher:
         assert fetch_show_id("Test Show") == "12345"
 
 
-if __name__ == '__main__':
-    pytest.main(['-v'])
+if __name__ == "__main__":
+    pytest.main(["-v"])

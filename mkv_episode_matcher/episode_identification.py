@@ -1,27 +1,30 @@
 import re
 import subprocess
 import tempfile
+from functools import lru_cache
 from pathlib import Path
-from rich import print
-from rich.console import Console
+
 import chardet
 import numpy as np
 import torch
 import whisper
 from loguru import logger
 from rapidfuzz import fuzz
+from rich import print
+from rich.console import Console
+
 from mkv_episode_matcher.utils import extract_season_episode
-from functools import lru_cache
 
 console = Console()
 
+
 class SubtitleCache:
     """Cache for storing parsed subtitle data to avoid repeated loading and parsing."""
-    
+
     def __init__(self):
         self.subtitles = {}  # {file_path: parsed_content}
         self.chunk_cache = {}  # {(file_path, chunk_idx): text}
-    
+
     def get_subtitle_content(self, srt_file):
         """Get the full content of a subtitle file, loading it only once."""
         srt_file = str(srt_file)
@@ -29,18 +32,18 @@ class SubtitleCache:
             reader = SubtitleReader()
             self.subtitles[srt_file] = reader.read_srt_file(srt_file)
         return self.subtitles[srt_file]
-    
+
     def get_chunk(self, srt_file, chunk_idx, chunk_start, chunk_end):
         """Get a specific time chunk from a subtitle file, with caching."""
         srt_file = str(srt_file)
         cache_key = (srt_file, chunk_idx)
-        
+
         if cache_key not in self.chunk_cache:
             content = self.get_subtitle_content(srt_file)
             reader = SubtitleReader()
             text_lines = reader.extract_subtitle_chunk(content, chunk_start, chunk_end)
             self.chunk_cache[cache_key] = " ".join(text_lines)
-            
+
         return self.chunk_cache[cache_key]
 
 
@@ -78,10 +81,10 @@ class EpisodeMatcher:
     def extract_audio_chunk(self, mkv_file, start_time):
         """Extract a chunk of audio from MKV file with caching."""
         cache_key = (str(mkv_file), start_time)
-        
+
         if cache_key in self.audio_chunks:
             return self.audio_chunks[cache_key]
-            
+
         chunk_path = self.temp_dir / f"chunk_{start_time}.wav"
         if not chunk_path.exists():
             cmd = [
@@ -105,7 +108,7 @@ class EpisodeMatcher:
                 str(chunk_path),
             ]
             subprocess.run(cmd, capture_output=True)
-        
+
         chunk_path_str = str(chunk_path)
         self.audio_chunks[cache_key] = chunk_path_str
         return chunk_path_str
@@ -125,9 +128,11 @@ class EpisodeMatcher:
             # Apply the same offset as in _try_match_with_model
             chunk_start = self.skip_initial_duration + (chunk_idx * self.chunk_duration)
             chunk_end = chunk_start + self.chunk_duration
-            
-            return self.subtitle_cache.get_chunk(srt_file, chunk_idx, chunk_start, chunk_end)
-            
+
+            return self.subtitle_cache.get_chunk(
+                srt_file, chunk_idx, chunk_start, chunk_end
+            )
+
         except Exception as e:
             logger.error(f"Error loading reference chunk from {srt_file}: {e}")
             return ""
@@ -136,11 +141,11 @@ class EpisodeMatcher:
         """Get reference subtitle files with caching."""
         cache_key = (self.show_name, season_number)
         logger.debug(f"Reference cache key: {cache_key}")
-        
+
         if cache_key in self.reference_files_cache:
             logger.debug("Returning cached reference files")
             return self.reference_files_cache[cache_key]
-            
+
         reference_dir = self.cache_dir / "data" / self.show_name
         patterns = [
             f"S{season_number:02d}E",
@@ -154,15 +159,15 @@ class EpisodeMatcher:
             files = [
                 f
                 for f in reference_dir.glob("*.srt")
-                if any(
-                    re.search(f"{p}\\d+", f.name, re.IGNORECASE) for p in patterns
-                )
+                if any(re.search(f"{p}\\d+", f.name, re.IGNORECASE) for p in patterns)
             ]
             reference_files.extend(files)
 
         # Remove duplicates while preserving order
         reference_files = list(dict.fromkeys(reference_files))
-        logger.debug(f"Found {len(reference_files)} reference files for season {season_number}")
+        logger.debug(
+            f"Found {len(reference_files)} reference files for season {season_number}"
+        )
         self.reference_files_cache[cache_key] = reference_files
         return reference_files
 
@@ -183,7 +188,9 @@ class EpisodeMatcher:
         model = get_whisper_model(model_name, self.device)
 
         # Calculate number of chunks to check
-        num_chunks = min(max_duration // self.chunk_duration, 10)  # Limit to 10 chunks for initial check
+        num_chunks = min(
+            max_duration // self.chunk_duration, 10
+        )  # Limit to 10 chunks for initial check
 
         # Pre-load all reference chunks for the chunks we'll check
         for chunk_idx in range(num_chunks):
@@ -200,11 +207,14 @@ class EpisodeMatcher:
 
             result = model.transcribe(audio_path, task="transcribe", language="en")
 
-
             chunk_text = result["text"]
-            logger.debug(f"Transcription result: {chunk_text} ({len(chunk_text)} characters)")
+            logger.debug(
+                f"Transcription result: {chunk_text} ({len(chunk_text)} characters)"
+            )
             if len(chunk_text) < 10:
-                logger.debug(f"Transcription result too short: {chunk_text} ({len(chunk_text)} characters)")
+                logger.debug(
+                    f"Transcription result too short: {chunk_text} ({len(chunk_text)} characters)"
+                )
                 continue
             best_confidence = 0
             best_match = None
@@ -220,13 +230,17 @@ class EpisodeMatcher:
                     best_match = Path(ref_file)
 
                 if confidence > self.min_confidence:
-                    print(f"Matched with {best_match} (confidence: {best_confidence:.2f})")
+                    print(
+                        f"Matched with {best_match} (confidence: {best_confidence:.2f})"
+                    )
                     try:
                         season, episode = extract_season_episode(best_match.stem)
                     except Exception as e:
                         print(f"Error extracting season/episode: {e}")
                         continue
-                    print(f"Season: {season}, Episode: {episode} (confidence: {best_confidence:.2f})")
+                    print(
+                        f"Season: {season}, Episode: {episode} (confidence: {best_confidence:.2f})"
+                    )
                     if season and episode:
                         return {
                             "season": season,
@@ -250,16 +264,21 @@ class EpisodeMatcher:
             if not reference_files:
                 logger.error(f"No reference files found for season {season_number}")
                 return None
-                
+
             # Cache video duration
             duration = get_video_duration(video_file)
 
             # Try with tiny model first (fastest)
             logger.info("Attempting match with tiny model...")
             match = self._try_match_with_model(
-                video_file, "tiny.en", min(duration, 300), reference_files  # Limit to first 5 minutes
+                video_file,
+                "tiny.en",
+                min(duration, 300),
+                reference_files,  # Limit to first 5 minutes
             )
-            if match and match["confidence"] > 0.65:  # Slightly lower threshold for tiny
+            if (
+                match and match["confidence"] > 0.65
+            ):  # Slightly lower threshold for tiny
                 logger.info(
                     f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
                 )
@@ -270,7 +289,10 @@ class EpisodeMatcher:
                 "No match with tiny model, extending base model search to 5 minutes..."
             )
             match = self._try_match_with_model(
-                video_file, "base.en", min(duration, 300), reference_files  # Limit to first 5 minutes
+                video_file,
+                "base.en",
+                min(duration, 300),
+                reference_files,  # Limit to first 5 minutes
             )
             if match:
                 logger.info(
@@ -320,7 +342,9 @@ def detect_file_encoding(file_path):
     """
     try:
         with open(file_path, "rb") as f:
-            raw_data = f.read(min(1024 * 1024, Path(file_path).stat().st_size))  # Read up to 1MB
+            raw_data = f.read(
+                min(1024 * 1024, Path(file_path).stat().st_size)
+            )  # Read up to 1MB
         result = chardet.detect(raw_data)
         encoding = result["encoding"]
         confidence = result["confidence"]
@@ -421,10 +445,10 @@ class SubtitleReader:
                 time_parts = timestamp.split(" --> ")
                 start_stamp = time_parts[0].strip()
                 end_stamp = time_parts[1].strip()
-                
+
                 subtitle_start = SubtitleReader.parse_timestamp(start_stamp)
                 subtitle_end = SubtitleReader.parse_timestamp(end_stamp)
-                
+
                 # Check if this subtitle overlaps with our chunk
                 if subtitle_end >= start_time and subtitle_start <= end_time:
                     text = " ".join(lines[2:])
@@ -439,6 +463,7 @@ class SubtitleReader:
 
 # Global whisper model cache with better cache key
 _whisper_models = {}
+
 
 def get_whisper_model(model_name="tiny", device=None):
     """Cache whisper models to avoid reloading."""

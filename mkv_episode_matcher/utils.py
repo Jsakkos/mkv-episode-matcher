@@ -1,7 +1,7 @@
 # utils.py
+import os
 import re
 import shutil
-import os
 from pathlib import Path
 
 import requests
@@ -11,7 +11,7 @@ from opensubtitlescom import OpenSubtitles
 from opensubtitlescom.exceptions import OpenSubtitlesException
 from rich.console import Console
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
+
 from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
 from mkv_episode_matcher.config import get_config
 from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
@@ -24,28 +24,29 @@ def normalize_path(path_str):
     """
     Normalize a path string to handle cross-platform path issues.
     Properly handles trailing slashes and backslashes in both Windows and Unix paths.
-    
+
     Args:
         path_str (str): The path string to normalize
-        
+
     Returns:
         pathlib.Path: A normalized Path object
     """
     # Convert to string if it's a Path object
     if isinstance(path_str, Path):
         path_str = str(path_str)
-        
+
     # Remove trailing slashes or backslashes
-    path_str = path_str.rstrip('/').rstrip('\\')
-    
+    path_str = path_str.rstrip("/").rstrip("\\")
+
     # Handle Windows paths on non-Windows platforms
-    if os.name != 'nt' and '\\' in path_str and ':' in path_str[:2]:
+    if os.name != "nt" and "\\" in path_str and ":" in path_str[:2]:
         # This looks like a Windows path on a non-Windows system
         # Extract the last component which should be the directory/file name
-        components = path_str.split('\\')
+        components = path_str.split("\\")
         return Path(components[-1])
-    
+
     return Path(path_str)
+
 
 def get_valid_seasons(show_dir):
     """
@@ -59,11 +60,7 @@ def get_valid_seasons(show_dir):
     """
     # Get all season directories
     show_path = normalize_path(show_dir)
-    season_paths = [
-        str(show_path / d.name)
-        for d in show_path.iterdir()
-        if d.is_dir()
-    ]
+    season_paths = [str(show_path / d.name) for d in show_path.iterdir() if d.is_dir()]
 
     # Filter seasons to only include those with .mkv files
     valid_season_paths = []
@@ -219,13 +216,13 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
             )
 
             if existing_subtitle:
-                logger.info(
-                    f"Subtitle already exists: {Path(existing_subtitle).name}"
-                )
+                logger.info(f"Subtitle already exists: {Path(existing_subtitle).name}")
                 continue
 
             # Default to standard format for new downloads
-            srt_filepath = str(series_cache_dir / f"{series_name} - S{season:02d}E{episode:02d}.srt")
+            srt_filepath = str(
+                series_cache_dir / f"{series_name} - S{season:02d}E{episode:02d}.srt"
+            )
 
             # get the episode info from TMDB
             url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season}/episode/{episode}?api_key={tmdb_api_key}"
@@ -245,7 +242,9 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
             for subtitle in response.data:
                 subtitle_dict = subtitle.to_dict()
                 # Remove special characters and convert to uppercase
-                filename_clean = re.sub(r"\\W+", " ", subtitle_dict["file_name"]).upper()
+                filename_clean = re.sub(
+                    r"\\W+", " ", subtitle_dict["file_name"]
+                ).upper()
                 if f"E{episode:02d}" in filename_clean:
                     logger.info(f"Original filename: {subtitle_dict['file_name']}")
                     retry_count = 0
@@ -257,25 +256,43 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
                             break
                         except OpenSubtitlesException as e:
                             retry_count += 1
-                            logger.error(f"OpenSubtitlesException (attempt {retry_count}): {e}")
-                            console.print(f"[red]OpenSubtitlesException (attempt {retry_count}): {e}[/red]")
+                            logger.error(
+                                f"OpenSubtitlesException (attempt {retry_count}): {e}"
+                            )
+                            console.print(
+                                f"[red]OpenSubtitlesException (attempt {retry_count}): {e}[/red]"
+                            )
                             if retry_count >= max_retries:
-                                user_input = input("Would you like to continue matching? (y/n): ")
-                                if user_input.strip().lower() != 'y':
-                                    logger.info("User chose to stop matching due to the error.")
+                                user_input = input(
+                                    "Would you like to continue matching? (y/n): "
+                                )
+                                if user_input.strip().lower() != "y":
+                                    logger.info(
+                                        "User chose to stop matching due to the error."
+                                    )
                                     return
                                 else:
-                                    logger.info("User chose to continue matching despite the error.")
+                                    logger.info(
+                                        "User chose to continue matching despite the error."
+                                    )
                                     break
                         except Exception as e:
                             logger.error(f"Failed to download and save subtitle: {e}")
-                            console.print(f"[red]Failed to download and save subtitle: {e}[/red]")
-                            user_input = input("Would you like to continue matching despite the error? (y/n): ")
-                            if user_input.strip().lower() != 'y':
-                                logger.info("User chose to stop matching due to the error.")
+                            console.print(
+                                f"[red]Failed to download and save subtitle: {e}[/red]"
+                            )
+                            user_input = input(
+                                "Would you like to continue matching despite the error? (y/n): "
+                            )
+                            if user_input.strip().lower() != "y":
+                                logger.info(
+                                    "User chose to stop matching due to the error."
+                                )
                                 return
                             else:
-                                logger.info("User chose to continue matching despite the error.")
+                                logger.info(
+                                    "User chose to continue matching despite the error."
+                                )
                                 break
                     else:
                         continue
@@ -453,7 +470,7 @@ def check_gpu_support():
     if torch.cuda.is_available():
         logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
         console.print(
-        Panel.fit(
+            Panel.fit(
                 f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}",
                 title="GPU Support",
                 border_style="magenta",
@@ -464,9 +481,9 @@ def check_gpu_support():
             "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support."
         )
         console.print(
-        Panel.fit(
-            "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.",
-            title="GPU Support",
-            border_style="red",
-        )
+            Panel.fit(
+                "CUDA not available. Using CPU. Refer to https://pytorch.org/get-started/locally/ for GPU support.",
+                title="GPU Support",
+                border_style="red",
+            )
         )
