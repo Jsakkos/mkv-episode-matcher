@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.3] - 2025-07-07
+
+### Added
+- Onboarding flag (`--onboard`) and interactive onboarding sequence for first-time setup and configuration updates
+- Onboarding prompts for TMDb API key, OpenSubtitles API key, Consumer Name, Username, Password, and Show Directory
+- Existing config values are shown as defaults during onboarding and can be accepted or overwritten
+- Documentation updated to reflect onboarding requirements and workflow in README and docs
+
+### Changed
+- Improved configuration experience for new and returning users
+- Quick Start and Configuration documentation now reference onboarding and required credentials
+
 ## [0.9.0] - 2025-06-01
 
 ### Changed
