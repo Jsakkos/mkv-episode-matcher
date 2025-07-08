@@ -14,15 +14,11 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 
 ## Features
 
-- 🎯 **Automatic Episode Matching**: Uses TMDb to accurately identify episodes
-- 🎨 **Rich User Interface**: Color-coded output and progress indicators
-- 📝 **Subtitle Extraction**: Extracts subtitles from MKV files
-- 🔊 **Speech Recognition**: Uses Whisper for accurate episode identification
-- 🚀 **Multi-threaded**: Fast processing of multiple files
+- 🎯 **Automatic Episode Matching**: Uses TMDb and OpenSubtitles to accurately identify episodes
+- 🔊 **Speech Recognition**: Uses OpenAI Whisper for accurate episode identification
 - ⬇️ **Subtitle Downloads**: Integration with OpenSubtitles
 - ✨ **Bulk Processing**: Handle entire seasons at once
 - 🧪 **Dry Run Mode**: Test changes before applying
-- 🎮 **Interactive Mode**: User-friendly season selection and configuration
 
 ## Prerequisites
 
@@ -35,14 +31,40 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 
 1. Install the package:
 ```bash
-pip install mkv-episode-matcher
+pip install -U mkv-episode-matcher
 ```
-2. Download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/
+2. Run onboarding to set up your configuration (first-time users or to update credentials):
+```bash
+mkv-match --onboard
+```
+   - You will be prompted for:
+     - TMDb API key (for episode matching)
+     - OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)
+     - Show Directory (main directory of your show)
+   - If a config value already exists, you can accept the default or enter a new value.
 
-3. Run on your show directory:
+3. 
+   a. If you setup the TMDb and Opensubtitles credentials above, automatically fetch subtitles with the `--get-subs` flag. 
+   b. Alternatively, manually download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/
+
+4. Run on your show directory:
 ```bash
 mkv-match --show-dir "path/to/your/show"
 ```
+
+## Onboarding & Configuration
+
+The onboarding process will prompt you for all required configuration values if you run with `--onboard` or if no config file exists. You can re-run onboarding at any time to update your credentials or show directory.
+
+**Required information:**
+- TMDb API key (for episode matching)
+- OpenSubtitles API key (for subtitle downloads)
+- OpenSubtitles Consumer Name (for subtitle downloads)
+- OpenSubtitles Username (for subtitle downloads)
+- OpenSubtitles Password (for subtitle downloads)
+- Show Directory (main directory of your show)
+
+If a value already exists, it will be shown as the default and you can accept it or enter a new value.
 
 ## Directory Structure
 

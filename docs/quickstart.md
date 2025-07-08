@@ -4,22 +4,36 @@ Get started with MKV Episode Matcher quickly and efficiently.
 
 ## Basic Usage
 
-### 1. Interactive Mode
+### 1. Onboarding (First-Time Setup)
+
+Before running any matching, set up your configuration:
+```bash
+mkv-match --onboard
+```
+You will be prompted for:
+- TMDb API key (for episode matching)
+- OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)
+- Show Directory (main directory of your show)
+If a value already exists, you can accept the default or enter a new value.
+
+You can re-run onboarding at any time to update your credentials or show directory.
+
+### 2. Interactive Mode
 
 Simply run:
 ```bash
 mkv-match
 ```
-The program will guide you through the setup interactively.
+The program will guide you through the setup interactively if configuration is missing.
 
-### 2. Command Line Options
+### 3. Command Line Options
 
 Process a specific season:
 ```bash
 mkv-match --show-dir "/path/to/show" --season 1
 ```
 
-Process all seasons with subtitles:
+Process all seasons with subtitles (requires onboarding):
 ```bash
 mkv-match --show-dir "/path/to/show" --get-subs
 ```
@@ -53,7 +67,12 @@ Show Name/
 
 ## Configuration
 
-Configuration is stored at `~/.mkv-episode-matcher/config.ini`:
+Configuration is stored at `~/.mkv-episode-matcher/config.ini` and can be set up or updated at any time with:
+```bash
+mkv-match --onboard
+```
+
+Example config:
 ```ini
 [Config]
 tmdb_api_key = your_tmdb_api_key

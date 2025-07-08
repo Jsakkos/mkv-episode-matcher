@@ -122,6 +122,36 @@ def select_season(seasons):
     selected_season = seasons[int(choice) - 1]
     return int(Path(selected_season).name.replace("Season ", ""))
 
+def onboarding(config_path):
+    """Prompt user for all required config values, showing existing as defaults."""
+    config = get_config(config_path) if config_path.exists() else {}
+
+    def ask_with_default(prompt_text, key, description, secret=False):
+        current = config.get(key)
+        if current:
+            console.print(f"[cyan]{key}:[/cyan] {description}")
+            console.print(f"Current value: [green]{mask_api_key(current) if secret else current}[/green]")
+            if Confirm.ask("Use existing value?", default=True):
+                return current
+        return Prompt.ask(f"Enter your {key}", default=current or "")
+
+    tmdb_api_key = ask_with_default("TMDb API key", "tmdb_api_key", "Used to lookup show and episode information. To get your API key, create an account at https://www.themoviedb.org/ and follow the instructions at https://developer.themoviedb.org/docs/getting-started", secret=True)
+    open_subtitles_username = ask_with_default("OpenSubtitles Username", "open_subtitles_username", "Account username for OpenSubtitles. To create an account, visit https://www.opensubtitles.com/ then click 'Register'")
+    open_subtitles_password = ask_with_default("OpenSubtitles Password", "open_subtitles_password", "Account password for OpenSubtitles", secret=True)
+    open_subtitles_user_agent = ask_with_default("OpenSubtitles Consumer Name", "open_subtitles_user_agent", "Required for subtitle downloads. Go to https://www.opensubtitles.com/en/consumers, click 'New Consumer', give it a name, then click 'Save'")
+    open_subtitles_api_key = ask_with_default("OpenSubtitles API key", "open_subtitles_api_key", "Required for subtitle downloads. Enter the API key linked with the OpenSubtitles Consumer that you created in the previous step.", secret=True)
+    show_dir = ask_with_default("Show Directory", "show_dir", "Main directory of the show")
+
+    set_config(
+        tmdb_api_key,
+        open_subtitles_api_key,
+        open_subtitles_user_agent,
+        open_subtitles_username,
+        open_subtitles_password,
+        show_dir,
+        config_path,
+    )
+    console.print("[bold green]Onboarding complete! Configuration saved.[/bold green]")
 
 @logger.catch
 def main():
@@ -177,7 +207,11 @@ def main():
         default=0.7,
         help="Set confidence threshold for episode matching (0.0-1.0)",
     )
-
+    parser.add_argument(
+        "--onboard",
+        action="store_true",
+        help="Run onboarding to set up configuration",
+    )
     args = parser.parse_args()
     if args.verbose:
         console.print("[bold cyan]Command-line Arguments[/bold cyan]")
@@ -190,9 +224,13 @@ def main():
         return
 
     logger.debug(f"Command-line arguments: {args}")
-
-    # Load configuration once
-    config = get_config(CONFIG_FILE)
+    # Onboarding: run if --onboard or config file missing
+    if args.onboard or not CONFIG_FILE.exists():
+        onboarding(CONFIG_FILE)
+        # Reload config after onboarding
+        config = get_config(CONFIG_FILE)
+    else:
+        config = get_config(CONFIG_FILE)
 
     # Get TMDb API key
     tmdb_api_key = args.tmdb_api_key or config.get("tmdb_api_key")

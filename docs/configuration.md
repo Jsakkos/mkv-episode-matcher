@@ -36,25 +36,6 @@ mkv-match \
   --get-subs true
 ```
 
-## Environment Variables
-
-You can also use environment variables:
-
-```bash
-export TMDB_API_KEY="your_key"
-export SHOW_DIR="/path/to/shows"
-export OPEN_SUBTITLES_API_KEY="your_key"
-```
-
-## Configuration Priority
-
-Settings are loaded in the following order (later overrides earlier):
-
-1. Default values
-2. Configuration file
-3. Environment variables
-4. Command line arguments
-
 ## Detailed Options
 
 ### TMDb Configuration
