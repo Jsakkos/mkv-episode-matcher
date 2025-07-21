@@ -10,7 +10,7 @@ name = "mkv-episode-matcher"
 description = "The MKV Episode Matcher is a tool for identifying TV series episodes from MKV files and renaming the files accordingly."
 dynamic = ["version"]
 readme = "README.md"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
