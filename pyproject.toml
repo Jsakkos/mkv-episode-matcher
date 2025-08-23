@@ -23,6 +23,7 @@ authors = [
 ]
 requires-python = ">=3.9,<3.13"
 dependencies = [
+    "chardet>=5.2.0",
     "configparser>=7.1.0",
     "ffmpeg>=1.4",
     "loguru>=0.7.2",
@@ -49,7 +50,6 @@ dev = [
     "pytest-cov>=6.0.0",
     "pytest>=8.3.3",
     "ruff>=0.8.0",
-    "chardet>=5.2.0",
     "matplotlib>=3.9.4",
     "memory-profiler>=0.61.0",
     "line-profiler>=4.2.0",
