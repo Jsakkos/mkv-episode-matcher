@@ -155,11 +155,11 @@ class EpisodeMatcher:
         ]
 
         reference_files = []
-        for _pattern in patterns:
+        for pattern in patterns:
             files = [
                 f
                 for f in reference_dir.glob("*.srt")
-                if any(re.search(f"{p}\\d+", f.name, re.IGNORECASE) for p in patterns)
+                if re.search(f"{pattern}\\d+", f.name, re.IGNORECASE)
             ]
             reference_files.extend(files)
 
