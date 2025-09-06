@@ -4,7 +4,16 @@
       "Bash(gh issue view:*)",
       "Bash(git checkout:*)",
       "Bash(python -m pytest tests/ -v)",
-      "Bash(uv run pytest:*)"
+      "Bash(uv run pytest:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr checks:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh run view:*)",
+      "Bash(uv run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

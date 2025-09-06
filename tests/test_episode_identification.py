@@ -167,34 +167,6 @@ class TestEpisodeIdentificationPatternMatching(unittest.TestCase):
         
         reference_files = self.identifier.get_reference_files(1)
         
-        # Debug output for CI troubleshooting
-        if len(reference_files) != 3:
-            print(f"\nDEBUG: Expected 3 files but found {len(reference_files)}")
-            print(f"DEBUG: Files found: {[f.name for f in reference_files]}")
-            print(f"DEBUG: Expected files: {test_files}")
-            
-            # Check what files actually exist in the directory
-            show_dir = self.cache_dir / "data" / self.identifier.show_name
-            actual_files = list(show_dir.glob("*.srt"))
-            print(f"DEBUG: Files in directory: {[f.name for f in actual_files]}")
-            
-            # Test each pattern individually
-            import re
-            season_number = 1
-            patterns = [
-                f"S{season_number:02d}E",
-                f"S{season_number}E",
-                f"{season_number:02d}x",
-                f"{season_number}x",
-            ]
-            
-            for pattern in patterns:
-                matches = [
-                    f for f in actual_files
-                    if re.search(f"{pattern}\\d+", f.name, re.IGNORECASE)
-                ]
-                print(f"DEBUG: Pattern '{pattern}\\d+' matches: {[f.name for f in matches]}")
-        
         # Should find all 3 files regardless of case
         self.assertEqual(len(reference_files), 3)
 
