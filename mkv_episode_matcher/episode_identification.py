@@ -155,11 +155,13 @@ class EpisodeMatcher:
         ]
 
         reference_files = []
-        for _pattern in patterns:
+        for pattern in patterns:
+            # Use case-insensitive file extension matching by checking both .srt and .SRT
+            srt_files = list(reference_dir.glob("*.srt")) + list(reference_dir.glob("*.SRT"))
             files = [
                 f
-                for f in reference_dir.glob("*.srt")
-                if any(re.search(f"{p}\\d+", f.name, re.IGNORECASE) for p in patterns)
+                for f in srt_files
+                if re.search(f"{pattern}\\d+", f.name, re.IGNORECASE)
             ]
             reference_files.extend(files)
 
