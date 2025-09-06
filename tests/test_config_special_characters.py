@@ -31,7 +31,7 @@ class TestConfigSpecialCharacters:
 
     def test_password_with_percent_symbol(self, temp_config_file, mock_config_data):
         """Test that passwords containing % symbol don't cause interpolation errors."""
-        password_with_percent = "H7z*X$X29JdJ^#%Q"
+        password_with_percent = "H7z*X$X29JdJ^#%Q"  # gitguardian:ignore
         
         # This should not raise a ValueError
         set_config(
@@ -112,7 +112,7 @@ class TestConfigSpecialCharacters:
     def test_original_bug_case(self, temp_config_file, mock_config_data):
         """Test the specific password from the original bug report."""
         # This is the exact password that caused the original issue
-        problematic_password = "H7z*X$X29JdJ^#%Q"
+        problematic_password = "H7z*X$X29JdJ^#%Q"  # gitguardian:ignore
         
         # Before the fix, this would raise:
         # ValueError: invalid interpolation syntax in 'H7z*X$X29JdJ^#%Q' at position 14

@@ -56,7 +56,7 @@ def set_config(
     logger.info(
         f"Setting config with API:{tmdb_api_key}, show_dir: {show_dir}, and max_threads: {MAX_THREADS}"
     )
-    with open(file, "w") as configfile:
+    with open(file, "w", encoding="utf-8") as configfile:
         config.write(configfile)
 
 
@@ -74,6 +74,6 @@ def get_config(file):
     logger.info(f"Loading config from {file}")
     config = configparser.ConfigParser(interpolation=None)
     if Path(file).exists():
-        config.read(file)
+        config.read(file, encoding="utf-8")
         return config["Config"] if "Config" in config else None
     return {}
