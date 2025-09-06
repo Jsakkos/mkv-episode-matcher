@@ -43,7 +43,7 @@ def set_config(
     Returns:
         None
     """
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=None)
     config["Config"] = {
         "tmdb_api_key": str(tmdb_api_key),
         "show_dir": show_dir,
@@ -72,7 +72,7 @@ def get_config(file):
 
     """
     logger.info(f"Loading config from {file}")
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=None)
     if Path(file).exists():
         config.read(file)
         return config["Config"] if "Config" in config else None
