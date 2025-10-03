@@ -72,6 +72,14 @@ class TestUtilities:
     def test_clean_text(self):
         text = "Test [action] (note) {tag}"
         assert clean_text(text) == "Test"
+        
+        # Test that years are preserved
+        text_with_year = "Bluey (2018)"
+        assert clean_text(text_with_year) == "Bluey (2018)"
+        
+        # Test mixed content with year
+        text_mixed = "Show Name [HD] (2020) {release}"
+        assert clean_text(text_mixed) == "Show Name (2020)"
 
     def test_extract_season_episode(self):
         filename = "Show - S01E02.mkv"
