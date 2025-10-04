@@ -122,6 +122,7 @@ def select_season(seasons):
     selected_season = seasons[int(choice) - 1]
     return int(Path(selected_season).name.replace("Season ", ""))
 
+
 def onboarding(config_path):
     """Prompt user for all required config values, showing existing as defaults."""
     config = get_config(config_path) if config_path.exists() else {}
@@ -152,6 +153,7 @@ def onboarding(config_path):
         config_path,
     )
     console.print("[bold green]Onboarding complete! Configuration saved.[/bold green]")
+
 
 @logger.catch
 def main():

@@ -312,6 +312,8 @@ def clean_text(text):
     # Restore the years
     for year in years:
         cleaned_text = cleaned_text.replace("YEAR_PLACEHOLDER", f"({year})", 1)
+    # Normalize multiple spaces to single spaces
+    cleaned_text = re.sub(r"\s+", " ", cleaned_text)
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
 

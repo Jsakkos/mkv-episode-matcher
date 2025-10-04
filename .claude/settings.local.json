@@ -13,7 +13,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(uv sync:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
