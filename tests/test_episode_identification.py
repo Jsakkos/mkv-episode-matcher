@@ -1,8 +1,7 @@
-import unittest
 import tempfile
-import re
+import unittest
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 from mkv_episode_matcher.episode_identification import EpisodeMatcher
 

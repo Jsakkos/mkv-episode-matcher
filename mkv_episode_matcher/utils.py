@@ -304,8 +304,20 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
 
 
 def clean_text(text):
-    # Remove brackets, parentheses, and their content
-    cleaned_text = re.sub(r"\[.*?\]|\(.*?\)|\{.*?\}", "", text)
+    # Remove brackets and curly braces with their content
+    cleaned_text = re.sub(r"\[.*?\]|\{.*?\}", "", text)
+    # Remove parentheses content EXCEPT for those containing exactly 4 digits (years)
+    # First, temporarily replace year patterns with a placeholder
+    year_pattern = r"\((\d{4})\)"
+    years = re.findall(year_pattern, cleaned_text)
+    cleaned_text = re.sub(year_pattern, "YEAR_PLACEHOLDER", cleaned_text)
+    # Remove all remaining parentheses content
+    cleaned_text = re.sub(r"\([^)]*\)", "", cleaned_text)
+    # Restore the years
+    for year in years:
+        cleaned_text = cleaned_text.replace("YEAR_PLACEHOLDER", f"({year})", 1)
+    # Normalize multiple spaces to single spaces
+    cleaned_text = re.sub(r"\s+", " ", cleaned_text)
     # Strip leading/trailing whitespace
     return cleaned_text.strip()
 

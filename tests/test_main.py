@@ -72,6 +72,48 @@ class TestUtilities:
     def test_clean_text(self):
         text = "Test [action] (note) {tag}"
         assert clean_text(text) == "Test"
+        
+        # Test that years are preserved
+        text_with_year = "Bluey (2018)"
+        assert clean_text(text_with_year) == "Bluey (2018)"
+        
+        # Test mixed content with year
+        text_mixed = "Show Name [HD] (2020) {release}"
+        assert clean_text(text_mixed) == "Show Name (2020)"
+
+    def test_clean_text_edge_cases(self):
+        """Test edge cases for clean_text function reported by users."""
+        # Test exact user reported case
+        bluey_case = "Bluey (2018)"
+        assert clean_text(bluey_case) == "Bluey (2018)"
+        
+        # Test with extra whitespace and tags
+        bluey_with_junk = "Bluey [1080p] (2018) {AMZN}"
+        assert clean_text(bluey_with_junk) == "Bluey (2018)"
+        
+        # Test show name with multiple years (should preserve all)
+        multiple_years = "Show (1999) vs Show (2020)"
+        assert clean_text(multiple_years) == "Show (1999) vs Show (2020)"
+        
+        # Test year at beginning
+        year_first = "(2018) Bluey [HD]"
+        assert clean_text(year_first) == "(2018) Bluey"
+        
+        # Test year with other content in same parentheses (should remove)
+        year_with_text = "Show (2018 Remaster)"
+        assert clean_text(year_with_text) == "Show"
+        
+        # Test 4-digit numbers (preserves any 4-digit number in parentheses)
+        four_digit = "Show (1234)"
+        assert clean_text(four_digit) == "Show (1234)"
+        
+        # Test edge case years
+        assert clean_text("Show (1900)") == "Show (1900)"  # Very old year
+        assert clean_text("Show (2099)") == "Show (2099)"  # Future year
+        
+        # Test multiple spaces and normalization
+        messy_spacing = "Bluey    [HD]     (2018)    {RELEASE}"
+        assert clean_text(messy_spacing) == "Bluey (2018)"
 
     def test_extract_season_episode(self):
         filename = "Show - S01E02.mkv"
