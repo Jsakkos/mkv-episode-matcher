@@ -24,6 +24,7 @@ def normalize_path(path_str):
     """
     Normalize a path string to handle cross-platform path issues.
     Properly handles trailing slashes and backslashes in both Windows and Unix paths.
+    Also strips surrounding quotes that might be present in command line arguments.
 
     Args:
         path_str (str): The path string to normalize
@@ -35,6 +36,9 @@ def normalize_path(path_str):
     if isinstance(path_str, Path):
         path_str = str(path_str)
 
+    # Strip surrounding quotes (both single and double)
+    path_str = path_str.strip().strip('"').strip("'")
+    
     # Remove trailing slashes or backslashes
     path_str = path_str.rstrip("/").rstrip("\\")
 
