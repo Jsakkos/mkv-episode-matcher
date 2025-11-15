@@ -4,6 +4,7 @@ import re
 import shutil
 from pathlib import Path
 
+from loguru import logger
 from rich.console import Console
 from rich.progress import BarColumn, Progress, TextColumn, TimeElapsedColumn
 
@@ -124,29 +125,38 @@ def process_show(
                         console.print(f"  Analyzing {file_basename}...")
 
                     total_processed += 1
-                    match = matcher.identify_episode(mkv_file, temp_dir, season_num)
+                    
+                    try:
+                        match = matcher.identify_episode(mkv_file, temp_dir, season_num)
 
-                    if match:
-                        total_matched += 1
-                        new_name = f"{matcher.show_name} - S{match['season']:02d}E{match['episode']:02d}.mkv"
+                        if match:
+                            total_matched += 1
+                            new_name = f"{matcher.show_name} - S{match['season']:02d}E{match['episode']:02d}.mkv"
 
-                        confidence_color = (
-                            "green" if match["confidence"] > 0.8 else "yellow"
-                        )
-
-                        if verbose or dry_run:
-                            console.print(
-                                f"  Match: [bold]{file_basename}[/bold] → [bold cyan]{new_name}[/bold cyan] "
-                                f"(confidence: [{confidence_color}]{match['confidence']:.2f}[/{confidence_color}])"
+                            confidence_color = (
+                                "green" if match["confidence"] > 0.8 else "yellow"
                             )
 
-                        if not dry_run:
-                            rename_episode_file(mkv_file, new_name)
-                    else:
+                            if verbose or dry_run:
+                                console.print(
+                                    f"  Match: [bold]{file_basename}[/bold] → [bold cyan]{new_name}[/bold cyan] "
+                                    f"(confidence: [{confidence_color}]{match['confidence']:.2f}[/{confidence_color}])"
+                                )
+
+                            if not dry_run:
+                                rename_episode_file(mkv_file, new_name)
+                        else:
+                            if verbose:
+                                console.print(
+                                    f"  [yellow]No match found for {file_basename}[/yellow]"
+                                )
+                    except Exception as e:
+                        logger.error(f"Failed to process {file_basename}: {e}")
                         if verbose:
                             console.print(
-                                f"  [yellow]No match found for {file_basename}[/yellow]"
+                                f"  [red]Error processing {file_basename}: {str(e)}[/red]"
                             )
+                        # Continue processing other files even if one fails
 
                     progress.advance(task)
         finally:

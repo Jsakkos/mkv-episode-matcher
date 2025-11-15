@@ -94,7 +94,7 @@ class EpisodeMatcher:
                 "-t",
                 str(self.chunk_duration),
                 "-i",
-                mkv_file,
+                str(mkv_file),
                 "-vn",  # Disable video
                 "-sn",  # Disable subtitles
                 "-dn",  # Disable data streams
@@ -107,7 +107,48 @@ class EpisodeMatcher:
                 "-y",  # Overwrite output files without asking
                 str(chunk_path),
             ]
-            subprocess.run(cmd, capture_output=True)
+            
+            try:
+                logger.debug(f"Extracting audio chunk from {mkv_file} at {start_time}s using FFmpeg")
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                
+                if result.returncode != 0:
+                    error_msg = f"FFmpeg failed with return code {result.returncode}"
+                    if result.stderr:
+                        error_msg += f". Error: {result.stderr.strip()}"
+                    logger.error(error_msg)
+                    logger.debug(f"FFmpeg command: {' '.join(cmd)}")
+                    raise RuntimeError(error_msg)
+                    
+                # Check if the output file was actually created and has content
+                if not chunk_path.exists():
+                    error_msg = f"FFmpeg completed but output file was not created: {chunk_path}"
+                    logger.error(error_msg)
+                    raise RuntimeError(error_msg)
+                    
+                # Check if the file has meaningful content (at least 1KB)
+                if chunk_path.stat().st_size < 1024:
+                    error_msg = f"Generated audio chunk is too small ({chunk_path.stat().st_size} bytes), likely corrupted"
+                    logger.warning(error_msg)
+                    # Don't raise an error for small files, but log the warning
+                    
+                logger.debug(f"Successfully extracted {chunk_path.stat().st_size} byte audio chunk")
+                
+            except subprocess.TimeoutExpired as e:
+                error_msg = f"FFmpeg timed out after 30 seconds while extracting audio from {mkv_file}"
+                logger.error(error_msg)
+                raise RuntimeError(error_msg) from e
+                
+            except Exception as e:
+                error_msg = f"Failed to extract audio chunk from {mkv_file} at {start_time}s: {str(e)}"
+                logger.error(error_msg)
+                # Clean up partial file if it exists
+                if chunk_path.exists():
+                    try:
+                        chunk_path.unlink()
+                    except Exception as cleanup_error:
+                        logger.warning(f"Failed to clean up partial file {chunk_path}: {cleanup_error}")
+                raise RuntimeError(error_msg) from e
 
         chunk_path_str = str(chunk_path)
         self.audio_chunks[cache_key] = chunk_path_str
@@ -204,10 +245,21 @@ class EpisodeMatcher:
             start_time = self.skip_initial_duration + (chunk_idx * self.chunk_duration)
             logger.debug(f"Trying {model_name} model at {start_time} seconds")
 
-            audio_path = self.extract_audio_chunk(video_file, start_time)
-            logger.debug(f"Extracted audio chunk: {audio_path}")
+            try:
+                audio_path = self.extract_audio_chunk(video_file, start_time)
+                logger.debug(f"Extracted audio chunk: {audio_path}")
+            except RuntimeError as e:
+                logger.warning(f"Failed to extract audio chunk at {start_time}s: {e}")
+                continue  # Skip this chunk and try the next one
+            except Exception as e:
+                logger.error(f"Unexpected error extracting audio chunk at {start_time}s: {e}")
+                continue  # Skip this chunk and try the next one
 
-            result = model.transcribe(audio_path, task="transcribe", language="en")
+            try:
+                result = model.transcribe(audio_path, task="transcribe", language="en")
+            except Exception as e:
+                logger.error(f"Whisper transcription failed for chunk at {start_time}s: {e}")
+                continue  # Skip this chunk and try the next one
 
             chunk_text = result["text"]
             logger.debug(
@@ -268,41 +320,55 @@ class EpisodeMatcher:
                 return None
 
             # Cache video duration
-            duration = get_video_duration(video_file)
+            try:
+                duration = get_video_duration(video_file)
+            except Exception as e:
+                logger.error(f"Failed to get video duration for {video_file}: {e}")
+                return None
 
             # Try with tiny model first (fastest)
             logger.info("Attempting match with tiny model...")
-            match = self._try_match_with_model(
-                video_file,
-                "tiny.en",
-                min(duration, 300),
-                reference_files,  # Limit to first 5 minutes
-            )
-            if (
-                match and match["confidence"] > 0.65
-            ):  # Slightly lower threshold for tiny
-                logger.info(
-                    f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
+            try:
+                match = self._try_match_with_model(
+                    video_file,
+                    "tiny.en",
+                    min(duration, 300),
+                    reference_files,  # Limit to first 5 minutes
                 )
-                return match
+                if (
+                    match and match["confidence"] > 0.65
+                ):  # Slightly lower threshold for tiny
+                    logger.info(
+                        f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
+                    )
+                    return match
+            except Exception as e:
+                logger.warning(f"Tiny model failed: {e}")
 
             # If no match, try base model
             logger.info(
                 "No match with tiny model, extending base model search to 5 minutes..."
             )
-            match = self._try_match_with_model(
-                video_file,
-                "base.en",
-                min(duration, 300),
-                reference_files,  # Limit to first 5 minutes
-            )
-            if match:
-                logger.info(
-                    f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
+            try:
+                match = self._try_match_with_model(
+                    video_file,
+                    "base.en",
+                    min(duration, 300),
+                    reference_files,  # Limit to first 5 minutes
                 )
-                return match
+                if match:
+                    logger.info(
+                        f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
+                    )
+                    return match
+            except Exception as e:
+                logger.warning(f"Base model failed: {e}")
 
-            logger.info("Speech recognition match failed")
+            logger.info("Speech recognition match failed - no models were able to process this file")
+            return None
+
+        except Exception as e:
+            logger.error(f"Unexpected error during episode identification for {video_file}: {e}")
             return None
 
         finally:
@@ -316,9 +382,10 @@ class EpisodeMatcher:
 
 @lru_cache(maxsize=100)
 def get_video_duration(video_file):
-    """Get video duration with caching."""
-    duration = float(
-        subprocess.check_output([
+    """Get video duration with caching and error handling."""
+    try:
+        logger.debug(f"Getting duration for video file: {video_file}")
+        result = subprocess.run([
             "ffprobe",
             "-v",
             "error",
@@ -326,10 +393,40 @@ def get_video_duration(video_file):
             "format=duration",
             "-of",
             "default=noprint_wrappers=1:nokey=1",
-            video_file,
-        ]).decode()
-    )
-    return int(np.ceil(duration))
+            str(video_file),
+        ], capture_output=True, text=True, timeout=10)
+        
+        if result.returncode != 0:
+            error_msg = f"ffprobe failed with return code {result.returncode}"
+            if result.stderr:
+                error_msg += f". Error: {result.stderr.strip()}"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
+        
+        duration_str = result.stdout.strip()
+        if not duration_str:
+            raise RuntimeError("ffprobe returned empty duration")
+            
+        duration = float(duration_str)
+        if duration <= 0:
+            raise RuntimeError(f"Invalid duration: {duration}")
+            
+        result_duration = int(np.ceil(duration))
+        logger.debug(f"Video duration: {result_duration} seconds")
+        return result_duration
+        
+    except subprocess.TimeoutExpired as e:
+        error_msg = f"ffprobe timed out while getting duration for {video_file}"
+        logger.error(error_msg)
+        raise RuntimeError(error_msg) from e
+    except ValueError as e:
+        error_msg = f"Failed to parse duration from ffprobe output for {video_file}: {e}"
+        logger.error(error_msg)
+        raise RuntimeError(error_msg) from e
+    except Exception as e:
+        error_msg = f"Unexpected error getting video duration for {video_file}: {e}"
+        logger.error(error_msg)
+        raise RuntimeError(error_msg) from e
 
 
 def detect_file_encoding(file_path):
