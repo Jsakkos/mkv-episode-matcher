@@ -1,11 +1,11 @@
-import unittest
-import tempfile
 import argparse
+import tempfile
+import unittest
 from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 
-from mkv_episode_matcher.utils import normalize_path, get_subtitles, get_valid_seasons
 from mkv_episode_matcher.config import get_config, set_config
+from mkv_episode_matcher.utils import get_subtitles, get_valid_seasons, normalize_path
 
 
 class TestPathHandlingWithSpacesAndQuotes(unittest.TestCase):
@@ -83,7 +83,6 @@ class TestPathHandlingWithSpacesAndQuotes(unittest.TestCase):
 
     def test_command_line_parsing_with_spaces(self):
         """Test that command line argument parsing handles paths with spaces."""
-        from mkv_episode_matcher.__main__ import main
         
         test_cases = [
             ['--show-dir', 'C:\\my rips\\show name'],
