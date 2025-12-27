@@ -88,6 +88,8 @@ dev = [
     "psutil>=7.0.0",
     "ipykernel>=7.1.0",
     "pyinstaller>=6.17.0",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings[python]>=1.0.0",
 ]
 
 
