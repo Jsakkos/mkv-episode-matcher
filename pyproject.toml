@@ -46,8 +46,8 @@ dependencies = [
 ]
 [project.optional-dependencies]
 cu128 = [
-  "torch>=2.9.1",
-  "torchvision>=0.24.1",
+  "torch>=2.9.1; sys_platform != 'darwin'",
+  "torchvision>=0.24.1; sys_platform != 'darwin'",
 ]
 nemo = [
   "nemo_toolkit[asr]>=2.0.0",
