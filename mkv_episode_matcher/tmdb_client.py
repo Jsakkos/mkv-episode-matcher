@@ -5,8 +5,7 @@ from threading import Lock
 import requests
 from loguru import logger
 
-from mkv_episode_matcher.__main__ import CONFIG_FILE
-from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.core.config_manager import get_config_manager
 
 BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
 
@@ -68,8 +67,8 @@ def fetch_show_id(show_name):
     Returns:
         str: The TMDb ID of the show, or None if not found.
     """
-    config = get_config(CONFIG_FILE)
-    tmdb_api_key = config.get("tmdb_api_key")
+    config = get_config_manager().load()
+    tmdb_api_key = config.tmdb_api_key
     url = f"https://api.themoviedb.org/3/search/tv?query={show_name}&api_key={tmdb_api_key}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -91,8 +90,8 @@ def fetch_season_details(show_id, season_number):
         int: The total number of episodes in the season, or 0 if the API request failed.
     """
     logger.info(f"Fetching season details for Season {season_number}...")
-    config = get_config(CONFIG_FILE)
-    tmdb_api_key = config.get("tmdb_api_key")
+    config = get_config_manager().load()
+    tmdb_api_key = config.tmdb_api_key
     url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={tmdb_api_key}"
     try:
         response = requests.get(url)
@@ -123,8 +122,8 @@ def get_number_of_seasons(show_id):
     Raises:
     - requests.HTTPError: If there is an error while making the API request.
     """
-    config = get_config(CONFIG_FILE)
-    tmdb_api_key = config.get("tmdb_api_key")
+    config = get_config_manager().load()
+    tmdb_api_key = config.tmdb_api_key
     url = f"https://api.themoviedb.org/3/tv/{show_id}?api_key={tmdb_api_key}"
     response = requests.get(url)
     response.raise_for_status()

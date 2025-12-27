@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "timestamp": "20251225_230511",
+    "config": {
+      "test_files_dir": "D:\\mkv-episode-matcher\\perf-test\\inputs",
+      "cache_dir": "C:\\Users\\Jonathan\\.mkv-episode-matcher\\cache",
+      "output_dir": "D:\\mkv-episode-matcher\\perf-test\\reports",
+      "iterations": 3,
+      "asr_models": [
+        {
+          "type": "whisper",
+          "name": "tiny.en"
+        },
+        {
+          "type": "parakeet",
+          "name": "nvidia/parakeet-ctc-0.6b"
+        }
+      ],
+      "device_testing": {
+        "test_devices": [
+          "cuda"
+        ],
+        "force_cpu_fallback": true
+      },
+      "confidence_threshold": 0.6,
+      "enable_profiling": true,
+      "resource_monitoring_interval": 0.5,
+      "timeout_seconds": 120
+    },
+    "total_files": 4,
+    "total_iterations": 12
+  },
+  "results": {
+    "Rick and Morty - S01E01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.050069399992935,
+        "median": 3.248389899992617,
+        "min": 3.132014800008619,
+        "max": 5.76980349997757,
+        "stdev": 1.4904696648914202
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8412361699542623,
+          "min": 0.8412361699542623,
+          "max": 0.8412361699542623
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 218.43333333333334,
+        "memory_mean_mb": 1325.5364583333333,
+        "memory_max_mb": 1329.328125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.6818290999896515,
+        "median": 1.414067999983672,
+        "min": 1.367591199988965,
+        "max": 2.263828099996317,
+        "stdev": 0.5045613443784672
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.780722075076381,
+          "min": 0.780722075076381,
+          "max": 0.780722075076381
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 216.20000000000002,
+        "memory_mean_mb": 1330.5403645833333,
+        "memory_max_mb": 1330.69140625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Rick and Morty - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.685960000002524,
+        "median": 0.5782531000149902,
+        "min": 0.5727750000078231,
+        "max": 30.90685189998476,
+        "stdev": 17.511806286773226
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8098733838276317,
+          "min": 0.8098733838276317,
+          "max": 0.8098733838276317
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 339.1,
+        "memory_mean_mb": 2135.5026041666665,
+        "memory_max_mb": 2136.94921875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 0.3731975666693567,
+        "median": 0.37179000000469387,
+        "min": 0.3619219999818597,
+        "max": 0.38588070002151653,
+        "stdev": 0.012041210895676797
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.84145231741043,
+          "min": 0.84145231741043,
+          "max": 0.84145231741043
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 459.03333333333336,
+        "memory_mean_mb": 2138.7591145833335,
+        "memory_max_mb": 2138.76171875
+      },
+      "error_count": 0,
+      "errors": []
+    }
+  },
+  "summary": {
+    "overall_timing": {
+      "mean": 4.1977640166636165,
+      "median": 1.3908295999863185,
+      "total": 50.3731681999634
+    },
+    "overall_accuracy": {
+      "mean": 1.0,
+      "files_with_perfect_accuracy": 4
+    }
+  }
+}

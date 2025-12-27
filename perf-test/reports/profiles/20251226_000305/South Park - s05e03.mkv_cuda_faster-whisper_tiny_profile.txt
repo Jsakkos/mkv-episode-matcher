@@ -1,0 +1,28 @@
+         847645 function calls (847633 primitive calls) in 3.316 seconds
+
+   Ordered by: cumulative time
+   List reduced from 449 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    3.316    3.316 D:\mkv-episode-matcher\perf-test\performance_benchmark.py:44(identify_episode)
+        1    0.000    0.000    3.306    3.306 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:211(_try_match_with_model)
+        2    0.000    0.000    2.712    1.356 D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py:504(transcribe)
+       17    0.000    0.000    2.199    0.129 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\transcribe.py:1103(generate_segments)
+        4    2.133    0.533    2.134    0.533 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\transcribe.py:1402(generate_with_fallback)
+      155    0.000    0.000    0.543    0.004 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:151(load_reference_chunk)
+      155    0.001    0.000    0.542    0.003 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:36(get_chunk)
+      140    0.179    0.001    0.541    0.004 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:530(extract_subtitle_chunk)
+        2    0.002    0.001    0.513    0.256 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\transcribe.py:747(transcribe)
+        2    0.007    0.004    0.471    0.235 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\audio.py:19(decode_audio)
+        2    0.431    0.216    0.431    0.216 {built-in method gc.collect}
+   150580    0.236    0.000    0.290    0.000 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:511(parse_timestamp)
+   301304    0.074    0.000    0.074    0.000 {method 'split' of 'str' objects}
+        4    0.000    0.000    0.063    0.016 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\transcribe.py:1391(encode)
+        4    0.063    0.016    0.063    0.016 {built-in method ctranslate2._ext.encode}
+       15    0.000    0.000    0.047    0.003 D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py:62(calculate_match_score)
+       15    0.045    0.003    0.045    0.003 src/rapidfuzz/fuzz_cpp.pyx:98(partial_ratio)
+        2    0.011    0.006    0.037    0.018 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\feature_extractor.py:198(__call__)
+   150629    0.025    0.000    0.025    0.000 {method 'replace' of 'str' objects}
+        4    0.000    0.000    0.021    0.005 D:\mkv-episode-matcher\.venv\Lib\site-packages\faster_whisper\audio.py:105(_resample_frames)
+
+

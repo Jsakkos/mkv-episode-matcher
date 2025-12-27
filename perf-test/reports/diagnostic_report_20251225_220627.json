@@ -1,0 +1,153 @@
+{
+  "test_file": "D:\\mkv-episode-matcher\\perf-test\\inputs\\The Expanse - S01E01.mkv",
+  "show_info": {
+    "show_name": "The Expanse",
+    "season": 1,
+    "episode": 1
+  },
+  "timestamp": "2025-12-25 22:06:11",
+  "system_info": {
+    "cuda_available": true,
+    "cuda_device_count": 1
+  },
+  "model_loading": {
+    "whisper_tiny.en_cpu": {
+      "status": "success",
+      "load_time": 0.0,
+      "device": "cpu",
+      "is_loaded": true
+    },
+    "whisper_tiny.en_cuda": {
+      "status": "success",
+      "load_time": 0.0,
+      "device": "cuda",
+      "is_loaded": true
+    },
+    "parakeet_nvidia/parakeet-tdt-0.6b-v2_cpu": {
+      "status": "success",
+      "load_time": 0.0,
+      "device": "cpu",
+      "is_loaded": true
+    },
+    "parakeet_nvidia/parakeet-tdt-0.6b-v2_cuda": {
+      "status": "success",
+      "load_time": 0.0,
+      "device": "cuda",
+      "is_loaded": true
+    }
+  },
+  "reference_files": {
+    "status": "success",
+    "reference_count": 10,
+    "reference_files": [
+      "The Expanse - S01E01.srt",
+      "The Expanse - S01E02.srt",
+      "The Expanse - S01E03.srt",
+      "The Expanse - S01E04.srt",
+      "The Expanse - S01E05.srt",
+      "The Expanse - S01E06.srt",
+      "The Expanse - S01E07.srt",
+      "The Expanse - S01E08.srt",
+      "The Expanse - S01E09.srt",
+      "The Expanse - S01E10.srt"
+    ],
+    "sample_text": "were never meant for us. Belters work the docks, loading and unloading precious cargo. We fix the pipes and filters that keep this rock living and breathing. We Belters toil and suffer, without hope and without end. And for what? One day, Mars will use its might to wrest control of Ceres from Earth, and Earth will go to war to take it back. It's all the same to us. No matter who controls Ceres, our home,"
+  },
+  "audio_extraction": {
+    "status": "success",
+    "audio_path": "C:\\Users\\Jonathan\\AppData\\Local\\Temp\\whisper_chunks\\chunk_300.wav",
+    "file_size": 960116,
+    "chunk_duration": 30
+  },
+  "transcription_comparison": {
+    "whisper_tiny.en_cpu": {
+      "status": "success",
+      "transcription_time": 2.448669672012329,
+      "raw_text": " See if you can shuffle them. I mean, really get in there and knock them around. No wrong answers. Wow, well, okay, Jessica. Let's give this a shot. Mm. Oh, what are you doing to me? Oh, I'm just doing my best. Oh, what are you doing to me? Jessica. Mory. This is Jessica. Five more minutes of this, and I'm going to give mad. Jessica, this is Jessica. Not my fault, this is happening.",
+      "cleaned_text": "See if you can shuffle them. I mean, really get in there and knock them around. No wrong answers. Wow, well, okay, Jessica. Let's give this a shot. Mm. Oh, what are you doing to me? Oh, I'm just doing my best. Oh, what are you doing to me? Jessica. Mory. This is Jessica. Five more minutes of this, and I'm going to give mad. Jessica, this is Jessica. Not my fault, this is happening.",
+      "text_length": 385,
+      "cleaned_length": 384,
+      "segments": 15,
+      "language": "en"
+    },
+    "whisper_tiny.en_cuda": {
+      "status": "success",
+      "transcription_time": 1.5295038223266602,
+      "raw_text": " See if you can shuffle them. I mean, really get in there and knock them around. No wrong answers. Wow, well, okay, Jessica. Let's give this a shot. Mm. Oh, what are you doing to me? Oh, I'm just doing my best. Oh, what are you doing to me? Jessica. Mory. This is Jessica. Five more minutes of this, and I'm going to give mad. Jessica, this is Jessica. Not my fault, this is happening.",
+      "cleaned_text": "See if you can shuffle them. I mean, really get in there and knock them around. No wrong answers. Wow, well, okay, Jessica. Let's give this a shot. Mm. Oh, what are you doing to me? Oh, I'm just doing my best. Oh, what are you doing to me? Jessica. Mory. This is Jessica. Five more minutes of this, and I'm going to give mad. Jessica, this is Jessica. Not my fault, this is happening.",
+      "text_length": 385,
+      "cleaned_length": 384,
+      "segments": 15,
+      "language": "en"
+    },
+    "parakeet_nvidia/parakeet-tdt-0.6b-v2_cpu": {
+      "status": "success",
+      "transcription_time": 0.13581061363220215,
+      "raw_text": "",
+      "cleaned_text": "",
+      "text_length": 0,
+      "cleaned_length": 0,
+      "segments": 0,
+      "language": "en"
+    },
+    "parakeet_nvidia/parakeet-tdt-0.6b-v2_cuda": {
+      "status": "success",
+      "transcription_time": 0.13857460021972656,
+      "raw_text": "",
+      "cleaned_text": "",
+      "text_length": 0,
+      "cleaned_length": 0,
+      "segments": 0,
+      "language": "en"
+    }
+  },
+  "matching_pipeline": {
+    "Original_Whisper_CPU": {
+      "status": "success",
+      "matching_time": 5.645432949066162,
+      "match_result": {
+        "season": 1,
+        "episode": 1,
+        "confidence": 0.8131396651338286,
+        "reference_file": "C:\\Users\\Jonathan\\.mkv-episode-matcher\\cache\\data\\The Expanse\\The Expanse - S01E01.srt",
+        "matched_at": 330
+      },
+      "is_correct": true,
+      "confidence": 0.8131396651338286
+    },
+    "Custom_Whisper_CPU": {
+      "status": "success",
+      "matching_time": 3.9248361587524414,
+      "match_result": {
+        "season": 1,
+        "episode": 1,
+        "confidence": 0.8289653274213493,
+        "reference_file": "C:\\Users\\Jonathan\\.mkv-episode-matcher\\cache\\data\\The Expanse\\The Expanse - S01E01.srt",
+        "matched_at": 300
+      },
+      "is_correct": true,
+      "confidence": 0.8289653274213493
+    },
+    "Custom_Whisper_CUDA": {
+      "status": "success",
+      "matching_time": 1.3813416957855225,
+      "match_result": {
+        "season": 1,
+        "episode": 1,
+        "confidence": 0.8289653274213493,
+        "reference_file": "C:\\Users\\Jonathan\\.mkv-episode-matcher\\cache\\data\\The Expanse\\The Expanse - S01E01.srt",
+        "matched_at": 300
+      },
+      "is_correct": true,
+      "confidence": 0.8289653274213493
+    },
+    "Custom_Parakeet_CPU": {
+      "status": "failed",
+      "error": "list indices must be integers or slices, not str"
+    },
+    "Custom_Parakeet_CUDA": {
+      "status": "failed",
+      "error": "list indices must be integers or slices, not str"
+    }
+  }
+}

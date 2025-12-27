@@ -1,0 +1,68 @@
+# Flet build configuration for MKV Episode Matcher
+# This file configures cross-platform desktop application builds
+
+name: "MKV Episode Matcher"
+description: "Intelligent TV episode identification and renaming tool"
+author: "Jsakkos"
+version: "1.0.0"
+
+# Main entry point
+main: "mkv_episode_matcher/ui/flet_app.py"
+
+# Build settings
+build:
+  # Include all necessary packages and dependencies
+  include_packages:
+    - "mkv_episode_matcher"
+    - "nemo_toolkit" 
+    - "torch"
+    - "torchaudio"
+    - "librosa"
+    - "soundfile"
+    - "rapidfuzz"
+    - "rich"
+    - "loguru"
+    - "typer"
+    - "requests"
+    - "chardet"
+    - "configparser"
+    - "opensubtitlescom"
+    - "tmdb-client"
+    - "pydantic"
+    
+  # Exclude unnecessary files to reduce size
+  exclude_modules:
+    - "test*"
+    - "pytest*"
+    - "jupyter*"
+    - "notebook*"
+    - "IPython*"
+    
+  # Optimization settings  
+  optimize: true
+  strip_debug: false  # Keep debug info for troubleshooting
+  
+# Platform-specific configurations
+platforms:
+  windows:
+    template: "app"
+    output_name: "MKVEpisodeMatcher"
+    file_description: "MKV Episode Matcher"
+    product_name: "MKV Episode Matcher"
+    product_version: "1.0.0"
+    company_name: "Jsakkos"
+    copyright: "© 2024 Jsakkos"
+    
+  macos:
+    template: "app"
+    output_name: "MKVEpisodeMatcher"
+    bundle_id: "com.jsakkos.mkvepisodematicher"
+    category: "public.app-category.utilities"
+    copyright: "© 2024 Jsakkos"
+    
+  linux:
+    template: "app"
+    output_name: "mkvepisodematicher"
+    category: "Utility"
+    generic_name: "Episode Matcher"
+    comment: "Identify and rename TV episodes from MKV files"

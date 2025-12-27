@@ -1,0 +1,74 @@
+2025-12-25 22:54:57.061 | INFO     | mkv_episode_matcher.config:<module>:19 - Total available threads: 12 -> Setting max to 4
+2025-12-25 22:54:57.064 | INFO     | mkv_episode_matcher.__main__:<module>:18 - Starting the application
++-----------------------------------------------+
+| Simplified GPU Benchmark: Whisper vs Parakeet |
++-----------------------------------------------+
+CUDA Device: NVIDIA GeForce RTX 3090
+
+Test File: The Expanse - S01E01.mkv
+Detected Show Name: The Expanse
+Target: S01E01
+Expected Cache Path: C:\Users\Jonathan\.mkv-episode-matcher\cache\data\The 
+Expanse
+Cache directory exists.
+Found 122 SRT files.
+
+Testing parakeet:nvidia/parakeet-ctc-0.6b...
+Identifying The Expanse - S01E01.mkv (S1)...
+Found 10 reference files.
+Error running parakeet:nvidia/parakeet-ctc-0.6b: name 'ParakeetCTCModel' is not
+defined
+Traceback (most recent call last):
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 166, in run_simple_benchmark
+    match = matcher.identify_episode(test_file, temp_dir, season)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 115, in identify_episode
+    return self._try_match_with_model(video_file, self.model_config, duration, reference_files)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 121, in _try_match_with_model
+    model = get_cached_model(model_config)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py", line 478, in get_cached_model
+    model = create_asr_model(model_config)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py", line 456, in create_asr_model
+    return ParakeetCTCModel(model_name, device)
+           ^^^^^^^^^^^^^^^^
+NameError: name 'ParakeetCTCModel' is not defined
+
+Testing whisper:tiny.en...
+Identifying The Expanse - S01E01.mkv (S1)...
+Found 10 reference files.
+Processing chunk at 300s...
+Transcribed (whisper): ' resources that flow through our gates would never mend
+for us. Bell tos work the docks, loading and unloading precious cargo. We fix 
+the pipes and filters that keep this rock living and breathing. We belt as Toyo
+and Safa. Without hope and without end and for what? One day, Mars will use its
+might to rest control of series from her and earth will go to the wall.'
+Ref example (The Expanse - S01E01.srt): 'were never meant for us. Belters work 
+the docks, l'...
+Ref example (The Expanse - S01E02.srt): "- Hey! Hey! Hey! - Whoa, whoa! Let's 
+just take a d"...
+Ref example (The Expanse - S01E03.srt): "Oh, no. It's important. Now. The <i> 
+scopuli</i> i"...
+Ref example (The Expanse - S01E04.srt): 'Torpedoes are away! Guidance lock on 
+all targets. '...
+Ref example (The Expanse - S01E05.srt): 'Oh, hoss. She is one beautiful lady. 
+She purrs lik'...
+Ref example (The Expanse - S01E06.srt): 'At least you think you are... If I 
+wanted to hurt '...
+Ref example (The Expanse - S01E07.srt): "It's a radio transmission coming from 
+between the "...
+Ref example (The Expanse - S01E08.srt): '_ Only thing we got here is the lovely
+charted bel'...
+Ref example (The Expanse - S01E09.srt): 'Breaching pod, amidships! Seal all 
+compartments! A'...
+Ref example (The Expanse - S01E10.srt): "In here. This way. Let's go. Get over 
+there. Pleas"...
+Best Confidence: 0.78
+                        Benchmark Results                        
++---------------------------------------------------------------+
+| Model           | Time (s) | Status | Confidence | Matched Ep |
+|-----------------+----------+--------+------------+------------|
+| whisper:tiny.en | 9.68     | MATCH  | 0.78       | S1E1       |
++---------------------------------------------------------------+

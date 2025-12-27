@@ -1,0 +1,81 @@
+
+1. Extracting Audio Chunk...
+Extracted to D:\mkv-episode-matcher\perf-test\debug_audio\extracted_chunk.wav
+Original Audio: SR=16000, Shape=(480011,), Max=0.3001708984375, 
+Mean=0.023331038653850555
+
+2. Running Preprocessing...
+After Normalize: Max=1.0, Mean=0.0777258574962616
+After Noise Reduction: Non-Zero Samples 479749 -> 428571
+
+3. Transcribing...
+Transcribing PREPROCESSED file...
+[NeMo W 2025-12-25 22:43:19 nemo_logging:405] Megatron num_microbatches_calculator not found, using Apex version.
+W1225 22:43:20.269000 1180 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+No exporters were provided. This means that no telemetry data will be collected.
+[NeMo I 2025-12-25 22:43:36 nemo_logging:393] Tokenizer SentencePieceTokenizer initialized with 1024 tokens
+[NeMo W 2025-12-25 22:43:37 nemo_logging:405] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    use_lhotse: true
+    skip_missing_manifest_entries: true
+    input_cfg: null
+    tarred_audio_filepaths: null
+    manifest_filepath: null
+    sample_rate: 16000
+    shuffle: true
+    num_workers: 2
+    pin_memory: true
+    max_duration: 40.0
+    min_duration: 0.1
+    text_field: answer
+    batch_duration: null
+    use_bucketing: true
+    bucket_duration_bins: null
+    bucket_batch_size: null
+    num_buckets: 30
+    bucket_buffer_size: 20000
+    shuffle_buffer_size: 10000
+    
+[NeMo W 2025-12-25 22:43:37 nemo_logging:405] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    use_lhotse: true
+    manifest_filepath: null
+    sample_rate: 16000
+    batch_size: 16
+    shuffle: false
+    max_duration: 40.0
+    min_duration: 0.1
+    num_workers: 2
+    pin_memory: true
+    text_field: answer
+    
+[NeMo I 2025-12-25 22:43:37 nemo_logging:393] PADDING: 0
+[NeMo I 2025-12-25 22:43:48 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:43:48 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:43:48 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:43:52 nemo_logging:393] Model EncDecRNNTBPEModel was successfully restored from C:\Users\Jonathan\.cache\huggingface\hub\models--nvidia--parakeet-tdt-0.6b-v2\snapshots\48b630d20b000e5ad3735e5378a2d9bde3f80826\parakeet-tdt-0.6b-v2.nemo.
+2025-12-25 22:43:52.856 | INFO     | mkv_episode_matcher.asr_models:load:208 - Loaded Parakeet model: nvidia/parakeet-tdt-0.6b-v2 on cuda
+2025-12-25 22:43:52.856 | DEBUG    | mkv_episode_matcher.asr_models:transcribe:299 - Starting Parakeet transcription for D:\mkv-episode-matcher\perf-test\debug_audio\preprocessed_debug.wav
+2025-12-25 22:43:52.934 | DEBUG    | mkv_episode_matcher.asr_models:_preprocess_audio:256 - Preprocessed audio saved to C:\Users\Jonathan\AppData\Local\Temp\parakeet_preprocessed\preprocessed_preprocessed_debug.wav
+[NeMo W 2025-12-25 22:43:52 nemo_logging:405] The following configuration keys are ignored by Lhotse dataloader: use_start_end_token
+[NeMo W 2025-12-25 22:43:53 nemo_logging:405] You are using a non-tarred dataset and requested tokenization during data sampling (pretokenize=True). This will cause the tokenization to happen in the main (GPU) process,possibly impacting the training speed if your tokenizer is very large.If the impact is noticable, set pretokenize=False in dataloader config.(note: that will disable token-per-second filtering and 2D bucketing features)
+
+Transcribing: 0it [00:00, ?it/s]
+Transcribing: 0it [00:07, ?it/s]
+2025-12-25 22:44:00.559 | ERROR    | mkv_episode_matcher.asr_models:transcribe:357 - Parakeet transcription failed for D:\mkv-episode-matcher\perf-test\debug_audio\preprocessed_debug.wav: PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\Jonathan\\AppData\\Local\\Temp\\tmpijx3r4vb\\manifest.json'
+Preprocessed Result: ''
+Preprocessed Raw: ''
+Transcribing ORIGINAL file (bypassing internal preprocess if possible, but 
+transcribe calls it)...
+Transcribing ORIGINAL file via internal NeMo model directly...
+[NeMo W 2025-12-25 22:44:00 nemo_logging:405] The following configuration keys are ignored by Lhotse dataloader: use_start_end_token
+[NeMo W 2025-12-25 22:44:00 nemo_logging:405] You are using a non-tarred dataset and requested tokenization during data sampling (pretokenize=True). This will cause the tokenization to happen in the main (GPU) process,possibly impacting the training speed if your tokenizer is very large.If the impact is noticable, set pretokenize=False in dataloader config.(note: that will disable token-per-second filtering and 2D bucketing features)
+
+Transcribing: 0it [00:00, ?it/s]
+Transcribing: 1it [00:00,  8.22it/s]
+Transcribing: 1it [00:00,  8.15it/s]
+Direct NeMo Result on Original: ''

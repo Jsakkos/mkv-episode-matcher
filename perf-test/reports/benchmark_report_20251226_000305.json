@@ -1,0 +1,1903 @@
+{
+  "metadata": {
+    "timestamp": "20251226_000305",
+    "config": {
+      "test_files_dir": "D:\\mkv-episode-matcher\\perf-test\\inputs",
+      "cache_dir": "C:\\Users\\Jonathan\\.mkv-episode-matcher\\cache",
+      "output_dir": "D:\\mkv-episode-matcher\\perf-test\\reports",
+      "iterations": 3,
+      "asr_models": [
+        {
+          "type": "whisper",
+          "name": "tiny.en"
+        },
+        {
+          "type": "parakeet",
+          "name": "nvidia/parakeet-ctc-0.6b"
+        },
+        {
+          "type": "parakeet",
+          "name": "nvidia/parakeet-ctc-1.1b"
+        },
+        {
+          "type": "faster-whisper",
+          "name": "tiny.en"
+        },
+        {
+          "type": "faster-whisper",
+          "name": "distil-large-v3"
+        }
+      ],
+      "device_testing": {
+        "test_devices": [
+          "cuda"
+        ],
+        "force_cpu_fallback": true
+      },
+      "confidence_threshold": 0.6,
+      "enable_profiling": true,
+      "resource_monitoring_interval": 0.5,
+      "timeout_seconds": 120
+    },
+    "total_files": 45,
+    "total_iterations": 135
+  },
+  "results": {
+    "Rick and Morty - S01E01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.787553100002697,
+        "median": 3.044204500009073,
+        "min": 2.9394271000055596,
+        "max": 8.379027699993458,
+        "stdev": 3.1107494157633417
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8732060917721519,
+          "min": 0.8732060917721519,
+          "max": 0.8732060917721519
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 112.10000000000001,
+        "memory_mean_mb": 1308.2057291666667,
+        "memory_max_mb": 1308.88671875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e01.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 7.081826466669251,
+        "median": 7.313541100011207,
+        "min": 6.397514899988892,
+        "max": 7.534423400007654,
+        "stdev": 0.6028341296180285
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7813486724691798,
+          "min": 0.7813486724691798,
+          "max": 0.7813486724691798
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 111.66666666666667,
+        "memory_mean_mb": 1315.2838541666667,
+        "memory_max_mb": 1323.5
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e02.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e02.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 2,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 8.703857299997859,
+        "median": 9.207434299984016,
+        "min": 7.482830900000408,
+        "max": 9.421306700009154,
+        "stdev": 1.0628332197438974
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7813486724691798,
+          "min": 0.7813486724691798,
+          "max": 0.7813486724691798
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 88.06666666666666,
+        "memory_mean_mb": 1314.3893229166667,
+        "memory_max_mb": 1314.3984375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e03.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e03.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 3,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 7.945867899999333,
+        "median": 8.857131199998548,
+        "min": 4.581597699987469,
+        "max": 10.398874800011981,
+        "stdev": 3.013798071547179
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7813486724691798,
+          "min": 0.7813486724691798,
+          "max": 0.7813486724691798
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 94.33333333333333,
+        "memory_mean_mb": 1316.87109375,
+        "memory_max_mb": 1323.6171875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Ted Lasso - S01E01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "Ted Lasso - S01E01.mkv",
+        "show_name": "Ted Lasso",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.430764733328639,
+        "median": 10.2753587999905,
+        "min": 9.628513099974953,
+        "max": 11.388422300020466,
+        "stdev": 0.8901872562493428
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.844780652891346,
+          "min": 0.844780652891346,
+          "max": 0.844780652891346
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 108.93333333333334,
+        "memory_mean_mb": 1313.19921875,
+        "memory_max_mb": 1314.4140625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 13.055573899997398,
+        "median": 13.179899800015846,
+        "min": 11.896256599982735,
+        "max": 14.090565299993614,
+        "stdev": 1.1024247660486435
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.63127556506118,
+          "min": 0.6093776641091219,
+          "max": 0.643355119825708
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 112.56666666666666,
+        "memory_mean_mb": 1392.625,
+        "memory_max_mb": 1400.71484375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E02.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E02.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 2,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 12.066005166668523,
+        "median": 12.128003399993759,
+        "min": 10.97053630001028,
+        "max": 13.099475800001528,
+        "stdev": 1.0658230079883495
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6466457021223533,
+          "min": 0.6409049773755656,
+          "max": 0.6568105965790572
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 119.33333333333333,
+        "memory_mean_mb": 1393.6432291666667,
+        "memory_max_mb": 1399.1171875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E03.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E03.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 3,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 16.096231000003172,
+        "median": 15.518664500006707,
+        "min": 15.096050499996636,
+        "max": 17.673978000006173,
+        "stdev": 1.3826116031861513
+      },
+      "accuracy_stats": {
+        "accuracy": 0.3333333333333333,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "f1_score": 0.5,
+        "true_positives": 1,
+        "false_positives": 2,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7350345865297803,
+          "min": 0.64109391124871,
+          "max": 0.9134843581445523
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 88.8,
+        "memory_mean_mb": 1396.5338541666667,
+        "memory_max_mb": 1400.03515625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E04.mkv_cuda_whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E04.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 4,
+        "device": "cuda",
+        "model": "whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 11.750976466670787,
+        "median": 11.411582400003681,
+        "min": 11.297089300001971,
+        "max": 12.54425770000671,
+        "stdev": 0.689382697679034
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6449400393343739,
+          "min": 0.6374097007223942,
+          "max": 0.6500891265597147
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 121.93333333333334,
+        "memory_mean_mb": 1400.05859375,
+        "memory_max_mb": 1400.05859375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Rick and Morty - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 20.065540566662094,
+        "median": 0.7540273999911733,
+        "min": 0.5256234999978915,
+        "max": 58.916970799997216,
+        "stdev": 33.64651936630538
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7580542264752791,
+          "min": 0.7580542264752791,
+          "max": 0.7580542264752791
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 151.96666666666667,
+        "memory_mean_mb": 2032.734375,
+        "memory_max_mb": 2034.20703125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "South Park - s05e01.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.271728233337247,
+        "median": 1.2491107000096235,
+        "min": 1.2391128999879584,
+        "max": 1.3269611000141595,
+        "stdev": 0.04809356684974074
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7420401818916423,
+          "min": 0.7420401818916423,
+          "max": 0.7420401818916423
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 115.13333333333334,
+        "memory_mean_mb": 2032.2825520833333,
+        "memory_max_mb": 2032.28515625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e02.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "South Park - s05e02.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 2,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.3360241666572013,
+        "median": 1.275878999993438,
+        "min": 1.2629082000057679,
+        "max": 1.4692852999723982,
+        "stdev": 0.11558960875622878
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7420401818916423,
+          "min": 0.7420401818916423,
+          "max": 0.7420401818916423
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 96.36666666666666,
+        "memory_mean_mb": 2032.43359375,
+        "memory_max_mb": 2032.453125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e03.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "South Park - s05e03.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 3,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.2376139666691113,
+        "median": 1.250158000009833,
+        "min": 1.1811873000115156,
+        "max": 1.281496599985985,
+        "stdev": 0.051317672342789264
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7420401818916423,
+          "min": 0.7420401818916423,
+          "max": 0.7420401818916423
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 100.1,
+        "memory_mean_mb": 2033.8072916666667,
+        "memory_max_mb": 2036.25
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Ted Lasso - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "Ted Lasso - S01E01.mkv",
+        "show_name": "Ted Lasso",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.4987410999989759,
+        "median": 1.5996716000081506,
+        "min": 1.259379600000102,
+        "max": 1.6371720999886747,
+        "stdev": 0.20813941874613862
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8145104333868379,
+          "min": 0.8145104333868379,
+          "max": 0.8145104333868379
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 141.56666666666666,
+        "memory_mean_mb": 2033.9596354166667,
+        "memory_max_mb": 2036.40234375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.5793881666710754,
+        "median": 2.1590951000107452,
+        "min": 2.1161369000037666,
+        "max": 3.4629324999987148,
+        "stdev": 0.7654732480325467
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.694705136334813,
+          "min": 0.694705136334813,
+          "max": 0.694705136334813
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 110.96666666666667,
+        "memory_mean_mb": 2033.06640625,
+        "memory_max_mb": 2033.13671875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E02.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E02.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 2,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.0689417333439146,
+        "median": 2.1802049000107218,
+        "min": 1.7353107999952044,
+        "max": 2.291309500025818,
+        "stdev": 0.2942248422575452
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.694705136334813,
+          "min": 0.694705136334813,
+          "max": 0.694705136334813
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 89.4,
+        "memory_mean_mb": 2033.9348958333333,
+        "memory_max_mb": 2035.15625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E03.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E03.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 3,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.5501524666615296,
+        "median": 1.703805500001181,
+        "min": 0.8804541999998037,
+        "max": 2.0661976999836043,
+        "stdev": 0.6076214717480903
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.694705136334813,
+          "min": 0.694705136334813,
+          "max": 0.694705136334813
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 259.6333333333333,
+        "memory_mean_mb": 2035.8919270833333,
+        "memory_max_mb": 2037.11328125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E04.mkv_cuda_parakeet_nvidia/parakeet-ctc-0.6b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E04.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 4,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-0.6b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.0476783333385054,
+        "median": 1.0233452999964356,
+        "min": 1.0189342000230681,
+        "max": 1.100755499996012,
+        "stdev": 0.04601905763958367
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.694705136334813,
+          "min": 0.694705136334813,
+          "max": 0.694705136334813
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 336.53333333333336,
+        "memory_mean_mb": 2036.9765625,
+        "memory_max_mb": 2037.17578125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Rick and Morty - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 30.671880233324675,
+        "median": 0.6174918999895453,
+        "min": 0.5920132999890484,
+        "max": 90.80613549999543,
+        "stdev": 52.07779425674252
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7525670612458906,
+          "min": 0.7525670612458906,
+          "max": 0.7525670612458906
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 179.23333333333332,
+        "memory_mean_mb": 2068.9622395833335,
+        "memory_max_mb": 2069.8203125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e01.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "South Park - s05e01.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 0.9726906999906836,
+        "median": 0.9737218999944162,
+        "min": 0.872728599992115,
+        "max": 1.0716215999855194,
+        "stdev": 0.09945050976078434
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7394350505504323,
+          "min": 0.7394350505504323,
+          "max": 0.7394350505504323
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 240.26666666666665,
+        "memory_mean_mb": 2068.6197916666665,
+        "memory_max_mb": 2069.84375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e02.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "South Park - s05e02.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 2,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 0.9466783333336934,
+        "median": 0.9698154000216164,
+        "min": 0.8676005000015721,
+        "max": 1.002619099977892,
+        "stdev": 0.07042015674565352
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7394350505504323,
+          "min": 0.7394350505504323,
+          "max": 0.7394350505504323
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 262.3333333333333,
+        "memory_mean_mb": 2069.8541666666665,
+        "memory_max_mb": 2069.85546875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e03.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "South Park - s05e03.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 3,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.0024237666608922,
+        "median": 0.9777232000196818,
+        "min": 0.9639422999753151,
+        "max": 1.0656057999876793,
+        "stdev": 0.05514939077622388
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7394350505504323,
+          "min": 0.7394350505504323,
+          "max": 0.7394350505504323
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 235.23333333333332,
+        "memory_mean_mb": 2069.9296875,
+        "memory_max_mb": 2069.9296875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Ted Lasso - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "Ted Lasso - S01E01.mkv",
+        "show_name": "Ted Lasso",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.0836333666714684,
+        "median": 1.0897182000044268,
+        "min": 1.008526299992809,
+        "max": 1.1526556000171695,
+        "stdev": 0.07225705971664939
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8151502739801849,
+          "min": 0.8151502739801849,
+          "max": 0.8151502739801849
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 286.76666666666665,
+        "memory_mean_mb": 2069.9296875,
+        "memory_max_mb": 2069.9296875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 1.7359381333323352,
+        "median": 1.4809492000204045,
+        "min": 1.4550319999980275,
+        "max": 2.2718331999785732,
+        "stdev": 0.4642796217325094
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6959951119257901,
+          "min": 0.6959951119257901,
+          "max": 0.6959951119257901
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 228.56666666666666,
+        "memory_mean_mb": 2067.5026041666665,
+        "memory_max_mb": 2069.9453125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E02.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E02.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 2,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.3229449999926146,
+        "median": 2.3827537999895867,
+        "min": 1.9725806999776978,
+        "max": 2.6135005000105593,
+        "stdev": 0.3246188024997153
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6959951119257901,
+          "min": 0.6959951119257901,
+          "max": 0.6959951119257901
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 141.83333333333334,
+        "memory_mean_mb": 2066.8919270833335,
+        "memory_max_mb": 2068.11328125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E03.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E03.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 3,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.380038966657594,
+        "median": 2.3778237999940757,
+        "min": 2.2954670999897644,
+        "max": 2.4668259999889415,
+        "stdev": 0.08570092400168369
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6959951119257901,
+          "min": 0.6959951119257901,
+          "max": 0.6959951119257901
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 104.4,
+        "memory_mean_mb": 2067.5026041666665,
+        "memory_max_mb": 2069.9453125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E04.mkv_cuda_parakeet_nvidia/parakeet-ctc-1.1b": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E04.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 4,
+        "device": "cuda",
+        "model": "parakeet:nvidia/parakeet-ctc-1.1b"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.3103699000009024,
+        "median": 2.331542600004468,
+        "min": 2.1280132999818306,
+        "max": 2.471553800016409,
+        "stdev": 0.17274614673005803
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6959951119257901,
+          "min": 0.6959951119257901,
+          "max": 0.6959951119257901
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 118.03333333333333,
+        "memory_mean_mb": 2066.2916666666665,
+        "memory_max_mb": 2066.29296875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Rick and Morty - S01E01.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 5.6752590333344415,
+        "median": 3.286256100022001,
+        "min": 3.2534584999957588,
+        "max": 10.486062499985565,
+        "stdev": 4.166310288096497
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.8799995355749581,
+          "min": 0.8799995355749581,
+          "max": 0.8799995355749581
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 81.2,
+        "memory_mean_mb": 2149.6927083333335,
+        "memory_max_mb": 2152.25390625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e01.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e01.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 3.065776866666662,
+        "median": 2.9763488000025973,
+        "min": 2.9608922000043094,
+        "max": 3.26008959999308,
+        "stdev": 0.16845713214484095
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7384219412119064,
+          "min": 0.7384219412119064,
+          "max": 0.7384219412119064
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 159.63333333333333,
+        "memory_mean_mb": 2151.8528645833335,
+        "memory_max_mb": 2152.5625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e02.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e02.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 2,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 3.189033633330837,
+        "median": 3.226640800014138,
+        "min": 3.0000357999815606,
+        "max": 3.340424299996812,
+        "stdev": 0.17328244854894392
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7384219412119064,
+          "min": 0.7384219412119064,
+          "max": 0.7384219412119064
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 157.70000000000002,
+        "memory_mean_mb": 2153.0755208333335,
+        "memory_max_mb": 2153.31640625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e03.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "South Park - s05e03.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 3,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.9168048999951375,
+        "median": 2.8748123999976087,
+        "min": 2.848259999998845,
+        "max": 3.027342299988959,
+        "stdev": 0.0966444260393176
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7384219412119064,
+          "min": 0.7384219412119064,
+          "max": 0.7384219412119064
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 156.76666666666665,
+        "memory_mean_mb": 2151.9713541666665,
+        "memory_max_mb": 2152.76953125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Ted Lasso - S01E01.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "Ted Lasso - S01E01.mkv",
+        "show_name": "Ted Lasso",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.104193133331137,
+        "median": 10.194153499993263,
+        "min": 9.730942199996207,
+        "max": 10.38748370000394,
+        "stdev": 0.337388998020963
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7684495966054196,
+          "min": 0.7678171419208495,
+          "max": 0.7697145059745598
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 164.53333333333333,
+        "memory_mean_mb": 2152.50390625,
+        "memory_max_mb": 2152.765625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.787411266666217,
+        "median": 10.588626899989322,
+        "min": 10.496968099992955,
+        "max": 11.276638800016372,
+        "stdev": 0.42615492305627717
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6295665634674922,
+          "min": 0.6295665634674922,
+          "max": 0.6295665634674922
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 162.66666666666666,
+        "memory_mean_mb": 2154.5364583333335,
+        "memory_max_mb": 2154.64453125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E02.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E02.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 2,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.148749066671977,
+        "median": 10.271224099997198,
+        "min": 9.808605700003682,
+        "max": 10.366417400015052,
+        "stdev": 0.29839332014709097
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6295665634674922,
+          "min": 0.6295665634674922,
+          "max": 0.6295665634674922
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 163.53333333333333,
+        "memory_mean_mb": 2155.5755208333335,
+        "memory_max_mb": 2155.69921875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E03.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E03.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 3,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 10.481087800008632,
+        "median": 10.654466600011801,
+        "min": 9.920813300006557,
+        "max": 10.86798350000754,
+        "stdev": 0.49681787725521653
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6295665634674922,
+          "min": 0.6295665634674922,
+          "max": 0.6295665634674922
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 162.53333333333333,
+        "memory_mean_mb": 2155.67578125,
+        "memory_max_mb": 2155.74609375
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E04.mkv_cuda_faster-whisper_tiny.en": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E04.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 4,
+        "device": "cuda",
+        "model": "faster-whisper:tiny.en"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 11.083876366668846,
+        "median": 11.06165879999753,
+        "min": 10.76750109999557,
+        "max": 11.422469200013438,
+        "stdev": 0.32804880461883984
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6295665634674922,
+          "min": 0.6295665634674922,
+          "max": 0.6295665634674922
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 161.16666666666666,
+        "memory_mean_mb": 2155.5533854166665,
+        "memory_max_mb": 2155.640625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Rick and Morty - S01E01.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "Rick and Morty - S01E01.mkv",
+        "show_name": "Rick and Morty",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 7.0547930333414115,
+        "median": 1.1027298000117298,
+        "min": 1.020141999993939,
+        "max": 19.041507300018566,
+        "stdev": 10.380881194262805
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.666089478044739,
+          "min": 0.666089478044739,
+          "max": 0.666089478044739
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 79.06666666666666,
+        "memory_mean_mb": 2180.3736979166665,
+        "memory_max_mb": 2181.9765625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e01.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "South Park - s05e01.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.3288533333300925,
+        "median": 2.324183999997331,
+        "min": 2.317274600005476,
+        "max": 2.3451013999874704,
+        "stdev": 0.014489123667041125
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7852118022928021,
+          "min": 0.7852118022928021,
+          "max": 0.7852118022928021
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 163.83333333333334,
+        "memory_mean_mb": 2183.5768229166665,
+        "memory_max_mb": 2184.25390625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e02.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "South Park - s05e02.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 2,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.41411393332722,
+        "median": 2.379262699978426,
+        "min": 2.377895499987062,
+        "max": 2.485183600016171,
+        "stdev": 0.061551932962443004
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7852118022928021,
+          "min": 0.7852118022928021,
+          "max": 0.7852118022928021
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 171.1,
+        "memory_mean_mb": 2184.2591145833335,
+        "memory_max_mb": 2184.390625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "South Park - s05e03.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "South Park - s05e03.mkv",
+        "show_name": "South Park",
+        "season": 5,
+        "episode": 3,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 2.44829416666956,
+        "median": 2.429371700010961,
+        "min": 2.3862690000096336,
+        "max": 2.5292417999880854,
+        "stdev": 0.07334064488231572
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.7852118022928021,
+          "min": 0.7852118022928021,
+          "max": 0.7852118022928021
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 169.46666666666667,
+        "memory_mean_mb": 2184.484375,
+        "memory_max_mb": 2184.75390625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "Ted Lasso - S01E01.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "Ted Lasso - S01E01.mkv",
+        "show_name": "Ted Lasso",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 3.676824800000759,
+        "median": 3.729079599987017,
+        "min": 3.55058330000611,
+        "max": 3.7508115000091493,
+        "stdev": 0.10986699281548185
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.855437879683888,
+          "min": 0.855437879683888,
+          "max": 0.855437879683888
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 179.13333333333333,
+        "memory_mean_mb": 2185.3059895833335,
+        "memory_max_mb": 2186.328125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E01.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E01.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 1,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.578194199993352,
+        "median": 4.567666499991901,
+        "min": 4.4685866000072565,
+        "max": 4.6983294999809,
+        "stdev": 0.11523269662975592
+      },
+      "accuracy_stats": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "true_positives": 3,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6748721227621481,
+          "min": 0.6748721227621481,
+          "max": 0.6748721227621481
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 159.96666666666667,
+        "memory_mean_mb": 2186.3489583333335,
+        "memory_max_mb": 2186.5703125
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E02.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E02.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 2,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.574513100010033,
+        "median": 4.604261400003452,
+        "min": 4.510486500017578,
+        "max": 4.608791400009068,
+        "stdev": 0.05549490386475201
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6748721227621481,
+          "min": 0.6748721227621481,
+          "max": 0.6748721227621481
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 159.1,
+        "memory_mean_mb": 2186.33984375,
+        "memory_max_mb": 2186.35546875
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E03.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E03.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 3,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.5392127000086475,
+        "median": 4.559279100009007,
+        "min": 4.347928600007435,
+        "max": 4.7104304000095,
+        "stdev": 0.18208208055136846
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6748721227621481,
+          "min": 0.6748721227621481,
+          "max": 0.6748721227621481
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 157.76666666666665,
+        "memory_mean_mb": 2186.35546875,
+        "memory_max_mb": 2186.5390625
+      },
+      "error_count": 0,
+      "errors": []
+    },
+    "The Expanse - S01E04.mkv_cuda_faster-whisper_distil-large-v3": {
+      "ground_truth": {
+        "filename": "The Expanse - S01E04.mkv",
+        "show_name": "The Expanse",
+        "season": 1,
+        "episode": 4,
+        "device": "cuda",
+        "model": "faster-whisper:distil-large-v3"
+      },
+      "iterations": 3,
+      "timing_stats": {
+        "mean": 4.558787033330494,
+        "median": 4.547292600007495,
+        "min": 4.496857899997849,
+        "max": 4.632210599986138,
+        "stdev": 0.06840453089227776
+      },
+      "accuracy_stats": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0,
+        "f1_score": 0,
+        "true_positives": 0,
+        "false_positives": 3,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "confidence_stats": {
+          "mean": 0.6748721227621481,
+          "min": 0.6748721227621481,
+          "max": 0.6748721227621481
+        },
+        "error_rate": 0.0
+      },
+      "resource_usage": {
+        "cpu_mean": 159.03333333333333,
+        "memory_mean_mb": 2186.3932291666665,
+        "memory_max_mb": 2186.6171875
+      },
+      "error_count": 0,
+      "errors": []
+    }
+  },
+  "summary": {
+    "overall_timing": {
+      "mean": 6.036152034073948,
+      "median": 3.0000357999815606,
+      "total": 814.8805245999829
+    },
+    "overall_accuracy": {
+      "mean": 0.45185185185185184,
+      "files_with_perfect_accuracy": 20
+    }
+  }
+}

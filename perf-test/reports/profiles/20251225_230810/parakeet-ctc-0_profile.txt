@@ -1,0 +1,28 @@
+         847153 function calls (826456 primitive calls) in 0.713 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1398 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.714    0.714 d:\mkv-episode-matcher\perf-test\performance_benchmark.py:44(identify_episode)
+        1    0.000    0.000    0.699    0.699 d:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:211(_try_match_with_model)
+      101    0.000    0.000    0.452    0.004 d:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:151(load_reference_chunk)
+      101    0.001    0.000    0.452    0.004 d:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:36(get_chunk)
+      100    0.152    0.002    0.451    0.005 d:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:530(extract_subtitle_chunk)
+        1    0.000    0.000    0.242    0.242 d:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py:338(transcribe)
+   119060    0.197    0.000    0.241    0.000 d:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:511(parse_timestamp)
+        1    0.000    0.000    0.216    0.216 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\models\ctc_models.py:120(transcribe)
+      4/1    0.000    0.000    0.216    0.216 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\utils\_contextlib.py:117(decorate_context)
+        1    0.000    0.000    0.216    0.216 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\parts\mixins\transcription.py:174(transcribe)
+        2    0.000    0.000    0.216    0.108 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\parts\mixins\transcription.py:319(transcribe_generator)
+      5/2    0.000    0.000    0.097    0.049 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\core\classes\common.py:1147(wrapped_call)
+        1    0.000    0.000    0.076    0.076 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\models\ctc_models.py:699(_transcribe_forward)
+        1    0.000    0.000    0.076    0.076 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\models\ctc_models.py:494(forward)
+    811/3    0.002    0.000    0.076    0.025 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\nn\modules\module.py:1771(_wrapped_call_impl)
+    811/3    0.003    0.000    0.076    0.025 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\nn\modules\module.py:1779(_call_impl)
+        1    0.000    0.000    0.072    0.072 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\modules\conformer_encoder.py:548(forward)
+        1    0.000    0.000    0.072    0.072 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\modules\conformer_encoder.py:593(forward_internal)
+       24    0.005    0.000    0.068    0.003 D:\mkv-episode-matcher\.venv\Lib\site-packages\nemo\collections\asr\parts\submodules\conformer_modules.py:160(forward)
+   238225    0.058    0.000    0.058    0.000 {method 'split' of 'str' objects}
+
+

@@ -1,0 +1,126 @@
+2025-12-25 22:32:09.520 | INFO     | mkv_episode_matcher.config:<module>:19 - Total available threads: 12 -> Setting max to 4
+2025-12-25 22:32:09.530 | INFO     | mkv_episode_matcher.__main__:<module>:18 - Starting the application
++-----------------------------------------------+
+| Simplified GPU Benchmark: Whisper vs Parakeet |
++-----------------------------------------------+
+CUDA Device: NVIDIA GeForce RTX 3090
+
+Test File: Rick and Morty - S01E01.mkv
+Detected Show Name: Rick and Morty
+Target: S01E01
+Expected Cache Path: C:\Users\Jonathan\.mkv-episode-matcher\cache\data\Rick and
+Morty
+Cache directory exists.
+Found 122 SRT files.
+
+Testing whisper:tiny.en...
+Identifying Rick and Morty - S01E01.mkv (S1)...
+Debug: Matcher looking in 
+C:\Users\Jonathan\.mkv-episode-matcher\cache\data\Rick and Morty
+Debug: Search patterns: ['S01E', 'S1E', '01x', '1x']
+Debug: First file in dir: Rick and Morty - S01E01.srt
+Debug: Pattern S01E MATCHES Rick and Morty - S01E01.srt
+Debug: Pattern S1E does NOT match Rick and Morty - S01E01.srt
+Debug: Pattern 01x does NOT match Rick and Morty - S01E01.srt
+Debug: Pattern 1x does NOT match Rick and Morty - S01E01.srt
+Found 11 reference files.
+Processing chunk at 300s...
+Transcribed (whisper): ' resources that flow through our gates would never mend
+for us. Bell tos work the docks, loading and unloading precious cargo. We fix 
+the pipes and filters that keep this rock living and breathing. We belt as Toyo
+and Safa. Without hope and without end and for what? One day, Mars will use its
+might to rest control of series from her and earth will go to the wall.'
+Ref example (Rick and Morty - S01E01.srt): 'Give them the business. See if you 
+can shuffle the...'
+Ref example (Rick and Morty - S01E02.srt): 'So cute! I'm posting this online, 
+like, right now....'
+Ref example (Rick and Morty - S01E03.srt): 'I don't know why, but the entire 
+security system h...'
+Ref example (Rick and Morty - S01E04.srt): '[ Rick and Morty panting ] Rick! 
+Uhp, uhp, uhp! Mo...'
+Ref example (Rick and Morty - S01E05.srt): 'stop being an individual. You know 
+the best thing ...'
+Traceback (most recent call last):
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 163, in _try_match_with_model
+    console.print(f"[dim]Ref example ({Path(ref_file).name}): '{ref_text[:50]}...'[/dim]")
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 1678, in print
+    with self:
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 864, in __exit__
+    self._exit_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 822, in _exit_buffer
+    self._check_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2019, in _check_buffer
+    self._write_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2055, in _write_buffer
+    legacy_windows_render(buffer, LegacyWindowsTerm(self.file))
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_windows_renderer.py", line 17, in legacy_windows_render
+    term.write_styled(text, style)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 441, in write_styled
+    self.write_text(text)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 402, in write_text
+    self.write(text)
+  File "C:\Users\Jonathan\AppData\Roaming\uv\python\cpython-3.11.10-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u266a' in position 1: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 185, in run_simple_benchmark
+    match = matcher.identify_episode(test_file, temp_dir, season)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 136, in identify_episode
+    return self._try_match_with_model(video_file, self.model_config, duration, reference_files)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 175, in _try_match_with_model
+    console.print(f"[red]Error in chunk {start_time}: {e}[/red]")
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 1678, in print
+    with self:
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 864, in __exit__
+    self._exit_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 822, in _exit_buffer
+    self._check_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2019, in _check_buffer
+    self._write_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2055, in _write_buffer
+    legacy_windows_render(buffer, LegacyWindowsTerm(self.file))
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_windows_renderer.py", line 17, in legacy_windows_render
+    term.write_styled(text, style)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 441, in write_styled
+    self.write_text(text)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 402, in write_text
+    self.write(text)
+  File "C:\Users\Jonathan\AppData\Roaming\uv\python\cpython-3.11.10-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u266a' in position 1: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 225, in <module>
+    run_simple_benchmark()
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 201, in run_simple_benchmark
+    console.print(f"[red]Error running {model_name}: {e}[/red]")
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 1678, in print
+    with self:
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 864, in __exit__
+    self._exit_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 822, in _exit_buffer
+    self._check_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2019, in _check_buffer
+    self._write_buffer()
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\console.py", line 2055, in _write_buffer
+    legacy_windows_render(buffer, LegacyWindowsTerm(self.file))
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_windows_renderer.py", line 17, in legacy_windows_render
+    term.write_styled(text, style)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 441, in write_styled
+    self.write_text(text)
+  File "D:\mkv-episode-matcher\.venv\Lib\site-packages\rich\_win32_console.py", line 402, in write_text
+    self.write(text)
+  File "C:\Users\Jonathan\AppData\Roaming\uv\python\cpython-3.11.10-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u266a' in position 1: character maps to <undefined>
+Ref example (Rick and Morty - S01E06.srt): Ref example (Rick and Morty - S01E06.srt): Ref example (Rick and Morty - S01E06.srt): 

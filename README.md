@@ -24,34 +24,43 @@ Automatically match and rename your MKV TV episodes using The Movie Database (TM
 
 - Python 3.9-3.12
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
-- TMDb API key (optional, for subtitle downloads)
-- OpenSubtitles account (optional, for subtitle downloads)
+- TMDb API key (optional, for episode matching)
+- OpenSubtitles.com account (required for subtitle downloads)
 
 ## Quick Start
 
-1. Install the package:
+1. Install dependencies:
 ```bash
-pip install -U mkv-episode-matcher
-```
-2. Run onboarding to set up your configuration (first-time users or to update credentials):
-```bash
-mkv-match --onboard
-```
-   - You will be prompted for:
-     - TMDb API key (for episode matching)
-     - OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)
-     - Show Directory (main directory of your show)
-   - If a config value already exists, you can accept the default or enter a new value.
-
-3. 
-   a. If you setup the TMDb and Opensubtitles credentials above, automatically fetch subtitles with the `--get-subs` flag. 
-   b. Alternatively, manually download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/
-
-4. Run on your show directory:
-```bash
-mkv-match --show-dir "path/to/your/show"
+uv sync --extra cu128
 ```
 
+2. Run the application:
+
+**GUI Mode (Recommended):**
+Launches the modern Flet desktop interface.
+```bash
+uv run mkv-match gui
+```
+
+**CLI Mode:**
+The new V2 CLI uses the `match` subcommand:
+```bash
+uv run mkv-match match "/path/to/your/show"
+```
+
+**Configuration:**
+```bash
+uv run mkv-match config
+```
+
+3. (Optional) Run directly with Python:
+```bash
+# GUI
+python -m mkv_episode_matcher gui
+
+# CLI
+python -m mkv_episode_matcher match "/path/to/show"
+```
 ## Onboarding & Configuration
 
 The onboarding process will prompt you for all required configuration values if you run with `--onboard` or if no config file exists. You can re-run onboarding at any time to update your credentials or show directory.

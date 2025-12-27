@@ -1,0 +1,141 @@
+2025-12-25 22:38:07.122 | INFO     | mkv_episode_matcher.config:<module>:19 - Total available threads: 12 -> Setting max to 4
+2025-12-25 22:38:07.125 | INFO     | mkv_episode_matcher.__main__:<module>:18 - Starting the application
++-----------------------------------------------+
+| Simplified GPU Benchmark: Whisper vs Parakeet |
++-----------------------------------------------+
+CUDA Device: NVIDIA GeForce RTX 3090
+
+Test File: The Expanse - S01E01.mkv
+Detected Show Name: The Expanse
+Target: S01E01
+Expected Cache Path: C:\Users\Jonathan\.mkv-episode-matcher\cache\data\The 
+Expanse
+Cache directory exists.
+Found 122 SRT files.
+
+Testing parakeet:nvidia/parakeet-tdt-0.6b-v2...
+Identifying The Expanse - S01E01.mkv (S1)...
+Found 10 reference files.
+[NeMo W 2025-12-25 22:38:36 nemo_logging:405] Megatron num_microbatches_calculator not found, using Apex version.
+W1225 22:38:37.062000 27748 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+No exporters were provided. This means that no telemetry data will be collected.
+[NeMo I 2025-12-25 22:38:55 nemo_logging:393] Tokenizer SentencePieceTokenizer initialized with 1024 tokens
+[NeMo W 2025-12-25 22:38:55 nemo_logging:405] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    use_lhotse: true
+    skip_missing_manifest_entries: true
+    input_cfg: null
+    tarred_audio_filepaths: null
+    manifest_filepath: null
+    sample_rate: 16000
+    shuffle: true
+    num_workers: 2
+    pin_memory: true
+    max_duration: 40.0
+    min_duration: 0.1
+    text_field: answer
+    batch_duration: null
+    use_bucketing: true
+    bucket_duration_bins: null
+    bucket_batch_size: null
+    num_buckets: 30
+    bucket_buffer_size: 20000
+    shuffle_buffer_size: 10000
+    
+[NeMo W 2025-12-25 22:38:55 nemo_logging:405] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    use_lhotse: true
+    manifest_filepath: null
+    sample_rate: 16000
+    batch_size: 16
+    shuffle: false
+    max_duration: 40.0
+    min_duration: 0.1
+    num_workers: 2
+    pin_memory: true
+    text_field: answer
+    
+[NeMo I 2025-12-25 22:38:55 nemo_logging:393] PADDING: 0
+[NeMo I 2025-12-25 22:39:08 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:39:08 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:39:08 nemo_logging:393] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2025-12-25 22:39:15 nemo_logging:393] Model EncDecRNNTBPEModel was successfully restored from C:\Users\Jonathan\.cache\huggingface\hub\models--nvidia--parakeet-tdt-0.6b-v2\snapshots\48b630d20b000e5ad3735e5378a2d9bde3f80826\parakeet-tdt-0.6b-v2.nemo.
+Processing chunk at 300s...
+[NeMo W 2025-12-25 22:39:20 nemo_logging:405] The following configuration keys are ignored by Lhotse dataloader: use_start_end_token
+[NeMo W 2025-12-25 22:39:20 nemo_logging:405] You are using a non-tarred dataset and requested tokenization during data sampling (pretokenize=True). This will cause the tokenization to happen in the main (GPU) process,possibly impacting the training speed if your tokenizer is very large.If the impact is noticable, set pretokenize=False in dataloader config.(note: that will disable token-per-second filtering and 2D bucketing features)
+
+Transcribing: 0it [00:00, ?it/s]
+Transcribing: 0it [00:24, ?it/s]
+Transcribed (parakeet): ''
+Ref example (The Expanse - S01E01.srt): 'were never meant for us. Belters work 
+the docks, l'...
+Ref example (The Expanse - S01E02.srt): "- Hey! Hey! Hey! - Whoa, whoa! Let's 
+just take a d"...
+Ref example (The Expanse - S01E03.srt): "Oh, no. It's important. Now. The <i> 
+scopuli</i> i"...
+Ref example (The Expanse - S01E04.srt): 'Torpedoes are away! Guidance lock on 
+all targets. '...
+Ref example (The Expanse - S01E05.srt): 'Oh, hoss. She is one beautiful lady. 
+She purrs lik'...
+Ref example (The Expanse - S01E06.srt): 'At least you think you are... If I 
+wanted to hurt '...
+Ref example (The Expanse - S01E07.srt): "It's a radio transmission coming from 
+between the "...
+Ref example (The Expanse - S01E08.srt): '_ Only thing we got here is the lovely
+charted bel'...
+Ref example (The Expanse - S01E09.srt): 'Breaching pod, amidships! Seal all 
+compartments! A'...
+Ref example (The Expanse - S01E10.srt): "In here. This way. Let's go. Get over 
+there. Pleas"...
+Best Confidence: 0.00
+Processing chunk at 330s...
+[NeMo W 2025-12-25 22:39:45 nemo_logging:405] The following configuration keys are ignored by Lhotse dataloader: use_start_end_token
+[NeMo W 2025-12-25 22:39:45 nemo_logging:405] You are using a non-tarred dataset and requested tokenization during data sampling (pretokenize=True). This will cause the tokenization to happen in the main (GPU) process,possibly impacting the training speed if your tokenizer is very large.If the impact is noticable, set pretokenize=False in dataloader config.(note: that will disable token-per-second filtering and 2D bucketing features)
+
+Transcribing: 0it [00:00, ?it/s]
+Transcribing: 1it [00:00,  1.94it/s]
+Transcribing: 1it [00:00,  1.94it/s]
+Transcribed (parakeet): ''
+Best Confidence: 1.00
+
+Testing whisper:tiny.en...
+Identifying The Expanse - S01E01.mkv (S1)...
+Found 10 reference files.
+Processing chunk at 300s...
+Transcribed (whisper): ' resources that flow through our gates would never mend
+for us. Bell tos work the docks, loading and unloading precious cargo. We fix 
+the pipes and filters that keep this rock living and breathing. We belt as Toyo
+and Safa. Without hope and without end and for what? One day, Mars will use its
+might to rest control of series from her and earth will go to the wall.'
+Ref example (The Expanse - S01E01.srt): 'were never meant for us. Belters work 
+the docks, l'...
+Ref example (The Expanse - S01E02.srt): "- Hey! Hey! Hey! - Whoa, whoa! Let's 
+just take a d"...
+Ref example (The Expanse - S01E03.srt): "Oh, no. It's important. Now. The <i> 
+scopuli</i> i"...
+Ref example (The Expanse - S01E04.srt): 'Torpedoes are away! Guidance lock on 
+all targets. '...
+Ref example (The Expanse - S01E05.srt): 'Oh, hoss. She is one beautiful lady. 
+She purrs lik'...
+Ref example (The Expanse - S01E06.srt): 'At least you think you are... If I 
+wanted to hurt '...
+Ref example (The Expanse - S01E07.srt): "It's a radio transmission coming from 
+between the "...
+Ref example (The Expanse - S01E08.srt): '_ Only thing we got here is the lovely
+charted bel'...
+Ref example (The Expanse - S01E09.srt): 'Breaching pod, amidships! Seal all 
+compartments! A'...
+Ref example (The Expanse - S01E10.srt): "In here. This way. Let's go. Get over 
+there. Pleas"...
+Best Confidence: 0.83
+                               Benchmark Results                               
++-----------------------------------------------------------------------------+
+| Model                         | Time (s) | Status | Confidence | Matched Ep |
+|-------------------------------+----------+--------+------------+------------|
+| parakeet:nvidia/parakeet-tdtà | 98.84    | MATCH  | 1.00       | S1E1       |
+| whisper:tiny.en               | 11.94    | MATCH  | 0.83       | S1E1       |
++-----------------------------------------------------------------------------+

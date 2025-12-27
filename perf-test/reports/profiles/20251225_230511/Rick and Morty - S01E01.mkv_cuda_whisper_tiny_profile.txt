@@ -1,0 +1,28 @@
+         1129055 function calls (1091685 primitive calls) in 3.871 seconds
+
+   Ordered by: cumulative time
+   List reduced from 575 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    3.871    3.871 D:\mkv-episode-matcher\perf-test\performance_benchmark.py:44(identify_episode)
+        1    0.000    0.000    3.856    3.856 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:211(_try_match_with_model)
+        2    0.005    0.003    3.202    1.601 D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py:131(transcribe)
+        2    0.001    0.001    3.197    1.598 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\transcribe.py:38(transcribe)
+        4    0.000    0.000    3.052    0.763 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\transcribe.py:178(decode_with_fallback)
+      8/4    0.000    0.000    3.052    0.763 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\utils\_contextlib.py:117(decorate_context)
+        4    0.000    0.000    3.052    0.763 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\decoding.py:792(decode)
+        4    0.000    0.000    3.051    0.763 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\decoding.py:712(run)
+        4    0.056    0.014    3.016    0.754 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\decoding.py:680(_main_loop)
+18799/281    0.037    0.000    2.222    0.008 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\nn\modules\module.py:1771(_wrapped_call_impl)
+18799/281    0.072    0.000    2.220    0.008 D:\mkv-episode-matcher\.venv\Lib\site-packages\torch\nn\modules\module.py:1779(_call_impl)
+      277    0.007    0.000    2.204    0.008 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\decoding.py:155(logits)
+      277    0.044    0.000    2.189    0.008 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\model.py:227(forward)
+     1124    0.121    0.000    2.090    0.002 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\model.py:160(forward)
+     2232    0.038    0.000    1.242    0.001 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\model.py:92(forward)
+     8992    0.101    0.000    1.060    0.000 D:\mkv-episode-matcher\.venv\Lib\site-packages\whisper\model.py:45(forward)
+      122    0.000    0.000    0.601    0.005 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:151(load_reference_chunk)
+      122    0.001    0.000    0.601    0.005 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:36(get_chunk)
+      110    0.201    0.002    0.599    0.005 D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py:530(extract_subtitle_chunk)
+     8992    0.557    0.000    0.557    0.000 {built-in method torch._C._nn.linear}
+
+

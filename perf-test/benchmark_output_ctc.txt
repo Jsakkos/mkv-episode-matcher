@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\mkv-episode-matcher\perf-test\simple_gpu_benchmark.py", line 18, in <module>
+    from mkv_episode_matcher.episode_identification import EpisodeMatcher, get_video_duration
+  File "D:\mkv-episode-matcher\mkv_episode_matcher\episode_identification.py", line 15, in <module>
+    from mkv_episode_matcher.asr_models import get_cached_model
+  File "D:\mkv-episode-matcher\mkv_episode_matcher\asr_models.py", line 18, in <module>
+    from fuzzywuzzy import fuzz
+ModuleNotFoundError: No module named 'fuzzywuzzy'

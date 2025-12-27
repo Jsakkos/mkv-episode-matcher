@@ -1,6 +1,5 @@
 import re
 from pathlib import Path
-from typing import Optional
 
 
 def generate_subtitle_patterns(
@@ -39,7 +38,7 @@ def generate_subtitle_patterns(
 
 def find_existing_subtitle(
     series_cache_dir: str, series_name: str, season: int, episode: int
-) -> Optional[str]:
+) -> str | None:
     """
     Check for existing subtitle files in various naming formats.
 

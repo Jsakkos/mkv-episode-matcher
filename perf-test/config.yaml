@@ -1,0 +1,23 @@
+asr_models:
+- name: tiny.en
+  type: whisper
+- name: nvidia/parakeet-ctc-0.6b
+  type: parakeet
+- name: nvidia/parakeet-ctc-1.1b
+  type: parakeet
+- name: tiny.en
+  type: faster-whisper
+- name: distil-large-v3
+  type: faster-whisper
+cache_dir: C:\Users\Jonathan\.mkv-episode-matcher\cache
+confidence_threshold: 0.6
+device_testing:
+  force_cpu_fallback: true
+  test_devices:
+  - cuda
+enable_profiling: true
+iterations: 3
+output_dir: D:\mkv-episode-matcher\perf-test\reports
+resource_monitoring_interval: 0.5
+test_files_dir: D:\mkv-episode-matcher\perf-test\inputs
+timeout_seconds: 120

@@ -7,12 +7,11 @@ from pathlib import Path
 import chardet
 import numpy as np
 import torch
-import whisper
 from loguru import logger
-from rapidfuzz import fuzz
 from rich import print
 from rich.console import Console
 
+from mkv_episode_matcher.asr_models import get_cached_model
 from mkv_episode_matcher.utils import extract_season_episode
 
 console = Console()
@@ -48,13 +47,13 @@ class SubtitleCache:
 
 
 class EpisodeMatcher:
-    def __init__(self, cache_dir, show_name, min_confidence=0.6):
+    def __init__(self, cache_dir, show_name, min_confidence=0.6, device=None):
         self.cache_dir = Path(cache_dir)
         self.min_confidence = min_confidence
         self.show_name = show_name
         self.chunk_duration = 30
         self.skip_initial_duration = 300
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.temp_dir = Path(tempfile.gettempdir()) / "whisper_chunks"
         self.temp_dir.mkdir(exist_ok=True)
         # Initialize subtitle cache
@@ -69,14 +68,6 @@ class EpisodeMatcher:
         text = re.sub(r"\[.*?\]|\<.*?\>", "", text)
         text = re.sub(r"([A-Za-z])-\1+", r"\1", text)
         return " ".join(text.split())
-
-    def chunk_score(self, whisper_chunk, ref_chunk):
-        whisper_clean = self.clean_text(whisper_chunk)
-        ref_clean = self.clean_text(ref_chunk)
-        return (
-            fuzz.token_sort_ratio(whisper_clean, ref_clean) * 0.7
-            + fuzz.partial_ratio(whisper_clean, ref_clean) * 0.3
-        ) / 100.0
 
     def extract_audio_chunk(self, mkv_file, start_time):
         """Extract a chunk of audio from MKV file with caching."""
@@ -107,11 +98,13 @@ class EpisodeMatcher:
                 "-y",  # Overwrite output files without asking
                 str(chunk_path),
             ]
-            
+
             try:
-                logger.debug(f"Extracting audio chunk from {mkv_file} at {start_time}s using FFmpeg")
+                logger.debug(
+                    f"Extracting audio chunk from {mkv_file} at {start_time}s using FFmpeg"
+                )
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-                
+
                 if result.returncode != 0:
                     error_msg = f"FFmpeg failed with return code {result.returncode}"
                     if result.stderr:
@@ -119,26 +112,28 @@ class EpisodeMatcher:
                     logger.error(error_msg)
                     logger.debug(f"FFmpeg command: {' '.join(cmd)}")
                     raise RuntimeError(error_msg)
-                    
+
                 # Check if the output file was actually created and has content
                 if not chunk_path.exists():
                     error_msg = f"FFmpeg completed but output file was not created: {chunk_path}"
                     logger.error(error_msg)
                     raise RuntimeError(error_msg)
-                    
+
                 # Check if the file has meaningful content (at least 1KB)
                 if chunk_path.stat().st_size < 1024:
                     error_msg = f"Generated audio chunk is too small ({chunk_path.stat().st_size} bytes), likely corrupted"
                     logger.warning(error_msg)
                     # Don't raise an error for small files, but log the warning
-                    
-                logger.debug(f"Successfully extracted {chunk_path.stat().st_size} byte audio chunk")
-                
+
+                logger.debug(
+                    f"Successfully extracted {chunk_path.stat().st_size} byte audio chunk"
+                )
+
             except subprocess.TimeoutExpired as e:
                 error_msg = f"FFmpeg timed out after 30 seconds while extracting audio from {mkv_file}"
                 logger.error(error_msg)
                 raise RuntimeError(error_msg) from e
-                
+
             except Exception as e:
                 error_msg = f"Failed to extract audio chunk from {mkv_file} at {start_time}s: {str(e)}"
                 logger.error(error_msg)
@@ -147,7 +142,9 @@ class EpisodeMatcher:
                     try:
                         chunk_path.unlink()
                     except Exception as cleanup_error:
-                        logger.warning(f"Failed to clean up partial file {chunk_path}: {cleanup_error}")
+                        logger.warning(
+                            f"Failed to clean up partial file {chunk_path}: {cleanup_error}"
+                        )
                 raise RuntimeError(error_msg) from e
 
         chunk_path_str = str(chunk_path)
@@ -198,7 +195,9 @@ class EpisodeMatcher:
         reference_files = []
         for pattern in patterns:
             # Use case-insensitive file extension matching by checking both .srt and .SRT
-            srt_files = list(reference_dir.glob("*.srt")) + list(reference_dir.glob("*.SRT"))
+            srt_files = list(reference_dir.glob("*.srt")) + list(
+                reference_dir.glob("*.SRT")
+            )
             files = [
                 f
                 for f in srt_files
@@ -215,7 +214,7 @@ class EpisodeMatcher:
         return reference_files
 
     def _try_match_with_model(
-        self, video_file, model_name, max_duration, reference_files
+        self, video_file, model_config, max_duration, reference_files
     ):
         """
         Attempt to match using specified model, checking multiple chunks starting from skip_initial_duration
@@ -223,12 +222,26 @@ class EpisodeMatcher:
 
         Args:
             video_file: Path to the video file
-            model_name: Name of the Whisper model to use
+            model_config: Dictionary with ASR model configuration or string for backward compatibility
             max_duration: Maximum duration in seconds to check
             reference_files: List of reference subtitle files
         """
+        # Handle backward compatibility for string model names
+        if isinstance(model_config, str):
+            # Convert old Whisper model names to new format
+            model_config = {
+                "type": "whisper",
+                "name": model_config,
+                "device": self.device,
+            }
+        elif isinstance(model_config, dict):
+            # Ensure device is set if not specified
+            if "device" not in model_config:
+                model_config = model_config.copy()
+                model_config["device"] = self.device
+
         # Use cached model
-        model = get_whisper_model(model_name, self.device)
+        model = get_cached_model(model_config)
 
         # Calculate number of chunks to check
         num_chunks = min(
@@ -243,6 +256,11 @@ class EpisodeMatcher:
         for chunk_idx in range(num_chunks):
             # Start at self.skip_initial_duration and check subsequent chunks
             start_time = self.skip_initial_duration + (chunk_idx * self.chunk_duration)
+            model_name = (
+                model_config.get("name", "unknown")
+                if isinstance(model_config, dict)
+                else model_config
+            )
             logger.debug(f"Trying {model_name} model at {start_time} seconds")
 
             try:
@@ -252,13 +270,17 @@ class EpisodeMatcher:
                 logger.warning(f"Failed to extract audio chunk at {start_time}s: {e}")
                 continue  # Skip this chunk and try the next one
             except Exception as e:
-                logger.error(f"Unexpected error extracting audio chunk at {start_time}s: {e}")
+                logger.error(
+                    f"Unexpected error extracting audio chunk at {start_time}s: {e}"
+                )
                 continue  # Skip this chunk and try the next one
 
             try:
-                result = model.transcribe(audio_path, task="transcribe", language="en")
+                result = model.transcribe(audio_path)
             except Exception as e:
-                logger.error(f"Whisper transcription failed for chunk at {start_time}s: {e}")
+                logger.error(
+                    f"ASR transcription failed for chunk at {start_time}s: {e}"
+                )
                 continue  # Skip this chunk and try the next one
 
             chunk_text = result["text"]
@@ -274,9 +296,12 @@ class EpisodeMatcher:
             best_match = None
 
             # Compare with reference chunks
+            # Compare with reference chunks
             for ref_file in reference_files:
                 ref_text = self.load_reference_chunk(ref_file, chunk_idx)
-                confidence = self.chunk_score(chunk_text, ref_text)
+
+                # Use model's internal scoring logic
+                confidence = model.calculate_match_score(chunk_text, ref_text)
 
                 if confidence > best_confidence:
                     logger.debug(f"New best confidence: {confidence} for {ref_file}")
@@ -326,49 +351,36 @@ class EpisodeMatcher:
                 logger.error(f"Failed to get video duration for {video_file}: {e}")
                 return None
 
-            # Try with tiny model first (fastest)
-            logger.info("Attempting match with tiny model...")
+            # Try with Parakeet CTC model
+            logger.info("Attempting match with Parakeet CTC model...")
             try:
                 match = self._try_match_with_model(
                     video_file,
-                    "tiny.en",
-                    min(duration, 300),
-                    reference_files,  # Limit to first 5 minutes
-                )
-                if (
-                    match and match["confidence"] > 0.65
-                ):  # Slightly lower threshold for tiny
-                    logger.info(
-                        f"Successfully matched with tiny model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
-                    )
-                    return match
-            except Exception as e:
-                logger.warning(f"Tiny model failed: {e}")
-
-            # If no match, try base model
-            logger.info(
-                "No match with tiny model, extending base model search to 5 minutes..."
-            )
-            try:
-                match = self._try_match_with_model(
-                    video_file,
-                    "base.en",
-                    min(duration, 300),
-                    reference_files,  # Limit to first 5 minutes
+                    {
+                        "type": "parakeet",
+                        "name": "nvidia/parakeet-ctc-0.6b",
+                        "device": self.device,
+                    },
+                    min(duration, 600),  # Allow up to 10 minutes
+                    reference_files,
                 )
                 if match:
                     logger.info(
-                        f"Successfully matched with base model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
+                        f"Successfully matched with Parakeet CTC model at {match['matched_at']}s (confidence: {match['confidence']:.2f})"
                     )
                     return match
             except Exception as e:
-                logger.warning(f"Base model failed: {e}")
+                logger.warning(f"Parakeet CTC model failed: {e}")
 
-            logger.info("Speech recognition match failed - no models were able to process this file")
+            logger.info(
+                "Speech recognition match failed - no models were able to process this file"
+            )
             return None
 
         except Exception as e:
-            logger.error(f"Unexpected error during episode identification for {video_file}: {e}")
+            logger.error(
+                f"Unexpected error during episode identification for {video_file}: {e}"
+            )
             return None
 
         finally:
@@ -385,42 +397,49 @@ def get_video_duration(video_file):
     """Get video duration with caching and error handling."""
     try:
         logger.debug(f"Getting duration for video file: {video_file}")
-        result = subprocess.run([
-            "ffprobe",
-            "-v",
-            "error",
-            "-show_entries",
-            "format=duration",
-            "-of",
-            "default=noprint_wrappers=1:nokey=1",
-            str(video_file),
-        ], capture_output=True, text=True, timeout=10)
-        
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                str(video_file),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+
         if result.returncode != 0:
             error_msg = f"ffprobe failed with return code {result.returncode}"
             if result.stderr:
                 error_msg += f". Error: {result.stderr.strip()}"
             logger.error(error_msg)
             raise RuntimeError(error_msg)
-        
+
         duration_str = result.stdout.strip()
         if not duration_str:
             raise RuntimeError("ffprobe returned empty duration")
-            
+
         duration = float(duration_str)
         if duration <= 0:
             raise RuntimeError(f"Invalid duration: {duration}")
-            
+
         result_duration = int(np.ceil(duration))
         logger.debug(f"Video duration: {result_duration} seconds")
         return result_duration
-        
+
     except subprocess.TimeoutExpired as e:
         error_msg = f"ffprobe timed out while getting duration for {video_file}"
         logger.error(error_msg)
         raise RuntimeError(error_msg) from e
     except ValueError as e:
-        error_msg = f"Failed to parse duration from ffprobe output for {video_file}: {e}"
+        error_msg = (
+            f"Failed to parse duration from ffprobe output for {video_file}: {e}"
+        )
         logger.error(error_msg)
         raise RuntimeError(error_msg) from e
     except Exception as e:
@@ -560,19 +579,4 @@ class SubtitleReader:
         return text_lines
 
 
-# Global whisper model cache with better cache key
-_whisper_models = {}
-
-
-def get_whisper_model(model_name="tiny", device=None):
-    """Cache whisper models to avoid reloading."""
-    global _whisper_models
-    if device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    key = f"{model_name}_{device}"
-    if key not in _whisper_models:
-        _whisper_models[key] = whisper.load_model(model_name, device=device)
-        logger.info(f"Loaded {model_name} model on {device}")
-
-    return _whisper_models[key]
+# Note: Model caching is now handled by the ASR abstraction layer in asr_models.py
