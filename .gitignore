@@ -7,3 +7,4 @@ build/
 dist/
 mkv_episode_matcher.egg-info
 *.mkv
+/perf-test/*
