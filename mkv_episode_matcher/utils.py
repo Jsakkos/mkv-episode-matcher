@@ -12,8 +12,7 @@ from opensubtitlescom.exceptions import OpenSubtitlesException
 from rich.console import Console
 from rich.panel import Panel
 
-from mkv_episode_matcher.__main__ import CACHE_DIR, CONFIG_FILE
-from mkv_episode_matcher.config import get_config
+from mkv_episode_matcher.core.config_manager import get_config_manager
 from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
 from mkv_episode_matcher.tmdb_client import fetch_season_details
 
@@ -38,7 +37,7 @@ def normalize_path(path_str):
 
     # Strip surrounding quotes (both single and double)
     path_str = path_str.strip().strip('"').strip("'")
-    
+
     # Remove trailing slashes or backslashes
     path_str = path_str.rstrip("/").rstrip("\\")
 
@@ -177,14 +176,14 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
         max_retries (int, optional): Number of times to retry subtitle download on OpenSubtitlesException. Defaults to 3.
     """
     if config is None:
-        config = get_config(CONFIG_FILE)
-    show_dir = config.get("show_dir")
+        config = get_config_manager().load()
+    show_dir = config.show_dir
     series_name = sanitize_filename(normalize_path(show_dir).name)
-    tmdb_api_key = config.get("tmdb_api_key")
-    open_subtitles_api_key = config.get("open_subtitles_api_key")
-    open_subtitles_user_agent = config.get("open_subtitles_user_agent")
-    open_subtitles_username = config.get("open_subtitles_username")
-    open_subtitles_password = config.get("open_subtitles_password")
+    tmdb_api_key = config.tmdb_api_key
+    open_subtitles_api_key = config.open_subtitles_api_key
+    open_subtitles_user_agent = config.open_subtitles_user_agent
+    open_subtitles_username = config.open_subtitles_username
+    open_subtitles_password = config.open_subtitles_password
 
     if not all([
         show_dir,
@@ -211,7 +210,7 @@ def get_subtitles(show_id, seasons: set[int], config=None, max_retries=3):
         for episode in range(1, episodes + 1):
             logger.info(f"Processing Season {season}, Episode {episode}...")
 
-            series_cache_dir = Path(CACHE_DIR) / "data" / series_name
+            series_cache_dir = config.cache_dir / "data" / series_name
             os.makedirs(series_cache_dir, exist_ok=True)
 
             # Check for existing subtitle in any supported format
@@ -334,10 +333,10 @@ def process_reference_srt_files(series_name):
         dict: A dictionary containing the reference files where the keys are the MKV filenames
               and the values are the corresponding SRT texts.
     """
-    from mkv_episode_matcher.__main__ import CACHE_DIR
+    config = get_config_manager().load()
 
     reference_files = {}
-    reference_dir = Path(CACHE_DIR) / "data" / series_name
+    reference_dir = config.cache_dir / "data" / series_name
 
     for dirpath, _, filenames in os.walk(reference_dir):
         for filename in filenames:

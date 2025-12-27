@@ -10,61 +10,113 @@
 [![Tests](https://github.com/Jsakkos/mkv-episode-matcher/actions/workflows/tests.yml/badge.svg)](https://github.com/Jsakkos/mkv-episode-matcher/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/Jsakkos/mkv-episode-matcher/branch/main/graph/badge.svg)](https://codecov.io/gh/Jsakkos/mkv-episode-matcher/)
 
-Automatically match and rename your MKV TV episodes using The Movie Database (TMDb).
+Automatically match and rename your MKV TV episodes using advanced speech recognition and subtitle matching.
 
-## Features
+## ✨ Key Features
 
-- 🎯 **Automatic Episode Matching**: Uses TMDb and OpenSubtitles to accurately identify episodes
-- 🔊 **Speech Recognition**: Uses OpenAI Whisper for accurate episode identification
-- ⬇️ **Subtitle Downloads**: Integration with OpenSubtitles
-- ✨ **Bulk Processing**: Handle entire seasons at once
-- 🧪 **Dry Run Mode**: Test changes before applying
+- 🖥️ **Modern Desktop GUI**: Cross-platform Flet-based graphical interface with real-time progress tracking
+- 🤖 **Advanced Speech Recognition**: NVIDIA Parakeet ASR for highly accurate episode identification
+- 🎯 **Intelligent Matching**: Multi-segment analysis with confidence scoring and fallback strategies
+- ⬇️ **Smart Subtitle Integration**: Automatic subtitle downloads from OpenSubtitles with local caching
+- ✨ **Bulk Processing**: Handle entire libraries with automatic series/season detection
+- 🧪 **Dry Run Mode**: Preview matches before making any changes
+- 📊 **Rich Progress Tracking**: Real-time progress indicators and detailed match results
+- ⚡ **Performance Optimized**: Caching, background model loading, and efficient processing
+- 🌐 **Cross-Platform**: Available as desktop applications for Windows, macOS, and Linux
 
 ## Prerequisites
 
 - Python 3.9-3.12
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
-- TMDb API key (optional, for subtitle downloads)
-- OpenSubtitles account (optional, for subtitle downloads)
+- TMDb API key (optional, for episode matching)
+- OpenSubtitles.com account (required for subtitle downloads)
 
-## Quick Start
+## 🚀 Quick Start
 
-1. Install the package:
+### 1. Install MKV Episode Matcher
+
+**Option A: Using uv (Recommended)**
 ```bash
-pip install -U mkv-episode-matcher
-```
-2. Run onboarding to set up your configuration (first-time users or to update credentials):
-```bash
-mkv-match --onboard
-```
-   - You will be prompted for:
-     - TMDb API key (for episode matching)
-     - OpenSubtitles API key, Consumer Name, Username, and Password (for subtitle downloads)
-     - Show Directory (main directory of your show)
-   - If a config value already exists, you can accept the default or enter a new value.
+# Install with CUDA support for GPU acceleration
+uv sync --extra cu128
 
-3. 
-   a. If you setup the TMDb and Opensubtitles credentials above, automatically fetch subtitles with the `--get-subs` flag. 
-   b. Alternatively, manually download .srt subtitles files to ~/.mkv-episode-matcher/cache/data/Show Name/
-
-4. Run on your show directory:
-```bash
-mkv-match --show-dir "path/to/your/show"
+# Or basic installation
+uv sync
 ```
 
-## Onboarding & Configuration
+**Option B: Using pip**
+```bash
+pip install mkv-episode-matcher
+```
 
-The onboarding process will prompt you for all required configuration values if you run with `--onboard` or if no config file exists. You can re-run onboarding at any time to update your credentials or show directory.
+**Option C: Download Standalone Desktop Apps**
+- [Windows Executable](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-windows.zip)
+- [macOS Application](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-macos.zip)
+- [Linux AppImage](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/mkv-episode-matcher-linux.AppImage)
 
-**Required information:**
-- TMDb API key (for episode matching)
-- OpenSubtitles API key (for subtitle downloads)
-- OpenSubtitles Consumer Name (for subtitle downloads)
-- OpenSubtitles Username (for subtitle downloads)
-- OpenSubtitles Password (for subtitle downloads)
-- Show Directory (main directory of your show)
+### 2. Launch the Application
 
-If a value already exists, it will be shown as the default and you can accept it or enter a new value.
+**🖥️ GUI Mode (Recommended)**
+Launches the modern desktop interface with real-time progress tracking:
+```bash
+uv run mkv-match gui
+```
+
+**💻 CLI Mode**  
+For automation and advanced users:
+```bash
+uv run mkv-match match "/path/to/your/show"
+```
+
+**⚙️ Configuration**
+```bash
+uv run mkv-match config
+```
+
+### 3. Alternative Launch Methods
+```bash
+# GUI
+python -m mkv_episode_matcher gui
+
+# CLI
+python -m mkv_episode_matcher match "/path/to/show"
+```
+## 🖥️ Desktop GUI Features
+
+The modern Flet-based desktop interface provides:
+
+- **🎨 Theme-Adaptive Interface**: Automatically adapts to your system's light/dark theme
+- **📂 Folder Browser**: Easy directory selection with visual folder picker
+- **⏱️ Real-time Progress**: Live progress bars showing "Processing file X of Y"
+- **🔄 Background Model Loading**: Non-blocking ASR model initialization with status indicators  
+- **🧪 Dry Run Preview**: Test matches without making changes, with preview functionality
+- **⚙️ Comprehensive Settings**: Built-in configuration dialog for all options
+- **📊 Detailed Results**: Color-coded success/failure results with confidence scores
+- **🚀 Performance Indicators**: Model loading status and processing statistics
+
+## ⚙️ Configuration
+
+### GUI Configuration
+The desktop app includes a built-in settings dialog accessible via the gear icon. Configure all options including:
+- Cache directory and confidence thresholds
+- ASR and subtitle provider settings  
+- OpenSubtitles API credentials
+- TMDb integration (optional)
+
+### CLI Configuration
+For command-line users:
+```bash
+mkv-match config  # Interactive configuration
+mkv-match --onboard  # First-time setup wizard
+```
+
+**Required API Keys:**
+- **OpenSubtitles API Key**: Required for subtitle downloads ([Get one here](https://www.opensubtitles.com/consumers))
+- **TMDb API Key**: Optional, for enhanced episode metadata ([Get one here](https://www.themoviedb.org/settings/api))
+
+**OpenSubtitles Setup:**
+- Username and password (recommended for better rate limits)
+- API key from the OpenSubtitles developer console
 
 ## Directory Structure
 

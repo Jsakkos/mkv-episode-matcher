@@ -15,7 +15,22 @@
       "Bash(git push:*)",
       "Bash(rm:*)",
       "Bash(uv sync:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(uv add:*)",
+      "Bash(timeout 60 uv run:*)",
+      "WebFetch(domain:huggingface.co)",
+      "Bash(timeout 300 uv run:*)",
+      "Bash(find:*)",
+      "Bash(jq:*)",
+      "Bash(sed:*)",
+      "WebFetch(domain:subliminal.readthedocs.org)",
+      "WebFetch(domain:subliminal.readthedocs.io)",
+      "Bash(mv:*)",
+      "Bash(mkv-match:*)",
+      "WebFetch(domain:docs.flet.dev)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }

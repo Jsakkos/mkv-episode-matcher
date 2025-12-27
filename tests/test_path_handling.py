@@ -93,13 +93,11 @@ class TestPathLibImplementation(unittest.TestCase):
 class TestEpisodeMatcherShowNameExtraction(unittest.TestCase):
     """Test the show name extraction in episode_matcher.py"""
 
-    @mock.patch("mkv_episode_matcher.config.get_config")
-    def test_episode_matcher_show_name_with_trailing_slash(self, mock_get_config):
+    def test_episode_matcher_show_name_with_trailing_slash(self):
         """Test that process_show extracts show_name incorrectly with trailing slash"""
         # Create a mock config that returns a path with trailing slash
         mock_config = mock.MagicMock()
         mock_config.get.return_value = "/mnt/c/Shows/Breaking Bad/"
-        mock_get_config.return_value = mock_config
 
         # Import the module under test
 

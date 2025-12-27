@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from mkv_episode_matcher.config import get_config, set_config
+from mkv_episode_matcher.core.models import Config
 from mkv_episode_matcher.utils import (
     check_filename,
     clean_text,
@@ -40,11 +40,12 @@ def temp_show_dir(tmp_path):
 
 
 @pytest.fixture
-def mock_config():
+def mock_config(tmp_path):
+    show_dir = tmp_path / "test_show_dir"
+    show_dir.mkdir()
     return {
         "tmdb_api_key": "test_key",
-        "show_dir": "/test/path",
-        "max_threads": 4,
+        "show_dir": str(show_dir),
         "open_subtitles_api_key": "test_key",
         "open_subtitles_user_agent": "test_agent",
         "open_subtitles_username": "test_user",
@@ -72,11 +73,11 @@ class TestUtilities:
     def test_clean_text(self):
         text = "Test [action] (note) {tag}"
         assert clean_text(text) == "Test"
-        
+
         # Test that years are preserved
         text_with_year = "Bluey (2018)"
         assert clean_text(text_with_year) == "Bluey (2018)"
-        
+
         # Test mixed content with year
         text_mixed = "Show Name [HD] (2020) {release}"
         assert clean_text(text_mixed) == "Show Name (2020)"
@@ -86,31 +87,31 @@ class TestUtilities:
         # Test exact user reported case
         bluey_case = "Bluey (2018)"
         assert clean_text(bluey_case) == "Bluey (2018)"
-        
+
         # Test with extra whitespace and tags
         bluey_with_junk = "Bluey [1080p] (2018) {AMZN}"
         assert clean_text(bluey_with_junk) == "Bluey (2018)"
-        
+
         # Test show name with multiple years (should preserve all)
         multiple_years = "Show (1999) vs Show (2020)"
         assert clean_text(multiple_years) == "Show (1999) vs Show (2020)"
-        
+
         # Test year at beginning
         year_first = "(2018) Bluey [HD]"
         assert clean_text(year_first) == "(2018) Bluey"
-        
+
         # Test year with other content in same parentheses (should remove)
         year_with_text = "Show (2018 Remaster)"
         assert clean_text(year_with_text) == "Show"
-        
+
         # Test 4-digit numbers (preserves any 4-digit number in parentheses)
         four_digit = "Show (1234)"
         assert clean_text(four_digit) == "Show (1234)"
-        
+
         # Test edge case years
         assert clean_text("Show (1900)") == "Show (1900)"  # Very old year
         assert clean_text("Show (2099)") == "Show (2099)"  # Future year
-        
+
         # Test multiple spaces and normalization
         messy_spacing = "Bluey    [HD]     (2018)    {RELEASE}"
         assert clean_text(messy_spacing) == "Bluey (2018)"
@@ -123,33 +124,37 @@ class TestUtilities:
 
 
 class TestConfiguration:
-    def test_set_config(self, tmp_path, mock_config):
-        config_file = tmp_path / "config.ini"
-        set_config(
-            mock_config["tmdb_api_key"],
-            mock_config["open_subtitles_api_key"],
-            mock_config["open_subtitles_user_agent"],
-            mock_config["open_subtitles_username"],
-            mock_config["open_subtitles_password"],
-            mock_config["show_dir"],
-            str(config_file),
-        )
+    def test_save_config(self, tmp_path, mock_config):
+        config_file = tmp_path / "config.json"
+
+        # Create ConfigManager with temp file
+        from mkv_episode_matcher.core.config_manager import ConfigManager
+
+        cm = ConfigManager(config_path=config_file)
+
+        # Create config object
+        config = Config(**mock_config)
+        # Note: Config model names might differ slightly from mock_config keys if aliases are used,
+        # but let's assume they match for now based on previous usage or I'll map them.
+        # Check Config model fields: tmdb_api_key, show_dir, etc.
+        # Subtitle args are: open_subtitles_*
+
+        cm.save(config)
         assert config_file.exists()
 
-    def test_get_config(self, tmp_path, mock_config):
-        config_file = tmp_path / "config.ini"
-        set_config(
-            mock_config["tmdb_api_key"],
-            mock_config["open_subtitles_api_key"],
-            mock_config["open_subtitles_user_agent"],
-            mock_config["open_subtitles_username"],
-            mock_config["open_subtitles_password"],
-            mock_config["show_dir"],
-            str(config_file),
-        )
-        config = get_config(str(config_file))
-        assert config["tmdb_api_key"] == mock_config["tmdb_api_key"]
-        assert config["show_dir"] == mock_config["show_dir"]
+    def test_load_config(self, tmp_path, mock_config):
+        config_file = tmp_path / "config.json"
+
+        from mkv_episode_matcher.core.config_manager import ConfigManager
+
+        cm = ConfigManager(config_path=config_file)
+
+        config = Config(**mock_config)
+        cm.save(config)
+
+        loaded_config = cm.load()
+        assert loaded_config.tmdb_api_key == mock_config["tmdb_api_key"]
+        assert str(loaded_config.show_dir) == str(Path(mock_config["show_dir"]))
 
 
 class TestEpisodeMatcher:

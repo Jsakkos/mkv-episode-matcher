@@ -1,59 +1,127 @@
 # Command Line Interface
 
-The CLI features a rich, user-friendly interface with color-coded output and progress indicators.
+The MKV Episode Matcher CLI features a rich, user-friendly interface with color-coded output and progress indicators.
 
-## Basic Commands
+## Basic Usage
 
-### Process Show
-
-```bash
-mkv-match --show-dir "/path/to/show"
-```
-
-### Process Specific Season
+### Interactive Configuration
 
 ```bash
-mkv-match --show-dir "/path/to/show" --season 1
+# First-time setup wizard
+mkv-match config
+
+# Show current configuration
+mkv-match config --show
+
+# Set specific values
+mkv-match config --tmdb-api-key "your_key" --opensub-api-key "your_key"
 ```
 
-## Command Options
+### Processing Files and Directories
 
-| Option           | Description                 | Default    |
-| ---------------- | --------------------------- | ---------- |
-| `--show-dir`     | Show directory path         | None       |
-| `--season`       | Season number to process    | None (all) |
-| `--dry-run`      | Test without making changes | False      |
-| `--get-subs`     | Download subtitles          | False      |
-| `--tmdb-api-key` | TMDb API key                | None       |
+```bash
+# Process a single MKV file
+mkv-match match "/path/to/episode.mkv"
+
+# Process an entire series folder
+mkv-match match "/path/to/Show/Season 1/"
+
+# Process entire library with subtitle downloads
+mkv-match match "/path/to/library/" --get-subs
+```
+
+### GUI Mode
+
+```bash
+# Launch desktop application
+mkv-match gui
+```
+
+## Core Commands
+
+| Command    | Description                          |
+| ---------- | ------------------------------------ |
+| `config`   | Manage configuration settings        |
+| `match`    | Process and match MKV files          |
+| `gui`      | Launch desktop graphical interface   |
+
+## Match Command Options
+
+| Option              | Description                      | Default    |
+| ------------------- | -------------------------------- | ---------- |
+| `path`              | File or directory to process     | Required   |
+| `--season`          | Season number to process         | Auto-detect |
+| `--dry-run`         | Test without making changes      | False      |
+| `--get-subs`        | Download subtitles               | False      |
+| `--confidence`      | Minimum confidence threshold     | 0.8        |
+| `--output-dir`      | Copy files to directory          | None       |
+| `--json`            | JSON output for automation       | False      |
+| `--verbose`         | Verbose logging output           | False      |
+
+## Configuration Options
+
+| Option                | Description                     | Example                    |
+| --------------------- | ------------------------------- | -------------------------- |
+| `--tmdb-api-key`      | TMDb API key                    | `--tmdb-api-key "key"`     |
+| `--opensub-api-key`   | OpenSubtitles API key           | `--opensub-api-key "key"`  |
+| `--opensub-username`  | OpenSubtitles username          | `--opensub-username "user"` |
+| `--opensub-password`  | OpenSubtitles password          | `--opensub-password "pass"` |
+| `--cache-dir`         | Cache directory path            | `--cache-dir "/custom"`    |
+| `--confidence`        | Confidence threshold (0.0-1.0)  | `--confidence 0.85`        |
+| `--show`              | Show current configuration      | `--show`                   |
 
 ## Examples
 
-### Dry Run Mode
+### First-Time Setup
 
 ```bash
-mkv-match --show-dir "/path/to/show" --dry-run
+# Interactive configuration
+mkv-match config
+
+# Or set values directly
+mkv-match config \
+  --tmdb-api-key "your_tmdb_key" \
+  --opensub-api-key "your_opensub_key" \
+  --opensub-username "your_username" \
+  --opensub-password "your_password"
 ```
 
-### Download Subtitles
+### Basic Processing
 
 ```bash
-mkv-match --show-dir "/path/to/show" --get-subs
+# Process with dry run
+mkv-match match "/path/to/Show/Season 1/" --dry-run
+
+# Process and download subtitles
+mkv-match match "/path/to/Show/Season 1/" --get-subs
+
+# Process specific season only
+mkv-match match "/path/to/Show/" --season 1
 ```
 
-### Set API Key
+### Advanced Processing
 
 ```bash
-mkv-match --show-dir "/path/to/show" --tmdb-api-key "your_key"
+# Copy to output directory instead of renaming
+mkv-match match "/path/to/show/" --output-dir "/path/to/renamed/"
+
+# JSON output for automation
+mkv-match match "/path/to/library/" --json --output-dir "/processed/"
+
+# High confidence matching with verbose output
+mkv-match match "/path/to/show/" --confidence 0.9 --verbose
 ```
 
-### Multiple Options
+### Batch Processing
 
 ```bash
-mkv-match \
-  --show-dir "/path/to/show" \
-  --season 1 \
-  --get-subs \
-  --dry-run
+# Process entire library efficiently (recommended)
+mkv-match match "/path/to/library/" --get-subs
+
+# Process multiple shows with consistent settings
+for show in /path/to/library/*/; do
+  mkv-match match "$show" --get-subs --confidence 0.85
+done
 ```
 
 ## Logging
