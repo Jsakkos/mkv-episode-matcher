@@ -26,7 +26,7 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 
 ## Prerequisites
 
-- Python 3.9-3.12
+- Python 3.10-3.12
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
 - TMDb API key (optional, for episode matching)
 - OpenSubtitles.com account (required for subtitle downloads)
