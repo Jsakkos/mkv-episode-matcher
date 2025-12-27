@@ -14,6 +14,7 @@ import json
 import re
 from collections.abc import Generator
 from pathlib import Path
+from typing import Any
 
 from loguru import logger
 from rich.console import Console
@@ -36,20 +37,102 @@ from mkv_episode_matcher.core.providers.subtitles import (
 
 
 class CacheManager:
-    """Enhanced caching system for performance optimization."""
+    """Enhanced caching system with memory bounds and LRU eviction."""
 
-    def __init__(self, cache_dir: Path):
+    def __init__(self, cache_dir: Path, max_memory_mb: int = 512, max_items: int = 100):
         self.cache_dir = cache_dir
         self.memory_cache = {}
+        self.access_order = {}  # Track access times for LRU
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.max_memory_bytes = max_memory_mb * 1024 * 1024
+        self.max_items = max_items
+        self.current_memory = 0
 
-    def get(self, key: str):
-        """Get item from memory cache."""
-        return self.memory_cache.get(key)
+    def _estimate_size(self, value) -> int:
+        """Estimate memory usage of cached object."""
+        import sys
 
-    def set(self, key: str, value, ttl: int = 3600):
-        """Set item in memory cache."""
+        if hasattr(value, "__sizeof__"):
+            return value.__sizeof__()
+        elif isinstance(value, (str, bytes)):
+            return len(value) * (4 if isinstance(value, str) else 1)
+        elif isinstance(value, dict):
+            return sum(
+                self._estimate_size(k) + self._estimate_size(v)
+                for k, v in value.items()
+            )
+        elif isinstance(value, (list, tuple)):
+            return sum(self._estimate_size(item) for item in value)
+        else:
+            return sys.getsizeof(value)
+
+    def _evict_lru(self):
+        """Evict least recently used items until under limits."""
+        import time
+
+        # Sort by access time (oldest first)
+        if not self.access_order:
+            return
+
+        sorted_items = sorted(self.access_order.items(), key=lambda x: x[1])
+
+        while (
+            len(self.memory_cache) > self.max_items
+            or self.current_memory > self.max_memory_bytes
+        ) and sorted_items:
+            key_to_remove = sorted_items.pop(0)[0]
+            if key_to_remove in self.memory_cache:
+                value = self.memory_cache[key_to_remove]
+                self.current_memory -= self._estimate_size(value)
+                del self.memory_cache[key_to_remove]
+                del self.access_order[key_to_remove]
+
+    def get(self, key: str) -> Any | None:
+        """Get item from memory cache with LRU tracking."""
+        import time
+
+        if key in self.memory_cache:
+            self.access_order[key] = time.time()
+            return self.memory_cache[key]
+        return None
+
+    def set(self, key: str, value: Any, ttl: int = 3600) -> None:
+        """Set item in memory cache with bounds checking."""
+        import time
+
+        value_size = self._estimate_size(value)
+
+        # Don't cache items that are too large
+        if value_size > self.max_memory_bytes * 0.5:
+            logger.warning(f"Item too large to cache: {value_size} bytes")
+            return
+
+        # Update existing item
+        if key in self.memory_cache:
+            old_size = self._estimate_size(self.memory_cache[key])
+            self.current_memory -= old_size
+
         self.memory_cache[key] = value
+        self.current_memory += value_size
+        self.access_order[key] = time.time()
+
+        # Evict if necessary
+        self._evict_lru()
+
+    def clear(self) -> None:
+        """Clear all cached items."""
+        self.memory_cache.clear()
+        self.access_order.clear()
+        self.current_memory = 0
+
+    def get_stats(self) -> dict:
+        """Get cache statistics."""
+        return {
+            "items": len(self.memory_cache),
+            "memory_mb": self.current_memory / (1024 * 1024),
+            "max_memory_mb": self.max_memory_bytes / (1024 * 1024),
+            "max_items": self.max_items,
+        }
 
     def get_file_hash(self, file_path: Path) -> str:
         """Generate hash for file caching."""

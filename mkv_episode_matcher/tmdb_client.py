@@ -1,9 +1,49 @@
 # tmdb_client.py
 import time
+from functools import wraps
 from threading import Lock
+from typing import Any, Callable, TypeVar
 
 import requests
 from loguru import logger
+
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def retry_network_operation(
+    max_retries: int = 3, base_delay: float = 1.0
+) -> Callable[[F], F]:
+    """Decorator for retrying network operations."""
+
+    def decorator(func: F) -> F:
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            last_exception = None
+            delay = base_delay
+
+            for attempt in range(max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except (requests.RequestException, ConnectionError, TimeoutError) as e:
+                    last_exception = e
+                    if attempt == max_retries:
+                        logger.error(
+                            f"Max retries ({max_retries}) exceeded for {func.__name__}: {e}"
+                        )
+                        raise e
+
+                    logger.warning(
+                        f"Network retry {attempt + 1}/{max_retries + 1} for {func.__name__}: {e}"
+                    )
+                    time.sleep(delay)
+                    delay = min(delay * 2, 30)  # Cap at 30 seconds
+
+            raise last_exception
+
+        return wrapper  # type: ignore
+
+    return decorator
+
 
 from mkv_episode_matcher.core.config_manager import get_config_manager
 
@@ -49,7 +89,7 @@ class RateLimitedRequest:
 
             self.requests_made += 1
 
-        response = requests.get(url)
+        response = requests.get(url, timeout=30)
         return response
 
 
@@ -57,7 +97,8 @@ class RateLimitedRequest:
 rate_limited_request = RateLimitedRequest(rate_limit=30, period=1)
 
 
-def fetch_show_id(show_name):
+@retry_network_operation(max_retries=3, base_delay=1.0)
+def fetch_show_id(show_name: str) -> str | None:
     """
     Fetch the TMDb ID for a given show name.
 
@@ -78,7 +119,8 @@ def fetch_show_id(show_name):
     return None
 
 
-def fetch_season_details(show_id, season_number):
+@retry_network_operation(max_retries=3, base_delay=1.0)
+def fetch_season_details(show_id: str, season_number: int) -> int:
     """
     Fetch the total number of episodes for a given show and season from the TMDb API.
 
@@ -94,7 +136,7 @@ def fetch_season_details(show_id, season_number):
     tmdb_api_key = config.tmdb_api_key
     url = f"https://api.themoviedb.org/3/tv/{show_id}/season/{season_number}?api_key={tmdb_api_key}"
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=30)
         response.raise_for_status()
         season_data = response.json()
         total_episodes = len(season_data.get("episodes", []))
@@ -109,7 +151,8 @@ def fetch_season_details(show_id, season_number):
         return 0
 
 
-def get_number_of_seasons(show_id):
+@retry_network_operation(max_retries=3, base_delay=1.0)
+def get_number_of_seasons(show_id: str) -> int:
     """
     Retrieves the number of seasons for a given TV show from the TMDB API.
 
@@ -125,7 +168,7 @@ def get_number_of_seasons(show_id):
     config = get_config_manager().load()
     tmdb_api_key = config.tmdb_api_key
     url = f"https://api.themoviedb.org/3/tv/{show_id}?api_key={tmdb_api_key}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=30)
     response.raise_for_status()
     show_data = response.json()
     num_seasons = show_data.get("number_of_seasons", 0)
