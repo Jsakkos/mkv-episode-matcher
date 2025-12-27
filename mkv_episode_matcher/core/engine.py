@@ -215,7 +215,7 @@ class MatchEngineV2:
 
         if skipped:
             logger.info(f"Skipped {len(skipped)} already processed files")
-        
+
         return groups
 
     def _get_subtitles_with_fallback(
@@ -305,7 +305,7 @@ class MatchEngineV2:
         output_dir: Path | None = None,
         json_output: bool = False,
         confidence_threshold: float = None,
-        progress_callback = None,
+        progress_callback=None,
     ) -> tuple[list[MatchResult], list]:
         """
         Process path for MKV files with enhanced workflow and progress tracking.

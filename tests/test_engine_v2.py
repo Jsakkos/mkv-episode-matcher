@@ -91,7 +91,7 @@ class TestConfigManagerV2:
             # Create legacy INI-style config
             show_dir = Path(tmp_dir) / "shows"
             show_dir.mkdir()
-            
+
             legacy_config = {
                 "Config": {
                     "tmdb_api_key": "legacy_key",
@@ -149,20 +149,21 @@ class TestMatchEngineV2:
             # Series folder
             series_dir = base / "Breaking Bad" / "Season 1"
             series_dir.mkdir(parents=True)
-            (series_dir / "Breaking.Bad.S01E01.mkv").touch()
-            (series_dir / "Breaking.Bad.S01E02.mkv").touch()
+            (series_dir / "breaking_bad_ep1.mkv").touch()
+            (series_dir / "breaking_bad_ep2.mkv").touch()
 
             # Library structure
             lib_dir = base / "library"
             lib_dir.mkdir()
 
-            # Multiple series
+            # Multiple series - using unprocessed filenames for testing grouping logic
             for show in ["Lost", "The Expanse"]:
                 for season in [1, 2]:
                     season_dir = lib_dir / show / f"Season {season}"
                     season_dir.mkdir(parents=True)
                     for ep in range(1, 4):
-                        (season_dir / f"{show}.S{season:02d}E{ep:02d}.mkv").touch()
+                        # Use unprocessed filename patterns for testing
+                        (season_dir / f"{show}_episode_{ep}.mkv").touch()
 
             yield {
                 "single_file": single_file,
@@ -173,9 +174,7 @@ class TestMatchEngineV2:
 
     def test_scan_for_mkv_single_file(self, test_files):
         """Test scanning a single MKV file."""
-        with patch(
-            "mkv_episode_matcher.core.engine.get_asr_provider"
-        ) as mock_asr:
+        with patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr:
             mock_asr.return_value = Mock()
 
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -188,9 +187,7 @@ class TestMatchEngineV2:
 
     def test_scan_for_mkv_directory_recursive(self, test_files):
         """Test recursive scanning of directory."""
-        with patch(
-            "mkv_episode_matcher.core.engine.get_asr_provider"
-        ) as mock_asr:
+        with patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr:
             mock_asr.return_value = Mock()
 
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -202,9 +199,7 @@ class TestMatchEngineV2:
 
     def test_scan_for_mkv_directory_non_recursive(self, test_files):
         """Test non-recursive scanning."""
-        with patch(
-            "mkv_episode_matcher.core.engine.get_asr_provider"
-        ) as mock_asr:
+        with patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr:
             mock_asr.return_value = Mock()
 
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -218,9 +213,7 @@ class TestMatchEngineV2:
 
     def test_detect_context_standard_structure(self, test_files):
         """Test context detection from standard folder structure."""
-        with patch(
-            "mkv_episode_matcher.core.engine.get_asr_provider"
-        ) as mock_asr:
+        with patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr:
             mock_asr.return_value = Mock()
 
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -235,9 +228,7 @@ class TestMatchEngineV2:
 
     def test_detect_context_filename_parsing(self):
         """Test context detection from filename patterns."""
-        with patch(
-            "mkv_episode_matcher.core.engine.get_asr_provider"
-        ) as mock_asr:
+        with patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr:
             mock_asr.return_value = Mock()
 
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -282,9 +273,7 @@ class TestIntegrationUseCases:
     def mock_dependencies(self):
         """Mock all external dependencies."""
         with (
-            patch(
-                "mkv_episode_matcher.core.engine.get_asr_provider"
-            ) as mock_asr,
+            patch("mkv_episode_matcher.core.engine.get_asr_provider") as mock_asr,
             patch(
                 "mkv_episode_matcher.core.engine.LocalSubtitleProvider"
             ) as mock_local,
@@ -336,7 +325,7 @@ class TestIntegrationUseCases:
             # Create single test file in structured folder
             series_dir = Path(tmp_dir) / "Test Show" / "Season 1"
             series_dir.mkdir(parents=True)
-            test_file = series_dir / "Test.Show.S01E01.mkv"
+            test_file = series_dir / "test_show_episode_01.mkv"
             test_file.touch()
 
             # Mock subtitle availability
@@ -360,7 +349,7 @@ class TestIntegrationUseCases:
             series_dir.mkdir(parents=True)
 
             for i in range(1, 4):
-                (series_dir / f"Test.Show.S01E{i:02d}.mkv").touch()
+                (series_dir / f"test_show_episode_{i:02d}.mkv").touch()
 
             # Mock subtitle availability
             mock_dependencies["local"].return_value.get_subtitles.return_value = [

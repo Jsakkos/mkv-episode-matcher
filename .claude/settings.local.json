@@ -29,7 +29,8 @@
       "WebFetch(domain:subliminal.readthedocs.io)",
       "Bash(mv:*)",
       "Bash(mkv-match:*)",
-      "WebFetch(domain:docs.flet.dev)"
+      "WebFetch(domain:docs.flet.dev)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }

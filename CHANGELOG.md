@@ -5,6 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-12-27 - Major Release 🎉
+
+### 🖥️ Added - Desktop GUI
+- **Complete Flet-based desktop application** with cross-platform support
+- **Theme-adaptive interface** that follows system light/dark mode
+- **Real-time progress tracking** with "Processing file X of Y" indicators
+- **Background model loading** with status indicators to prevent UI freezing
+- **Built-in configuration dialog** accessible via settings icon
+- **Dry run preview mode** allowing users to preview rename operations
+- **Visual folder picker** for easy directory selection
+- **Color-coded results display** with detailed match information and confidence scores
+- **Responsive progress bars and status indicators**
+- **Version display and model loading status in app header**
+
+### 🤖 Enhanced - ASR and Matching Engine
+- **Complete rewrite of matching engine (V2)** with improved architecture
+- **NVIDIA Parakeet ASR integration** replacing OpenAI Whisper for better accuracy
+- **Multi-segment analysis with fallback strategies** to handle empty transcription segments
+- **Enhanced caching system** for performance optimization
+- **Intelligent checkpoint selection** with primary and fallback locations
+- **Improved confidence scoring and voting logic**
+- **Better error handling for silent/music-only video segments**
+
+### 📊 Improved - Core Processing
+- **Automatic series and season detection** from directory structure
+- **Enhanced subtitle provider system** with local caching and OpenSubtitles integration
+- **Optimized file processing workflow** with progress callbacks
+- **Smart skip logic** for already processed files with S##E## patterns
+- **Better failure reporting** with season information for user guidance
+- **Comprehensive error handling** with user-friendly messages
+
+### ⚡ Performance Optimizations
+- **Model singleton pattern** to avoid repeated ASR model loading
+- **Memory caching** for subtitle content and metadata
+- **Background task processing** for non-blocking operations  
+- **Efficient file scanning** with recursive directory support
+- **LRU caching** for video duration and metadata
+
+### 🛠️ Technical Improvements
+- **Complete code restructuring** with core/, ui/, and providers/ modules
+- **Pydantic models** for type safety and validation
+- **Modern async/await patterns** for GUI responsiveness
+- **Enhanced logging** with structured debug information
+- **Improved configuration management** with centralized config system
+- **Better path handling** using pathlib throughout
+
+### 🎨 User Experience
+- **Comprehensive onboarding process** for first-time setup
+- **Interactive configuration with validation** 
+- **Rich console output** with color coding and progress indicators
+- **Detailed match results** with confidence percentages
+- **Preview functionality** to test matches before applying changes
+- **Better error messages** with actionable guidance
+
+### 🚀 Deployment Ready
+- **Flet build configuration** for Windows, macOS, and Linux executables
+- **GitHub Actions ready** for automated builds and releases
+- **Comprehensive packaging** with all required dependencies
+- **Cross-platform compatibility** testing
+
+### 🔧 Developer Experience  
+- **Modular architecture** with clear separation of concerns
+- **Comprehensive type hints** throughout the codebase
+- **Enhanced test coverage** with pytest and mocking
+- **Ruff formatting and linting** configuration
+- **Documentation updates** reflecting new architecture
+
 ## [0.9.3] - 2025-07-07
 
 ### Added

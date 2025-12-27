@@ -2,9 +2,8 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-from mkv_episode_matcher.core.config_manager import get_config_manager
-from mkv_episode_matcher.core.models import Config
 
+from mkv_episode_matcher.core.models import Config
 from mkv_episode_matcher.utils import (
     check_filename,
     clean_text,
@@ -127,30 +126,32 @@ class TestUtilities:
 class TestConfiguration:
     def test_save_config(self, tmp_path, mock_config):
         config_file = tmp_path / "config.json"
-        
+
         # Create ConfigManager with temp file
         from mkv_episode_matcher.core.config_manager import ConfigManager
+
         cm = ConfigManager(config_path=config_file)
-        
+
         # Create config object
         config = Config(**mock_config)
         # Note: Config model names might differ slightly from mock_config keys if aliases are used,
         # but let's assume they match for now based on previous usage or I'll map them.
         # Check Config model fields: tmdb_api_key, show_dir, etc.
         # Subtitle args are: open_subtitles_*
-        
+
         cm.save(config)
         assert config_file.exists()
 
     def test_load_config(self, tmp_path, mock_config):
         config_file = tmp_path / "config.json"
-        
+
         from mkv_episode_matcher.core.config_manager import ConfigManager
+
         cm = ConfigManager(config_path=config_file)
-        
+
         config = Config(**mock_config)
         cm.save(config)
-        
+
         loaded_config = cm.load()
         assert loaded_config.tmdb_api_key == mock_config["tmdb_api_key"]
         assert str(loaded_config.show_dir) == str(Path(mock_config["show_dir"]))

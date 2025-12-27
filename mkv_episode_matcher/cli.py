@@ -543,13 +543,16 @@ def _display_comprehensive_summary(results, failures, dry_run, output_dir, conso
             "  • Consider lowering the confidence threshold with [bold]--confidence[/bold] if matches are close."
         )
 
+
 @app.command()
 def gui():
     """Launch the GUI application."""
     import flet as ft
+
     from mkv_episode_matcher.ui.flet_app import main
-    
+
     ft.app(target=main)
+
 
 if __name__ == "__main__":
     app()

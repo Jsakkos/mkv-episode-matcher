@@ -1,0 +1,212 @@
+name: Build Flet Desktop Apps
+
+on:
+  # Trigger on new releases
+  release:
+    types: [published]
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  build-desktop-apps:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            artifact_name: MKVEpisodeMatcher-windows
+            build_command: flet build windows
+          - os: macos-13  # Intel Mac for broader compatibility
+            platform: macos
+            artifact_name: MKVEpisodeMatcher-macos
+            build_command: flet build macos
+          - os: ubuntu-latest
+            platform: linux
+            artifact_name: mkvepisodematicher-linux
+            build_command: flet build linux
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"  # Use specific Python version for consistency
+      
+      - name: Install system dependencies (Ubuntu)
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            libasound2-dev \
+            libportaudio2 \
+            libsndfile1 \
+            build-essential \
+            pkg-config \
+            libffi-dev \
+            libssl-dev
+      
+      - name: Install system dependencies (macOS)
+        if: matrix.platform == 'macos'
+        run: |
+          brew install ffmpeg portaudio pkg-config
+      
+      - name: Install system dependencies (Windows)
+        if: matrix.platform == 'windows'
+        run: |
+          choco install ffmpeg -y
+      
+      - name: Install Flutter (required for flet build)
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          cache: true
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      
+      - name: Install dependencies
+        run: |
+          uv sync --group dev
+          uv add flet[all]
+      
+      - name: Create icon assets directory
+        run: |
+          mkdir -p assets
+      
+      - name: Create placeholder icon (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          # Create a simple ICO file placeholder
+          echo "Creating placeholder icon..."
+          # For now, we'll skip icon creation - Flet will use default
+      
+      - name: Build desktop application
+        run: |
+          uv run ${{ matrix.build_command }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+      
+      - name: Verify build output
+        run: |
+          ls -la build/
+        shell: bash
+      
+      - name: Create release archive (Windows)
+        if: matrix.platform == 'windows'
+        run: |
+          cd build
+          7z a -tzip "../${{ matrix.artifact_name }}.zip" "*"
+        shell: cmd
+      
+      - name: Create release archive (macOS)
+        if: matrix.platform == 'macos'
+        run: |
+          cd build
+          zip -r "../${{ matrix.artifact_name }}.zip" .
+      
+      - name: Create release archive (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          cd build
+          tar -czf "../${{ matrix.artifact_name }}.tar.gz" .
+      
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            ${{ matrix.artifact_name }}.zip
+            ${{ matrix.artifact_name }}.tar.gz
+          if-no-files-found: ignore
+      
+      # Upload to release if this was triggered by a release
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ matrix.artifact_name }}.zip
+            ${{ matrix.artifact_name }}.tar.gz
+          name: ${{ github.event.release.name }}
+          tag_name: ${{ github.event.release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Create AppImage for Linux (alternative distribution)
+  build-appimage:
+    runs-on: ubuntu-latest
+    needs: build-desktop-apps
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download Linux build
+        uses: actions/download-artifact@v4
+        with:
+          name: mkvepisodematicher-linux
+      
+      - name: Extract build
+        run: |
+          tar -xzf mkvepisodematicher-linux.tar.gz
+      
+      - name: Create AppImage structure
+        run: |
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+          
+          # Copy executable (adjust name based on actual build output)
+          find build -name "*" -type f -executable | head -1 | xargs -I {} cp {} AppDir/usr/bin/mkv-episode-matcher || echo "Executable not found in expected location"
+          
+          # Create desktop file
+          cat > AppDir/usr/share/applications/mkv-episode-matcher.desktop << EOF
+          [Desktop Entry]
+          Name=MKV Episode Matcher
+          Comment=Intelligent TV episode identification and renaming
+          Exec=mkv-episode-matcher
+          Icon=mkv-episode-matcher
+          Type=Application
+          Categories=AudioVideo;Video;
+          EOF
+          
+          # Create a simple PNG icon (placeholder)
+          convert -size 256x256 xc:blue AppDir/usr/share/icons/hicolor/256x256/apps/mkv-episode-matcher.png || echo "Icon creation skipped"
+      
+      - name: Download AppImage tool
+        run: |
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+      
+      - name: Create AppImage
+        run: |
+          ./appimagetool-x86_64.AppImage AppDir mkv-episode-matcher-linux.AppImage
+      
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mkv-episode-matcher-linux-appimage
+          path: mkv-episode-matcher-linux.AppImage
+      
+      - name: Upload AppImage to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mkv-episode-matcher-linux.AppImage
+          name: ${{ github.event.release.name }}
+          tag_name: ${{ github.event.release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

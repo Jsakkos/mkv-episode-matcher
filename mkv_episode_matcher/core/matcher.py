@@ -87,14 +87,19 @@ class MultiSegmentMatcher:
         # Avoid intro (0-120s usually).
         # Primary checkpoints: 15% (after intro), 50% (middle), 85% (end).
         primary_checkpoints = [duration * 0.15, duration * 0.50, duration * 0.85]
-        
+
         # Fallback checkpoints for when primary segments fail
-        fallback_checkpoints = [duration * 0.25, duration * 0.35, duration * 0.65, duration * 0.75]
-        
+        fallback_checkpoints = [
+            duration * 0.25,
+            duration * 0.35,
+            duration * 0.65,
+            duration * 0.75,
+        ]
+
         # Combine and filter checkpoints
         all_checkpoints = primary_checkpoints + fallback_checkpoints
         checkpoints = [t for t in all_checkpoints if t < duration - 10]
-        
+
         # Limit total attempts to prevent excessive processing
         checkpoints = checkpoints[:6]
 
@@ -135,7 +140,9 @@ class MultiSegmentMatcher:
 
             # FAIL FAST: If we have an Extremely High confidence Unique match
             # and it's not from the very first segment (which might be intro)
-            if i > 0 and top_match.confidence > 0.92:  # Not first segment, very high score
+            if (
+                i > 0 and top_match.confidence > 0.92
+            ):  # Not first segment, very high score
                 # Check for ambiguity
                 if len(candidates) > 1 and candidates[1].confidence > 0.8:
                     logger.debug("Ambiguous high score, continuing...")
@@ -153,7 +160,9 @@ class MultiSegmentMatcher:
 
             all_candidates.extend(candidates)
 
-        logger.info(f"Processed {successful_segments} successful segments, {empty_segments} empty segments")
+        logger.info(
+            f"Processed {successful_segments} successful segments, {empty_segments} empty segments"
+        )
 
         # Voting Logic
         if not all_candidates:

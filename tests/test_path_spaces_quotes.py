@@ -4,9 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from mkv_episode_matcher.core.config_manager import get_config_manager
 from mkv_episode_matcher.core.models import Config
-
 from mkv_episode_matcher.utils import get_subtitles, get_valid_seasons, normalize_path
 
 
@@ -140,8 +138,9 @@ class TestPathHandlingWithSpacesAndQuotes(unittest.TestCase):
 
         # Create a temporary config file
         config_file = self.temp_path / "test_config.json"
-        
+
         from mkv_episode_matcher.core.config_manager import ConfigManager
+
         cm = ConfigManager(config_path=config_file)
 
         # Set config with path containing spaces
@@ -169,14 +168,19 @@ class TestPathHandlingWithSpacesAndQuotes(unittest.TestCase):
     @patch("mkv_episode_matcher.utils.shutil")
     @patch("builtins.input")
     def test_get_subtitles_with_spaces_in_path(
-        self, mock_input, mock_shutil, mock_fetch_season, mock_opensubtitles, mock_get_config_manager
+        self,
+        mock_input,
+        mock_shutil,
+        mock_fetch_season,
+        mock_opensubtitles,
+        mock_get_config_manager,
     ):
         """Test that get_subtitles function works with show directories containing spaces."""
         # Mock configuration with path containing spaces
         # Create the directory first
         show_dir = self.temp_path / "My TV Shows" / "Breaking Bad"
         show_dir.mkdir(parents=True, exist_ok=True)
-        
+
         mock_config = Config(
             show_dir=show_dir,
             tmdb_api_key="test_tmdb_key",
@@ -193,15 +197,15 @@ class TestPathHandlingWithSpacesAndQuotes(unittest.TestCase):
         # Mock OpenSubtitles client search results
         mock_client = Mock()
         mock_opensubtitles.return_value = mock_client
-        
+
         # Mock search response
         mock_subtitle = Mock()
         mock_subtitle.to_dict.return_value = {"file_name": "Show - S01E01.srt"}
-        
+
         mock_response = Mock()
         mock_response.data = [mock_subtitle]
         mock_client.search.return_value = mock_response
-        
+
         # Mock download_and_save to return a path
         mock_client.download_and_save.return_value = "/tmp/fake.srt"
 

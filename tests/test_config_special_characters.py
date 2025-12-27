@@ -4,6 +4,7 @@ import tempfile
 from pathlib import Path
 
 import pytest
+
 from mkv_episode_matcher.core.config_manager import ConfigManager
 from mkv_episode_matcher.core.models import Config
 
@@ -34,13 +35,13 @@ class TestConfigSpecialCharacters:
     def _test_password_storage(self, password, temp_config_file, mock_config_data):
         """Helper to test password storage and retrieval."""
         cm = ConfigManager(config_path=temp_config_file)
-        
+
         config_data = mock_config_data.copy()
         config_data["open_subtitles_password"] = password
-        
+
         config = Config(**config_data)
         cm.save(config)
-        
+
         loaded = cm.load()
         assert loaded.open_subtitles_password == password
 
@@ -86,16 +87,15 @@ class TestConfigSpecialCharacters:
     def test_config_persistence(self, temp_config_file, mock_config_data):
         """Test that config values persist correctly across multiple operations."""
         password = "persistent%password#123"
-        
+
         # Save
         cm = ConfigManager(config_path=temp_config_file)
         config_data = mock_config_data.copy()
         config_data["open_subtitles_password"] = password
         config = Config(**config_data)
         cm.save(config)
-        
+
         # Load multiple times
         for _ in range(3):
             loaded = cm.load()
             assert loaded.open_subtitles_password == password
-

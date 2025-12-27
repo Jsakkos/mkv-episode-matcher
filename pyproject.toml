@@ -87,6 +87,7 @@ dev = [
     "seaborn>=0.13.2",
     "psutil>=7.0.0",
     "ipykernel>=7.1.0",
+    "pyinstaller>=6.17.0",
 ]
 
 
@@ -150,18 +151,16 @@ python_functions = ["test_*"]
 
 # Flet build configuration for desktop executables
 [tool.flet]
-name = "MKV Episode Matcher"
+org = "com.jsakkos"
+product = "MKV Episode Matcher"
 description = "Intelligent TV episode identification and renaming"
 author = "Jsakkos"
 version = "1.0.0"
 company = "Jsakkos"
-copyright = "Copyright © 2024 Jsakkos"
+copyright = "Copyright © 2025 Jsakkos"
 
-[tool.flet.app]
-main = "mkv_episode_matcher.ui.flet_app:main"
-
+# Build settings
 [tool.flet.build]
-# Include dependencies for all platforms
 include_packages = [
     "mkv_episode_matcher",
     "nemo", 
@@ -173,25 +172,6 @@ include_packages = [
     "loguru",
     "typer"
 ]
-
-# Windows-specific settings
-[tool.flet.build.windows]
-template = "app"
-output_name = "MKVEpisodeMatcher"
-icon = "assets/icon.ico"  # Optional - add icon if available
-
-# macOS-specific settings  
-[tool.flet.build.macos]
-template = "app"
-output_name = "MKVEpisodeMatcher"
-icon = "assets/icon.icns"  # Optional - add icon if available
-bundle_id = "com.jsakkos.mkvepisodematicher"
-
-# Linux-specific settings
-[tool.flet.build.linux]
-template = "app" 
-output_name = "mkvepisodematicher"
-icon = "assets/icon.png"  # Optional - add icon if available
 
 
 

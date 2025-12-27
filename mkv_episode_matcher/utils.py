@@ -14,8 +14,6 @@ from rich.panel import Panel
 
 from mkv_episode_matcher.core.config_manager import get_config_manager
 from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
-
-from mkv_episode_matcher.subtitle_utils import find_existing_subtitle, sanitize_filename
 from mkv_episode_matcher.tmdb_client import fetch_season_details
 
 console = Console()

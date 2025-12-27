@@ -218,26 +218,32 @@ class CompositeSubtitleProvider(SubtitleProvider):
         self, show_name: str, season: int, video_files: list[Path] = None
     ) -> list[SubtitleFile]:
         results = []
-        
+
         # Try each provider in order, but prioritize cached results
         for i, provider in enumerate(self.providers):
             provider_results = provider.get_subtitles(show_name, season, video_files)
-            
+
             # If this is the local provider and we have results, prefer them
             if isinstance(provider, LocalSubtitleProvider) and provider_results:
-                logger.info(f"Found {len(provider_results)} cached subtitles for {show_name} S{season:02d}")
+                logger.info(
+                    f"Found {len(provider_results)} cached subtitles for {show_name} S{season:02d}"
+                )
                 results.extend(provider_results)
                 # Return early if we have enough cached subtitles
-                if len(provider_results) >= 3:  # Arbitrary threshold for "enough" episodes
+                if (
+                    len(provider_results) >= 3
+                ):  # Arbitrary threshold for "enough" episodes
                     logger.info("Using cached subtitles, skipping download")
                     return results
             else:
                 # For non-local providers, only use if we don't have cached results
                 if not results:
-                    logger.info(f"No cached subtitles found, trying provider {i+1}")
+                    logger.info(f"No cached subtitles found, trying provider {i + 1}")
                     results.extend(provider_results)
                 else:
-                    logger.info("Skipping additional providers since cached subtitles are available")
+                    logger.info(
+                        "Skipping additional providers since cached subtitles are available"
+                    )
                     break
-                    
+
         return results
