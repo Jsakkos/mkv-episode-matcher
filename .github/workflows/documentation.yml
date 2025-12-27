@@ -26,12 +26,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
+          cache-dependency-glob: "uv.lock"
       - name: Install dependencies
         run: |
-          uv sync --dev
+          uv sync --group dev
 
       - name: Setup docs directory
         run: |
@@ -39,4 +40,4 @@ jobs:
           ln -sf ../README.md .
 
       - name: Deploy documentation
-        run: mkdocs gh-deploy --force
+        run: uv run mkdocs gh-deploy --force
