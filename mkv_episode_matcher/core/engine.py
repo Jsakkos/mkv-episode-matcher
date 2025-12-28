@@ -251,9 +251,11 @@ class MatchEngineV2:
                     season = int(match.group(1))
                     break
 
-        # Clean show name
+        # Clean show name (preserve common characters like & and ')
         if show_name:
-            show_name = re.sub(r"[^\w\s-]", "", show_name).strip()
+            show_name = re.sub(r"[^\w\s\-&']", "", show_name).strip()
+            # Normalize multiple spaces to single space
+            show_name = re.sub(r"\s+", " ", show_name)
 
         return show_name, season
 
