@@ -85,6 +85,20 @@ def match(
         "--download-subs/--no-download-subs",
         help="Automatically download subtitles if not found locally",
     ),
+    # TMDB options
+    tmdb_id: int | None = typer.Option(
+        None,
+        "--tmdb-id",
+        help="Manually specify the TMDB Show ID (e.g. 549 for Law & Order)",
+    ),
+    # Logging options
+    log_level: str = typer.Option(
+        "INFO",
+        "--log-level",
+        "-l",
+        help="Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+        case_sensitive=False,
+    ),
 ):
     """
     Process MKV files with intelligent episode matching.
@@ -111,6 +125,16 @@ def match(
         # Automation mode
         mkv-match show/ --json --confidence 0.8
     """
+
+    # Configure logging level
+    log_level = log_level.upper()
+    valid_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    if log_level not in valid_levels:
+        console.print(f"[red]Invalid log level: {log_level}. Must be one of {', '.join(valid_levels)}[/red]")
+        sys.exit(1)
+
+    logger.remove()
+    logger.add(sys.stderr, level=log_level)
 
     if not json_output:
         print_banner()
@@ -188,6 +212,7 @@ def match(
             output_dir=output_dir,
             json_output=json_output,
             confidence_threshold=confidence_threshold,
+            tmdb_id=tmdb_id,
         )
 
         # Output results

@@ -120,6 +120,34 @@ def fetch_show_id(show_name: str) -> str | None:
 
 
 @retry_network_operation(max_retries=3, base_delay=1.0)
+def fetch_show_details(show_id: int) -> dict | None:
+    """
+    Fetch show details from TMDB by ID.
+
+    Args:
+        show_id: The TMDB show ID
+
+    Returns:
+        dict: Show details including 'name', 'number_of_seasons', etc.
+        None: If request fails or API key not configured
+    """
+    config = get_config_manager().load()
+    if not config.tmdb_api_key:
+        logger.warning("TMDB API key not configured")
+        return None
+
+    url = f"https://api.themoviedb.org/3/tv/{show_id}?api_key={config.tmdb_api_key}"
+
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Failed to fetch show details for ID {show_id}: {e}")
+        return None
+
+
+@retry_network_operation(max_retries=3, base_delay=1.0)
 def fetch_season_details(show_id: str, season_number: int) -> int:
     """
     Fetch the total number of episodes for a given show and season from the TMDb API.

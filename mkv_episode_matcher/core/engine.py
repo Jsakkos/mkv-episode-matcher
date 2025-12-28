@@ -251,9 +251,11 @@ class MatchEngineV2:
                     season = int(match.group(1))
                     break
 
-        # Clean show name
+        # Clean show name (preserve common characters like & and ')
         if show_name:
-            show_name = re.sub(r"[^\w\s-]", "", show_name).strip()
+            show_name = re.sub(r"[^\w\s\-&']", "", show_name).strip()
+            # Normalize multiple spaces to single space
+            show_name = re.sub(r"\s+", " ", show_name)
 
         return show_name, season
 
@@ -302,7 +304,7 @@ class MatchEngineV2:
         return groups
 
     def _get_subtitles_with_fallback(
-        self, show_name: str, season: int, video_files: list[Path] = None
+        self, show_name: str, season: int, video_files: list[Path] = None, tmdb_id: int | None = None
     ):
         """Get subtitles with fallback chain (local -> subliminal)."""
         # Try to get from cache first
@@ -314,7 +316,7 @@ class MatchEngineV2:
 
         # Get subtitles from providers (pass video files for Subliminal)
         logger.info(f"Fetching subtitles for {show_name} S{season:02d}")
-        subs = self.subtitle_provider.get_subtitles(show_name, season, video_files)
+        subs = self.subtitle_provider.get_subtitles(show_name, season, video_files, tmdb_id)
 
         # Cache results
         if subs:
@@ -388,6 +390,7 @@ class MatchEngineV2:
         output_dir: Path | None = None,
         json_output: bool = False,
         confidence_threshold: float = None,
+        tmdb_id: int | None = None,
         progress_callback=None,
     ) -> tuple[list[MatchResult], list]:
         """
@@ -401,6 +404,7 @@ class MatchEngineV2:
             output_dir: Directory to copy renamed files to (instead of renaming in place)
             json_output: If True, suppress rich console output for JSON mode
             confidence_threshold: Minimum confidence score for matches
+            tmdb_id: Manually specify the TMDB Show ID to avoid auto-detection issues
 
         Returns:
             Tuple of (successful matches, failed matches)
@@ -447,7 +451,7 @@ class MatchEngineV2:
                 )
 
                 # Get subtitles for this series/season (pass video files for Subliminal)
-                subs = self._get_subtitles_with_fallback(show_name, season, group_files)
+                subs = self._get_subtitles_with_fallback(show_name, season, group_files, tmdb_id)
 
                 if not subs:
                     if not json_output:

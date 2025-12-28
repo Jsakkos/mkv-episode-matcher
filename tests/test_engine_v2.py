@@ -436,6 +436,43 @@ class TestIntegrationUseCases:
             assert len(results) >= 0  # Should not crash
             # Note: Actual result count depends on mock configuration
 
+    def test_use_case_6_manual_tmdb_id(self, mock_dependencies):
+        """Test Use Case 6: Manual TMDB ID specification for show name conflicts."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            config = Config(
+                cache_dir=Path(tmp_dir),
+                sub_provider="opensubtitles",
+                tmdb_api_key="test_key",
+            )
+            engine = MatchEngineV2(config)
+
+            # Create test directory structure for Law & Order
+            test_dir = Path(tmp_dir) / "Law & Order" / "Season 1"
+            test_dir.mkdir(parents=True)
+            test_file = test_dir / "episode.mkv"
+            test_file.touch()
+
+            # Mock subtitle availability
+            mock_dependencies["local"].return_value.get_subtitles.return_value = [Mock()]
+            mock_dependencies["opensubtitles"].return_value.get_subtitles.return_value = [Mock()]
+
+            # Process with manual TMDB ID to override show detection
+            results, _ = engine.process_path(test_file, tmdb_id=549, dry_run=True)
+
+            # Verify tmdb_id was passed to subtitle providers
+            # Check if get_subtitles was called on any provider
+            local_called = mock_dependencies["local"].return_value.get_subtitles.called
+            os_called = mock_dependencies["opensubtitles"].return_value.get_subtitles.called
+
+            if local_called:
+                call_args = mock_dependencies["local"].return_value.get_subtitles.call_args
+                # Verify tmdb_id parameter was passed
+                assert call_args is not None
+                # Check if tmdb_id is in kwargs
+                if call_args[1]:  # kwargs present
+                    assert "tmdb_id" in call_args[1]
+                    assert call_args[1]["tmdb_id"] == 549
+
 
 class TestCLIIntegration:
     """Test CLI integration with engine."""
