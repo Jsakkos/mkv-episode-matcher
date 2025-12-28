@@ -56,13 +56,15 @@ nemo = [
 name = "pytorch-cu128"
 url = "https://download.pytorch.org/whl/cu128"
 explicit = true
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-cu128", extra = "cu128" },
-]
-torchvision = [
-  { index = "pytorch-cu128", extra = "cu128" },
-]
+# CUDA sources only apply when cu128 extra is explicitly requested
+# For default installs, use standard PyPI which has CPU and CUDA wheels
+# [tool.uv.sources]
+# torch = [
+#   { index = "pytorch-cu128", extra = "cu128" },
+# ]
+# torchvision = [
+#   { index = "pytorch-cu128", extra = "cu128" },
+# ]
 [project.urls]
 Documentation = "https://github.com/Jsakkos/mkv-episode-matcher#readme"
 Issues = "https://github.com/Jsakkos/mkv-episode-matcher/issues"

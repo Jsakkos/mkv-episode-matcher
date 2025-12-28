@@ -32,12 +32,14 @@ jobs:
           cache-dependency-glob: "uv.lock"
       - name: Install dependencies
         run: |
-          uv sync --group dev
+          uv sync --group dev --no-install-project
+          uv pip install -e .
 
       - name: Setup docs directory
         run: |
           cd docs
           ln -sf ../README.md .
+          ln -sf ../CHANGELOG.md .
 
       - name: Deploy documentation
         run: uv run mkdocs gh-deploy --force
