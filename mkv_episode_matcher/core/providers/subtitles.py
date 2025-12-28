@@ -213,22 +213,14 @@ class OpenSubtitlesProvider(SubtitleProvider):
         if tmdb_id:
             logger.info(f"Using manual TMDB ID: {tmdb_id} for {show_name} S{season:02d}")
             try:
-                # Get the correct show name from TMDB API
-                from mkv_episode_matcher.tmdb_client import get_config_manager
-                import requests
-                
-                config = get_config_manager().load()
-                if config.tmdb_api_key:
-                    url = f"https://api.themoviedb.org/3/tv/{tmdb_id}?api_key={config.tmdb_api_key}"
-                    response = requests.get(url, timeout=10)
-                    if response.status_code == 200:
-                        show_data = response.json()
-                        search_show_name = show_data.get("name", show_name)
-                        logger.info(f"TMDB lookup: Using '{search_show_name}' instead of '{show_name}'")
-                    else:
-                        logger.warning(f"Failed to lookup TMDB ID {tmdb_id}: {response.status_code}")
+                from mkv_episode_matcher.tmdb_client import fetch_show_details
+
+                show_data = fetch_show_details(tmdb_id)
+                if show_data:
+                    search_show_name = show_data.get("name", show_name)
+                    logger.info(f"TMDB lookup: Using '{search_show_name}' instead of '{show_name}'")
                 else:
-                    logger.warning("TMDB API key not configured, cannot lookup show name by ID")
+                    logger.warning(f"Failed to lookup TMDB ID {tmdb_id}")
             except Exception as e:
                 logger.error(f"Error looking up TMDB ID {tmdb_id}: {e}")
 
