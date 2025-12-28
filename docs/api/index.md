@@ -8,13 +8,23 @@ This section contains the automatically generated API documentation for MKV Epis
     options:
         show_root_heading: true
         heading_level: 2
-        
-::: mkv_episode_matcher.episode_matcher
+
+::: mkv_episode_matcher.cli
     options:
         show_root_heading: true
         heading_level: 2
 
 ::: mkv_episode_matcher.episode_identification
+    options:
+        show_root_heading: true
+        heading_level: 2
+
+::: mkv_episode_matcher.asr_models
+    options:
+        show_root_heading: true
+        heading_level: 2
+
+::: mkv_episode_matcher.subtitle_utils
     options:
         show_root_heading: true
         heading_level: 2

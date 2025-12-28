@@ -1,6 +1,6 @@
 # Changelog
 
-For a complete list of changes, see [CHANGELOG.md](../CHANGELOG.md) in the repository root.
+For a complete list of changes, see [CHANGELOG.md](CHANGELOG.md) in the repository root.
 
 ## Latest Changes
 

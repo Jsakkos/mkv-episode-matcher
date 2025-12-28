@@ -1,37 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh issue view:*)",
-      "Bash(git checkout:*)",
-      "Bash(python -m pytest tests/ -v)",
-      "Bash(uv run pytest:*)",
-      "Bash(gh pr view:*)",
-      "Bash(gh pr checks:*)",
       "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(uv run --help:*)",
       "Bash(gh run view:*)",
-      "Bash(uv run:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(rm:*)",
-      "Bash(uv sync:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(python:*)",
-      "Bash(uv add:*)",
-      "Bash(timeout 60 uv run:*)",
-      "WebFetch(domain:huggingface.co)",
-      "Bash(timeout 300 uv run:*)",
-      "Bash(find:*)",
-      "Bash(jq:*)",
-      "Bash(sed:*)",
-      "WebFetch(domain:subliminal.readthedocs.org)",
-      "WebFetch(domain:subliminal.readthedocs.io)",
-      "Bash(mv:*)",
-      "Bash(mkv-match:*)",
-      "WebFetch(domain:docs.flet.dev)",
-      "Bash(mkdir:*)"
-    ],
-    "deny": []
+      "Bash(git -C \"D:\\\\mkv-episode-matcher\" log -1 --format=\"%H %s\" .github/workflows/flet-builds.yml)",
+      "Bash(git -C \"D:\\\\mkv-episode-matcher\" log --all --oneline -n 20)",
+      "Bash(ls:*)"
+    ]
   }
 }
