@@ -153,7 +153,14 @@ class OpenSubtitlesProvider(SubtitleProvider):
             self.client = None
 
     @retry_with_backoff(max_retries=3, base_delay=1.0)
-    def _search_with_retry(self, query: str, languages: str = "en"):
+    def _search_with_retry(
+        self,
+        query: str | None = None,
+        languages: str = "en",
+        parent_tmdb_id: int | None = None,
+        season_number: int | None = None,
+        type: str | None = None,
+    ):
         """Search for subtitles with retry logic."""
         if not self.client:
             raise RuntimeError("OpenSubtitles client not initialized")
@@ -171,14 +178,24 @@ class OpenSubtitlesProvider(SubtitleProvider):
             signal.alarm(self.network_timeout)
 
         try:
-            return self.client.search(query=query, languages=languages)
+            return self.client.search(
+                query=query,
+                languages=languages,
+                parent_tmdb_id=parent_tmdb_id,
+                season_number=season_number,
+                type=type,
+            )
         finally:
             if hasattr(signal, "SIGALRM"):
                 signal.alarm(0)  # Cancel the alarm
 
-    @retry_with_backoff(max_retries=2, base_delay=0.5)
+    @retry_with_backoff(max_retries=5, base_delay=3.0)
     def _download_with_retry(self, subtitle):
-        """Download subtitle file with retry logic."""
+        """Download subtitle file with retry logic.
+
+        Uses 5 retries with 3s base delay to handle rate limit issues,
+        as the OpenSubtitles download quota can be buggy.
+        """
         if not self.client:
             raise RuntimeError("OpenSubtitles client not initialized")
 
@@ -233,12 +250,24 @@ class OpenSubtitlesProvider(SubtitleProvider):
         downloaded_subtitles = []
 
         try:
-            # Search by query with retry logic
-            query = f"{search_show_name} S{season:02d}"
-            response = self._search_with_retry(query)
+            # Search by TMDB ID if available, otherwise fall back to query search
+            if tmdb_id:
+                logger.debug(f"Searching OpenSubtitles by parent_tmdb_id={tmdb_id}, season={season}")
+                response = self._search_with_retry(
+                    query=None,
+                    parent_tmdb_id=tmdb_id,
+                    season_number=season,
+                    type="episode",
+                )
+            else:
+                # Fallback to query-based search
+                query = f"{search_show_name} S{season:02d}"
+                logger.debug(f"Searching OpenSubtitles by query: {query}")
+                response = self._search_with_retry(query=query, type="episode")
 
             if not response.data:
-                logger.warning(f"No subtitles found for query: {query}")
+                search_desc = f"TMDB ID {tmdb_id} S{season:02d}" if tmdb_id else f"query '{search_show_name} S{season:02d}'"
+                logger.warning(f"No subtitles found for {search_desc}")
                 return []
 
             logger.info(f"Found {len(response.data)} potential subtitles")
@@ -247,8 +276,15 @@ class OpenSubtitlesProvider(SubtitleProvider):
             # For now, let's download unique episodes for this season.
 
             seen_episodes = set()
+            logger.debug(f"Starting subtitle download loop for season {season}")
+
+            subtitles_checked = 0
+            subtitles_skipped_season = 0
+            subtitles_skipped_parse = 0
 
             for subtitle in response.data:
+                subtitles_checked += 1
+
                 # Use API provided metadata first
                 api_season = getattr(subtitle, "season_number", None)
                 api_episode = getattr(subtitle, "episode_number", None)
@@ -263,17 +299,25 @@ class OpenSubtitlesProvider(SubtitleProvider):
                         # Fallback if it somehow changes to object
                         sub_filename = getattr(subtitle.files[0], "file_name", "")
 
+                logger.debug(f"Subtitle {subtitles_checked}: api_season={api_season}, api_episode={api_episode}, filename={sub_filename}")
+
                 # Check match
                 if api_season and api_episode:
                     if api_season != season:
+                        logger.debug(f"  Skipping: API season {api_season} != requested season {season}")
+                        subtitles_skipped_season += 1
                         continue
                     ep_num = api_episode
+                    logger.debug(f"  Using API metadata: S{api_season:02d}E{ep_num:02d}")
                 else:
                     # Fallback to parsing filename
                     info = parse_season_episode(sub_filename or "")
                     if not info or info.season != season:
+                        logger.debug(f"  Skipping: Failed to parse or season mismatch in filename: {sub_filename}")
+                        subtitles_skipped_parse += 1
                         continue
                     ep_num = info.episode
+                    logger.debug(f"  Parsed from filename: S{info.season:02d}E{ep_num:02d}")
 
                 if ep_num in seen_episodes:
                     continue
@@ -303,6 +347,11 @@ class OpenSubtitlesProvider(SubtitleProvider):
                 except Exception as e:
                     logger.error(f"Failed to download/save subtitle: {e}")
 
+            logger.debug(
+                f"Subtitle download loop complete: checked={subtitles_checked}, "
+                f"skipped_season={subtitles_skipped_season}, skipped_parse={subtitles_skipped_parse}, "
+                f"downloaded={len(downloaded_subtitles)}"
+            )
             return downloaded_subtitles
 
         except Exception as e:

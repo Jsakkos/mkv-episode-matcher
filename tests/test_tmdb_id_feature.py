@@ -194,12 +194,13 @@ class TestOpenSubtitlesProviderWithTmdbId:
             tmdb_call_url = mock_tmdb_get.call_args[0][0]
             assert "549" in tmdb_call_url
 
-            # Verify OpenSubtitles search used correct name from TMDB
+            # Verify OpenSubtitles search used TMDB ID parameters
             mock_client.search.assert_called()
-            search_args = mock_client.search.call_args
-            query = search_args[1]["query"]
-            # Should use "Law & Order" from TMDB, not "Law & Order SVU"
-            assert "Law & Order" in query
+            search_kwargs = mock_client.search.call_args[1]
+            # Should use parent_tmdb_id when available
+            assert search_kwargs["parent_tmdb_id"] == 549
+            assert search_kwargs["season_number"] == 1
+            assert search_kwargs["type"] == "episode"
 
     @patch("mkv_episode_matcher.core.providers.subtitles.OpenSubtitlesProvider._authenticate")
     @patch("mkv_episode_matcher.core.providers.subtitles.get_config_manager")
@@ -306,16 +307,19 @@ class TestOpenSubtitlesProviderWithTmdbId:
             tmdb_url = mock_tmdb_get.call_args[0][0]
             assert "/tv/549?" in tmdb_url
 
-            # CRITICAL ASSERTION: Verify OpenSubtitles search used "Law & Order"
-            # NOT "Law & Order: SVU"
+            # CRITICAL ASSERTION: Verify OpenSubtitles search used TMDB ID 549
+            # This ensures we get "Law & Order" results, NOT "Law & Order: SVU"
             mock_client.search.assert_called()
-            search_query = mock_client.search.call_args[1]["query"]
+            search_kwargs = mock_client.search.call_args[1]
             assert (
-                "Law & Order S01" in search_query
-            ), f"Expected 'Law & Order S01', got '{search_query}'"
+                search_kwargs["parent_tmdb_id"] == 549
+            ), f"Expected parent_tmdb_id=549, got {search_kwargs.get('parent_tmdb_id')}"
             assert (
-                "SVU" not in search_query
-            ), f"'SVU' should not be in search query, got '{search_query}'"
+                search_kwargs["season_number"] == 1
+            ), f"Expected season_number=1, got {search_kwargs.get('season_number')}"
+            assert (
+                search_kwargs["type"] == "episode"
+            ), f"Expected type='episode', got {search_kwargs.get('type')}"
 
     @patch("mkv_episode_matcher.core.providers.subtitles.OpenSubtitlesProvider._authenticate")
     @patch("mkv_episode_matcher.core.providers.subtitles.get_config_manager")
@@ -359,7 +363,10 @@ class TestOpenSubtitlesProviderWithTmdbId:
                 show_name="Test Show", season=1, tmdb_id=549
             )
 
-            # Verify search used original name as fallback
+            # Verify search still used TMDB ID even though lookup failed
+            # The TMDB ID is more reliable than the show name
             mock_client.search.assert_called()
-            search_query = mock_client.search.call_args[1]["query"]
-            assert "Test Show" in search_query
+            search_kwargs = mock_client.search.call_args[1]
+            assert search_kwargs["parent_tmdb_id"] == 549
+            assert search_kwargs["season_number"] == 1
+            assert search_kwargs["type"] == "episode"
