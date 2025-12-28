@@ -100,7 +100,7 @@ jobs:
 
       - name: Build desktop application
         run: |
-          ${{ matrix.build_command }} --verbose --build-name "${{ github.event.release.tag_name || inputs.version || '1.0.0' }}" --build-number ${{ github.run_number }}
+          ${{ matrix.build_command }} --verbose
         env:
           PYTHONPATH: ${{ github.workspace }}
 
