@@ -43,10 +43,3 @@ This section contains the automatically generated API documentation for MKV Epis
     options:
         show_root_heading: true
         heading_level: 2
-
-## Configuration
-
-::: mkv_episode_matcher.config
-    options:
-        show_root_heading: true
-        heading_level: 2
