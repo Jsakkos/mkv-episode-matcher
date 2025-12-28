@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -560,6 +560,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#configuration-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-configuration-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🖥️ GUI Configuration (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 CLI Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✏️ Manual Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration-options" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -571,10 +621,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#command-line-configuration" class="md-nav__link">
+  <a href="#api-keys-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command Line Configuration
+        API Keys Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Keys Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tmdb-api-key-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎬 TMDb API Key (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opensubtitles-api-key-required-for-subtitles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📥 OpenSubtitles API Key (Required for subtitles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asr-provider-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ASR Provider Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Validation
       
     </span>
   </a>
@@ -582,22 +721,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#detailed-options" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Detailed Options
+        Environment Variables
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Detailed Options">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tmdb-configuration" class="md-nav__link">
+  <a href="#configuration-not-found" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TMDb Configuration
+        Configuration Not Found
       
     </span>
   </a>
@@ -605,10 +755,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#opensubtitles-configuration" class="md-nav__link">
+  <a href="#api-key-issues" class="md-nav__link">
     <span class="md-ellipsis">
       
-        OpenSubtitles Configuration
+        API Key Issues
       
     </span>
   </a>
@@ -616,10 +766,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#performance-settings" class="md-nav__link">
+  <a href="#permission-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Settings
+        Permission Errors
       
     </span>
   </a>
@@ -825,6 +975,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#configuration-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-configuration-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🖥️ GUI Configuration (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 CLI Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✏️ Manual Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration-options" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -836,10 +1036,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#command-line-configuration" class="md-nav__link">
+  <a href="#api-keys-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command Line Configuration
+        API Keys Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Keys Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tmdb-api-key-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎬 TMDb API Key (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opensubtitles-api-key-required-for-subtitles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📥 OpenSubtitles API Key (Required for subtitles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asr-provider-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ASR Provider Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Validation
       
     </span>
   </a>
@@ -847,22 +1136,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#detailed-options" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Detailed Options
+        Environment Variables
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Detailed Options">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tmdb-configuration" class="md-nav__link">
+  <a href="#configuration-not-found" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TMDb Configuration
+        Configuration Not Found
       
     </span>
   </a>
@@ -870,10 +1170,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#opensubtitles-configuration" class="md-nav__link">
+  <a href="#api-key-issues" class="md-nav__link">
     <span class="md-ellipsis">
       
-        OpenSubtitles Configuration
+        API Key Issues
       
     </span>
   </a>
@@ -881,10 +1181,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#performance-settings" class="md-nav__link">
+  <a href="#permission-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Settings
+        Permission Errors
       
     </span>
   </a>
@@ -917,59 +1217,214 @@
 
 
 <h1 id="configuration-guide">Configuration Guide</h1>
+<p>MKV Episode Matcher v1.0.0 supports both interactive configuration through the GUI and CLI, as well as manual JSON configuration files.</p>
 <h2 id="configuration-file">Configuration File</h2>
-<p>MKV Episode Matcher uses a configuration file located at:</p>
+<p>MKV Episode Matcher uses a JSON configuration file located at:</p>
 <ul>
-<li>Windows: <code>%USERPROFILE%\.mkv-episode-matcher\config.ini</code></li>
-<li>Linux/Mac: <code>~/.mkv-episode-matcher/config.ini</code></li>
+<li>Windows: <code>%USERPROFILE%\.mkv-episode-matcher\config.json</code></li>
+<li>Linux/Mac: <code>~/.mkv-episode-matcher/config.json</code></li>
 </ul>
+<h2 id="configuration-methods">Configuration Methods</h2>
+<h3 id="gui-configuration-recommended">🖥️ GUI Configuration (Recommended)</h3>
+<p>The easiest way to configure the application:</p>
+<ol>
+<li>Launch the desktop app: <code>mkv-match gui</code></li>
+<li>Click the settings (⚙️) icon in the header</li>
+<li>Fill in your API keys and preferences</li>
+<li>Save the configuration</li>
+</ol>
+<p>The GUI provides:
+- Visual input validation
+- Secure password fields
+- Real-time configuration testing
+- Theme-adaptive settings dialog</p>
+<h3 id="cli-configuration">💻 CLI Configuration</h3>
+<p>Interactive configuration wizard:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Interactive setup</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkv-match<span class="w"> </span>config
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Set specific values</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mkv-match<span class="w"> </span>config<span class="w"> </span>--tmdb-api-key<span class="w"> </span><span class="s2">&quot;your_key&quot;</span><span class="w"> </span>--opensub-api-key<span class="w"> </span><span class="s2">&quot;your_key&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Show current configuration</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>mkv-match<span class="w"> </span>config<span class="w"> </span>--show
+</code></pre></div>
+<h3 id="manual-configuration">✏️ Manual Configuration</h3>
+<p>Example configuration file (<code>config.json</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;tmdb_api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_tmdb_api_key&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;open_subtitles_api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_opensubs_key&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;open_subtitles_user_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mkv-episode-matcher/1.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;open_subtitles_username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_username&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;open_subtitles_password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your_password&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">&quot;cache_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/.mkv-episode-matcher/cache&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">&quot;min_confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">&quot;asr_provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;parakeet&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">&quot;sub_provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;opensubtitles&quot;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div>
 <h2 id="configuration-options">Configuration Options</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Required Settings</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_tmdb_api_key</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="na">show_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/shows</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Optional Settings</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_opensubs_key</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_user_agent</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_username</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_password</span>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tmdb_api_key</code></td>
+<td>TMDb API key</td>
+<td>None</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>open_subtitles_api_key</code></td>
+<td>OpenSubtitles API key</td>
+<td>None</td>
+<td>Yes*</td>
+</tr>
+<tr>
+<td><code>open_subtitles_user_agent</code></td>
+<td>User agent for API requests</td>
+<td><code>mkv-episode-matcher/1.0.0</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>open_subtitles_username</code></td>
+<td>OpenSubtitles username</td>
+<td>None</td>
+<td>No†</td>
+</tr>
+<tr>
+<td><code>open_subtitles_password</code></td>
+<td>OpenSubtitles password</td>
+<td>None</td>
+<td>No†</td>
+</tr>
+<tr>
+<td><code>cache_dir</code></td>
+<td>Cache directory path</td>
+<td><code>~/.mkv-episode-matcher/cache</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>min_confidence</code></td>
+<td>Minimum confidence threshold (0-1)</td>
+<td>0.8</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>asr_provider</code></td>
+<td>Speech recognition provider</td>
+<td><code>parakeet</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>sub_provider</code></td>
+<td>Subtitle provider</td>
+<td><code>opensubtitles</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>* Required if using subtitle download functionality<br />
+† Recommended for better rate limits</p>
+<h2 id="api-keys-setup">API Keys Setup</h2>
+<h3 id="tmdb-api-key-optional">🎬 TMDb API Key (Optional)</h3>
+<p>TMDb integration provides enhanced episode metadata:</p>
+<ol>
+<li>Visit <a href="https://www.themoviedb.org/settings/api">TMDb API Settings</a></li>
+<li>Create a new API key</li>
+<li>Add it to your configuration</li>
+</ol>
+<p><strong>Features enabled:</strong>
+- Enhanced show identification
+- Episode titles and metadata
+- Season information validation</p>
+<h3 id="opensubtitles-api-key-required-for-subtitles">📥 OpenSubtitles API Key (Required for subtitles)</h3>
+<p>OpenSubtitles integration provides subtitle downloads:</p>
+<ol>
+<li>Visit <a href="https://www.opensubtitles.com/consumers">OpenSubtitles Developers</a></li>
+<li>Create an account and register an application</li>
+<li>Get your API key</li>
+<li>Add credentials to configuration</li>
+</ol>
+<p><strong>Username/Password Benefits:</strong>
+- Higher API rate limits
+- Better download quotas
+- Priority support</p>
+<h2 id="advanced-settings">Advanced Settings</h2>
+<h3 id="asr-provider-configuration">ASR Provider Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;asr_provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;parakeet&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;asr_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvidia/parakeet-tdt-1.1b&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;asr_device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="command-line-configuration">Command Line Configuration</h2>
-<p>All configuration options can be set via command line:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkv-match<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--tmdb-api-key<span class="w"> </span><span class="s2">&quot;your_key&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--show-dir<span class="w"> </span><span class="s2">&quot;/path/to/shows&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--season<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--dry-run<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>--get-subs<span class="w"> </span><span class="nb">true</span>
+<p><strong>Available providers:</strong>
+- <code>parakeet</code>: NVIDIA Parakeet (default, most accurate)
+- <code>whisper</code>: OpenAI Whisper (fallback)</p>
+<h3 id="cache-configuration">Cache Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;cache_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/custom/cache/path&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;cache_max_memory_mb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;cache_max_items&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="detailed-options">Detailed Options</h2>
-<h3 id="tmdb-configuration">TMDb Configuration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">tmdb_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_api_key</span>
+<p><strong>Cache features:</strong>
+- Bounded memory usage (512MB default)
+- LRU eviction strategy
+- Persistent model caching</p>
+<h3 id="network-configuration">Network Configuration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;network_timeout&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;network_retries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;backoff_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
 </code></pre></div>
-<p>The TMDb API key is required for:
-- Show identification
-- Episode information
-- Season details</p>
-<h3 id="opensubtitles-configuration">OpenSubtitles Configuration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">open_subtitles_api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_key</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="na">open_subtitles_user_agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your_agent</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="na">open_subtitles_username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">username</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="na">open_subtitles_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">password</span>
+<p><strong>Network resilience:</strong>
+- Automatic retries with exponential backoff
+- Configurable timeouts
+- Connection error handling</p>
+<h2 id="configuration-validation">Configuration Validation</h2>
+<p>The application validates configuration on startup:</p>
+<p>✅ <strong>Valid Configuration:</strong>
+- All required keys present
+- API keys have correct format
+- Paths are accessible
+- Values within valid ranges</p>
+<p>❌ <strong>Common Issues:</strong>
+- Missing OpenSubtitles API key when using <code>--get-subs</code>
+- Invalid cache directory permissions
+- Confidence threshold outside 0.0-1.0 range</p>
+<h2 id="environment-variables">Environment Variables</h2>
+<p>Override configuration with environment variables:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MKV_TMDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MKV_OPENSUB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MKV_CACHE_DIR</span><span class="o">=</span><span class="s2">&quot;/custom/cache&quot;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MKV_CONFIDENCE</span><span class="o">=</span><span class="m">0</span>.85
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>mkv-match<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/show/&quot;</span>
 </code></pre></div>
-<p>Required only if using subtitle download functionality.</p>
-<h3 id="performance-settings">Performance Settings</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[Config]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">max_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
-</code></pre></div>
-<p>Adjust based on your system's capabilities:
-- Default: 4 threads
-- Minimum: 1 thread
-- Maximum: Number of CPU cores</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="configuration-not-found">Configuration Not Found</h3>
+<p>If configuration is missing:
+1. Run <code>mkv-match config</code> to create it
+2. Or use GUI settings to initialize
+3. Check file permissions in <code>~/.mkv-episode-matcher/</code></p>
+<h3 id="api-key-issues">API Key Issues</h3>
+<p>For API authentication problems:
+1. Verify keys in your provider dashboards
+2. Check network connectivity
+3. Review rate limiting messages in logs</p>
+<h3 id="permission-errors">Permission Errors</h3>
+<p>For cache directory issues:
+1. Ensure write permissions to cache directory
+2. Try custom cache directory: <code>--cache-dir "/writable/path"</code>
+3. Check disk space availability</p>
 
 
 
@@ -1043,10 +1498,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
