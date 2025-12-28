@@ -85,6 +85,12 @@ def match(
         "--download-subs/--no-download-subs",
         help="Automatically download subtitles if not found locally",
     ),
+    # TMDB options
+    tmdb_id: int | None = typer.Option(
+        None,
+        "--tmdb-id",
+        help="Manually specify the TMDB Show ID (e.g. 549 for Law & Order)",
+    ),
 ):
     """
     Process MKV files with intelligent episode matching.
@@ -188,6 +194,7 @@ def match(
             output_dir=output_dir,
             json_output=json_output,
             confidence_threshold=confidence_threshold,
+            tmdb_id=tmdb_id,
         )
 
         # Output results

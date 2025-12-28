@@ -75,7 +75,7 @@ def parse_season_episode(filename: str) -> EpisodeInfo | None:
 class SubtitleProvider(abc.ABC):
     @abc.abstractmethod
     def get_subtitles(
-        self, show_name: str, season: int, video_files: list[Path] = None
+        self, show_name: str, season: int, video_files: list[Path] = None, tmdb_id: int | None = None
     ) -> list[SubtitleFile]:
         pass
 
@@ -87,7 +87,7 @@ class LocalSubtitleProvider(SubtitleProvider):
         self.cache_dir = cache_dir / "data"
 
     def get_subtitles(
-        self, show_name: str, season: int, video_files: list[Path] = None
+        self, show_name: str, season: int, video_files: list[Path] = None, tmdb_id: int | None = None
     ) -> list[SubtitleFile]:
         """Get all subtitle files for a specific show and season."""
         show_dir = self.cache_dir / show_name
@@ -201,22 +201,38 @@ class OpenSubtitlesProvider(SubtitleProvider):
                 signal.alarm(0)  # Cancel the alarm
 
     def get_subtitles(
-        self, show_name: str, season: int, video_files: list[Path] = None
+        self, show_name: str, season: int, video_files: list[Path] = None, tmdb_id: int | None = None
     ) -> list[SubtitleFile]:
         """Get subtitles for a show/season by downloading them."""
         if not self.client:
             logger.error("OpenSubtitles client not available")
             return []
 
-        # We need video files to do specific searching usually, but if we just want to bulk match
-        # we might want to search by query.
-        # However, the engine usually passes a list of video files for the season.
+        # Check for manual TMDB ID first and get correct show name
+        search_show_name = show_name
+        if tmdb_id:
+            logger.info(f"Using manual TMDB ID: {tmdb_id} for {show_name} S{season:02d}")
+            try:
+                # Get the correct show name from TMDB API
+                from mkv_episode_matcher.tmdb_client import get_config_manager
+                import requests
+                
+                config = get_config_manager().load()
+                if config.tmdb_api_key:
+                    url = f"https://api.themoviedb.org/3/tv/{tmdb_id}?api_key={config.tmdb_api_key}"
+                    response = requests.get(url, timeout=10)
+                    if response.status_code == 200:
+                        show_data = response.json()
+                        search_show_name = show_data.get("name", show_name)
+                        logger.info(f"TMDB lookup: Using '{search_show_name}' instead of '{show_name}'")
+                    else:
+                        logger.warning(f"Failed to lookup TMDB ID {tmdb_id}: {response.status_code}")
+                else:
+                    logger.warning("TMDB API key not configured, cannot lookup show name by ID")
+            except Exception as e:
+                logger.error(f"Error looking up TMDB ID {tmdb_id}: {e}")
 
-        # If we have video files, we can try to find subs for them specifically?
-        # Or just search for "Show Name S01" to get a bunch?
-        # OpenSubtitles API allows searching by query "Show Name S01".
-
-        logger.info(f"Searching OpenSubtitles for {show_name} S{season:02d}")
+        logger.info(f"Searching OpenSubtitles for {search_show_name} S{season:02d}")
 
         # Prepare cache directory
         cache_dir = self.config.cache_dir / "data" / show_name
@@ -226,7 +242,7 @@ class OpenSubtitlesProvider(SubtitleProvider):
 
         try:
             # Search by query with retry logic
-            query = f"{show_name} S{season:02d}"
+            query = f"{search_show_name} S{season:02d}"
             response = self._search_with_retry(query)
 
             if not response.data:
@@ -307,13 +323,13 @@ class CompositeSubtitleProvider(SubtitleProvider):
         self.providers = providers
 
     def get_subtitles(
-        self, show_name: str, season: int, video_files: list[Path] = None
+        self, show_name: str, season: int, video_files: list[Path] = None, tmdb_id: int | None = None
     ) -> list[SubtitleFile]:
         results = []
 
         # Try each provider in order, but prioritize cached results
         for i, provider in enumerate(self.providers):
-            provider_results = provider.get_subtitles(show_name, season, video_files)
+            provider_results = provider.get_subtitles(show_name, season, video_files, tmdb_id)
 
             # If this is the local provider and we have results, prefer them
             if isinstance(provider, LocalSubtitleProvider) and provider_results:
