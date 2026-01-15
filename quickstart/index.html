@@ -544,6 +544,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#web-ui-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📸 Web UI Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#command-line-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1021,6 +1032,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#web-ui-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📸 Web UI Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#command-line-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1305,6 +1327,18 @@
 2. Click the settings (⚙️) icon in the header
 3. Configure your API keys and preferences
 4. Select a library folder and start processing!</p>
+<h3 id="web-ui-workflow">📸 Web UI Workflow</h3>
+<p>The web interface guides you through a simple 4-step process:</p>
+<p><strong>Step 1: Dashboard (System Loading)</strong>
+<img alt="Dashboard showing ASR model loading status" src="../images/dashboard_initializing.png" /></p>
+<p><strong>Step 2: System Ready</strong>
+<img alt="Dashboard with System Ready indicator" src="../images/dashboard_ready.png" /></p>
+<p><strong>Step 3: Folder Selection</strong>
+<img alt="File browser for selecting a TV show folder" src="../images/folder_selection.png" /></p>
+<p><strong>Step 4: Review &amp; Match</strong>
+<img alt="Review Selection showing detected MKV files" src="../images/review_selection.png" /></p>
+<p><strong>Step 5: Results</strong>
+<img alt="Processing results with matched episodes and confidence scores" src="../images/scan_results.png" /></p>
 <h3 id="command-line-interface">💻 Command Line Interface</h3>
 <p>For automation and advanced users:</p>
 <h4 id="1-configuration-setup">1. Configuration Setup</h4>
@@ -1347,10 +1381,14 @@
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>mkv-match<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/episode2.mkv&quot;</span><span class="w">  </span>
 </code></pre></div></p>
 <h3 id="model-loading">Model Loading</h3>
+<blockquote>
+<p>[!IMPORTANT]
+First run takes <strong>~60 seconds</strong> to download and initialize the NVIDIA Parakeet ASR model.</p>
+</blockquote>
 <ul>
-<li>First run takes 30-60 seconds to download and initialize Parakeet</li>
-<li>Subsequent runs reuse the cached model (much faster)</li>
-<li>In GUI mode, model loads in background so you can configure while waiting</li>
+<li>The web UI displays a "System Loading" indicator during model initialization</li>
+<li>Subsequent runs reuse the cached model (near-instant startup)</li>
+<li>In web UI mode, model loads in background so you can configure while waiting</li>
 </ul>
 <h2 id="key-features">🎯 Key Features</h2>
 <h3 id="new-in-v100">New in v1.0.0</h3>

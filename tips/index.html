@@ -1513,9 +1513,10 @@
 3. ✅ Ensure sufficient RAM (8GB+ recommended)
 4. ✅ Check disk space (5GB+ for model cache)</p>
 <p><strong>Model Loading Delays:</strong>
-- First run takes longer (downloads models)
-- Subsequent runs are faster (cached models)
-- GPU significantly faster than CPU</p>
+- First run takes <strong>~60 seconds</strong> (downloads and initializes NVIDIA Parakeet ASR model)
+- The web UI shows "System Loading" indicator during this time
+- Subsequent runs are near-instant (cached models)
+- GPU significantly faster than CPU for processing</p>
 <h4 id="matching-issues">Matching Issues</h4>
 <p><strong>No Matches Found:</strong>
 1. Check subtitle availability: <code>--get-subs</code>
