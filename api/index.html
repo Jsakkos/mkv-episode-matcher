@@ -598,6 +598,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="__main__">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkv_episode_matcher.__main__-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkv_episode_matcher.__main__.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1971,6 +2005,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="__main__">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkv_episode_matcher.__main__-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkv_episode_matcher.__main__.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3232,7 +3300,46 @@
 
 
 
+<h3 id="mkv_episode_matcher.__main__-functions">Functions</h3>
 
+<div class="doc doc-object doc-function">
+
+
+<h4 id="mkv_episode_matcher.__main__.main" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">main</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">main</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Entry point for the application.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>mkv_episode_matcher/__main__.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Entry point for the application.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="c1"># Start browser in background</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="k">if</span> <span class="s2">&quot;--no-browser&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">open_browser</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="c1"># Run server</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8001</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -4257,16 +4364,12 @@ mkv-match show/ --json --confidence 0.8
 <span class="normal"><a href="#__codelineno-0-574">574</a></span>
 <span class="normal"><a href="#__codelineno-0-575">575</a></span>
 <span class="normal"><a href="#__codelineno-0-576">576</a></span>
-<span class="normal"><a href="#__codelineno-0-577">577</a></span>
-<span class="normal"><a href="#__codelineno-0-578">578</a></span>
-<span class="normal"><a href="#__codelineno-0-579">579</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-572" name="__codelineno-0-572"></a><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal"><a href="#__codelineno-0-577">577</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-572" name="__codelineno-0-572"></a><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <a id="__codelineno-0-573" name="__codelineno-0-573"></a><span class="k">def</span><span class="w"> </span><span class="nf">gui</span><span class="p">():</span>
 <a id="__codelineno-0-574" name="__codelineno-0-574"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launch the GUI application.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-575" name="__codelineno-0-575"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">flet</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ft</span>
+<a id="__codelineno-0-575" name="__codelineno-0-575"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.ui.gui</span><span class="w"> </span><span class="kn">import</span> <span class="n">main</span>
 <a id="__codelineno-0-576" name="__codelineno-0-576"></a>
-<a id="__codelineno-0-577" name="__codelineno-0-577"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">mkv_episode_matcher.ui.flet_app</span><span class="w"> </span><span class="kn">import</span> <span class="n">main</span>
-<a id="__codelineno-0-578" name="__codelineno-0-578"></a>
-<a id="__codelineno-0-579" name="__codelineno-0-579"></a>    <span class="n">ft</span><span class="o">.</span><span class="n">app</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">main</span><span class="p">)</span>
+<a id="__codelineno-0-577" name="__codelineno-0-577"></a>    <span class="n">main</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

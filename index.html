@@ -465,10 +465,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-alternative-launch-methods" class="md-nav__link">
+  <a href="#3-build-standalone-executable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Alternative Launch Methods
+        3. Build Standalone Executable
       
     </span>
   </a>
@@ -481,52 +481,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#desktop-gui-features" class="md-nav__link">
+  <a href="#web-interface-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🖥️ Desktop GUI Features
+        🖥️ Web Interface Features
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ⚙️ Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="⚙️ Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gui-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GUI Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cli-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -979,10 +940,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-alternative-launch-methods" class="md-nav__link">
+  <a href="#3-build-standalone-executable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Alternative Launch Methods
+        3. Build Standalone Executable
       
     </span>
   </a>
@@ -995,52 +956,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#desktop-gui-features" class="md-nav__link">
+  <a href="#web-interface-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🖥️ Desktop GUI Features
+        🖥️ Web Interface Features
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ⚙️ Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="⚙️ Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gui-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GUI Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cli-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CLI Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1154,15 +1076,14 @@
 <p>Automatically match and rename your MKV TV episodes using advanced speech recognition and subtitle matching.</p>
 <h2 id="key-features">✨ Key Features</h2>
 <ul>
-<li>🖥️ <strong>Modern Desktop GUI</strong>: Cross-platform Flet-based graphical interface with real-time progress tracking</li>
+<li>🌐 <strong>Modern Web Interface</strong>: Premium React-based UI with glassmorphism design and dark mode</li>
 <li>🤖 <strong>Advanced Speech Recognition</strong>: NVIDIA Parakeet ASR for highly accurate episode identification</li>
 <li>🎯 <strong>Intelligent Matching</strong>: Multi-segment analysis with confidence scoring and fallback strategies</li>
 <li>⬇️ <strong>Smart Subtitle Integration</strong>: Automatic subtitle downloads from OpenSubtitles with local caching</li>
 <li>✨ <strong>Bulk Processing</strong>: Handle entire libraries with automatic series/season detection</li>
-<li>🧪 <strong>Dry Run Mode</strong>: Preview matches before making any changes</li>
-<li>📊 <strong>Rich Progress Tracking</strong>: Real-time progress indicators and detailed match results</li>
+<li>📊 <strong>Real-time Progress</strong>: WebSocket-powered progress tracking with live updates</li>
 <li>⚡ <strong>Performance Optimized</strong>: Caching, background model loading, and efficient processing</li>
-<li>🌐 <strong>Cross-Platform</strong>: Available as desktop applications for Windows, macOS, and Linux</li>
+<li>🐳 <strong>Docker Ready</strong>: Easy deployment via Docker or local execution</li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
@@ -1183,53 +1104,31 @@
 <p><strong>Option B: Using pip</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkv-episode-matcher
 </code></pre></div></p>
-<p><strong>Option C: Download Standalone Desktop Apps</strong>
-- <a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-windows.zip">Windows Executable</a>
-- <a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-macos.zip">macOS Application</a>
-- <a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/mkv-episode-matcher-linux.AppImage">Linux AppImage</a></p>
 <h3 id="2-launch-the-application">2. Launch the Application</h3>
-<p><strong>🖥️ GUI Mode (Recommended)</strong>
-Launches the modern desktop interface with real-time progress tracking:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mkv-match<span class="w"> </span>gui
-</code></pre></div></p>
-<p><strong>💻 CLI Mode</strong><br />
+<p><strong>🌐 Web interface (Recommended)</strong>
+Launches the modern web interface in your default browser:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher
+</code></pre></div>
+Access the UI at <code>http://localhost:8001</code></p>
+<p><strong>💻 CLI Mode</strong>
 For automation and advanced users:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mkv-match<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/your/show&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/your/show&quot;</span>
 </code></pre></div></p>
 <p><strong>⚙️ Configuration</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mkv-match<span class="w"> </span>config
-</code></pre></div></p>
-<h3 id="3-alternative-launch-methods">3. Alternative Launch Methods</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># GUI</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher<span class="w"> </span>gui
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># CLI</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/show&quot;</span>
+Configuration is now managed directly through the web interface or via config files.</p>
+<h3 id="3-build-standalone-executable">3. Build Standalone Executable</h3>
+<p>You can build a self-contained executable that bundles the backend and frontend:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pyinstaller<span class="w"> </span>mkv_match.spec
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># Output in dist/mkv-match/</span>
 </code></pre></div>
-<h2 id="desktop-gui-features">🖥️ Desktop GUI Features</h2>
-<p>The modern Flet-based desktop interface provides:</p>
+<h2 id="web-interface-features">🖥️ Web Interface Features</h2>
+<p>The new React-based interface provides:</p>
 <ul>
-<li><strong>🎨 Theme-Adaptive Interface</strong>: Automatically adapts to your system's light/dark theme</li>
-<li><strong>📂 Folder Browser</strong>: Easy directory selection with visual folder picker</li>
-<li><strong>⏱️ Real-time Progress</strong>: Live progress bars showing "Processing file X of Y"</li>
-<li><strong>🔄 Background Model Loading</strong>: Non-blocking ASR model initialization with status indicators  </li>
-<li><strong>🧪 Dry Run Preview</strong>: Test matches without making changes, with preview functionality</li>
-<li><strong>⚙️ Comprehensive Settings</strong>: Built-in configuration dialog for all options</li>
-<li><strong>📊 Detailed Results</strong>: Color-coded success/failure results with confidence scores</li>
-<li><strong>🚀 Performance Indicators</strong>: Model loading status and processing statistics</li>
+<li><strong>🎨 Premium Design</strong>: Modern aesthetics with glassmorphism and smooth animations</li>
+<li><strong>📂 Visual File Browser</strong>: Intuitive navigation of your local file system</li>
+<li><strong>⏱️ Live Status</strong>: Real-time job tracking via WebSockets</li>
+<li><strong>📱 Responsive</strong>: Works identically on local machine or remote server access</li>
 </ul>
-<h2 id="configuration">⚙️ Configuration</h2>
-<h3 id="gui-configuration">GUI Configuration</h3>
-<p>The desktop app includes a built-in settings dialog accessible via the gear icon. Configure all options including:
-- Cache directory and confidence thresholds
-- ASR and subtitle provider settings<br />
-- OpenSubtitles API credentials
-- TMDb integration (optional)</p>
-<h3 id="cli-configuration">CLI Configuration</h3>
-<p>For command-line users:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkv-match<span class="w"> </span>config<span class="w">  </span><span class="c1"># Interactive configuration</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>mkv-match<span class="w"> </span>--onboard<span class="w">  </span><span class="c1"># First-time setup wizard</span>
-</code></pre></div></p>
 <p><strong>Required API Keys:</strong>
 - <strong>OpenSubtitles API Key</strong>: Required for subtitle downloads (<a href="https://www.opensubtitles.com/consumers">Get one here</a>)
 - <strong>TMDb API Key</strong>: Optional, for enhanced episode metadata (<a href="https://www.themoviedb.org/settings/api">Get one here</a>)</p>
@@ -1238,20 +1137,20 @@ For automation and advanced users:
 - API key from the OpenSubtitles developer console</p>
 <h2 id="directory-structure">Directory Structure</h2>
 <p>MKV Episode Matcher expects your TV shows to be organized as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Show Name/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── Season 1/
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│   ├── episode1.mkv
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│   ├── episode2.mkv
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>├── Season 2/
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│   ├── episode1.mkv
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│   └── episode2.mkv
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Show Name/
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── Season 1/
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│   ├── episode1.mkv
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│   ├── episode2.mkv
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>├── Season 2/
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│   ├── episode1.mkv
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│   └── episode2.mkv
 </code></pre></div>
 <h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
 <p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├── Show Name - S01E01.srt
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>├── Show Name - S01E02.srt
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>└── ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>└── ...
 </code></pre></div>
 <p>On Windows, the cache directory is located at <code>C:\Users\{username}\.mkv-episode-matcher\cache\data\</code></p>
 <p>Reference subtitle files should follow this naming pattern:

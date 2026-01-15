@@ -673,16 +673,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#100-2025-12-27-major-release" class="md-nav__link">
+  <a href="#110-2026-01-11-polish-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        [1.0.0] - 2025-12-27 - Major Release 🎉
+        [1.1.0] - 2026-01-11 - Polish Release ✨
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[1.0.0] - 2025-12-27 - Major Release 🎉">
+    <nav class="md-nav" aria-label="[1.1.0] - 2026-01-11 - Polish Release ✨">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uiux-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🖥️ UI/UX Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-optimizations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Backend Optimizations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Fixes &amp; Updates
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#added-desktop-gui" class="md-nav__link">
@@ -1018,7 +1051,27 @@
 <p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<h2 id="100-2025-12-27-major-release">[1.0.0] - 2025-12-27 - Major Release 🎉</h2>
+<h2 id="110-2026-01-11-polish-release">[1.1.0] - 2026-01-11 - Polish Release ✨</h2>
+<h3 id="uiux-improvements">🖥️ UI/UX Improvements</h3>
+<ul>
+<li><strong>Complete Redesign</strong>: New glassmorphism-inspired UI with modern color palette and improved aesthetics</li>
+<li><strong>Enhanced Workflow</strong>: Clearer 4-step process (Folder Selection -&gt; Scan -&gt; Review -&gt; Match)</li>
+<li><strong>Component Refactoring</strong>: Cleaner code structure with explicit Sidebar and Layout components</li>
+<li><strong>System Status Indicator</strong>: Prominent indicator for backend system and model loading status</li>
+</ul>
+<h3 id="backend-optimizations">⚡ Backend Optimizations</h3>
+<ul>
+<li><strong>Singleton Model Loading</strong>: Fixed issue where Parakeet model was loaded multiple times</li>
+<li><strong>Background Loading</strong>: Model initialization now happens in background on startup</li>
+<li><strong>Status Endpoint</strong>: New <code>/system/status</code> endpoint for frontend health checks</li>
+<li><strong>Performance</strong>: Significant reduction in resource usage during repeated scans</li>
+</ul>
+<h3 id="fixes-updates">🛠️ Fixes &amp; Updates</h3>
+<ul>
+<li><strong>Dependency Updates</strong>: Relaxed Python version constraints</li>
+<li><strong>CLI improvements</strong>: Better error handling and help output</li>
+<li><strong>Documentation</strong>: Updated CLI and README documentation</li>
+</ul>
 <h3 id="added-desktop-gui">🖥️ Added - Desktop GUI</h3>
 <ul>
 <li><strong>Complete Flet-based desktop application</strong> with cross-platform support</li>
