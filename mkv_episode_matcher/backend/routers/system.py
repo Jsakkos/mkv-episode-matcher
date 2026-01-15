@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from mkv_episode_matcher.backend.dependencies import get_engine
+from mkv_episode_matcher import __version__
 
 router = APIRouter(prefix="/system", tags=["System"])
 
@@ -16,7 +17,7 @@ def get_system_status():
     return {
         "status": status["status"],
         "model_loaded": status["loaded"],
-        "version": "1.1"
+        "version": __version__
     }
 
 @router.get("/config")

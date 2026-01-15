@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, systemStatus
                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
                     MKV Matcher
                 </h1>
-                <p className="text-xs text-[var(--text-muted)] mt-1">Episode Identifier v1.1</p>
+                <p className="text-xs text-[var(--text-muted)] mt-1">Episode Identifier v{systemStatus.version}</p>
             </div>
 
             {/* Navigation */}

@@ -27,6 +27,7 @@ interface JobStatus {
   failures?: string[];
   error?: string;
   progress?: { current: number; total: number; filename: string };
+  phase?: { name: string; message: string };
 }
 
 type WorkflowState = 'IDLE' | 'SCANNING' | 'REVIEW' | 'PROCESSING' | 'DONE';
@@ -148,6 +149,12 @@ function App() {
           }
           else if (msg.type === 'job_failed' && msg.job_id === jobId) {
             setJobStatus({ status: 'failed', error: msg.error });
+          }
+          else if (msg.type === 'phase_update' && msg.job_id === jobId) {
+            setJobStatus(prev => ({
+              ...prev,
+              phase: { name: msg.phase, message: msg.message }
+            } as JobStatus));
           }
         } catch (err) {
           console.error('WS Error:', err);
@@ -293,7 +300,9 @@ function App() {
                         {jobStatus?.status || 'INITIALIZING'}
                       </div>
                       {jobStatus?.status === 'processing' && (
-                        <div className="text-sm text-[var(--text-muted)] mt-0.5">Parakeet ASR • {systemStatus.model_loaded ? 'Ready' : 'Loading...'}</div>
+                        <div className="text-sm text-[var(--text-muted)] mt-0.5">
+                          {jobStatus.phase?.message || (systemStatus.model_loaded ? 'Parakeet ASR Ready' : 'Loading ASR...')}
+                        </div>
                       )}
                     </div>
                   </div>

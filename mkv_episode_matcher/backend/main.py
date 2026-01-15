@@ -4,13 +4,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from loguru import logger
 from mkv_episode_matcher.backend.routers import scan, match, system
+from mkv_episode_matcher import __version__
 import mimetypes
 from pathlib import Path
 
 app = FastAPI(
     title="MKV Episode Matcher",
     description="Backend API for MKV Episode Matcher",
-    version="1.1.0",
+    version=__version__,
 )
 
 # Configure CORS
@@ -79,7 +80,7 @@ async def startup_event():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "version": "1.1.0"}
+    return {"status": "ok", "version": __version__}
 
 if __name__ == "__main__":
     import uvicorn

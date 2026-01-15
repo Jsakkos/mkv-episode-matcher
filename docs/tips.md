@@ -231,9 +231,10 @@ mkv-match match "/path/to/show/" --verbose --confidence 0.7
 4. ✅ Check disk space (5GB+ for model cache)
 
 **Model Loading Delays:**
-- First run takes longer (downloads models)
-- Subsequent runs are faster (cached models)
-- GPU significantly faster than CPU
+- First run takes **~60 seconds** (downloads and initializes NVIDIA Parakeet ASR model)
+- The web UI shows "System Loading" indicator during this time
+- Subsequent runs are near-instant (cached models)
+- GPU significantly faster than CPU for processing
 
 #### Matching Issues
 

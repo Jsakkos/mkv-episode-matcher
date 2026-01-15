@@ -29,6 +29,25 @@ mkv-match gui
 3. Configure your API keys and preferences
 4. Select a library folder and start processing!
 
+### 📸 Web UI Workflow
+
+The web interface guides you through a simple 4-step process:
+
+**Step 1: Dashboard (System Loading)**
+![Dashboard showing ASR model loading status](images/dashboard_initializing.png)
+
+**Step 2: System Ready**
+![Dashboard with System Ready indicator](images/dashboard_ready.png)
+
+**Step 3: Folder Selection**
+![File browser for selecting a TV show folder](images/folder_selection.png)
+
+**Step 4: Review & Match**
+![Review Selection showing detected MKV files](images/review_selection.png)
+
+**Step 5: Results**
+![Processing results with matched episodes and confidence scores](images/scan_results.png)
+
 ### 💻 Command Line Interface
 
 For automation and advanced users:
@@ -85,9 +104,12 @@ mkv-match match "/path/to/episode2.mkv"
 ```
 
 ### Model Loading
-- First run takes 30-60 seconds to download and initialize Parakeet
-- Subsequent runs reuse the cached model (much faster)
-- In GUI mode, model loads in background so you can configure while waiting
+> [!IMPORTANT]
+> First run takes **~60 seconds** to download and initialize the NVIDIA Parakeet ASR model.
+
+- The web UI displays a "System Loading" indicator during model initialization
+- Subsequent runs reuse the cached model (near-instant startup)
+- In web UI mode, model loads in background so you can configure while waiting
 
 ## 🎯 Key Features
 

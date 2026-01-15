@@ -232,6 +232,9 @@ mkv-match config \
 | **Storage** | 2GB | 5GB+ (for model cache) |
 | **GPU** | Optional | NVIDIA GTX 1060+ with 4GB+ VRAM |
 
+> [!NOTE]
+> **First Launch**: The NVIDIA Parakeet ASR model takes approximately **60 seconds** to load on first use. The web UI displays a "System Loading" indicator during initialization.
+
 ## Verification
 
 **Test Installation:**

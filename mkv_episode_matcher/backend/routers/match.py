@@ -56,6 +56,17 @@ async def process_matching_job(job_id: str, request: MatchRequest, engine: Match
             loop
         )
 
+    def phase_callback(phase, message):
+        asyncio.run_coroutine_threadsafe(
+            manager.broadcast({
+                "type": "phase_update",
+                "job_id": job_id,
+                "phase": phase,
+                "message": message
+            }),
+            loop
+        )
+
     try:
         jobs[job_id]["status"] = "processing"
         await manager.broadcast({"type": "job_update", "job_id": job_id, "status": "processing"})
@@ -73,7 +84,8 @@ async def process_matching_job(job_id: str, request: MatchRequest, engine: Match
             season_override=season_override,
             files_override=paths,
             json_output=True,
-            progress_callback=progress_callback
+            progress_callback=progress_callback,
+            phase_callback=phase_callback
         )
         
         # Serialize results

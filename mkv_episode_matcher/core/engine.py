@@ -395,6 +395,7 @@ class MatchEngineV2:
         confidence_threshold: float = None,
         tmdb_id: int | None = None,
         progress_callback=None,
+        phase_callback=None,
         files_override: list[Path] | None = None,
     ) -> tuple[list[MatchResult], list]:
         """
@@ -411,6 +412,7 @@ class MatchEngineV2:
             tmdb_id: Manually specify the TMDB Show ID to avoid auto-detection issues
             progress_callback: Optional callback(current, total)
             files_override: Optional list of specific files to process (skips validation/scanning)
+            phase_callback: Optional callback(phase, message) for phase updates
 
         Returns:
             Tuple of (successful matches, failed matches)
@@ -439,6 +441,10 @@ class MatchEngineV2:
                 f"[blue]Found {len(files)} MKV files in {len(file_groups)} series/seasons[/blue]"
             )
 
+        # Emit phase update for grouping complete
+        if phase_callback:
+            phase_callback("grouped", f"Grouped {len(files)} files into {len(file_groups)} series/seasons")
+
         # Track total files for progress callback
         total_files = len(files)
         files_processed = 0
@@ -459,6 +465,10 @@ class MatchEngineV2:
                 progress.update(
                     main_task, description=f"Processing {show_name} S{season:02d}"
                 )
+
+                # Emit phase update for subtitle download
+                if phase_callback:
+                    phase_callback("downloading_subtitles", f"Downloading subtitles for {show_name} Season {season}")
 
                 # Get subtitles for this series/season (pass video files for Subliminal)
                 subs = self._get_subtitles_with_fallback(show_name, season, group_files, tmdb_id)
@@ -486,6 +496,10 @@ class MatchEngineV2:
                             progress_callback(files_processed, total_files, f.name)
                     progress.advance(main_task, len(group_files))
                     continue
+
+                # Emit phase update for matching
+                if phase_callback:
+                    phase_callback("matching", f"Matching {len(group_files)} files for {show_name} S{season:02d}")
 
                 # Process files in this group
                 for video_file in group_files:

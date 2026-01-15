@@ -23,6 +23,9 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 - ⚡ **Performance Optimized**: Caching, background model loading, and efficient processing
 - 🐳 **Docker Ready**: Easy deployment via Docker or local execution
 
+> [!NOTE]
+> **First-Time Model Loading**: The NVIDIA Parakeet ASR model takes approximately **60 seconds** to load on first use. The web UI shows a "System Loading" indicator during this time. Subsequent operations reuse the cached model and are much faster.
+
 ## Prerequisites
 
 - Python 3.10-3.12
