@@ -37,19 +37,35 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 
 ### 1. Install MKV Episode Matcher
 
-**Option A: Using uv (Recommended)**
-```bash
-# Install with CUDA support for GPU acceleration
-uv sync --extra cu128
-
-# Or basic installation
-uv sync
-```
-
-**Option B: Using pip**
+**Option A: pip (Easiest for end users)**
 ```bash
 pip install mkv-episode-matcher
 ```
+
+**Option B: From Source with uv (For development/latest features)**
+
+First, install [uv](https://docs.astral.sh/uv/) if you don't have it:
+```bash
+# Windows (PowerShell)
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Then clone and install:
+```bash
+git clone https://github.com/Jsakkos/mkv-episode-matcher.git
+cd mkv-episode-matcher
+
+# Basic installation
+uv sync
+
+# Or with CUDA support for GPU acceleration
+uv sync --extra cu128
+```
+
+> For complete installation options, see the [Installation Guide](https://jsakkos.github.io/mkv-episode-matcher/installation/).
 
 ### 2. Launch the Application
 

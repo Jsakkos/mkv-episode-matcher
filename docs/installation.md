@@ -1,39 +1,10 @@
 # Installation Guide
 
-MKV Episode Matcher v1.0.0 offers multiple installation options including standalone executables, package managers, and development setups.
+MKV Episode Matcher v1.0.0 offers multiple installation options using package managers and development setups.
 
 ## 🚀 Quick Installation Options
 
-### 1. Standalone Executables (Easiest)
-
-Download ready-to-run applications with everything included:
-
-**Windows:**
-```powershell
-# Download and extract
-Invoke-WebRequest -Uri "https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-windows.zip" -OutFile "mkv-matcher.zip"
-Expand-Archive "mkv-matcher.zip"
-cd mkv-matcher
-./MKVEpisodeMatcher.exe
-```
-
-**macOS:**
-```bash
-# Download and extract
-curl -L "https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-macos.zip" -o mkv-matcher.zip
-unzip mkv-matcher.zip
-open MKVEpisodeMatcher.app
-```
-
-**Linux:**
-```bash
-# Download AppImage
-wget "https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/mkv-episode-matcher-linux.AppImage"
-chmod +x mkv-episode-matcher-linux.AppImage
-./mkv-episode-matcher-linux.AppImage
-```
-
-### 2. Package Installation
+### Package Installation
 
 **Using uv (Recommended):**
 ```bash
