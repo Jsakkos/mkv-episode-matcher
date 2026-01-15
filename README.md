@@ -14,15 +14,14 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 
 ## ✨ Key Features
 
-- 🖥️ **Modern Desktop GUI**: Cross-platform Flet-based graphical interface with real-time progress tracking
+- 🌐 **Modern Web Interface**: Premium React-based UI with glassmorphism design and dark mode
 - 🤖 **Advanced Speech Recognition**: NVIDIA Parakeet ASR for highly accurate episode identification
 - 🎯 **Intelligent Matching**: Multi-segment analysis with confidence scoring and fallback strategies
 - ⬇️ **Smart Subtitle Integration**: Automatic subtitle downloads from OpenSubtitles with local caching
 - ✨ **Bulk Processing**: Handle entire libraries with automatic series/season detection
-- 🧪 **Dry Run Mode**: Preview matches before making any changes
-- 📊 **Rich Progress Tracking**: Real-time progress indicators and detailed match results
+- 📊 **Real-time Progress**: WebSocket-powered progress tracking with live updates
 - ⚡ **Performance Optimized**: Caching, background model loading, and efficient processing
-- 🌐 **Cross-Platform**: Available as desktop applications for Windows, macOS, and Linux
+- 🐳 **Docker Ready**: Easy deployment via Docker or local execution
 
 ## Prerequisites
 
@@ -49,66 +48,40 @@ uv sync
 pip install mkv-episode-matcher
 ```
 
-**Option C: Download Standalone Desktop Apps**
-- [Windows Executable](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-windows.zip)
-- [macOS Application](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/MKVEpisodeMatcher-macos.zip)
-- [Linux AppImage](https://github.com/Jsakkos/mkv-episode-matcher/releases/latest/download/mkv-episode-matcher-linux.AppImage)
-
 ### 2. Launch the Application
 
-**🖥️ GUI Mode (Recommended)**
-Launches the modern desktop interface with real-time progress tracking:
+**🌐 Web interface (Recommended)**
+Launches the modern web interface in your default browser:
 ```bash
-uv run mkv-match gui
+uv run python -m mkv_episode_matcher
 ```
+Access the UI at `http://localhost:8001`
 
-**💻 CLI Mode**  
+**💻 CLI Mode**
 For automation and advanced users:
 ```bash
-uv run mkv-match match "/path/to/your/show"
+python -m mkv_episode_matcher match "/path/to/your/show"
 ```
 
 **⚙️ Configuration**
+Configuration is now managed directly through the web interface or via config files.
+
+### 3. Build Standalone Executable
+You can build a self-contained executable that bundles the backend and frontend:
+
 ```bash
-uv run mkv-match config
+uv run pyinstaller mkv_match.spec
+# Output in dist/mkv-match/
 ```
 
-### 3. Alternative Launch Methods
-```bash
-# GUI
-python -m mkv_episode_matcher gui
+## 🖥️ Web Interface Features
 
-# CLI
-python -m mkv_episode_matcher match "/path/to/show"
-```
-## 🖥️ Desktop GUI Features
+The new React-based interface provides:
 
-The modern Flet-based desktop interface provides:
-
-- **🎨 Theme-Adaptive Interface**: Automatically adapts to your system's light/dark theme
-- **📂 Folder Browser**: Easy directory selection with visual folder picker
-- **⏱️ Real-time Progress**: Live progress bars showing "Processing file X of Y"
-- **🔄 Background Model Loading**: Non-blocking ASR model initialization with status indicators  
-- **🧪 Dry Run Preview**: Test matches without making changes, with preview functionality
-- **⚙️ Comprehensive Settings**: Built-in configuration dialog for all options
-- **📊 Detailed Results**: Color-coded success/failure results with confidence scores
-- **🚀 Performance Indicators**: Model loading status and processing statistics
-
-## ⚙️ Configuration
-
-### GUI Configuration
-The desktop app includes a built-in settings dialog accessible via the gear icon. Configure all options including:
-- Cache directory and confidence thresholds
-- ASR and subtitle provider settings  
-- OpenSubtitles API credentials
-- TMDb integration (optional)
-
-### CLI Configuration
-For command-line users:
-```bash
-mkv-match config  # Interactive configuration
-mkv-match --onboard  # First-time setup wizard
-```
+- **🎨 Premium Design**: Modern aesthetics with glassmorphism and smooth animations
+- **📂 Visual File Browser**: Intuitive navigation of your local file system
+- **⏱️ Live Status**: Real-time job tracking via WebSockets
+- **📱 Responsive**: Works identically on local machine or remote server access
 
 **Required API Keys:**
 - **OpenSubtitles API Key**: Required for subtitle downloads ([Get one here](https://www.opensubtitles.com/consumers))

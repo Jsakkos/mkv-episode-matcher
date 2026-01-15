@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-12-27 - Major Release 🎉
+## [1.1.0] - 2026-01-11 - Polish Release ✨
+
+### 🖥️ UI/UX Improvements
+- **Complete Redesign**: New glassmorphism-inspired UI with modern color palette and improved aesthetics
+- **Enhanced Workflow**: Clearer 4-step process (Folder Selection -> Scan -> Review -> Match)
+- **Component Refactoring**: Cleaner code structure with explicit Sidebar and Layout components
+- **System Status Indicator**: Prominent indicator for backend system and model loading status
+
+### ⚡ Backend Optimizations
+- **Singleton Model Loading**: Fixed issue where Parakeet model was loaded multiple times
+- **Background Loading**: Model initialization now happens in background on startup
+- **Status Endpoint**: New `/system/status` endpoint for frontend health checks
+- **Performance**: Significant reduction in resource usage during repeated scans
+
+### 🛠️ Fixes & Updates
+- **Dependency Updates**: Relaxed Python version constraints
+- **CLI improvements**: Better error handling and help output
+- **Documentation**: Updated CLI and README documentation
+
 
 ### 🖥️ Added - Desktop GUI
 - **Complete Flet-based desktop application** with cross-platform support

@@ -392,6 +392,7 @@ class MatchEngineV2:
         confidence_threshold: float = None,
         tmdb_id: int | None = None,
         progress_callback=None,
+        files_override: list[Path] | None = None,
     ) -> tuple[list[MatchResult], list]:
         """
         Process path for MKV files with enhanced workflow and progress tracking.
@@ -405,6 +406,8 @@ class MatchEngineV2:
             json_output: If True, suppress rich console output for JSON mode
             confidence_threshold: Minimum confidence score for matches
             tmdb_id: Manually specify the TMDB Show ID to avoid auto-detection issues
+            progress_callback: Optional callback(current, total)
+            files_override: Optional list of specific files to process (skips validation/scanning)
 
         Returns:
             Tuple of (successful matches, failed matches)
@@ -414,7 +417,11 @@ class MatchEngineV2:
 
         results = []
         failures = []
-        files = list(self.scan_for_mkv(path, recursive))
+        
+        if files_override:
+            files = files_override
+        else:
+            files = list(self.scan_for_mkv(path, recursive))
 
         if not files:
             if not json_output:
@@ -473,7 +480,7 @@ class MatchEngineV2:
                         files_processed += 1
                         # Call progress callback if provided
                         if progress_callback:
-                            progress_callback(files_processed, total_files)
+                            progress_callback(files_processed, total_files, f.name)
                     progress.advance(main_task, len(group_files))
                     continue
 
@@ -542,7 +549,7 @@ class MatchEngineV2:
                     files_processed += 1
                     if progress_callback:
                         # Only call progress callback every file to avoid overwhelming UI
-                        progress_callback(files_processed, total_files)
+                        progress_callback(files_processed, total_files, video_file.name)
                     progress.advance(main_task)
 
         return results, failures

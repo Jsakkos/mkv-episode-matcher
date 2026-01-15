@@ -572,11 +572,9 @@ def _display_comprehensive_summary(results, failures, dry_run, output_dir, conso
 @app.command()
 def gui():
     """Launch the GUI application."""
-    import flet as ft
+    from mkv_episode_matcher.ui.gui import main
 
-    from mkv_episode_matcher.ui.flet_app import main
-
-    ft.app(target=main)
+    main()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,105 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.build_type }} (${{ matrix.os }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # CPU Builds (GitHub Hosted)
+          - os: windows-latest
+            build_type: cpu
+            runner: windows-latest
+            output_name: MKVMatch-Windows-CPU
+          - os: ubuntu-latest
+            build_type: cpu
+            runner: ubuntu-latest
+            output_name: MKVMatch-Linux-CPU
+          
+          # CUDA Builds (Self-Hosted)
+          - os: windows-latest
+            build_type: cuda
+            runner: [self-hosted, windows, cuda]
+            output_name: MKVMatch-Windows-CUDA
+          - os: ubuntu-latest
+            build_type: cuda
+            runner: [self-hosted, linux, cuda]
+            output_name: MKVMatch-Linux-CUDA
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Frontend
+        working-directory: mkv_episode_matcher/frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v1
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install Dependencies (CPU)
+        if: matrix.build_type == 'cpu'
+        run: |
+          uv sync --frozen
+
+      - name: Install Dependencies (CUDA)
+        if: matrix.build_type == 'cuda'
+        run: |
+          uv sync --extra cu128 --frozen
+
+      - name: Build Executable
+        run: |
+          uv run pyinstaller mkv_match.spec
+
+      - name: Rename Output
+        shell: bash
+        run: |
+          # Dist folder contains 'mkv-match' folder (COLLECT)
+          # Zip it up
+          cd dist
+          if [ "${{ runner.os }}" == "Windows" ]; then
+             7z a -tzip "${{ matrix.output_name }}.zip" mkv-match
+          else
+             tar -czf "${{ matrix.output_name }}.tar.gz" mkv-match
+          fi
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output_name }}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/**/*
