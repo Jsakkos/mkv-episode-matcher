@@ -150,8 +150,11 @@ class MatchEngineV2:
         self.console = Console()
 
         # Initialize ASR provider (singleton pattern for Parakeet optimization)
-        logger.info(f"Initializing ASR provider: {config.asr_provider}")
-        self.asr = get_asr_provider(config.asr_provider)
+        logger.info(f"Initializing ASR provider: {config.asr_provider} with model: {config.asr_model_name}")
+        self.asr = get_asr_provider(
+            model_type=config.asr_provider,
+            model_name=config.asr_model_name,
+        )
         # Pre-load the model to avoid repeated loading delays
         self.asr.load()
         logger.success("ASR provider loaded and ready")

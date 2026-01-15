@@ -57,6 +57,7 @@ class ConfigManager:
             "cache_dir": str(Path.home() / ".mkv-episode-matcher" / "cache"),
             "min_confidence": 0.7,
             "asr_provider": "parakeet",
+            "asr_model_name": "nvidia/parakeet-ctc-0.6b",
             "sub_provider": "opensubtitles",
         }
 

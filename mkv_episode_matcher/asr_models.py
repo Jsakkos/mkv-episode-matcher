@@ -440,9 +440,15 @@ def create_asr_model(model_config: dict) -> ASRModel:
     device = model_config.get("device")
 
     if model_type == "parakeet":
-        # Always use the specific working model
         if not model_name:
             model_name = "nvidia/parakeet-ctc-0.6b"
+        
+        # Auto-detect CTC vs TDT based on model name
+        if "tdt" in model_name.lower():
+            logger.info(f"Using TDT decoder for model: {model_name}")
+            return ParakeetTDTModel(model_name, device)
+        
+        logger.info(f"Using CTC decoder for model: {model_name}")
         return ParakeetCTCModel(model_name, device)
     else:
         raise ValueError(

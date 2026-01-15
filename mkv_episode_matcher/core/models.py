@@ -84,6 +84,7 @@ class Config(BaseModel):
 
     # Provider settings
     asr_provider: Literal["parakeet"] = "parakeet"
+    asr_model_name: str = "nvidia/parakeet-ctc-0.6b"
     sub_provider: Literal["opensubtitles", "local"] = "opensubtitles"
 
     @field_validator("show_dir")

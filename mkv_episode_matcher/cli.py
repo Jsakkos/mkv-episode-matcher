@@ -306,15 +306,64 @@ def config(
     if 0.0 <= new_confidence <= 1.0:
         config.min_confidence = new_confidence
 
-    # ASR provider
-    current_asr = config.asr_provider
-    new_asr = typer.prompt(
-        "ASR provider (parakeet)",
-        default=current_asr,
-        show_default=True,
-    )
-    if new_asr in ["parakeet"]:
-        config.asr_provider = new_asr
+    # ASR Model Selection
+    console.print("\n[bold]ASR Model Configuration:[/bold]")
+    
+    try:
+        from mkv_episode_matcher.core.model_registry import (
+            list_recommended_models,
+            get_leaderboard_url,
+            get_model_info,
+            DEFAULT_MODEL,
+        )
+        
+        current_model = config.asr_model_name
+        models = list_recommended_models()
+        
+        # Display available models
+        console.print("\n  [dim]Recommended models:[/dim]")
+        model_list = list(models.keys())
+        for i, model_name in enumerate(model_list, 1):
+            model_info = models[model_name]
+            is_default = " [DEFAULT]" if model_name == DEFAULT_MODEL else ""
+            is_current = " [CURRENT]" if model_name == current_model else ""
+            gpu_req = "GPU required" if model_info["requires_gpu"] else "CPU-friendly"
+            console.print(
+                f"    {i}. {model_name}{is_default}{is_current}"
+            )
+            console.print(
+                f"       ({model_info['size_mb']}MB, {gpu_req}, {model_info['quality']} quality)"
+            )
+        
+        console.print(f"\n  [dim]Browse more models: {get_leaderboard_url()}[/dim]")
+        console.print("  [dim]Enter a number (1-{}) or a custom HuggingFace model ID[/dim]".format(len(model_list)))
+        
+        new_model = typer.prompt(
+            "ASR model",
+            default=current_model,
+            show_default=True,
+        )
+        
+        # Handle numeric selection
+        if new_model.isdigit() and 1 <= int(new_model) <= len(model_list):
+            new_model = model_list[int(new_model) - 1]
+        
+        if new_model.strip():
+            config.asr_model_name = new_model.strip()
+            # Keep provider as parakeet
+            config.asr_provider = "parakeet"
+    
+    except Exception as e:
+        console.print(f"[yellow]Error loading model registry: {e}[/yellow]")
+        # Fallback to simple prompt
+        current_model = config.asr_model_name
+        new_model = typer.prompt(
+            "ASR model name",
+            default=current_model,
+            show_default=True,
+        )
+        if new_model.strip():
+            config.asr_model_name = new_model.strip()
 
     # Subtitle provider
     current_sub = config.sub_provider
@@ -369,26 +418,6 @@ def info():
     """
     console.print(Panel("MKV Episode Matcher - System Information"))
 
-    try:
-        from mkv_episode_matcher.asr_models import list_available_models
-
-        models = list_available_models()
-
-        console.print("\n[bold]Available ASR Models:[/bold]")
-        for model_type, info in models.items():
-            if info.get("available"):
-                status = "[green]Available[/green]"
-                model_list = ", ".join(info.get("models", [])[:3])  # Show first 3
-                console.print(f"  {model_type}: {status}")
-                console.print(f"    Models: {model_list}")
-            else:
-                status = "[red]Not available[/red]"
-                error = info.get("error", "Unknown error")
-                console.print(f"  {model_type}: {status} ({error})")
-
-    except Exception as e:
-        console.print(f"[red]Error checking models: {e}[/red]")
-
     # Configuration info
     try:
         cm = get_config_manager()
@@ -396,12 +425,48 @@ def info():
 
         console.print("\n[bold]Current Configuration:[/bold]")
         console.print(f"  Cache directory: {config.cache_dir}")
-        console.print(f"  ASR provider: {config.asr_provider}")
+        console.print(f"  ASR model: [cyan]{config.asr_model_name}[/cyan]")
         console.print(f"  Subtitle provider: {config.sub_provider}")
         console.print(f"  Confidence threshold: {config.min_confidence}")
 
     except Exception as e:
         console.print(f"[red]Error loading config: {e}[/red]")
+        config = None
+
+    # Model registry info
+    try:
+        from mkv_episode_matcher.core.model_registry import (
+            list_recommended_models,
+            get_leaderboard_url,
+            is_model_downloaded,
+            get_model_info,
+        )
+
+        console.print("\n[bold]Recommended ASR Models:[/bold]")
+        models = list_recommended_models()
+        
+        for model_name, model_info in models.items():
+            is_current = config and model_name == config.asr_model_name
+            current_marker = " [CURRENT]" if is_current else ""
+            downloaded = is_model_downloaded(model_name)
+            status = "[green]Downloaded[/green]" if downloaded else "[dim]Not downloaded[/dim]"
+            gpu_req = "[yellow]GPU[/yellow]" if model_info["requires_gpu"] else "[green]CPU[/green]"
+            
+            console.print(
+                f"  • {model_name}{current_marker}"
+            )
+            console.print(
+                f"    {model_info['description']}"
+            )
+            console.print(
+                f"    Size: {model_info['size_mb']}MB | {gpu_req} | Quality: {model_info['quality']} | {status}"
+            )
+
+        console.print(f"\n[dim]Browse more models: {get_leaderboard_url()}[/dim]")
+        console.print("[dim]Run 'mkv-match config' to change your model[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error checking models: {e}[/red]")
 
 
 @app.command()
