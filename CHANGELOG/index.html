@@ -673,6 +673,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#112-2026-01-17-web-ui-access-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [1.1.2] - 2026-01-17 - Web UI Access Fix 🔧
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.1.2] - 2026-01-17 - Web UI Access Fix 🔧">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#110-2026-01-11-polish-release" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -823,7 +873,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -834,7 +884,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
+  <a href="#changed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Changed
@@ -862,7 +912,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Changed
@@ -884,7 +934,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#fixed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -912,7 +962,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -923,7 +973,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_2" class="md-nav__link">
+  <a href="#changed_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Changed
@@ -951,7 +1001,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#added_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -962,7 +1012,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_3" class="md-nav__link">
+  <a href="#changed_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Changed
@@ -1001,7 +1051,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_4" class="md-nav__link">
+  <a href="#changed_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         Changed
@@ -1051,6 +1101,23 @@
 <p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="112-2026-01-17-web-ui-access-fix">[1.1.2] - 2026-01-17 - Web UI Access Fix 🔧</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><strong>CLI entrypoint</strong> now correctly uses Typer CLI instead of bypassing it (fixes #81)</li>
+<li><strong>Frontend assets</strong> are now included in pip releases (<code>.gitignore</code> fix)</li>
+<li><strong><code>mkv-match gui</code> command</strong> now works correctly (alias for <code>serve</code>)</li>
+</ul>
+<h3 id="added">Added</h3>
+<ul>
+<li><strong><code>mkv-match serve</code> command</strong> to launch the Web UI server</li>
+<li><strong>Improved CLI help</strong> with quick start guide in <code>--help</code> output</li>
+<li><strong>New documentation screenshots</strong> for Web UI onboarding</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Updated quickstart documentation with correct commands and screenshots</li>
+</ul>
 <h2 id="110-2026-01-11-polish-release">[1.1.0] - 2026-01-11 - Polish Release ✨</h2>
 <h3 id="uiux-improvements">🖥️ UI/UX Improvements</h3>
 <ul>
@@ -1146,20 +1213,20 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li><strong>Documentation updates</strong> reflecting new architecture</li>
 </ul>
 <h2 id="093-2025-07-07">[0.9.3] - 2025-07-07</h2>
-<h3 id="added">Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>Onboarding flag (<code>--onboard</code>) and interactive onboarding sequence for first-time setup and configuration updates</li>
 <li>Onboarding prompts for TMDb API key, OpenSubtitles API key, Consumer Name, Username, Password, and Show Directory</li>
 <li>Existing config values are shown as defaults during onboarding and can be accepted or overwritten</li>
 <li>Documentation updated to reflect onboarding requirements and workflow in README and docs</li>
 </ul>
-<h3 id="changed">Changed</h3>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>Improved configuration experience for new and returning users</li>
 <li>Quick Start and Configuration documentation now reference onboarding and required credentials</li>
 </ul>
 <h2 id="090-2025-06-01">[0.9.0] - 2025-06-01</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>Replaced all <code>os.path</code> calls with <code>pathlib.Path</code> for improved path handling</li>
 <li>Fixed issues with trailing slashes in directory paths</li>
@@ -1172,13 +1239,13 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Better handling of different path formats across operating systems</li>
 <li>More consistent behavior with paths containing trailing slashes</li>
 </ul>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed_1">Fixed</h3>
 <ul>
 <li>Fixed bug where paths with trailing slashes would result in empty show names</li>
 <li>Fixed incorrect handling of paths in subtitle downloads and match operations</li>
 </ul>
 <h2 id="070-2025-03-05"><a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/tag/v0.7.0">0.7.0</a> - 2025-03-05</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>Rich UI with color-coded output and progress indicators</li>
 <li>Interactive season selection interface</li>
@@ -1187,21 +1254,21 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Masked API key display for improved security</li>
 <li>Verbose output option for detailed logging</li>
 </ul>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>Enhanced CLI interface with better visual feedback</li>
 <li>Improved error messages with color coding</li>
 <li>Updated documentation to reflect new UI features</li>
 </ul>
 <h2 id="060-2025-03-02"><a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/tag/v0.6.0">0.6.0</a> - 2025-03-02</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>Comprehensive documentation including installation, configuration, and CLI guides</li>
 <li>Quick start guide with common usage examples</li>
 <li>Tips and tricks documentation with best practices</li>
 <li>Detailed changelog structure</li>
 </ul>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>Improved project metadata and description</li>
 <li>Updated version number in setup.cfg</li>
@@ -1212,7 +1279,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Removed unused code</li>
 </ul>
 <h2 id="050-2025-02-23"><a href="https://github.com/Jsakkos/mkv-episode-matcher/releases/tag/v0.5.0">0.5.0</a> - 2025-02-23</h2>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>Try to use tiny version of OpenAI Whisper for initial matching</li>
 <li>Fall back to base model if tiny model fails</li>

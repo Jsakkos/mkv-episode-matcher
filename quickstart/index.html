@@ -521,22 +521,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#choose-your-interface" class="md-nav__link">
+  <a href="#launch-the-web-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Choose Your Interface
+        🚀 Launch the Web UI
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🚀 Choose Your Interface">
+    <nav class="md-nav" aria-label="🚀 Launch the Web UI">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#desktop-gui-recommended" class="md-nav__link">
+  <a href="#web-ui-onboarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🖥️ Desktop GUI (Recommended)
+        📸 Web UI Onboarding
       
     </span>
   </a>
@@ -544,10 +544,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#web-ui-workflow" class="md-nav__link">
+  <a href="#first-time-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📸 Web UI Workflow
+        First Time Setup
       
     </span>
   </a>
@@ -750,7 +750,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#first-time-setup" class="md-nav__link">
+  <a href="#first-time-setup_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         First Time Setup
@@ -1009,22 +1009,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#choose-your-interface" class="md-nav__link">
+  <a href="#launch-the-web-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Choose Your Interface
+        🚀 Launch the Web UI
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🚀 Choose Your Interface">
+    <nav class="md-nav" aria-label="🚀 Launch the Web UI">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#desktop-gui-recommended" class="md-nav__link">
+  <a href="#web-ui-onboarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🖥️ Desktop GUI (Recommended)
+        📸 Web UI Onboarding
       
     </span>
   </a>
@@ -1032,10 +1032,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#web-ui-workflow" class="md-nav__link">
+  <a href="#first-time-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📸 Web UI Workflow
+        First Time Setup
       
     </span>
   </a>
@@ -1238,7 +1238,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#first-time-setup" class="md-nav__link">
+  <a href="#first-time-setup_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         First Time Setup
@@ -1307,38 +1307,36 @@
 
 
 <h1 id="quick-start-guide">Quick Start Guide</h1>
-<p>Get started with MKV Episode Matcher v1.0.0 quickly and efficiently.</p>
-<h2 id="choose-your-interface">🚀 Choose Your Interface</h2>
-<p>MKV Episode Matcher offers two interfaces: a modern desktop GUI and a powerful CLI.</p>
-<h3 id="desktop-gui-recommended">🖥️ Desktop GUI (Recommended)</h3>
-<p>The easiest way to get started:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Launch the desktop application</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkv-match<span class="w"> </span>gui
+<p>Get started with MKV Episode Matcher quickly and efficiently.</p>
+<h2 id="launch-the-web-ui">🚀 Launch the Web UI</h2>
+<p>The easiest way to get started is with the Web UI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Launch the web interface (opens http://localhost:8001)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkv-match<span class="w"> </span>serve
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Or use the gui alias</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mkv-match<span class="w"> </span>gui
 </code></pre></div>
-<p><strong>Features:</strong>
-- Theme-adaptive interface (follows system dark/light mode)
-- Real-time progress tracking with "Processing file X of Y"
-- Built-in configuration dialog (click the gear icon)
-- Dry run preview functionality
-- Visual folder selection
-- Color-coded results with confidence scores</p>
-<p><strong>First Time Setup:</strong>
-1. Launch the GUI: <code>mkv-match gui</code>
-2. Click the settings (⚙️) icon in the header
-3. Configure your API keys and preferences
-4. Select a library folder and start processing!</p>
-<h3 id="web-ui-workflow">📸 Web UI Workflow</h3>
-<p>The web interface guides you through a simple 4-step process:</p>
-<p><strong>Step 1: Dashboard (System Loading)</strong>
-<img alt="Dashboard showing ASR model loading status" src="../images/dashboard_initializing.png" /></p>
-<p><strong>Step 2: System Ready</strong>
-<img alt="Dashboard with System Ready indicator" src="../images/dashboard_ready.png" /></p>
-<p><strong>Step 3: Folder Selection</strong>
-<img alt="File browser for selecting a TV show folder" src="../images/folder_selection.png" /></p>
-<p><strong>Step 4: Review &amp; Match</strong>
-<img alt="Review Selection showing detected MKV files" src="../images/review_selection.png" /></p>
-<p><strong>Step 5: Results</strong>
-<img alt="Processing results with matched episodes and confidence scores" src="../images/scan_results.png" /></p>
+<p>The Web UI will automatically open in your browser after the server starts.</p>
+<blockquote>
+<p>[!NOTE]
+First run takes <strong>~60 seconds</strong> to load the NVIDIA Parakeet ASR model. Subsequent runs are much faster.</p>
+</blockquote>
+<h3 id="web-ui-onboarding">📸 Web UI Onboarding</h3>
+<p><strong>Dashboard - Select Your Media Folder</strong>
+<img alt="MKV Matcher Dashboard showing file browser" src="../images/web_ui_dashboard.png" /></p>
+<p><strong>Settings - Configure API Keys</strong>
+<img alt="Settings page with OpenSubtitles and TMDb configuration" src="../images/web_ui_settings.png" /></p>
+<p><strong>Help - 4-Step Workflow Guide</strong>
+<img alt="Help page showing the Select-Scan-Review-Match workflow" src="../images/web_ui_help.png" /></p>
+<h3 id="first-time-setup">First Time Setup</h3>
+<ol>
+<li><strong>Start the server</strong>: Run <code>mkv-match serve</code></li>
+<li><strong>Configure settings</strong>: Click Settings in the sidebar and add your API keys:</li>
+<li><strong>OpenSubtitles</strong>: For automatic subtitle downloads (optional but recommended)</li>
+<li><strong>TMDb API Key</strong>: For episode title information (optional)</li>
+<li><strong>Select a folder</strong>: Navigate to your TV show folder on the Dashboard</li>
+<li><strong>Scan and match</strong>: Click "Scan This Folder" to find and rename your episodes</li>
+</ol>
 <h3 id="command-line-interface">💻 Command Line Interface</h3>
 <p>For automation and advanced users:</p>
 <h4 id="1-configuration-setup">1. Configuration Setup</h4>
@@ -1441,7 +1439,7 @@ First run takes <strong>~60 seconds</strong> to download and initialize the NVID
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>mkv-match<span class="w"> </span>config<span class="w"> </span>--confidence<span class="w"> </span><span class="m">0</span>.8<span class="w"> </span>--cache-dir<span class="w"> </span><span class="s2">&quot;/custom/cache&quot;</span>
 </code></pre></div>
 <h2 id="common-use-cases">🔧 Common Use Cases</h2>
-<h3 id="first-time-setup">First Time Setup</h3>
+<h3 id="first-time-setup_1">First Time Setup</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Option 1: GUI (easiest)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>mkv-match<span class="w"> </span>gui
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
