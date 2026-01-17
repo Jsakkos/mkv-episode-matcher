@@ -78,7 +78,7 @@ Source = "https://github.com/Jsakkos/mkv-episode-matcher"
 include = ["mkv_episode_matcher*"]
 
 [project.scripts]
-mkv-match = "mkv_episode_matcher.__main__:main"
+mkv-match = "mkv_episode_matcher.cli:app"
 
 [dependency-groups]
 dev = [

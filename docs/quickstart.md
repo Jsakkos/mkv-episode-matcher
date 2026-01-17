@@ -1,52 +1,45 @@
 # Quick Start Guide
 
-Get started with MKV Episode Matcher v1.0.0 quickly and efficiently.
+Get started with MKV Episode Matcher quickly and efficiently.
 
-## 🚀 Choose Your Interface
+## 🚀 Launch the Web UI
 
-MKV Episode Matcher offers two interfaces: a modern desktop GUI and a powerful CLI.
-
-### 🖥️ Desktop GUI (Recommended)
-
-The easiest way to get started:
+The easiest way to get started is with the Web UI:
 
 ```bash
-# Launch the desktop application
+# Launch the web interface (opens http://localhost:8001)
+mkv-match serve
+
+# Or use the gui alias
 mkv-match gui
 ```
 
-**Features:**
-- Theme-adaptive interface (follows system dark/light mode)
-- Real-time progress tracking with "Processing file X of Y"
-- Built-in configuration dialog (click the gear icon)
-- Dry run preview functionality
-- Visual folder selection
-- Color-coded results with confidence scores
+The Web UI will automatically open in your browser after the server starts.
 
-**First Time Setup:**
-1. Launch the GUI: `mkv-match gui`
-2. Click the settings (⚙️) icon in the header
-3. Configure your API keys and preferences
-4. Select a library folder and start processing!
+> [!NOTE]
+> First run takes **~60 seconds** to load the NVIDIA Parakeet ASR model. Subsequent runs are much faster.
 
-### 📸 Web UI Workflow
+### 📸 Web UI Onboarding
 
-The web interface guides you through a simple 4-step process:
+**Dashboard - Select Your Media Folder**
+![MKV Matcher Dashboard showing file browser](images/web_ui_dashboard.png)
 
-**Step 1: Dashboard (System Loading)**
-![Dashboard showing ASR model loading status](images/dashboard_initializing.png)
+**Settings - Configure API Keys**
+![Settings page with OpenSubtitles and TMDb configuration](images/web_ui_settings.png)
 
-**Step 2: System Ready**
-![Dashboard with System Ready indicator](images/dashboard_ready.png)
+**Help - 4-Step Workflow Guide**
+![Help page showing the Select-Scan-Review-Match workflow](images/web_ui_help.png)
 
-**Step 3: Folder Selection**
-![File browser for selecting a TV show folder](images/folder_selection.png)
+### First Time Setup
 
-**Step 4: Review & Match**
-![Review Selection showing detected MKV files](images/review_selection.png)
+1. **Start the server**: Run `mkv-match serve`
+2. **Configure settings**: Click Settings in the sidebar and add your API keys:
+   - **OpenSubtitles**: For automatic subtitle downloads (optional but recommended)
+   - **TMDb API Key**: For episode title information (optional)
+3. **Select a folder**: Navigate to your TV show folder on the Dashboard
+4. **Scan and match**: Click "Scan This Folder" to find and rename your episodes
 
-**Step 5: Results**
-![Processing results with matched episodes and confidence scores](images/scan_results.png)
+
 
 ### 💻 Command Line Interface
 

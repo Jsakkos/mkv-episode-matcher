@@ -27,7 +27,12 @@ from mkv_episode_matcher.core.models import Config
 
 app = typer.Typer(
     name="mkv-match",
-    help="MKV Episode Matcher - Intelligent TV episode identification and renaming",
+    help="""MKV Episode Matcher - Intelligent TV episode identification and renaming
+
+Quick Start:
+  mkv-match serve     Launch the Web UI (recommended)
+  mkv-match config    Configure settings interactively
+  mkv-match match     Process files from command line""",
     no_args_is_help=True,
 )
 
@@ -635,12 +640,55 @@ def _display_comprehensive_summary(results, failures, dry_run, output_dir, conso
 
 
 @app.command()
-def gui():
-    """Launch the GUI application."""
-    from mkv_episode_matcher.ui.gui import main
+def serve(
+    port: int = typer.Option(8001, "--port", "-p", help="Port to run the server on"),
+    host: str = typer.Option("0.0.0.0", "--host", help="Host to bind to"),
+    no_browser: bool = typer.Option(False, "--no-browser", help="Don't open browser automatically"),
+):
+    """
+    Launch the Web UI server.
+    
+    Starts the backend API server and opens the web interface in your browser.
+    This is the recommended way to use MKV Episode Matcher for most users.
+    
+    Examples:
+    
+        # Start web UI on default port
+        mkv-match serve
+        
+        # Start on custom port without opening browser
+        mkv-match serve --port 9000 --no-browser
+    """
+    import threading
+    import time
+    import webbrowser
 
-    main()
+    import uvicorn
+
+    from mkv_episode_matcher.backend.main import app as fastapi_app
+
+    print_banner()
+    console.print(f"[blue]Starting Web UI server on http://{host}:{port}[/blue]")
+    console.print("[dim]Press Ctrl+C to stop the server[/dim]\n")
+
+    if not no_browser:
+        def open_browser():
+            time.sleep(1.5)
+            webbrowser.open(f"http://localhost:{port}")
+        threading.Thread(target=open_browser, daemon=True).start()
+
+    uvicorn.run(fastapi_app, host=host, port=port)
+
+
+@app.command()
+def gui(
+    port: int = typer.Option(8001, "--port", "-p", help="Port to run the server on"),
+    no_browser: bool = typer.Option(False, "--no-browser", help="Don't open browser automatically"),
+):
+    """Launch the Web UI (alias for 'serve')."""
+    serve(port=port, host="0.0.0.0", no_browser=no_browser)
 
 
 if __name__ == "__main__":
     app()
+
