@@ -1,38 +1,141 @@
 name: Build and Release
 
 on:
+  # Uncomment to trigger on tags:
   # push:
   #   tags:
   #     - 'v*'
   workflow_dispatch:
+    inputs:
+      build_cuda:
+        description: 'Build CUDA version (requires self-hosted runner)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  # Increase disk space awareness
+  PYTHONDONTWRITEBYTECODE: 1
+  UV_NO_CACHE: 1
 
 jobs:
-  build:
-    name: Build ${{ matrix.build_type }} (${{ matrix.os }})
-    runs-on: ${{ matrix.runner }}
+  # CPU builds on GitHub-hosted runners
+  build-cpu:
+    name: Build CPU (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         include:
-          # CPU Builds (GitHub Hosted)
           - os: windows-latest
-            build_type: cpu
-            runner: windows-latest
             output_name: MKVMatch-Windows-CPU
+            archive_ext: zip
           - os: ubuntu-latest
-            build_type: cpu
-            runner: ubuntu-latest
             output_name: MKVMatch-Linux-CPU
-          
-          # CUDA Builds (Self-Hosted)
-          - os: windows-latest
-            build_type: cuda
+            archive_ext: tar.gz
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Free up disk space on Linux runners
+      - name: Free Disk Space (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "Disk space before cleanup:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          echo "Disk space after cleanup:"
+          df -h
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mkv_episode_matcher/frontend/package-lock.json
+
+      - name: Build Frontend
+        working-directory: mkv_episode_matcher/frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install Dependencies (CPU)
+        run: |
+          uv sync --frozen
+
+      - name: Install PyInstaller
+        run: |
+          uv pip install pyinstaller
+
+      - name: Build Executable
+        run: |
+          uv run pyinstaller mkv_match.spec --clean
+
+      - name: Check build output
+        shell: bash
+        run: |
+          echo "Build output:"
+          ls -la dist/
+          if [ -d "dist/mkv-match" ]; then
+            echo "Contents of mkv-match folder:"
+            ls -la dist/mkv-match/ | head -50
+            echo "Total size:"
+            du -sh dist/mkv-match/
+          fi
+
+      - name: Create Archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cd dist
+          Compress-Archive -Path "mkv-match" -DestinationPath "${{ matrix.output_name }}.zip"
+
+      - name: Create Archive (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd dist
+          tar -czf "${{ matrix.output_name }}.tar.gz" mkv-match
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output_name }}
+          path: |
+            dist/${{ matrix.output_name }}.${{ matrix.archive_ext }}
+          retention-days: 30
+
+  # CUDA builds on self-hosted runners (optional)
+  build-cuda:
+    name: Build CUDA (${{ matrix.os }})
+    if: ${{ github.event.inputs.build_cuda == 'true' }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows
             runner: [self-hosted, windows, cuda]
             output_name: MKVMatch-Windows-CUDA
-          - os: ubuntu-latest
-            build_type: cuda
+            archive_ext: zip
+          - os: linux
             runner: [self-hosted, linux, cuda]
             output_name: MKVMatch-Linux-CUDA
+            archive_ext: tar.gz
 
     steps:
       - uses: actions/checkout@v4
@@ -49,57 +152,71 @@ jobs:
           npm run build
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v1
+        uses: astral-sh/setup-uv@v5
 
       - name: Set up Python
         run: uv python install 3.12
 
-      - name: Install Dependencies (CPU)
-        if: matrix.build_type == 'cpu'
-        run: |
-          uv sync --frozen
-
       - name: Install Dependencies (CUDA)
-        if: matrix.build_type == 'cuda'
         run: |
           uv sync --extra cu128 --frozen
 
+      - name: Verify CUDA availability
+        run: |
+          uv run python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA device: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"N/A\"}')"
+
+      - name: Install PyInstaller
+        run: |
+          uv pip install pyinstaller
+
       - name: Build Executable
         run: |
-          uv run pyinstaller mkv_match.spec
+          uv run pyinstaller mkv_match.spec --clean
 
-      - name: Rename Output
-        shell: bash
+      - name: Create Archive (Windows)
+        if: matrix.os == 'windows'
+        shell: pwsh
         run: |
-          # Dist folder contains 'mkv-match' folder (COLLECT)
-          # Zip it up
           cd dist
-          if [ "${{ runner.os }}" == "Windows" ]; then
-             7z a -tzip "${{ matrix.output_name }}.zip" mkv-match
-          else
-             tar -czf "${{ matrix.output_name }}.tar.gz" mkv-match
-          fi
+          Compress-Archive -Path "mkv-match" -DestinationPath "${{ matrix.output_name }}.zip"
+
+      - name: Create Archive (Linux)
+        if: matrix.os == 'linux'
+        run: |
+          cd dist
+          tar -czf "${{ matrix.output_name }}.tar.gz" mkv-match
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.output_name }}
           path: |
-            dist/*.zip
-            dist/*.tar.gz
+            dist/${{ matrix.output_name }}.${{ matrix.archive_ext }}
+          retention-days: 30
 
+  # Create release when triggered by a tag
   release:
-    needs: build
+    needs: [build-cpu]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+
     steps:
-      - name: Download Artifacts
+      - name: Download All Artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/**/*
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-') }}
