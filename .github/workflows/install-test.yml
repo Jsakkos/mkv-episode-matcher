@@ -1,0 +1,112 @@
+name: Installation Test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  install-cpu:
+    name: Install (CPU) - ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          # Exclude combinations that may not have all dependencies available yet
+          - os: macos-latest
+            python-version: "3.14"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv and set Python version
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package (CPU mode - no CUDA extras)
+        run: uv sync --frozen
+        continue-on-error: false
+
+      - name: Verify CLI entrypoint
+        run: uv run mkv-match --help
+
+      - name: Verify PyTorch imports (CPU)
+        run: |
+          uv run python -c "
+          import torch
+          print(f'PyTorch version: {torch.__version__}')
+          print(f'CUDA available: {torch.cuda.is_available()}')
+          
+          import torchaudio
+          print(f'Torchaudio version: {torchaudio.__version__}')
+          
+          import torchvision
+          print(f'Torchvision version: {torchvision.__version__}')
+          "
+
+      - name: Verify NeMo ASR imports
+        run: |
+          uv run python -c "
+          from nemo.collections.asr.models import ASRModel
+          print('NeMo ASR module loaded successfully')
+          "
+
+      - name: Verify core application imports
+        run: |
+          uv run python -c "
+          from mkv_episode_matcher import config
+          from mkv_episode_matcher.tmdb_client import TMDBClient
+          from mkv_episode_matcher.episode_matcher import EpisodeMatcher
+          print('Core application modules loaded successfully')
+          "
+
+  # Test pip install from wheel (simulates end-user experience)
+  pip-install-test:
+    name: Pip Install Test - ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build tools
+        run: pip install build
+
+      - name: Build wheel
+        run: python -m build
+
+      - name: Install from wheel
+        shell: bash
+        run: |
+          pip install dist/*.whl
+
+      - name: Verify CLI works
+        run: mkv-match --help
+
+      - name: Verify imports work
+        run: |
+          python -c "
+          import torch
+          print(f'PyTorch: {torch.__version__}')
+          from mkv_episode_matcher.cli import app
+          print('CLI module loaded successfully')
+          "
