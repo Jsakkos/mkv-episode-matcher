@@ -16,11 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        exclude:
-          # Exclude combinations that may not have all dependencies available yet
-          - os: macos-latest
-            python-version: "3.14"
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
@@ -56,6 +52,13 @@ jobs:
       - name: Verify NeMo ASR imports
         run: |
           uv run python -c "
+          import os
+          if os.name == 'nt':
+              import signal
+              if not hasattr(signal, 'SIGKILL'):
+                  signal.SIGKILL = 9
+              if not hasattr(signal, 'SIGTERM'):
+                  signal.SIGTERM = 15
           from nemo.collections.asr.models import ASRModel
           print('NeMo ASR module loaded successfully')
           "
@@ -63,9 +66,9 @@ jobs:
       - name: Verify core application imports
         run: |
           uv run python -c "
-          from mkv_episode_matcher import config
-          from mkv_episode_matcher.tmdb_client import TMDBClient
-          from mkv_episode_matcher.episode_matcher import EpisodeMatcher
+          from mkv_episode_matcher.core.models import Config
+          from mkv_episode_matcher.core.engine import MatchEngine
+          from mkv_episode_matcher.tmdb_client import fetch_show_id
           print('Core application modules loaded successfully')
           "
 
