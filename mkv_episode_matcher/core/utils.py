@@ -1,3 +1,4 @@
+import os
 import re
 from pathlib import Path
 
@@ -86,26 +87,38 @@ import subprocess
 def get_video_duration(video_file: Path) -> float:
     """Get video duration using ffprobe."""
     try:
+        video_path = os.fspath(video_file)
+        cmd = [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            video_path,
+        ]
+
+        logger.debug(f"Running ffprobe command: {' '.join(cmd)}")
+
         result = subprocess.run(
-            [
-                "ffprobe",
-                "-v",
-                "error",
-                "-show_entries",
-                "format=duration",
-                "-of",
-                "default=noprint_wrappers=1:nokey=1",
-                str(video_file),
-            ],
+            cmd,
             capture_output=True,
             text=True,
             timeout=10,
         )
 
         if result.returncode != 0:
+            logger.error(f"ffprobe failed for {video_file}: {result.stderr}")
             raise RuntimeError(f"ffprobe error: {result.stderr}")
 
         return float(result.stdout.strip())
+    except subprocess.TimeoutExpired:
+        logger.error(f"ffprobe timeout for {video_file}")
+        return 0.0
+    except FileNotFoundError:
+        logger.error("ffprobe not found in PATH. Please ensure FFmpeg is installed.")
+        return 0.0
     except Exception as e:
         logger.error(f"Failed to get duration for {video_file}: {e}")
         return 0.0
@@ -115,6 +128,9 @@ def extract_audio_chunk(
     video_file: Path, start_time: float, duration: float, output_path: Path
 ) -> Path:
     """Extract audio chunk using ffmpeg."""
+    video_path = os.fspath(video_file)
+    output_file_path = os.fspath(output_path)
+
     cmd = [
         "ffmpeg",
         "-ss",
@@ -122,7 +138,7 @@ def extract_audio_chunk(
         "-t",
         str(duration),
         "-i",
-        str(video_file),
+        video_path,
         "-vn",
         "-sn",
         "-dn",
@@ -133,16 +149,22 @@ def extract_audio_chunk(
         "-ac",
         "1",
         "-y",
-        str(output_path),
+        output_file_path,
     ]
+
+    logger.debug(f"Running ffmpeg command: {' '.join(cmd)}")
+
     try:
         subprocess.run(cmd, capture_output=True, check=True, timeout=30)
         if not output_path.exists() or output_path.stat().st_size < 1024:
             raise RuntimeError("Output file too small or missing")
         return output_path
     except subprocess.CalledProcessError as e:
-        logger.error(f"FFmpeg failed: {e.stderr}")
+        logger.error(f"FFmpeg failed for {video_file}: {e.stderr}")
+        raise
+    except FileNotFoundError:
+        logger.error("ffmpeg not found in PATH. Please ensure FFmpeg is installed.")
         raise
     except Exception as e:
-        logger.error(f"Extraction failed: {e}")
+        logger.error(f"Extraction failed for {video_file}: {e}")
         raise
