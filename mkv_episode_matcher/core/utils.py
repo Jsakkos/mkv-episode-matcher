@@ -1,5 +1,7 @@
 import os
 import re
+import shutil
+from functools import lru_cache
 from pathlib import Path
 
 import chardet
@@ -84,12 +86,36 @@ def clean_text(text: str) -> str:
 import subprocess
 
 
+@lru_cache(maxsize=2)
+def _find_executable(name: str) -> str:
+    """Find executable in PATH, with caching."""
+    path = shutil.which(name)
+    if not path:
+        raise FileNotFoundError(
+            f"{name} not found in PATH. Please ensure FFmpeg is installed and accessible.\n"
+            f"Windows: Add FFmpeg to your system PATH environment variable\n"
+            f"Linux/macOS: Install via package manager (apt, brew, etc.)"
+        )
+    return path
+
+
+def get_ffprobe_path() -> str:
+    """Get path to ffprobe executable."""
+    return _find_executable("ffprobe")
+
+
+def get_ffmpeg_path() -> str:
+    """Get path to ffmpeg executable."""
+    return _find_executable("ffmpeg")
+
+
 def get_video_duration(video_file: Path) -> float:
     """Get video duration using ffprobe."""
     try:
+        ffprobe = get_ffprobe_path()
         video_path = os.fspath(video_file)
         cmd = [
-            "ffprobe",
+            ffprobe,
             "-v",
             "error",
             "-show_entries",
@@ -116,8 +142,8 @@ def get_video_duration(video_file: Path) -> float:
     except subprocess.TimeoutExpired:
         logger.error(f"ffprobe timeout for {video_file}")
         return 0.0
-    except FileNotFoundError:
-        logger.error("ffprobe not found in PATH. Please ensure FFmpeg is installed.")
+    except FileNotFoundError as e:
+        logger.error(str(e))
         return 0.0
     except Exception as e:
         logger.error(f"Failed to get duration for {video_file}: {e}")
@@ -128,11 +154,12 @@ def extract_audio_chunk(
     video_file: Path, start_time: float, duration: float, output_path: Path
 ) -> Path:
     """Extract audio chunk using ffmpeg."""
+    ffmpeg = get_ffmpeg_path()
     video_path = os.fspath(video_file)
     output_file_path = os.fspath(output_path)
 
     cmd = [
-        "ffmpeg",
+        ffmpeg,
         "-ss",
         str(start_time),
         "-t",
@@ -162,8 +189,8 @@ def extract_audio_chunk(
     except subprocess.CalledProcessError as e:
         logger.error(f"FFmpeg failed for {video_file}: {e.stderr}")
         raise
-    except FileNotFoundError:
-        logger.error("ffmpeg not found in PATH. Please ensure FFmpeg is installed.")
+    except FileNotFoundError as e:
+        logger.error(str(e))
         raise
     except Exception as e:
         logger.error(f"Extraction failed for {video_file}: {e}")
