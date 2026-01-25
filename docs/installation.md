@@ -261,7 +261,7 @@ python --version
 nvcc --version
 
 # Reinstall PyTorch with correct CUDA version
-pip uninstall torch torchvision torchaudio
+pip uninstall torch
 pip install torch --index-url https://download.pytorch.org/whl/cu128
 ```
 

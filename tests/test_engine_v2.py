@@ -235,13 +235,15 @@ class TestMatchEngineV2:
                 config = Config(cache_dir=Path(tmp_dir), sub_provider="local")
                 engine = MatchEngineV2(config)
 
-                # Create test file with S##E## pattern
-                test_file = Path(tmp_dir) / "Some.Show.S02E05.mkv"
+                # Create proper directory structure to avoid temp path interference
+                test_dir = Path(tmp_dir) / "test_show" / "season_folder"
+                test_dir.mkdir(parents=True)
+                test_file = test_dir / "Some.Show.S02E05.mkv"
                 test_file.touch()
 
                 show_name, season = engine._detect_context(test_file)
 
-                # Should at least detect season from filename
+                # Should detect season from filename
                 assert season == 2
 
     @patch("mkv_episode_matcher.core.engine.get_asr_provider")

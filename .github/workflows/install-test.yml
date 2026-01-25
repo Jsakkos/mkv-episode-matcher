@@ -41,12 +41,6 @@ jobs:
           import torch
           print(f'PyTorch version: {torch.__version__}')
           print(f'CUDA available: {torch.cuda.is_available()}')
-          
-          import torchaudio
-          print(f'Torchaudio version: {torchaudio.__version__}')
-          
-          import torchvision
-          print(f'Torchvision version: {torchvision.__version__}')
           "
 
       - name: Verify NeMo ASR imports
