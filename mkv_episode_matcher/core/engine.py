@@ -504,10 +504,18 @@ class MatchEngineV2:
                 # Process files in this group
                 for video_file in group_files:
                     try:
-                        match = self.matcher.match(video_file, subs)
+                        # Emit per-file status
+                        if phase_callback:
+                            phase_callback("processing_file", f"🎬 Processing: {video_file.name}")
+                        
+                        match = self.matcher.match(video_file, subs, phase_callback=phase_callback)
                         if match and match.confidence >= confidence_threshold:
                             match.episode_info.series_name = show_name
                             results.append(match)
+
+                            # Emit match success
+                            if phase_callback:
+                                phase_callback("file_matched", f"✅ {video_file.name} → {match.episode_info.s_e_format} ({match.confidence:.0%})")
 
                             if not json_output:
                                 self.console.print(
@@ -535,6 +543,11 @@ class MatchEngineV2:
                                 )
 
                         else:
+                            # Emit match failure
+                            if phase_callback:
+                                conf_str = f" ({match.confidence:.0%})" if match else ""
+                                phase_callback("file_failed", f"❌ {video_file.name} - No match{conf_str}")
+
                             if not json_output:
                                 conf_str = (
                                     f" (conf: {match.confidence:.2f})" if match else ""
@@ -557,6 +570,8 @@ class MatchEngineV2:
 
                     except Exception as e:
                         logger.error(f"Error processing {video_file}: {e}")
+                        if phase_callback:
+                            phase_callback("file_error", f"⚠️ {video_file.name} - Error: {str(e)[:50]}")
                         if not json_output:
                             self.console.print(
                                 f"[red]ERROR[/red] {video_file.name} - Error: {e}"

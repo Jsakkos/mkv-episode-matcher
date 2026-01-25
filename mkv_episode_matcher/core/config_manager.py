@@ -56,8 +56,8 @@ class ConfigManager:
             "show_dir": legacy_config.get("show_dir"),
             "cache_dir": str(Path.home() / ".mkv-episode-matcher" / "cache"),
             "min_confidence": 0.7,
-            "asr_provider": "parakeet",
-            "asr_model_name": "nvidia/parakeet-ctc-0.6b",
+            "asr_provider": "whisper",
+            "asr_model_name": "small",
             "sub_provider": "opensubtitles",
         }
 

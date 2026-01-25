@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import FileBrowser from './components/FileBrowser';
 import FileReviewGrid from './components/FileReviewGrid';
 import SettingsView from './components/SettingsView';
+import OnboardingModal from './components/OnboardingModal';
 
 interface ScannedFile {
   path: string;
@@ -39,6 +40,26 @@ function App() {
   const [jobId, setJobId] = useState<string | null>(null);
   const [jobStatus, setJobStatus] = useState<JobStatus | null>(null);
   const [systemStatus, setSystemStatus] = useState({ status: 'loading', model_loaded: false, version: '...' });
+  const [activityLog, setActivityLog] = useState<{ time: string, message: string, type: 'info' | 'success' | 'warning' }[]>([]);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Check if onboarding is needed
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      try {
+        const res = await fetch('/system/config/validate');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.needs_onboarding) {
+            setShowOnboarding(true);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to check config:', err);
+      }
+    };
+    checkOnboarding();
+  }, []);
 
   // Poll system status
   useEffect(() => {
@@ -114,6 +135,7 @@ function App() {
     setScannedFiles([]);
     setJobId(null);
     setJobStatus(null);
+    setActivityLog([]);
   };
 
   // WebSocket logic replaces polling
@@ -129,9 +151,12 @@ function App() {
       ws.onmessage = (event) => {
         try {
           const msg = JSON.parse(event.data);
+          const timestamp = new Date().toLocaleTimeString();
+
           // Filter messages for current job or general updates
           if (msg.type === 'job_update' && msg.job_id === jobId) {
             setJobStatus(prev => ({ ...prev, status: msg.status } as JobStatus));
+            setActivityLog(prev => [...prev.slice(-50), { time: timestamp, message: `Job status: ${msg.status}`, type: 'info' }]);
           }
           else if (msg.type === 'progress' && msg.job_id === jobId) {
             setJobStatus(prev => ({
@@ -146,15 +171,18 @@ function App() {
               results: msg.results,
               failures: msg.failures
             });
+            setActivityLog(prev => [...prev.slice(-50), { time: timestamp, message: `✅ Completed! ${msg.results?.length || 0} matched, ${msg.failures?.length || 0} failed`, type: 'success' }]);
           }
           else if (msg.type === 'job_failed' && msg.job_id === jobId) {
             setJobStatus({ status: 'failed', error: msg.error });
+            setActivityLog(prev => [...prev.slice(-50), { time: timestamp, message: `❌ Failed: ${msg.error}`, type: 'warning' }]);
           }
           else if (msg.type === 'phase_update' && msg.job_id === jobId) {
             setJobStatus(prev => ({
               ...prev,
               phase: { name: msg.phase, message: msg.message }
             } as JobStatus));
+            setActivityLog(prev => [...prev.slice(-50), { time: timestamp, message: msg.message, type: 'info' }]);
           }
         } catch (err) {
           console.error('WS Error:', err);
@@ -301,7 +329,7 @@ function App() {
                       </div>
                       {jobStatus?.status === 'processing' && (
                         <div className="text-sm text-[var(--text-muted)] mt-0.5">
-                          {jobStatus.phase?.message || (systemStatus.model_loaded ? 'Parakeet ASR Ready' : 'Loading ASR...')}
+                          {jobStatus.phase?.message || (systemStatus.model_loaded ? 'Whisper ASR Ready' : 'Loading ASR Model...')}
                         </div>
                       )}
                     </div>
@@ -377,9 +405,41 @@ function App() {
                 ))}
 
                 {!jobStatus?.results?.length && !jobStatus?.failures?.length && (
-                  <div className="flex flex-col items-center justify-center h-64 text-[var(--text-muted)] opacity-30">
-                    <div className="animate-spin text-4xl mb-4">⌛</div>
-                    <div className="text-lg">Waiting for results...</div>
+                  <div className="space-y-3">
+                    {/* Activity Log Header */}
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider">Activity Log</h4>
+                      <span className="text-xs text-[var(--text-muted)]">{activityLog.length} events</span>
+                    </div>
+
+                    {/* Activity Log Entries */}
+                    <div className="bg-[var(--bg-tertiary)]/30 rounded-xl border border-[var(--border-color)] p-4 max-h-64 overflow-y-auto">
+                      {activityLog.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-8 text-[var(--text-muted)] opacity-50">
+                          <div className="animate-spin text-3xl mb-3">⌛</div>
+                          <div className="text-sm">Waiting for processing to begin...</div>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {activityLog.slice().reverse().map((entry, idx) => (
+                            <div key={idx} className={`flex items-start gap-3 text-sm ${entry.type === 'success' ? 'text-green-400' :
+                              entry.type === 'warning' ? 'text-yellow-400' : 'text-[var(--text-muted)]'
+                              }`}>
+                              <span className="text-xs opacity-60 font-mono flex-shrink-0">{entry.time}</span>
+                              <span className="flex-1">{entry.message}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Current Status Indicator */}
+                    {jobStatus?.phase && (
+                      <div className="flex items-center gap-3 p-3 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
+                        <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+                        <span className="text-indigo-300 text-sm font-medium">{jobStatus.phase.message}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -391,9 +451,17 @@ function App() {
   };
 
   return (
-    <Layout currentView={currentView} onNavigate={setCurrentView} systemStatus={systemStatus}>
-      {renderContent()}
-    </Layout>
+    <>
+      {showOnboarding && (
+        <OnboardingModal
+          onComplete={() => setShowOnboarding(false)}
+          onSkip={() => setShowOnboarding(false)}
+        />
+      )}
+      <Layout currentView={currentView} onNavigate={setCurrentView} systemStatus={systemStatus}>
+        {renderContent()}
+      </Layout>
+    </>
   );
 }
 

@@ -23,12 +23,22 @@ class MultiSegmentMatcher:
         self.min_confidence = 0.6
 
     def _process_chunk(
-        self, video_path: Path, start_time: float, reference_subs: list[SubtitleFile]
+        self, video_path: Path, start_time: float, reference_subs: list[SubtitleFile],
+        chunk_index: int = 0, total_chunks: int = 1, phase_callback=None
     ) -> list[MatchCandidate]:
         """Process a single chunk: Extract -> Transcribe -> Match against all subs."""
         chunk_path = self.temp_dir / f"{video_path.stem}_{start_time}.wav"
         try:
+            # Emit extraction phase
+            if phase_callback:
+                phase_callback("extracting_audio", f"🎤 Extracting audio segment {chunk_index + 1}/{total_chunks}...")
+            
             extract_audio_chunk(video_path, start_time, self.chunk_duration, chunk_path)
+            
+            # Emit transcription phase
+            if phase_callback:
+                phase_callback("transcribing", f"🔊 Transcribing {self.chunk_duration}s segment...")
+            
             transcription = self.asr.transcribe(chunk_path)
 
             # Clean transcription
@@ -36,6 +46,10 @@ class MultiSegmentMatcher:
             if len(clean_trans) < 10:
                 logger.debug(f"Transcription too short at {start_time}s: {clean_trans}")
                 return []
+
+            # Emit matching phase
+            if phase_callback:
+                phase_callback("comparing", f"🔍 Comparing against {len(reference_subs)} reference subtitles...")
 
             candidates = []
             for sub in reference_subs:
@@ -76,7 +90,7 @@ class MultiSegmentMatcher:
                 chunk_path.unlink()
 
     def match(
-        self, video_path: Path, reference_subs: list[SubtitleFile]
+        self, video_path: Path, reference_subs: list[SubtitleFile], phase_callback=None
     ) -> MatchResult | None:
         duration = get_video_duration(video_path)
         if duration < 60:
@@ -102,6 +116,7 @@ class MultiSegmentMatcher:
 
         # Limit total attempts to prevent excessive processing
         checkpoints = checkpoints[:6]
+        total_checkpoints = len(checkpoints)
 
         # Parallel processing of chunks?
         # ASR might be GPU bound and not parallelizable easily within one process due to GIL/VRAM.
@@ -114,9 +129,12 @@ class MultiSegmentMatcher:
         empty_segments = 0
 
         for i, t in enumerate(checkpoints):
-            logger.info(f"Checking segment {i + 1}/{len(checkpoints)} at {t:.1f}s")
+            logger.info(f"Checking segment {i + 1}/{total_checkpoints} at {t:.1f}s")
 
-            candidates = self._process_chunk(video_path, t, reference_subs)
+            candidates = self._process_chunk(
+                video_path, t, reference_subs, 
+                chunk_index=i, total_chunks=total_checkpoints, phase_callback=phase_callback
+            )
 
             if not candidates:
                 empty_segments += 1

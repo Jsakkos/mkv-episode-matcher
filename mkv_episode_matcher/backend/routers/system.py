@@ -41,3 +41,40 @@ def update_config(config_data: dict):
         return {"status": "success", "config": new_config.model_dump()}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+@router.get("/config/validate")
+def validate_config():
+    """Check if required credentials are configured."""
+    from mkv_episode_matcher.core.config_manager import get_config_manager
+    
+    manager = get_config_manager()
+    config = manager.load()
+    
+    missing = []
+    
+    # Check OpenSubtitles credentials (required unless using local provider)
+    if config.sub_provider == "opensubtitles":
+        if not config.open_subtitles_api_key:
+            missing.append("open_subtitles_api_key")
+    
+    return {
+        "valid": len(missing) == 0,
+        "missing": missing,
+        "needs_onboarding": len(missing) > 0
+    }
+
+@router.post("/shutdown")
+def shutdown_server():
+    """Shutdown the application server."""
+    import os
+    import signal
+    import threading
+    import time
+    
+    def kill_server():
+        time.sleep(1)
+        os.kill(os.getpid(), signal.SIGTERM)
+        
+    # Schedule shutdown in a separate thread to allow response to return
+    threading.Thread(target=kill_server).start()
+    return {"status": "shutting_down"}

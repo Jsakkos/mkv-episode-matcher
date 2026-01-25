@@ -65,7 +65,7 @@ class TestConfigManagerV2:
             # Should create default config
             assert isinstance(config, Config)
             assert config_path.exists()
-            assert config.asr_provider == "parakeet"
+            assert config.asr_provider == "whisper"
 
     def test_config_save_load(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -74,13 +74,13 @@ class TestConfigManagerV2:
 
             # Create custom config
             config = Config(
-                asr_provider="parakeet", min_confidence=0.8, tmdb_api_key="test_key"
+                asr_provider="whisper", min_confidence=0.8, tmdb_api_key="test_key"
             )
 
             cm.save(config)
             loaded_config = cm.load()
 
-            assert loaded_config.asr_provider == "parakeet"
+            assert loaded_config.asr_provider == "whisper"
             assert loaded_config.min_confidence == 0.8
             assert loaded_config.tmdb_api_key == "test_key"
 
@@ -121,7 +121,7 @@ class TestConfigManagerV2:
 
             # Should return default config
             assert isinstance(config, Config)
-            assert config.asr_provider == "parakeet"
+            assert config.asr_provider == "whisper"
 
 
 class TestMatchEngineV2:
@@ -131,7 +131,7 @@ class TestMatchEngineV2:
     def mock_config(self):
         return Config(
             cache_dir=Path("/tmp/cache"),
-            asr_provider="parakeet",
+            asr_provider="whisper",
             sub_provider="local",
             min_confidence=0.7,
         )
@@ -301,7 +301,7 @@ class TestIntegrationUseCases:
                 confidence=0.9,
                 matched_file=Path("/fake/path.mkv"),
                 matched_time=60.0,
-                model_name="parakeet",
+                model_name="whisper",
             )
 
             mock_matcher_instance = Mock()
@@ -485,7 +485,7 @@ class TestCLIIntegration:
             # Create test config
             config = Config(
                 cache_dir=Path(tmp_dir) / "cache",
-                asr_provider="parakeet",
+                asr_provider="whisper",
                 min_confidence=0.8,
             )
 
@@ -495,7 +495,7 @@ class TestCLIIntegration:
             # Verify config can be loaded
             loaded_config = cm.load()
             assert loaded_config.min_confidence == 0.8
-            assert loaded_config.asr_provider == "parakeet"
+            assert loaded_config.asr_provider == "whisper"
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 ## ✨ Key Features
 
 - 🌐 **Modern Web Interface**: Premium React-based UI with glassmorphism design and dark mode
-- 🤖 **Advanced Speech Recognition**: NVIDIA Parakeet ASR for highly accurate episode identification
+- 🤖 **Advanced Speech Recognition**: OpenAI Whisper ASR via faster-whisper for accurate episode identification
 - 🎯 **Intelligent Matching**: Multi-segment analysis with confidence scoring and fallback strategies
 - ⬇️ **Smart Subtitle Integration**: Automatic subtitle downloads from OpenSubtitles with local caching
 - ✨ **Bulk Processing**: Handle entire libraries with automatic series/season detection
@@ -24,7 +24,7 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 - 🐳 **Docker Ready**: Easy deployment via Docker or local execution
 
 > [!NOTE]
-> **First-Time Model Loading**: The NVIDIA Parakeet ASR model takes approximately **60 seconds** to load on first use. The web UI shows a "System Loading" indicator during this time. Subsequent operations reuse the cached model and are much faster.
+> **First-Time Model Loading**: The Whisper ASR model takes approximately **5-10 seconds** to download and load on first use. The web UI shows a "System Loading" indicator during this time. Subsequent operations reuse the cached model and are much faster.
 
 ## Prerequisites
 

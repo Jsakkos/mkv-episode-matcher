@@ -3,7 +3,7 @@ from typing import Literal
 import os
 import json
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class EpisodeInfo(BaseModel):
@@ -83,9 +83,20 @@ class Config(BaseModel):
     open_subtitles_user_agent: str = "Oz 1.0.0"
 
     # Provider settings
-    asr_provider: Literal["parakeet"] = "parakeet"
-    asr_model_name: str = "nvidia/parakeet-ctc-0.6b"
+    asr_provider: Literal["whisper", "parakeet"] = "whisper"  # parakeet kept for migration
+    asr_model_name: str = "small"
     sub_provider: Literal["opensubtitles", "local"] = "opensubtitles"
+
+    @model_validator(mode="before")
+    @classmethod
+    def migrate_asr_provider(cls, data: dict) -> dict:
+        """Migrate legacy parakeet config to whisper."""
+        if isinstance(data, dict):
+            # Migrate parakeet to whisper
+            if data.get("asr_provider") == "parakeet":
+                data["asr_provider"] = "whisper"
+                data["asr_model_name"] = "small"  # Default whisper model
+        return data
 
     @field_validator("show_dir")
     def validate_show_dir(cls, v):

@@ -60,17 +60,19 @@ factory_memo = {}
 
 
 def get_asr_provider(
-    model_type: str = "parakeet",
+    model_type: str = "whisper",
     model_name: str | None = None,
     device: str | None = None,
 ) -> ASRProvider:
     """Factory to get or create an ASR provider."""
-    # Set default match names based on type if not provided
+    # Set default model names based on type if not provided
     if not model_name:
-        if model_type == "whisper" or model_type == "faster-whisper":
-            model_name = "base.en"
-        elif "parakeet" in model_type:
-            model_name = "nvidia/parakeet-ctc-0.6b"
+        if model_type in ("whisper", "faster-whisper", "openai-whisper"):
+            model_name = "small"
+        # Legacy parakeet support - redirect to whisper
+        elif model_type == "parakeet":
+            model_type = "whisper"
+            model_name = "small"
 
     key = (model_type, model_name, device)
     if key in factory_memo:

@@ -1,7 +1,7 @@
 """
 ASR Model Registry
 
-Provides a curated list of recommended NeMo-compatible ASR models with metadata
+Provides a curated list of recommended Whisper ASR models with metadata
 for hardware requirements, quality, and performance characteristics.
 
 For more models, see: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard
@@ -16,7 +16,7 @@ from loguru import logger
 LEADERBOARD_URL = "https://huggingface.co/spaces/hf-audio/open_asr_leaderboard"
 
 # Default model - lightweight, works on CPU
-DEFAULT_MODEL = "nvidia/parakeet-ctc-0.6b"
+DEFAULT_MODEL = "small"
 
 
 class ModelInfo(TypedDict):
@@ -28,46 +28,81 @@ class ModelInfo(TypedDict):
     quality: str  # "good", "better", "best"
     speed: str  # "fast", "medium", "slow"
     description: str
-    decoder_type: str  # "ctc" or "tdt"
 
 
-# Curated list of known-compatible NeMo ASR models
+# Curated list of Whisper models via faster-whisper
 RECOMMENDED_MODELS: dict[str, ModelInfo] = {
-    "nvidia/parakeet-ctc-0.6b": {
-        "name": "Parakeet CTC 0.6B",
-        "size_mb": 600,
+    "tiny": {
+        "name": "Whisper Tiny",
+        "size_mb": 75,
+        "requires_gpu": False,
+        "quality": "basic",
+        "speed": "fastest",
+        "description": "Fastest model. Good for testing and quick prototyping.",
+    },
+    "tiny.en": {
+        "name": "Whisper Tiny (English)",
+        "size_mb": 75,
+        "requires_gpu": False,
+        "quality": "basic",
+        "speed": "fastest",
+        "description": "English-only tiny model. Slightly better accuracy for English.",
+    },
+    "base": {
+        "name": "Whisper Base",
+        "size_mb": 145,
         "requires_gpu": False,
         "quality": "good",
         "speed": "fast",
-        "description": "Default model. Lightweight, works well on CPU.",
-        "decoder_type": "ctc",
+        "description": "Good balance of speed and accuracy for CPU.",
     },
-    "nvidia/parakeet-ctc-1.1b": {
-        "name": "Parakeet CTC 1.1B",
-        "size_mb": 1100,
-        "requires_gpu": True,
+    "base.en": {
+        "name": "Whisper Base (English)",
+        "size_mb": 145,
+        "requires_gpu": False,
+        "quality": "good",
+        "speed": "fast",
+        "description": "English-only base model. Better accuracy for English content.",
+    },
+    "small": {
+        "name": "Whisper Small",
+        "size_mb": 465,
+        "requires_gpu": False,
         "quality": "better",
         "speed": "medium",
-        "description": "Higher accuracy, GPU recommended for speed.",
-        "decoder_type": "ctc",
+        "description": "Recommended default. Good accuracy, works on CPU.",
     },
-    "nvidia/parakeet-tdt-0.6b-v2": {
-        "name": "Parakeet TDT 0.6B v2",
-        "size_mb": 600,
-        "requires_gpu": True,
+    "small.en": {
+        "name": "Whisper Small (English)",
+        "size_mb": 465,
+        "requires_gpu": False,
         "quality": "better",
         "speed": "medium",
-        "description": "TDT decoder, better for noisy audio. Requires GPU.",
-        "decoder_type": "tdt",
+        "description": "English-only small model. Best balance for English TV content.",
     },
-    "nvidia/parakeet-tdt-1.1b": {
-        "name": "Parakeet TDT 1.1B",
-        "size_mb": 1100,
+    "medium": {
+        "name": "Whisper Medium",
+        "size_mb": 1500,
         "requires_gpu": True,
         "quality": "best",
         "speed": "slow",
-        "description": "Best accuracy. Requires CUDA GPU with 6GB+ VRAM.",
-        "decoder_type": "tdt",
+        "description": "High accuracy. GPU recommended for reasonable speed.",
+    },
+    "medium.en": {
+        "name": "Whisper Medium (English)",
+        "size_mb": 1500,
+        "requires_gpu": True,
+        "quality": "best",
+        "speed": "slow",
+        "description": "English-only medium model. Best accuracy for English content.",
+    },
+    "large-v3": {
+        "name": "Whisper Large v3",
+        "size_mb": 3000,
+        "requires_gpu": True,
+        "quality": "best",
+        "speed": "slowest",
+        "description": "Highest accuracy. Requires GPU with 10GB+ VRAM.",
     },
 }
 
@@ -77,7 +112,7 @@ def get_model_info(model_name: str) -> ModelInfo | None:
     Get metadata for a model by name.
 
     Args:
-        model_name: HuggingFace model ID (e.g., "nvidia/parakeet-ctc-0.6b")
+        model_name: Model name (e.g., "small", "base.en")
 
     Returns:
         ModelInfo dict if known, None if custom/unknown model
@@ -105,47 +140,26 @@ def get_leaderboard_url() -> str:
     return LEADERBOARD_URL
 
 
-def get_decoder_type(model_name: str) -> str:
-    """
-    Detect decoder type (CTC or TDT) from model name.
-
-    Args:
-        model_name: HuggingFace model ID
-
-    Returns:
-        "ctc" or "tdt"
-    """
-    info = get_model_info(model_name)
-    if info:
-        return info["decoder_type"]
-
-    # Infer from model name for unknown models
-    model_lower = model_name.lower()
-    if "tdt" in model_lower:
-        return "tdt"
-    return "ctc"  # Default to CTC
-
-
 def is_model_downloaded(model_name: str) -> bool:
     """
     Check if a model has been downloaded to the HuggingFace cache.
 
     Args:
-        model_name: HuggingFace model ID
+        model_name: Whisper model name (e.g., "small", "base.en")
 
     Returns:
         True if model appears to be cached locally
     """
     try:
-        # HuggingFace models are cached in ~/.cache/huggingface/hub
+        # faster-whisper models are cached in ~/.cache/huggingface/hub
         cache_dir = Path.home() / ".cache" / "huggingface" / "hub"
 
         if not cache_dir.exists():
             return False
 
-        # Models are stored with sanitized names
-        # e.g., "nvidia/parakeet-ctc-0.6b" -> "models--nvidia--parakeet-ctc-0.6b"
-        sanitized_name = f"models--{model_name.replace('/', '--')}"
+        # Check for ctranslate2 whisper models
+        # They are stored as "models--Systran--faster-whisper-{model_name}"
+        sanitized_name = f"models--Systran--faster-whisper-{model_name}"
 
         model_cache = cache_dir / sanitized_name
         return model_cache.exists()
@@ -172,20 +186,22 @@ def get_models_for_hardware(has_gpu: bool = False, vram_gb: int = 0) -> list[str
         if info["requires_gpu"] and not has_gpu:
             continue
 
-        # TDT models need more VRAM
-        if info["decoder_type"] == "tdt" and vram_gb < 6:
+        # Large models need more VRAM
+        if info["size_mb"] > 2000 and vram_gb < 10:
+            continue
+        elif info["size_mb"] > 1000 and vram_gb < 6:
             continue
 
         recommendations.append(model_name)
 
     # Sort by quality (best first), then by speed (fast first)
-    quality_order = {"best": 0, "better": 1, "good": 2}
-    speed_order = {"fast": 0, "medium": 1, "slow": 2}
+    quality_order = {"best": 0, "better": 1, "good": 2, "basic": 3}
+    speed_order = {"fastest": 0, "fast": 1, "medium": 2, "slow": 3, "slowest": 4}
 
     recommendations.sort(
         key=lambda m: (
-            quality_order.get(RECOMMENDED_MODELS[m]["quality"], 3),
-            speed_order.get(RECOMMENDED_MODELS[m]["speed"], 3),
+            quality_order.get(RECOMMENDED_MODELS[m]["quality"], 4),
+            speed_order.get(RECOMMENDED_MODELS[m]["speed"], 4),
         )
     )
 

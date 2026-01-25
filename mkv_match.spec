@@ -23,23 +23,11 @@ hiddenimports = [
 tmp_ret = collect_all('opensubtitlescom')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
-# Collect NeMo - include source files for TorchScript JIT compatibility
-# NeMo uses torch.jit.script which requires access to original .py source files
-tmp_ret = collect_all('nemo')
+# Collect faster-whisper and CTranslate2
+tmp_ret = collect_all('faster_whisper')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
-# Also collect nemo_text_processing if present
-try:
-    tmp_ret = collect_all('nemo_text_processing')
-    datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-except Exception:
-    pass
-
-# Collect lightning_fabric and pytorch_lightning - required data files (version.info, etc.)
-tmp_ret = collect_all('lightning_fabric')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-
-tmp_ret = collect_all('pytorch_lightning')
+tmp_ret = collect_all('ctranslate2')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 # Add frontend build to datas

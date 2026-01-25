@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 def setup_test_files():
-    main_folder = Path(r'X:\media\rips\Tests\The Expanse')
+    main_folder = Path(r'X:\media\rips\Tests')
     if not main_folder.exists():
         logger.error(f"Test folder not found: {main_folder}")
         return False
