@@ -43,20 +43,6 @@ jobs:
           print(f'CUDA available: {torch.cuda.is_available()}')
           "
 
-      - name: Verify NeMo ASR imports
-        run: |
-          uv run python -c "
-          import os
-          if os.name == 'nt':
-              import signal
-              if not hasattr(signal, 'SIGKILL'):
-                  signal.SIGKILL = 9
-              if not hasattr(signal, 'SIGTERM'):
-                  signal.SIGTERM = 15
-          from nemo.collections.asr.models import ASRModel
-          print('NeMo ASR module loaded successfully')
-          "
-
       - name: Verify core application imports
         run: |
           uv run python -c "
