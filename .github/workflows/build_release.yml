@@ -16,7 +16,6 @@ on:
 env:
   # Increase disk space awareness
   PYTHONDONTWRITEBYTECODE: 1
-  UV_NO_CACHE: 1
 
 jobs:
   # CPU builds on GitHub-hosted runners
@@ -102,7 +101,7 @@ jobs:
         shell: pwsh
         run: |
           cd dist
-          Compress-Archive -Path "mkv-match" -DestinationPath "${{ matrix.output_name }}.zip"
+          7z a -tzip "${{ matrix.output_name }}.zip" "mkv-match"
 
       - name: Create Archive (Linux)
         if: runner.os == 'Linux'
@@ -203,7 +202,7 @@ jobs:
   release:
     needs: [build-cpu]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
     permissions:
       contents: write
 
