@@ -1,10 +1,10 @@
 name: Build and Release
 
 on:
-  # Uncomment to trigger on tags:
-  # push:
-  #   tags:
-  #     - 'v*'
+  Uncomment to trigger on tags:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       build_cuda:
