@@ -480,94 +480,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#web-interface-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🖥️ Web Interface Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Directory Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reference-subtitle-file-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Subtitle File Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contributing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#acknowledgments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Acknowledgments
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changelog
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -955,94 +867,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#web-interface-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🖥️ Web Interface Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Directory Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reference-subtitle-file-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Subtitle File Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contributing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#acknowledgments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Acknowledgments
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changelog
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1083,7 +907,6 @@
 <li>✨ <strong>Bulk Processing</strong>: Handle entire libraries with automatic series/season detection</li>
 <li>📊 <strong>Real-time Progress</strong>: WebSocket-powered progress tracking with live updates</li>
 <li>⚡ <strong>Performance Optimized</strong>: Caching, background model loading, and efficient processing</li>
-<li>🐳 <strong>Docker Ready</strong>: Easy deployment via Docker or local execution</li>
 </ul>
 <blockquote>
 <p>[!NOTE]
@@ -1093,52 +916,73 @@
 <ul>
 <li>Python 3.10-3.12</li>
 <li><a href="https://ffmpeg.org/download.html">FFmpeg</a> installed and available in system PATH</li>
-<li>TMDb API key (optional, for episode matching)</li>
-<li>OpenSubtitles.com account (required for subtitle downloads)</li>
+<li>TMDb API key</li>
+<li>OpenSubtitles.com account</li>
 </ul>
 <h2 id="quick-start">🚀 Quick Start</h2>
 <h3 id="1-install-mkv-episode-matcher">1. Install MKV Episode Matcher</h3>
-<p><strong>Option A: pip (Easiest for end users)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkv-episode-matcher
+<p><strong>Option A: Windows Standalone Executable</strong>
+Download the latest Windows executable from <a href="https://github.com/Jsakkos/mkv-episode-matcher/releases">GitHub Releases</a>. No Python installation required!</p>
+<p><strong>Option B: pip (Cross-platform)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkv-episode-matcher<span class="o">[</span>cpu<span class="o">]</span>
+</code></pre></div>
+Or for CUDA support:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkv-episode-matcher<span class="o">[</span>cu128<span class="o">]</span>
 </code></pre></div></p>
-<p><strong>Option B: From Source with uv (For development/latest features)</strong></p>
+<p><strong>Option C: From Source with uv (For development/latest features)</strong></p>
 <p>First, install <a href="https://docs.astral.sh/uv/">uv</a> if you don't have it:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Windows (PowerShell)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>powershell<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># macOS/Linux</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Windows (PowerShell)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>powershell<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># macOS/Linux</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </code></pre></div></p>
 <p>Then clone and install:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Jsakkos/mkv-episode-matcher.git
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>mkv-episode-matcher
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Basic installation</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>uv<span class="w"> </span>sync
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Or with CUDA support for GPU acceleration</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cu128
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Jsakkos/mkv-episode-matcher.git
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>mkv-episode-matcher
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Basic installation</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cpu
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Or with CUDA support for GPU acceleration</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cu128
 </code></pre></div></p>
 <blockquote>
 <p>For complete installation options, see the <a href="https://jsakkos.github.io/mkv-episode-matcher/installation/">Installation Guide</a>.</p>
 </blockquote>
 <h3 id="2-launch-the-application">2. Launch the Application</h3>
-<p><strong>🌐 Web interface (Recommended)</strong>
-Launches the modern web interface in your default browser:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher
+<p><strong>🌐 Web interface (Recommended)</strong></p>
+<ul>
+<li><strong>Windows Executable</strong>: Double-click <code>mkv-match.exe</code>. It will launch the server and open your browser automatically.</li>
+<li><strong>Pip/Source</strong>: Run the following command:
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkv-match<span class="w"> </span>serve
 </code></pre></div>
-Access the UI at <code>http://localhost:8001</code></p>
+  Access the UI at <code>http://localhost:8001</code></li>
+</ul>
 <p><strong>💻 CLI Mode</strong>
-For automation and advanced users:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>mkv_episode_matcher<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/your/show&quot;</span>
+For automation and advanced users.</p>
+<p><strong>Windows Executable:</strong>
+Open a terminal in the folder containing the executable:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mkv-match.exe<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;C:\Path\To\Show&quot;</span>
 </code></pre></div></p>
-<p><strong>⚙️ Configuration</strong>
-Configuration is now managed directly through the web interface or via config files.</p>
+<p><strong>Pip/Source:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkv-match<span class="w"> </span>match<span class="w"> </span><span class="s2">&quot;/path/to/your/show&quot;</span>
+</code></pre></div></p>
 <h3 id="3-build-standalone-executable">3. Build Standalone Executable</h3>
-<p>You can build a self-contained executable that bundles the backend and frontend:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pyinstaller<span class="w"> </span>mkv_match.spec
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Output in dist/mkv-match/</span>
-</code></pre></div>
+<p>You can build a self-contained executable that bundles the backend and frontend.</p>
+<p><strong>Standard Build (CPU)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cpu
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pyinstaller<span class="w"> </span>mkv_match.spec
+</code></pre></div></p>
+<p><strong>CUDA-Enabled Build (NVIDIA GPU)</strong>
+To build an executable that utilizes your NVIDIA GPU for faster processing:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 1. Install dependencies with CUDA support</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cu128
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># 2. Build the executable</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>uv<span class="w"> </span>run<span class="w"> </span>pyinstaller<span class="w"> </span>mkv_match.spec
+</code></pre></div></p>
+<h1 id="output-in-distmkv-match">Output in dist/mkv-match/</h1>
 <h2 id="web-interface-features">🖥️ Web Interface Features</h2>
 <p>The new React-based interface provides:</p>
 <ul>
@@ -1153,22 +997,19 @@ Configuration is now managed directly through the web interface or via config fi
 <p><strong>OpenSubtitles Setup:</strong>
 - Username and password (recommended for better rate limits)
 - API key from the OpenSubtitles developer console</p>
-<h2 id="directory-structure">Directory Structure</h2>
-<p>MKV Episode Matcher expects your TV shows to be organized as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Show Name/
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── Season 1/
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│   ├── episode1.mkv
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   ├── episode2.mkv
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>├── Season 2/
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>│   ├── episode1.mkv
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>│   └── episode2.mkv
-</code></pre></div>
+<p>Show Name/
+├── Season 1/
+│   ├── episode1.mkv
+│   ├── episode2.mkv
+├── Season 2/
+│   ├── episode1.mkv
+│   └── episode2.mkv</p>
 <h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
 <p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── Show Name - S01E01.srt
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>├── Show Name - S01E02.srt
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>└── ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>└── ...
 </code></pre></div>
 <p>On Windows, the cache directory is located at <code>C:\Users\{username}\.mkv-episode-matcher\cache\data\</code></p>
 <p>Reference subtitle files should follow this naming pattern:
