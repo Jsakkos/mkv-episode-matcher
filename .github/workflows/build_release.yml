@@ -73,7 +73,7 @@ jobs:
 
       - name: Install Dependencies (CPU)
         run: |
-          uv sync --frozen
+          uv sync --frozen --extra cpu
 
       - name: Install PyInstaller
         run: |

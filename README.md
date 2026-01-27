@@ -21,7 +21,6 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 - ✨ **Bulk Processing**: Handle entire libraries with automatic series/season detection
 - 📊 **Real-time Progress**: WebSocket-powered progress tracking with live updates
 - ⚡ **Performance Optimized**: Caching, background model loading, and efficient processing
-- 🐳 **Docker Ready**: Easy deployment via Docker or local execution
 
 > [!NOTE]
 > **First-Time Model Loading**: The Whisper ASR model takes approximately **5-10 seconds** to download and load on first use. The web UI shows a "System Loading" indicator during this time. Subsequent operations reuse the cached model and are much faster.
@@ -30,19 +29,27 @@ Automatically match and rename your MKV TV episodes using advanced speech recogn
 
 - Python 3.10-3.12
 - [FFmpeg](https://ffmpeg.org/download.html) installed and available in system PATH
-- TMDb API key (optional, for episode matching)
-- OpenSubtitles.com account (required for subtitle downloads)
+- TMDb API key
+- OpenSubtitles.com account
 
 ## 🚀 Quick Start
 
 ### 1. Install MKV Episode Matcher
 
-**Option A: pip (Easiest for end users)**
+**Option A: Windows Standalone Executable**
+Download the latest Windows executable from [GitHub Releases](https://github.com/Jsakkos/mkv-episode-matcher/releases). No Python installation required!
+
+**Option B: pip (Cross-platform)**
 ```bash
-pip install mkv-episode-matcher
+pip install mkv-episode-matcher[cpu]
+```
+Or for CUDA support:
+```bash
+pip install mkv-episode-matcher[cu128]
+
 ```
 
-**Option B: From Source with uv (For development/latest features)**
+**Option C: From Source with uv (For development/latest features)**
 
 First, install [uv](https://docs.astral.sh/uv/) if you don't have it:
 ```bash
@@ -59,7 +66,7 @@ git clone https://github.com/Jsakkos/mkv-episode-matcher.git
 cd mkv-episode-matcher
 
 # Basic installation
-uv sync
+uv sync --extra cpu
 
 # Or with CUDA support for GPU acceleration
 uv sync --extra cu128
@@ -70,28 +77,49 @@ uv sync --extra cu128
 ### 2. Launch the Application
 
 **🌐 Web interface (Recommended)**
-Launches the modern web interface in your default browser:
-```bash
-uv run python -m mkv_episode_matcher
-```
-Access the UI at `http://localhost:8001`
+
+- **Windows Executable**: Double-click `mkv-match.exe`. It will launch the server and open your browser automatically.
+- **Pip/Source**: Run the following command:
+  ```bash
+  mkv-match serve
+  ```
+  Access the UI at `http://localhost:8001`
 
 **💻 CLI Mode**
-For automation and advanced users:
+For automation and advanced users.
+
+**Windows Executable:**
+Open a terminal in the folder containing the executable:
 ```bash
-python -m mkv_episode_matcher match "/path/to/your/show"
+mkv-match.exe match "C:\Path\To\Show"
 ```
 
-**⚙️ Configuration**
-Configuration is now managed directly through the web interface or via config files.
+**Pip/Source:**
+```bash
+mkv-match match "/path/to/your/show"
+```
+
 
 ### 3. Build Standalone Executable
-You can build a self-contained executable that bundles the backend and frontend:
 
+You can build a self-contained executable that bundles the backend and frontend.
+
+**Standard Build (CPU)**
 ```bash
+uv sync --extra cpu
 uv run pyinstaller mkv_match.spec
-# Output in dist/mkv-match/
 ```
+
+**CUDA-Enabled Build (NVIDIA GPU)**
+To build an executable that utilizes your NVIDIA GPU for faster processing:
+```bash
+# 1. Install dependencies with CUDA support
+uv sync --extra cu128
+
+# 2. Build the executable
+uv run pyinstaller mkv_match.spec
+```
+# Output in dist/mkv-match/
 
 ## 🖥️ Web Interface Features
 
@@ -110,11 +138,6 @@ The new React-based interface provides:
 - Username and password (recommended for better rate limits)
 - API key from the OpenSubtitles developer console
 
-## Directory Structure
-
-MKV Episode Matcher expects your TV shows to be organized as follows:
-
-```
 Show Name/
 ├── Season 1/
 │   ├── episode1.mkv
@@ -122,7 +145,6 @@ Show Name/
 ├── Season 2/
 │   ├── episode1.mkv
 │   └── episode2.mkv
-```
 
 ## Reference Subtitle File Structure
 

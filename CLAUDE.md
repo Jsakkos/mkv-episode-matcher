@@ -31,7 +31,7 @@ uv run ruff check --fix .
 ### Dependency Management and Installation
 ```bash
 # Install dependencies
-uv sync
+uv sync --extra cpu
 
 # Install with dev dependencies (default behavior)
 uv sync --group dev
