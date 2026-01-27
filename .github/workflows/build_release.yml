@@ -1,7 +1,6 @@
 name: Build and Release
 
 on:
-  Uncomment to trigger on tags:
   push:
     tags:
       - 'v*'
