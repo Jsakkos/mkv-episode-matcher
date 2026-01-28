@@ -997,19 +997,21 @@ To build an executable that utilizes your NVIDIA GPU for faster processing:
 <p><strong>OpenSubtitles Setup:</strong>
 - Username and password (recommended for better rate limits)
 - API key from the OpenSubtitles developer console</p>
-<p>Show Name/
-├── Season 1/
-│   ├── episode1.mkv
-│   ├── episode2.mkv
-├── Season 2/
-│   ├── episode1.mkv
-│   └── episode2.mkv</p>
+<p><strong>Expected Directory Structure:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Show Name/
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>├── Season 1/
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>│   ├── episode1.mkv
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>│   ├── episode2.mkv
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>├── Season 2/
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>│   ├── episode1.mkv
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>│   └── episode2.mkv
+</code></pre></div></p>
 <h2 id="reference-subtitle-file-structure">Reference Subtitle File Structure</h2>
 <p>Subtitle files that are not automatically downloaded using the <code>--get-subs</code> flag should be named as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>├── Show Name - S01E01.srt
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>├── Show Name - S01E02.srt
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>└── ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>~/.mkv-episode-matcher/cache/data/Show Name/
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>├── Show Name - S01E01.srt
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>├── Show Name - S01E02.srt
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>└── ...
 </code></pre></div>
 <p>On Windows, the cache directory is located at <code>C:\Users\{username}\.mkv-episode-matcher\cache\data\</code></p>
 <p>Reference subtitle files should follow this naming pattern:
