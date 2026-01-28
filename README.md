@@ -138,6 +138,8 @@ The new React-based interface provides:
 - Username and password (recommended for better rate limits)
 - API key from the OpenSubtitles developer console
 
+**Expected Directory Structure:**
+```text
 Show Name/
 ├── Season 1/
 │   ├── episode1.mkv
@@ -145,6 +147,7 @@ Show Name/
 ├── Season 2/
 │   ├── episode1.mkv
 │   └── episode2.mkv
+```
 
 ## Reference Subtitle File Structure
 
