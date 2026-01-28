@@ -18,6 +18,7 @@ Before you start, ensure you have the following:
 *   **API Keys**:
     *   **OpenSubtitles.com** account (for downloading subtitles).
     *   **TMDb** API Key (for fetching episode titles).
+*   **Directory Structure**: Your files must be organized by Show/Season. See [Directory Structure](#folder-directory-structure) below.
 
 ### 2. Install & Launch
 **The easiest way to run MKV Episode Matcher is using the standalone Windows executable.**
@@ -78,7 +79,7 @@ uv run mkv-match serve
 ```
 
 ### CLI Mode
-You can also use the Command Line Interface (CLI) for automation.
+You can also use the Command Line Interface (CLI) for automation. Make sure to run the command from the root directory of the repository or your home directory, not the show directory.
 
 ```bash
 # Match a folder

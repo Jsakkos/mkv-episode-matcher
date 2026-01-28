@@ -44,6 +44,7 @@ mkv-match gui
 3. **Select a Folder**:
    - Go to the **Dashboard**.
    - Navigate to your TV show folder.
+   - *Ensure your files are organized by Show/Season (see [Directory Structure](#directory-structure)).*
 4. **Scan and Match**:
    - Click **"Scan This Folder"**.
    - Review the proposed matches.
