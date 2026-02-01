@@ -28,19 +28,19 @@ jobs:
           cache-dependency-glob: "uv.lock"
           python-version: ${{ matrix.python-version }}
 
-      - name: Install package (CPU mode)
-        run: uv sync --frozen --extra cpu
+      - name: Install package
+        run: uv sync --frozen
         continue-on-error: false
 
       - name: Verify CLI entrypoint
         run: uv run mkv-match --help
 
-      - name: Verify PyTorch imports (CPU)
+      - name: Verify Dependencies
         run: |
           uv run python -c "
-          import torch
-          print(f'PyTorch version: {torch.__version__}')
-          print(f'CUDA available: {torch.cuda.is_available()}')
+          import ctranslate2
+          print(f'CTranslate2 version: {ctranslate2.__version__}')
+          print(f'CUDA available: {ctranslate2.get_cuda_device_count() > 0}')
           "
 
       - name: Verify core application imports
@@ -81,7 +81,7 @@ jobs:
         shell: bash
         run: |
           WHEEL_FILE=$(find dist -name "*.whl" | head -n 1)
-          pip install "${WHEEL_FILE}[cpu]"
+          pip install "${WHEEL_FILE}"
 
       - name: Verify CLI works
         run: mkv-match --help
@@ -89,8 +89,8 @@ jobs:
       - name: Verify imports work
         run: |
           python -c "
-          import torch
-          print(f'PyTorch: {torch.__version__}')
+          import ctranslate2
+          print(f'CTranslate2: {ctranslate2.__version__}')
           from mkv_episode_matcher.cli import app
           print('CLI module loaded successfully')
           "
