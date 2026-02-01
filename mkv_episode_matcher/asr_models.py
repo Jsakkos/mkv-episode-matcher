@@ -11,10 +11,10 @@ import re
 import tempfile
 from pathlib import Path
 
+import ctranslate2
 import librosa
 import numpy as np
 import soundfile as sf
-import torch
 from loguru import logger
 from rapidfuzz import fuzz
 
@@ -39,7 +39,9 @@ class ASRModel(abc.ABC):
 
     def _get_default_device(self) -> str:
         """Get default device for this model type."""
-        return "cuda" if torch.cuda.is_available() else "cpu"
+        if ctranslate2.get_cuda_device_count() > 0:
+            return "cuda"
+        return "cpu"
 
     @abc.abstractmethod
     def load(self):

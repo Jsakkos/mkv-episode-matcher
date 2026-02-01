@@ -4,8 +4,8 @@ import re
 import shutil
 from pathlib import Path
 
+import ctranslate2
 import requests
-import torch
 from loguru import logger
 from opensubtitlescom import OpenSubtitles
 from opensubtitlescom.exceptions import OpenSubtitlesException
@@ -482,11 +482,11 @@ def compare_text(text1, text2):
 def check_gpu_support():
     logger.info("Checking GPU support...")
     console.print("[bold]Checking GPU support...[/bold]")
-    if torch.cuda.is_available():
-        logger.info(f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}")
+    if ctranslate2.get_cuda_device_count() > 0:
+        logger.info("CUDA is available.")
         console.print(
             Panel.fit(
-                f"CUDA is available. Using GPU: {torch.cuda.get_device_name(0)}",
+                "CUDA is available.",
                 title="GPU Support",
                 border_style="magenta",
             )
