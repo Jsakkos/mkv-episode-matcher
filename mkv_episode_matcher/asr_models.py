@@ -167,12 +167,51 @@ class FasterWhisperModel(ASRModel):
                 f"(compute_type={compute_type})"
             )
 
-            self._model = WhisperModel(
-                self.model_name,
-                device=self.device,
-                compute_type=compute_type,
-                download_root=None,  # Use default cache location
-            )
+            try:
+                self._model = WhisperModel(
+                    self.model_name,
+                    device=self.device,
+                    compute_type=compute_type,
+                    download_root=None,  # Use default cache location
+                )
+                
+                # Eagerly verify CUDA execution to trigger potential DLL errors immediately
+                if self.device == "cuda":
+                    try:
+                        # Attempt a dummy encode to check if libraries are actually loadable
+                        # Create a small dummy feature vector [1, 80, 30] (typical mel spectrogram shape)
+                        # We just need to trigger the engine
+                        logger.debug("Verifying CUDA availability by running dummy encoding...")
+                        # Simply accessing the model properties or running a tiny transcribe might be safer
+                        # Let's try to transcribe a 1-second silence if possible, or just rely on ctranslate2 check
+                        # Actually, just checking if we can encode a dummy tensor is best, but easier is 
+                        # to let the first transcribe fail? No better to catch it here.
+                        # Using a minimal transcribe on a dummy array
+                        import numpy as np
+                        dummy_audio = np.zeros(16000, dtype=np.float32)
+                        next(self._model.transcribe(dummy_audio, language="en")[0], None)
+                    except Exception as e:
+                        # If verifying fails, raise it to be caught by the outer try/except
+                        logger.warning(f"CUDA verification failed: {e}")
+                        raise RuntimeError(f"CUDA verification failed: {e}") from e
+
+            except RuntimeError as e:
+                # Fallback to CPU if CUDA libraries are missing
+                if self.device == "cuda" and ("Library" in str(e) or "verification failed" in str(e)):
+                    logger.warning(
+                        f"Failed to load/run on CUDA due to missing libraries: {e}. "
+                        "Falling back to CPU."
+                    )
+                    self.device = "cpu"
+                    compute_type = "int8"
+                    self._model = WhisperModel(
+                        self.model_name,
+                        device=self.device,
+                        compute_type=compute_type,
+                        download_root=None,
+                    )
+                else:
+                    raise
 
             _model_cache[cache_key] = self._model
             logger.info(
