@@ -6,7 +6,10 @@ from loguru import logger
 from mkv_episode_matcher.backend.routers import scan, match, system
 from mkv_episode_matcher import __version__
 import mimetypes
+import sys
 from pathlib import Path
+
+from mkv_episode_matcher.core.config_manager import get_config_manager
 
 app = FastAPI(
     title="MKV Episode Matcher",
@@ -49,7 +52,12 @@ if not static_dir.exists():
     static_dir = Path(__file__).parent / "frontend"
 
 if static_dir.exists():
-    app.mount("/assets", StaticFiles(directory=static_dir / "assets"), name="assets")
+    assets_dir = static_dir / "assets"
+    if assets_dir.exists():
+        try:
+            app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+        except Exception as e:
+            logger.warning(f"Failed to mount assets: {e}")
     
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):
@@ -69,6 +77,26 @@ async def startup_event():
     import threading
     from mkv_episode_matcher.backend.dependencies import get_engine
     
+    # Configure logging
+    try:
+        config = get_config_manager().load()
+        log_dir = config.cache_dir / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "mkv-match.log"
+        
+        logger.remove()
+        logger.add(sys.stderr, level="INFO")
+        logger.add(
+            str(log_file),
+            rotation="10 MB",
+            retention="1 week",
+            level="INFO",
+            encoding="utf-8"
+        )
+        logger.info(f"Logging configured to {log_file}")
+    except Exception as e:
+        print(f"Failed to configure logging: {e}")
+
     logger.info("Starting MKV Episode Matcher API")
     
     def warm_up_engine():
