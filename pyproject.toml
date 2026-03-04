@@ -69,6 +69,12 @@ Source = "https://github.com/Jsakkos/mkv-episode-matcher"
 [tool.setuptools.packages.find]
 include = ["mkv_episode_matcher*"]
 
+[tool.setuptools.package-data]
+mkv_episode_matcher = [
+    "frontend/dist/**",
+    "frontend/dist/assets/**",
+]
+
 [project.scripts]
 mkv-match = "mkv_episode_matcher.cli:app"
 
