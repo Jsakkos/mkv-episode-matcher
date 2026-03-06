@@ -20,17 +20,38 @@ async def browse_directory(path: Optional[str] = None):
     If path is not provided, returns root drives (Windows) or logical roots.
     """
     if not path:
-        # Return logical drives on Windows
         drives = []
-        import string
-        from ctypes import windll
-        
-        bitmask = windll.kernel32.GetLogicalDrives()
-        for letter in string.ascii_uppercase:
-            if bitmask & 1:
-                drive_path = f"{letter}:\\"
-                drives.append(FileEntry(name=drive_path, path=drive_path, is_dir=True))
-            bitmask >>= 1
+        import sys
+
+        if sys.platform == "win32":
+            import string
+            from ctypes import windll
+
+            bitmask = windll.kernel32.GetLogicalDrives()
+            for letter in string.ascii_uppercase:
+                if bitmask & 1:
+                    drive_path = f"{letter}:\\"
+                    drives.append(FileEntry(name=drive_path, path=drive_path, is_dir=True))
+                bitmask >>= 1
+        else:
+            common_paths = [
+                ("/", "Root (/)"),
+                ("/home", "Home"),
+                ("/mnt", "Mount points"),
+                ("/media", "Removable media"),
+                ("/opt", "Optional software"),
+                ("/usr", "User programs"),
+                ("/var", "Variable data"),
+            ]
+            for path_str, display_name in common_paths:
+                path_obj = Path(path_str)
+                if path_obj.exists() and path_obj.is_dir():
+                    try:
+                        next(path_obj.iterdir(), None)
+                        drives.append(FileEntry(name=display_name, path=path_str, is_dir=True))
+                    except (PermissionError, OSError):
+                        continue
+
         return drives
 
     p = Path(path)

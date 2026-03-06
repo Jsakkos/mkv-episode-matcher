@@ -4,7 +4,7 @@
 *.pyc
 /mkv_episode_matcher/__pycache__
 build/
-dist/
+/dist/
 mkv_episode_matcher.egg-info
 *.mkv
 /perf-test/*
