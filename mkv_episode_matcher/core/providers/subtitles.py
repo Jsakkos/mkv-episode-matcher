@@ -124,12 +124,14 @@ class OpenSubtitlesProvider(SubtitleProvider):
         cm = get_config_manager()
         self.config = cm.load()
         self.client = None
+        self._auth_error: str | None = None
         self.network_timeout = 30  # seconds
         self._authenticate()
 
     def _authenticate(self):
         if not self.config.open_subtitles_api_key:
-            logger.warning("OpenSubtitles API key not configured")
+            self._auth_error = "OpenSubtitles API key not configured"
+            logger.warning(self._auth_error)
             return
 
         try:
@@ -149,7 +151,8 @@ class OpenSubtitlesProvider(SubtitleProvider):
             else:
                 logger.debug("Initialized OpenSubtitles (no login)")
         except Exception as e:
-            logger.error(f"Failed to initialize OpenSubtitles: {e}")
+            self._auth_error = f"Failed to initialize OpenSubtitles: {e}"
+            logger.error(self._auth_error)
             self.client = None
 
     @retry_with_backoff(max_retries=3, base_delay=1.0)
@@ -222,7 +225,8 @@ class OpenSubtitlesProvider(SubtitleProvider):
     ) -> list[SubtitleFile]:
         """Get subtitles for a show/season by downloading them."""
         if not self.client:
-            logger.error("OpenSubtitles client not available")
+            reason = self._auth_error or "unknown error during initialization"
+            logger.error(f"OpenSubtitles client not available: {reason}")
             return []
 
         # Check for manual TMDB ID first and get correct show name

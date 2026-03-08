@@ -81,6 +81,45 @@ async def browse_directory(path: Optional[str] = None):
     return entries
 
 
+@router.get("/test-subtitles")
+async def test_subtitle_connection():
+    """Test OpenSubtitles API connection and credentials."""
+    from mkv_episode_matcher.core.config_manager import get_config_manager
+
+    cm = get_config_manager()
+    config = cm.load()
+
+    result = {
+        "api_key_configured": bool(config.open_subtitles_api_key),
+        "username_configured": bool(config.open_subtitles_username),
+        "password_configured": bool(config.open_subtitles_password),
+        "connection_ok": False,
+        "login_ok": False,
+        "error": None,
+    }
+
+    if not config.open_subtitles_api_key:
+        result["error"] = "OpenSubtitles API key not configured"
+        return result
+
+    try:
+        from opensubtitlescom import OpenSubtitles
+
+        client = OpenSubtitles(
+            config.open_subtitles_user_agent,
+            config.open_subtitles_api_key,
+        )
+        result["connection_ok"] = True
+
+        if config.open_subtitles_username and config.open_subtitles_password:
+            client.login(config.open_subtitles_username, config.open_subtitles_password)
+            result["login_ok"] = True
+    except Exception as e:
+        result["error"] = str(e)
+
+    return result
+
+
 class AnalyzeRequest(BaseModel):
     path: str
 

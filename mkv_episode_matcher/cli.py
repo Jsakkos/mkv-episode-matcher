@@ -141,6 +141,22 @@ def match(
     logger.remove()
     logger.add(sys.stderr, level=log_level)
 
+    # Add file logging to the documented log directory
+    try:
+        _cm = get_config_manager()
+        _cfg = _cm.load()
+        _log_dir = _cfg.cache_dir.parent / "logs"
+        _log_dir.mkdir(parents=True, exist_ok=True)
+        logger.add(
+            str(_log_dir / "mkv-match.log"),
+            rotation="10 MB",
+            retention="1 week",
+            level=log_level,
+            encoding="utf-8",
+        )
+    except Exception:
+        pass  # Fall back to stderr-only if config isn't available yet
+
     if not json_output:
         print_banner()
 

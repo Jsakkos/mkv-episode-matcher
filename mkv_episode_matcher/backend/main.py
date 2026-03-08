@@ -80,7 +80,7 @@ async def startup_event():
     # Configure logging
     try:
         config = get_config_manager().load()
-        log_dir = config.cache_dir / "logs"
+        log_dir = config.cache_dir.parent / "logs"
         log_dir.mkdir(parents=True, exist_ok=True)
         log_file = log_dir / "mkv-match.log"
         
