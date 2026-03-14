@@ -8,6 +8,9 @@
 
 Automatically match and rename your MKV TV episodes using advanced speech recognition and subtitle matching.
 
+> [!TIP]
+> **Recommended: Try Engram for new projects.** [Engram](https://github.com/Jsakkos/engram) provides a complete end-to-end media workflow including episode matching, automated organization, and more. MKV Episode Matcher remains available for standalone matching use cases.
+
 ## 🚀 Quick Start
 
 Follow these steps to get up and running in minutes.
