@@ -56,8 +56,8 @@ class ConfigManager:
             "show_dir": legacy_config.get("show_dir"),
             "cache_dir": str(Path.home() / ".mkv-episode-matcher" / "cache"),
             "min_confidence": 0.7,
-            "asr_provider": "whisper",
-            "asr_model_name": "small",
+            "asr_provider": "whisper",  # Always migrate to whisper
+            "asr_model_name": legacy_config.get("asr_model_name", "small"),  # Preserve existing model name
             "sub_provider": "opensubtitles",
         }
 

@@ -39,8 +39,17 @@ class ASRModel(abc.ABC):
 
     def _get_default_device(self) -> str:
         """Get default device for this model type."""
-        if ctranslate2.get_cuda_device_count() > 0:
-            return "cuda"
+        try:
+            # Check if CUDA is available and functional
+            if ctranslate2.get_cuda_device_count() > 0:
+                # Also check if CUDA_VISIBLE_DEVICES is explicitly set to disable CUDA
+                cuda_visible = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
+                if cuda_visible == "":
+                    logger.info("CUDA_VISIBLE_DEVICES is set to empty, forcing CPU mode")
+                    return "cpu"
+                return "cuda"
+        except Exception as e:
+            logger.debug(f"CUDA detection failed: {e}")
         return "cpu"
 
     @abc.abstractmethod
@@ -196,14 +205,21 @@ class FasterWhisperModel(ASRModel):
                         raise RuntimeError(f"CUDA verification failed: {e}") from e
 
             except RuntimeError as e:
-                # Fallback to CPU if CUDA libraries are missing
-                if self.device == "cuda" and ("Library" in str(e) or "verification failed" in str(e)):
+                # Fallback to CPU if CUDA libraries are missing or unsupported compute type
+                error_msg = str(e).lower()
+                if self.device == "cuda" and (
+                    "library" in error_msg or 
+                    "verification failed" in error_msg or 
+                    "float16 compute type" in error_msg or
+                    "do not support efficient float16" in error_msg
+                ):
                     logger.warning(
-                        f"Failed to load/run on CUDA due to missing libraries: {e}. "
-                        "Falling back to CPU."
+                        f"Failed to load/run on CUDA ({e}). Falling back to CPU."
                     )
                     self.device = "cpu"
                     compute_type = "int8"
+                    # Clear the cache key since device changed
+                    cache_key = f"faster_whisper_{self.model_name}_{self.device}"
                     self._model = WhisperModel(
                         self.model_name,
                         device=self.device,
