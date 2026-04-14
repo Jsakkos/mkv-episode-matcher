@@ -19,7 +19,8 @@ import_start = time.perf_counter()
 
 import torch
 from loguru import logger
-from mkv_episode_matcher.core.models import Config, ConfigManager
+from mkv_episode_matcher.core.models import Config
+from mkv_episode_matcher.core.config_manager import ConfigManager
 
 import_end = time.perf_counter()
 print(f"    Import time: {import_end - import_start:.2f}s")

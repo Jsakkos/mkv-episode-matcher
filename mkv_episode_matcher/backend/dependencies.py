@@ -1,6 +1,6 @@
 import threading
 from mkv_episode_matcher.core.engine import MatchEngineV2
-from mkv_episode_matcher.core.models import ConfigManager
+from mkv_episode_matcher.core.config_manager import ConfigManager
 
 # Global singleton instance
 _engine_instance: MatchEngineV2 | None = None
