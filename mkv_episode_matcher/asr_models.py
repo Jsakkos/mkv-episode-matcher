@@ -6,7 +6,6 @@ supporting OpenAI Whisper models via faster-whisper for efficient inference.
 """
 
 import abc
-import os
 import re
 import tempfile
 from pathlib import Path
@@ -38,15 +37,13 @@ class ASRModel(abc.ABC):
         self._model = None
 
     def _get_default_device(self) -> str:
-        """Get default device for this model type."""
+        """Get default device for this model type.
+
+        `ctranslate2.get_cuda_device_count()` already honors `CUDA_VISIBLE_DEVICES`:
+        if it is set to an empty string (or "-1"), the count is 0 and we fall back to CPU.
+        """
         try:
-            # Check if CUDA is available and functional
             if ctranslate2.get_cuda_device_count() > 0:
-                # Also check if CUDA_VISIBLE_DEVICES is explicitly set to disable CUDA
-                cuda_visible = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
-                if cuda_visible == "":
-                    logger.info("CUDA_VISIBLE_DEVICES is set to empty, forcing CPU mode")
-                    return "cpu"
                 return "cuda"
         except Exception as e:
             logger.debug(f"CUDA detection failed: {e}")

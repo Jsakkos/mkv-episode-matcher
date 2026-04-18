@@ -1,7 +1,5 @@
 from pathlib import Path
 from typing import Literal
-import os
-import json
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -90,14 +88,15 @@ class Config(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def migrate_asr_provider(cls, data: dict) -> dict:
-        """Migrate legacy parakeet config to whisper."""
+        """Migrate legacy parakeet config to whisper.
+
+        Parakeet model identifiers (e.g. "nvidia/parakeet-tdt-0.6b-v2") are not valid
+        whisper model names, so we always reset to the whisper default on provider change.
+        """
         if isinstance(data, dict):
-            # Migrate parakeet to whisper
             if data.get("asr_provider") == "parakeet":
                 data["asr_provider"] = "whisper"
-                # Only set default model if no model name is specified
-                if not data.get("asr_model_name"):
-                    data["asr_model_name"] = "small"  # Default whisper model
+                data["asr_model_name"] = "small"
         return data
 
     @field_validator("show_dir")

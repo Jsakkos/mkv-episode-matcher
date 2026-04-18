@@ -7,7 +7,6 @@ This script measures the time it takes to:
 3. Report GPU/CPU availability and loading times
 """
 import time
-import sys
 
 print("=" * 60)
 print("ASR Model Baseline Loading Time Measurement")
@@ -18,8 +17,7 @@ print("\n[1/4] Measuring import time...")
 import_start = time.perf_counter()
 
 import torch
-from loguru import logger
-from mkv_episode_matcher.core.models import Config
+
 from mkv_episode_matcher.core.config_manager import ConfigManager
 
 import_end = time.perf_counter()
@@ -39,7 +37,7 @@ else:
 print("\n[3/4] Loading configuration...")
 config_start = time.perf_counter()
 manager = ConfigManager()
-config = manager.config
+config = manager.load()
 config_end = time.perf_counter()
 print(f"    Config load time: {config_end - config_start:.2f}s")
 print(f"    ASR Provider: {config.asr_provider}")
