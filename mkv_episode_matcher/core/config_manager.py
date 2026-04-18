@@ -51,13 +51,21 @@ class ConfigManager:
         """Migrate legacy INI-style config to new JSON format."""
         legacy_config = legacy_data.get("Config", {})
 
+        # Only carry the model name forward if the legacy provider was whisper.
+        # Parakeet model ids are not valid whisper ids, so reset to default.
+        legacy_provider = legacy_config.get("asr_provider", "whisper")
+        if legacy_provider == "parakeet":
+            asr_model_name = "small"
+        else:
+            asr_model_name = legacy_config.get("asr_model_name", "small")
+
         migrated = {
             "tmdb_api_key": legacy_config.get("tmdb_api_key"),
             "show_dir": legacy_config.get("show_dir"),
             "cache_dir": str(Path.home() / ".mkv-episode-matcher" / "cache"),
             "min_confidence": 0.7,
             "asr_provider": "whisper",
-            "asr_model_name": "small",
+            "asr_model_name": asr_model_name,
             "sub_provider": "opensubtitles",
         }
 

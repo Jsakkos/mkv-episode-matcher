@@ -1,7 +1,5 @@
 from pathlib import Path
 from typing import Literal
-import os
-import json
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -90,12 +88,15 @@ class Config(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def migrate_asr_provider(cls, data: dict) -> dict:
-        """Migrate legacy parakeet config to whisper."""
+        """Migrate legacy parakeet config to whisper.
+
+        Parakeet model identifiers (e.g. "nvidia/parakeet-tdt-0.6b-v2") are not valid
+        whisper model names, so we always reset to the whisper default on provider change.
+        """
         if isinstance(data, dict):
-            # Migrate parakeet to whisper
             if data.get("asr_provider") == "parakeet":
                 data["asr_provider"] = "whisper"
-                data["asr_model_name"] = "small"  # Default whisper model
+                data["asr_model_name"] = "small"
         return data
 
     @field_validator("show_dir")
@@ -104,39 +105,3 @@ class Config(BaseModel):
             raise ValueError(f"Show directory does not exist: {v}")
         return v
 
-
-class ConfigManager:
-    """Manages configuration loading and saving."""
-    
-    def __init__(self, config_path: Path | None = None):
-        if config_path:
-            self.config_path = config_path
-        else:
-            self.config_path = Path.home() / ".mkv-episode-matcher" / "config.json"
-        
-        self.config = self._load_config()
-
-    def _load_config(self) -> Config:
-        """Load config from file or environment variables."""
-        config_data = {}
-        
-        # Load from file if exists
-        if self.config_path.exists():
-            try:
-                with open(self.config_path, "r") as f:
-                    config_data = json.load(f)
-            except Exception as e:
-                print(f"Warning: Failed to load config file: {e}")
-
-        # Override with environment variables
-        if os.getenv("TMDB_API_KEY"):
-            config_data["tmdb_api_key"] = os.getenv("TMDB_API_KEY")
-            
-        # Create Config object
-        return Config(**config_data)
-
-    def save_config(self):
-        """Save current config to file."""
-        self.config_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.config_path, "w") as f:
-            f.write(self.config.model_dump_json(indent=2))

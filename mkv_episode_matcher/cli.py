@@ -371,8 +371,8 @@ def config(
         
         if new_model.strip():
             config.asr_model_name = new_model.strip()
-            # Keep provider as parakeet
-            config.asr_provider = "parakeet"
+            # Use whisper provider (parakeet is deprecated)
+            config.asr_provider = "whisper"
     
     except Exception as e:
         console.print(f"[yellow]Error loading model registry: {e}[/yellow]")
