@@ -54,6 +54,45 @@ Before you start, ensure you have the following:
 
 ---
 
+## ⚠️ Important: OpenSubtitles Download Limits
+
+**Before using the app, please understand OpenSubtitles.com download limitations to avoid frustration.**
+
+### The Issue
+When you run MKV Episode Matcher, it automatically downloads reference subtitles for the entire season from OpenSubtitles.com. **Free OpenSubtitles accounts have very low daily download limits (typically 5-20 downloads per day).**
+
+If you're trying to match a TV season with more episodes than your daily limit, you'll immediately see this error:
+```
+"Download limit reached. Please upgrade your account or wait for your quota to reset (~24hrs)"
+```
+
+### Solutions
+
+**Option 1: Upgrade to OpenSubtitles VIP ($3/month)**
+- Significantly higher download limits
+- Fastest and most reliable solution
+- [Upgrade here](https://www.opensubtitles.com/en/consumers)
+
+**Option 2: Build Your Cache Gradually (Free)**
+- Run the matcher once per day until you have all subtitles
+- Each day you can download a few more episodes
+- Requires patience but eventually works
+
+**Option 3: Manual Subtitle Download**
+- Download `.srt` files manually from any source
+- Place them in your cache directory: `~/.mkv-episode-matcher/cache/data/`
+- Use naming format: `{Show Name} - S{season:02d}E{episode:02d}.srt`
+
+**Option 4: Switch to Engram (Recommended)**
+- [Engram](https://github.com/Jsakkos/engram) includes multiple subtitle sources
+- Better chance of success without hitting limits
+- More modern interface and faster matching
+
+### Why This Happens
+MKV Episode Matcher needs reference subtitles to compare against the audio it extracts from your video files. The app downloads all subtitles for a season upfront, which quickly exhausts free account limits.
+
+---
+
 ## 🛠️ Advanced Installation & Usage
 
 For developers, Linux/macOS users, or those preferring the command line.
